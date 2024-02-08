@@ -1,0 +1,194 @@
+{
+  "project_info": {
+    "project_number": "714842411456",
+    "project_id": "mobilityplus-74105",
+    "storage_bucket": "mobilityplus-74105.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714842411456:android:2d7e733dc81d188145f825",
+        "android_client_info": {
+          "package_name": "com.example.admin_transport_tracker_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714842411456-1ggk35rib0r3b7ofpphlvel8np5baj06.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin_transport_tracker_app",
+            "certificate_hash": "32bd2f46b1df763192ed26fd69ca1ff4290e40cf"
+          }
+        },
+        {
+          "client_id": "714842411456-g519egf24vg45h9bo1l01rpt1u0ve131.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin_transport_tracker_app",
+            "certificate_hash": "9a8b34b3b2b00d5ca30fc70136503103116a5e2f"
+          }
+        },
+        {
+          "client_id": "714842411456-u44dmsmoesfc0pnah2f4arcp49d10es4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin_transport_tracker_app",
+            "certificate_hash": "f6f776fa67a1ad7948bb18dac0df2e582e85b134"
+          }
+        },
+        {
+          "client_id": "714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvuZ47B67_Es0vDaakG_tooRyi2cFaU38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714842411456-2lortfhkvq38f8v2fjgaeu2vnpmofs5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ir"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714842411456:android:6d87661b6f119b7f45f825",
+        "android_client_info": {
+          "package_name": "com.example.ir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvuZ47B67_Es0vDaakG_tooRyi2cFaU38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714842411456-2lortfhkvq38f8v2fjgaeu2vnpmofs5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ir"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714842411456:android:a6a29653ef28f8fb45f825",
+        "android_client_info": {
+          "package_name": "com.example.mobilityplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714842411456-3gg9qpkma5vo3jifm2r200nad3k1bu78.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobilityplus",
+            "certificate_hash": "9a8b34b3b2b00d5ca30fc70136503103116a5e2f"
+          }
+        },
+        {
+          "client_id": "714842411456-unm41bjoqq509ntn2t6k621gm7obpp0e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobilityplus",
+            "certificate_hash": "f6f776fa67a1ad7948bb18dac0df2e582e85b134"
+          }
+        },
+        {
+          "client_id": "714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvuZ47B67_Es0vDaakG_tooRyi2cFaU38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714842411456-2lortfhkvq38f8v2fjgaeu2vnpmofs5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ir"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714842411456:android:95c9a6dfc770968345f825",
+        "android_client_info": {
+          "package_name": "com.mobility.mobility"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvuZ47B67_Es0vDaakG_tooRyi2cFaU38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714842411456-2lortfhkvq38f8v2fjgaeu2vnpmofs5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ir"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
