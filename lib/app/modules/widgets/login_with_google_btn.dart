@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/assets/assets.gen.dart';
+import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
 
 import '../../constants/app colors/app_colors.dart';
 import '../../constants/typography/typography.dart';
@@ -13,15 +14,13 @@ class LoginWithGoogleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        Get.to(const HomeUserView());
-        // try {
-        //   ErrorCatcher.extractData(await locator.get<IAuthService>().login());
-        //   // ignore: use_build_context_synchronously
-        //   context.push(AppRoutes.typeOfCar);
-        // } catch (e) {
-        //   // ignore: use_build_context_synchronously
-        //   context.showErrorSnackBar(e.toString());
-        // }
+        try {
+          AuthRepositoryImpl().signInWithGoogle();
+
+          // Get.off(const HomeUserView());
+        } catch (e) {
+          Get.snackbar("Erreur :", e.toString());
+        }
       },
       child: Container(
         width: 372,
