@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-class HomeDriverController extends GetxController {
-  //TODO: Implement HomeController
+class HomeUserController extends GetxController {
+  User? currentUser;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    currentUser = FirebaseAuth.instance.currentUser;
   }
 
   @override
@@ -18,6 +19,4 @@ class HomeDriverController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

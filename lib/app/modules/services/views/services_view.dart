@@ -15,7 +15,7 @@ class ServicesView extends GetView<ServicesController> {
   @override
   Widget build(BuildContext context) {
     final typo = AppTypography();
-
+    Get.put(ServicesController());
     return WillPopScope(
       onWillPop: () => ServicesController.onWillPop(context),
       child: Scaffold(
@@ -33,7 +33,6 @@ class ServicesView extends GetView<ServicesController> {
               const SizedBox(
                 height: 15,
               ),
-              // typo.lightSmall(text: AppString.authTitle),
               const SizedBox(
                 height: 15,
               ),

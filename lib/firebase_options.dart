@@ -17,13 +17,19 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -46,34 +52,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAEjNbSyNHoE32v4hRJPhp4AS0f4txN_kQ',
-    appId: '1:714842411456:web:3a89b1636a00787e45f825',
-    messagingSenderId: '714842411456',
-    projectId: 'mobilityplus-74105',
-    authDomain: 'mobilityplus-74105.firebaseapp.com',
-    storageBucket: 'mobilityplus-74105.appspot.com',
-    measurementId: 'G-TEZPQ3712Y',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAvuZ47B67_Es0vDaakG_tooRyi2cFaU38',
     appId: '1:714842411456:android:95c9a6dfc770968345f825',
     messagingSenderId: '714842411456',
     projectId: 'mobilityplus-74105',
+    databaseURL: 'https://mobilityplus-74105-default-rtdb.firebaseio.com',
     storageBucket: 'mobilityplus-74105.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34',
-    appId: '1:714842411456:ios:64ac143c6d70165d45f825',
-    messagingSenderId: '714842411456',
-    projectId: 'mobilityplus-74105',
-    storageBucket: 'mobilityplus-74105.appspot.com',
-    androidClientId:
-        '714842411456-1ggk35rib0r3b7ofpphlvel8np5baj06.apps.googleusercontent.com',
-    iosClientId:
-        '714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com',
-    iosBundleId: 'com.mobility.mobility',
   );
 }

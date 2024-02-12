@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "714842411456",
+    "firebase_url": "https://mobilityplus-74105-default-rtdb.firebaseio.com",
     "project_id": "mobilityplus-74105",
     "storage_bucket": "mobilityplus-74105.appspot.com"
   },
@@ -55,10 +56,10 @@
               "client_type": 3
             },
             {
-              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.ir"
+                "bundle_id": "com.mobility.mobility"
               }
             }
           ]
@@ -91,10 +92,10 @@
               "client_type": 3
             },
             {
-              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.ir"
+                "bundle_id": "com.mobility.mobility"
               }
             }
           ]
@@ -143,10 +144,10 @@
               "client_type": 3
             },
             {
-              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.ir"
+                "bundle_id": "com.mobility.mobility"
               }
             }
           ]
@@ -161,6 +162,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "714842411456-0th32q3jqooj8rv2rb5eq46geqsfgruo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobility.mobility",
+            "certificate_hash": "f6f776fa67a1ad7948bb18dac0df2e582e85b134"
+          }
+        },
         {
           "client_id": "714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com",
           "client_type": 3
@@ -179,10 +188,10 @@
               "client_type": 3
             },
             {
-              "client_id": "714842411456-iqbvkf7lbjqjqem2hjqtbknjq0984hl4.apps.googleusercontent.com",
+              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.ir"
+                "bundle_id": "com.mobility.mobility"
               }
             }
           ]

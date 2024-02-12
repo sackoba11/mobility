@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -8,35 +9,51 @@ import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart'
 
 @LazySingleton(as: IAuthRepository)
 class AuthRepositoryImpl implements IAuthRepository {
-  static final entryPoint = FirebaseDatabase.instance.ref();
-  static final userEntry = entryPoint.child("users");
-  final auth.FirebaseAuth firebaseAuth = auth.FirebaseAuth as auth.FirebaseAuth;
+  final auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  late User currentUser;
 
-  addUser(String uid, Map map) async {
-    userEntry.child(uid).set(map);
-    //await entryDB.collection("users").doc(uid).set(map);
+//Realtime Database
+  static final entryPoint = FirebaseDatabase.instance.ref();
+  static final driverEntry = entryPoint.child("drivers");
+
+// Firestore Database
+  static final entryDB = FirebaseFirestore.instance;
+  static final driversDB = entryDB.collection("drivers");
+
+  addUser({required String uid, required Map<String, dynamic> map}) async {
+    // driverEntry.child(uid).set(map);
+    await driversDB.doc(uid).set(map);
   }
 
-  // obtenir user
-  // Future<MyUser> getUser(String uid) async {
-  //   DatabaseEvent snapshot = (await userEntry.child(uid).once());
-  //   MyUser user = MyUser(snapshot.snapshot);
-  //   return user;
-  // }
+  Future<User> getCurrentUser() async {
+    return auth.currentUser!;
+  }
 
-  // @override
-  // Future<Either<AppError, bool>> signInWithGoogle() async {
-  //   return right(true);
-  // }
+  Future<void> signOutFromGoogle() async {
+    await _googleSignIn.signOut();
+    await auth.signOut();
+  }
 
-  Future<auth.User> getCurrentUser() async {
-    return firebaseAuth.currentUser!;
+  Future<void> signOut() async {
+    await auth.signOut();
+  }
+
+  Future<bool> resetpassword(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
-  Future<Either<AppError, Unit>> signInWithGoogle({bool reauth = false}) async {
+  Future<Either<AppError, UserCredential>> signInWithGoogle(
+      {bool reauth = false}) async {
     try {
-      auth.User previousUser;
+      User previousUser;
+      UserCredential userCreds;
       final googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
         return Left(GenericAppError("Cancelled by User"));
@@ -44,20 +61,24 @@ class AuthRepositoryImpl implements IAuthRepository {
       final googleAuthentication = await googleUser.authentication;
       if (reauth) {
         previousUser = await getCurrentUser();
-        final relinkCred = auth.GoogleAuthProvider.credential(
+        final relinkCred = GoogleAuthProvider.credential(
             idToken: googleAuthentication.idToken,
             accessToken: googleAuthentication.accessToken);
-        await previousUser.linkWithCredential(relinkCred);
+        userCreds = await previousUser.linkWithCredential(relinkCred);
+        return Right(userCreds);
       } else {
-        final authCredential = auth.GoogleAuthProvider.credential(
+        final authCredential = GoogleAuthProvider.credential(
             idToken: googleAuthentication.idToken,
             accessToken: googleAuthentication.accessToken);
 
-        final auth.UserCredential userCreds =
-            await firebaseAuth.signInWithCredential(authCredential);
+        final UserCredential userCreds =
+            await auth.signInWithCredential(authCredential);
+        User currentUser = userCreds.user!;
+        // print("userCreds : $userCreds");
+        print("user : ${currentUser.email}");
+        return Right(userCreds);
       }
-      return right(unit);
-    } on auth.FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return Left(GenericAppError('email-already-in-use'));
       } else if (e.code == 'invalid-email') {
@@ -74,36 +95,16 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
-  @override
-  Future<Either<AppError, Unit>> signInWithEmailAndPassword({
-    required String usereEmail,
-    required String userPassword,
-    bool isLinkWithCredentials = false,
+  Future<Either<AppError, UserCredential>> loginWithEmailAndPassword({
+    required String email,
+    required String password,
   }) async {
-    auth.User previousUser;
     try {
-      if (isLinkWithCredentials) {
-        // This is where the magic happens
-        // First get the currentUSer
-        previousUser = await getCurrentUser();
-        // Get the credentials from the EmailAuthProvider
-        final authCreds = auth.EmailAuthProvider.credential(
-            email: usereEmail, password: userPassword);
-        // And link it to the current account
-        await previousUser.linkWithCredential(authCreds);
-      } else {
-        final auth.UserCredential userCreds =
-            await firebaseAuth.createUserWithEmailAndPassword(
-          email: usereEmail,
-          password: userPassword,
-        );
-        auth.User user = firebaseAuth.currentUser!;
-        if (!user.emailVerified) {
-          await user.sendEmailVerification();
-        }
-      }
-      return const Right(unit);
-    } on auth.FirebaseAuthException catch (e) {
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      return Right(credential);
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return Left(GenericAppError('email-already-in-use'));
       } else if (e.code == 'invalid-email') {
@@ -120,23 +121,71 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
-  // Future<UserCredential> signInWithGoogle() async {
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  @override
+  Future<Either<AppError, UserCredential>> signInWithEmailAndPassword({
+    required String? userName,
+    required String? userNumber,
+    required String? typeOfCar,
+    required String? brand,
+    required String? color,
+    required String userEmail,
+    required String userPassword,
+    bool isLinkWithCredentials = false,
+  }) async {
+    User previousUser;
+    UserCredential userCreds;
+    try {
+      if (isLinkWithCredentials) {
+        // This is where the magic happens
+        // First get the currentUSer
+        previousUser = await getCurrentUser();
+        // Get the credentials from the EmailAuthProvider
+        final authCreds = EmailAuthProvider.credential(
+            email: userEmail, password: userPassword);
+        // And link it to the current account
+        userCreds = await previousUser.linkWithCredential(authCreds);
+        return Right(userCreds);
+      } else {
+        userCreds = await auth.createUserWithEmailAndPassword(
+          email: userEmail,
+          password: userPassword,
+        );
 
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication? googleAuth =
-  //       await googleUser?.authentication;
+        User? user = userCreds.user;
+        String uid = user!.uid;
+        Map<String, String> map = {
+          "uid": uid,
+          "name": userName!,
+          "number": userNumber!,
+          "typeofcar": typeOfCar!,
+          "brand": brand!,
+          "color": color!,
+          "email": userEmail
+        };
 
-  //   // Create a new credential
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-
-  //   // Once signed in, return the UserCredential
-  //   return await FirebaseAuth.instance.signInWithCredential(credential);
-  // }
+        addUser(uid: uid, map: map);
+        // User user = auth.currentUser!;
+        // if (!user.emailVerified) {
+        //   await user.sendEmailVerification();
+        // }
+        return Right(userCreds);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return Left(GenericAppError('email-already-in-use'));
+      } else if (e.code == 'invalid-email') {
+        return Left(GenericAppError('invalid-email'));
+      }
+      if (e.code == 'operation-not-allowed') {
+        return Left(GenericAppError('operation-not-allowed'));
+      }
+      if (e.code == 'week-password') {
+        return Left(GenericAppError('week-password'));
+      } else {
+        return Left(GenericAppError('Server error'));
+      }
+    }
+  }
 
   // Future<Either<AuthFailure, Unit>> signInWithFacebook({bool reauth = false}) async {
   //   try {
@@ -166,8 +215,6 @@ class AuthRepositoryImpl implements IAuthRepository {
   //     return const Left(AuthFailure.serverError());
   //   }
   // }
-
-  // @overrideFuture<void> resetPassword({@required EmailAddress email}) =>_firebaseAuth.sendPasswordResetEmail(email: email.getOrCrash());
 
   //  @override
   // Future<Either<FirebaseauthFailure, Unit>> changePassword(

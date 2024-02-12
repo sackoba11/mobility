@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/assets/assets.gen.dart';
@@ -15,9 +16,9 @@ class LoginWithGoogleButton extends StatelessWidget {
     return TextButton(
       onPressed: () async {
         try {
-          AuthRepositoryImpl().signInWithGoogle();
-
-          // Get.off(const HomeUserView());
+          AuthRepositoryImpl()
+              .signInWithGoogle()
+              .whenComplete(() => Get.offAll(const HomeUserView()));
         } catch (e) {
           Get.snackbar("Erreur :", e.toString());
         }

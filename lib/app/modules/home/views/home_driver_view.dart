@@ -7,6 +7,9 @@ import 'package:mobility/app/modules/driver/views/driver_view.dart';
 import '../../../constants/app colors/app_colors.dart';
 import '../../../constants/app string/app_string.dart';
 import '../../../constants/typography/typography.dart';
+import '../../../repositories/authRepositiry/auth_repository_impl.dart';
+import '../../services/controllers/services_controller.dart';
+import '../../services/views/services_view.dart';
 import '../../widgets/custom_button.dart';
 import '../controllers/home_driver_controller.dart';
 
@@ -15,70 +18,88 @@ class HomeDriverView extends GetView<HomeDriverController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeDriverController());
-    return Scaffold(
-        backgroundColor: AppColor.background,
-        body: Stack(children: [
-          Container(
-              color: AppColor.background,
-              child:
-                  // DisplayMap(
-                  //     source: Position(controller.localisation!.longitude,
-                  //         controller.localisation!.latitude))
-                  GoogleMap(
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                tiltGesturesEnabled: true,
-                compassEnabled: false,
-                scrollGesturesEnabled: true,
-                zoomGesturesEnabled: true,
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                      double.parse(controller.originLatitude.value),
-                      double.parse(controller.originLongitude.value),
-                    ),
-                    zoom: 15),
-                // )   polylines: {
-                //     Polyline(
-                //         width: 6,
-                //         polylineId: const PolylineId(
-                //           "route",
-                //         ),
-                //         points: controller.polylineCoordinates)
-                //   },
-                //   markers: {
-                //     // for (var i in polylineCoordinates)
-                //     //   Marker(markerId: MarkerId("way"), position: i),
-                //     Marker(
-                //         markerId: const MarkerId("source"),
-                //         position: controller.sourceLocation),
-                //     Marker(
-                //         markerId: const MarkerId("destination"),
-                //         position: controller.destinationLocaton),
-                //     Marker(
-                //         markerId: const MarkerId("iu"),
-                //         position: LatLng(double.parse(controller.originLatitude),
-                //             double.parse(controller.originLongitude)))
-                //   },
-                onMapCreated: controller.onMapCreated,
-              )),
-          DraggableScrollableSheet(
-            minChildSize: .3,
-            maxChildSize: .5,
-            initialChildSize: .3,
-            snapAnimationDuration: const Duration(milliseconds: 400),
-            builder: (context, controller) {
-              return Container(
+    return WillPopScope(
+      onWillPop: () => ServicesController.onWillPop(context),
+      child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+                onPressed: () async {
+                  await AuthRepositoryImpl()
+                      .signOut()
+                      .whenComplete(() => Get.offAll(const ServicesView()));
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                  size: 30,
+                )),
+          ),
+          backgroundColor: AppColor.background,
+          body: Stack(children: [
+            Container(
                 color: AppColor.background,
-                width: 430,
-                height: 231,
-                child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: controller,
-                    child: _buildColumn(context)),
-              );
-            },
-          )
-        ]));
+                child:
+                    // DisplayMap(
+                    //     source: Position(controller.localisation!.longitude,
+                    //         controller.localisation!.latitude))
+                    GoogleMap(
+                  // myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  // tiltGesturesEnabled: true,
+                  // compassEnabled: false,
+                  // scrollGesturesEnabled: true,
+                  // zoomGesturesEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        double.parse(controller.originLatitude.value),
+                        double.parse(controller.originLongitude.value),
+                      ),
+                      zoom: 15),
+                  // )   polylines: {
+                  //     Polyline(
+                  //         width: 6,
+                  //         polylineId: const PolylineId(
+                  //           "route",
+                  //         ),
+                  //         points: controller.polylineCoordinates)
+                  //   },
+                  //   markers: {
+                  //     // for (var i in polylineCoordinates)
+                  //     //   Marker(markerId: MarkerId("way"), position: i),
+                  //     Marker(
+                  //         markerId: const MarkerId("source"),
+                  //         position: controller.sourceLocation),
+                  //     Marker(
+                  //         markerId: const MarkerId("destination"),
+                  //         position: controller.destinationLocaton),
+                  //     Marker(
+                  //         markerId: const MarkerId("iu"),
+                  //         position: LatLng(double.parse(controller.originLatitude),
+                  //             double.parse(controller.originLongitude)))
+                  //   },
+                  onMapCreated: controller.onMapCreated,
+                )),
+            DraggableScrollableSheet(
+              minChildSize: .3,
+              maxChildSize: .5,
+              initialChildSize: .3,
+              snapAnimationDuration: const Duration(milliseconds: 400),
+              builder: (context, controller) {
+                return Container(
+                  color: AppColor.background,
+                  width: 430,
+                  height: 231,
+                  child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      controller: controller,
+                      child: _buildColumn(context)),
+                );
+              },
+            )
+          ])),
+    );
   }
 
   Widget _buildColumn(BuildContext context) {

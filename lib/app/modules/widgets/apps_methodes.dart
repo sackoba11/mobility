@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobility/app/modules/services/controllers/services_controller.dart';
 import '../../assets/assets.gen.dart';
 import '../../constants/app colors/app_colors.dart';
 import '../../constants/app string/app_string.dart';
@@ -14,6 +15,8 @@ import 'login_btn.dart';
 import 'login_with_google_btn.dart';
 
 Future showDriverLogin(BuildContext context) {
+  Get.put(ServicesController);
+  var controller = Get.find<ServicesController>();
   return showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -26,15 +29,17 @@ Future showDriverLogin(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const CustomInput(hint: "Email"),
+                CustomInput(hint: "Email", controller: controller.email),
                 const SizedBox(
                   height: 10,
                 ),
-                const CustomInput(hint: "Mot de passe"),
+                CustomInput(
+                    hint: "Mot de passe", controller: controller.password),
                 const SizedBox(
                   height: 20,
                 ),
                 const LoginButton(
+                  login: true,
                   title: "Se connecter",
                 ),
                 const SizedBox(
@@ -64,56 +69,80 @@ Future showDriverLogin(BuildContext context) {
 }
 
 Future showDriverRegister(BuildContext context) {
+  Get.put(ServicesController);
+  var controller = Get.find<ServicesController>();
   return showModalBottomSheet(
-    useSafeArea: true,
+    isScrollControlled: true,
+    // useSafeArea: true,
     context: context,
     builder: (context) {
       return SingleChildScrollView(
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
             color: AppColor.gray,
-            child: const Center(
+            child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  CustomInput(hint: "Nom"),
-                  SizedBox(
+                  CustomInput(
+                    hint: "Nom",
+                    controller: controller.name,
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
-                  CustomInput(hint: "Numero"),
-                  SizedBox(
+                  CustomInput(
+                    hint: "Numero",
+                    controller: controller.number,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
-                  CustomInput(hint: "Email"),
-                  SizedBox(
+                  CustomInput(
+                    hint: "Email",
+                    controller: controller.email,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
-                  CustomInput(hint: "Mot de passe"),
-                  SizedBox(
+                  CustomInput(
+                    hint: "Mot de passe",
+                    controller: controller.password,
+                    keyboardType: TextInputType.visiblePassword,
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
-                  CustomInput(hint: "Type de transport"),
-                  SizedBox(
+                  CustomInput(
+                      hint: "Type de transport",
+                      controller: controller.typeOfCar),
+                  const SizedBox(
                     height: 10,
                   ),
-                  CustomInput(hint: "Marque"),
-                  SizedBox(
+                  CustomInput(
+                      hint: "Immatriculation", controller: controller.brand),
+                  const SizedBox(
                     height: 10,
                   ),
-                  CustomInput(hint: "Corleur du vehicule"),
-                  SizedBox(
+                  CustomInput(
+                      hint: "Couleur du vehicule",
+                      controller: controller.color),
+                  const SizedBox(
                     height: 10,
                   ),
-                  LoginButton(
+                  const LoginButton(
+                    login: false,
                     title: "S'inscrire",
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextButton(
-                      onPressed: null,
-                      child: Center(
+                      onPressed: () => Get.back(),
+                      child: const Center(
                         child: Text(
                           'Avez-vous un compte? Se connecter',
                           textAlign: TextAlign.center,
