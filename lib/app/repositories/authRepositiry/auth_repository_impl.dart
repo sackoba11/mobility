@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/app/error/app_error.dart';
+import 'package:mobility/app/models/user/my_user.dart';
 import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart';
 
 @LazySingleton(as: IAuthRepository)
@@ -19,32 +20,63 @@ class AuthRepositoryImpl implements IAuthRepository {
 
 // Firestore Database
   static final entryDB = FirebaseFirestore.instance;
-  static final driversDB = entryDB.collection("drivers");
+  static final driversDB = entryDB.collection("driversInfos");
+  static final usersDB = entryDB.collection("users");
 
   addUser({required String uid, required Map<String, dynamic> map}) async {
     // driverEntry.child(uid).set(map);
-    await driversDB.doc(uid).set(map);
+    await usersDB.doc(uid).set(map);
   }
 
-  Future<User> getCurrentUser() async {
-    return auth.currentUser!;
+  @override
+  Future<Either<AppError, bool>> addDriverInfos(
+      {required String uid, required Map<String, dynamic> map}) async {
+    try {
+      await driversDB.doc(uid).set(map);
+      return right(true);
+    } catch (e) {
+      return left(GenericAppError("error to add infos: $e"));
+    }
   }
 
+  @override
+  Future<Either<AppError, User>> getCurrentUser() async {
+    try {
+      return right(auth.currentUser!);
+    } catch (e) {
+      return left(GenericAppError("error to get current User: $e"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, MyUser>> getUser(String uid) async {
+    try {
+      var documentSnapshot = (await usersDB.doc(uid).get());
+      MyUser user = MyUser.fromJson(documentSnapshot.data()!);
+      return right(user);
+    } catch (e) {
+      return left(GenericAppError("error to get User: $e"));
+    }
+  }
+
+  @override
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
     await auth.signOut();
   }
 
+  @override
   Future<void> signOut() async {
     await auth.signOut();
   }
 
-  Future<bool> resetpassword(String email) async {
+  @override
+  Future<Either<AppError, bool>> resetpassword(String email) async {
     try {
       await auth.sendPasswordResetEmail(email: email);
-      return true;
+      return right(true);
     } catch (e) {
-      return false;
+      return left(GenericAppError("error to reset Password: $e"));
     }
   }
 
@@ -52,19 +84,21 @@ class AuthRepositoryImpl implements IAuthRepository {
   Future<Either<AppError, UserCredential>> signInWithGoogle(
       {bool reauth = false}) async {
     try {
-      User previousUser;
+      User? previousUser;
       UserCredential userCreds;
+      await GoogleSignIn().signOut();
       final googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
         return Left(GenericAppError("Cancelled by User"));
       }
       final googleAuthentication = await googleUser.authentication;
       if (reauth) {
-        previousUser = await getCurrentUser();
+        previousUser = (await getCurrentUser()).fold((l) => null, (r) => r);
         final relinkCred = GoogleAuthProvider.credential(
             idToken: googleAuthentication.idToken,
             accessToken: googleAuthentication.accessToken);
-        userCreds = await previousUser.linkWithCredential(relinkCred);
+        userCreds = await previousUser!.linkWithCredential(relinkCred);
+        print(reauth);
         return Right(userCreds);
       } else {
         final authCredential = GoogleAuthProvider.credential(
@@ -76,6 +110,16 @@ class AuthRepositoryImpl implements IAuthRepository {
         User currentUser = userCreds.user!;
         // print("userCreds : $userCreds");
         print("user : ${currentUser.email}");
+
+        //  User? user = userCreds.user;
+        String uid = currentUser.uid;
+        Map<String, dynamic> map = {
+          "uid": uid,
+          "name": currentUser.displayName!,
+          "email": currentUser.email,
+          "isDriver": false
+        };
+        addUser(uid: uid, map: map);
         return Right(userCreds);
       }
     } on FirebaseAuthException catch (e) {
@@ -92,6 +136,8 @@ class AuthRepositoryImpl implements IAuthRepository {
       } else {
         return Left(GenericAppError('Server error'));
       }
+    } catch (e) {
+      return Left(GenericAppError("cancel by user"));
     }
   }
 
@@ -102,7 +148,8 @@ class AuthRepositoryImpl implements IAuthRepository {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-
+      User currentUser = credential.user!;
+      print("user : ${currentUser.email}");
       return Right(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -138,7 +185,7 @@ class AuthRepositoryImpl implements IAuthRepository {
       if (isLinkWithCredentials) {
         // This is where the magic happens
         // First get the currentUSer
-        previousUser = await getCurrentUser();
+        previousUser = (await getCurrentUser()) as User;
         // Get the credentials from the EmailAuthProvider
         final authCreds = EmailAuthProvider.credential(
             email: userEmail, password: userPassword);
@@ -153,21 +200,29 @@ class AuthRepositoryImpl implements IAuthRepository {
 
         User? user = userCreds.user;
         String uid = user!.uid;
-        Map<String, String> map = {
+        Map<String, dynamic> map = {
           "uid": uid,
           "name": userName!,
+          "email": userEmail,
+          "isDriver": true
+        };
+        addUser(uid: uid, map: map);
+
+        Map<String, String> mapInfos = {
+          "uid": uid,
           "number": userNumber!,
           "typeofcar": typeOfCar!,
           "brand": brand!,
           "color": color!,
-          "email": userEmail
         };
+        addDriverInfos(uid: uid, map: mapInfos);
 
-        addUser(uid: uid, map: map);
         // User user = auth.currentUser!;
         // if (!user.emailVerified) {
         //   await user.sendEmailVerification();
         // }
+        User currentUser = userCreds.user!;
+        print("user : ${currentUser.email}");
         return Right(userCreds);
       }
     } on FirebaseAuthException catch (e) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobility/app/modules/services/controllers/services_controller.dart';
+import 'package:mobility/app/modules/widgets/widget.bottomSheet/dodgeKeyboard.dart';
+import 'package:mobility/app/modules/widgets/widget.bottomSheet/my_bottomSheet_register.dart';
 import '../../assets/assets.gen.dart';
 import '../../constants/app colors/app_colors.dart';
 import '../../constants/app string/app_string.dart';
@@ -8,157 +9,52 @@ import '../../constants/typography/typography.dart';
 import 'custom_button.dart';
 import 'illustrator.dart';
 
-import 'custom_input.dart';
 import 'infos_car.dart';
 import 'infos_destination.dart';
-import 'login_btn.dart';
 import 'login_with_google_btn.dart';
+import 'widget.bottomSheet/my_bottomSheet_login.dart';
 
 Future showDriverLogin(BuildContext context) {
-  Get.put(ServicesController);
-  var controller = Get.find<ServicesController>();
   return showModalBottomSheet(
     context: context,
-    builder: (context) {
-      return Container(
-          height: 350,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          color: AppColor.gray,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                CustomInput(hint: "Email", controller: controller.email),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomInput(
-                    hint: "Mot de passe", controller: controller.password),
-                const SizedBox(
-                  height: 20,
-                ),
-                const LoginButton(
-                  login: true,
-                  title: "Se connecter",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextButton(
-                    onPressed: () => showDriverRegister(context),
-                    child: const Center(
-                      child: Text(
-                        'Vous n’avez pas de compte?, S’inscrire',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF263238),
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                          decoration: TextDecoration.underline,
-                          height: 0,
-                        ),
-                      ),
-                    ))
-              ],
-            ),
-          ));
+    isScrollControlled: true,
+    useSafeArea: true,
+    builder: (BuildContext context) {
+      return DodgeKeyboard(
+        child: DraggableScrollableSheet(
+          expand: false,
+          builder: (
+            BuildContext context,
+            ScrollController controller,
+          ) {
+            return MyBottomSheetLogin(
+              scrollController: controller,
+            );
+          },
+        ),
+      );
     },
   );
 }
 
 Future showDriverRegister(BuildContext context) {
-  Get.put(ServicesController);
-  var controller = Get.find<ServicesController>();
   return showModalBottomSheet(
-    isScrollControlled: true,
-    // useSafeArea: true,
     context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
     builder: (context) {
-      return SingleChildScrollView(
-        child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-            color: AppColor.gray,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  CustomInput(
-                    hint: "Nom",
-                    controller: controller.name,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomInput(
-                    hint: "Numero",
-                    controller: controller.number,
-                    keyboardType: TextInputType.phone,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomInput(
-                    hint: "Email",
-                    controller: controller.email,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomInput(
-                    hint: "Mot de passe",
-                    controller: controller.password,
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomInput(
-                      hint: "Type de transport",
-                      controller: controller.typeOfCar),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomInput(
-                      hint: "Immatriculation", controller: controller.brand),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomInput(
-                      hint: "Couleur du vehicule",
-                      controller: controller.color),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const LoginButton(
-                    login: false,
-                    title: "S'inscrire",
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextButton(
-                      onPressed: () => Get.back(),
-                      child: const Center(
-                        child: Text(
-                          'Avez-vous un compte? Se connecter',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF263238),
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.underline,
-                            height: 0,
-                          ),
-                        ),
-                      ))
-                ],
-              ),
-            )),
+      return DodgeKeyboard(
+        child: DraggableScrollableSheet(
+          expand: false,
+          builder: (
+            BuildContext context,
+            ScrollController controller,
+          ) {
+            return MyBottomSheetRegister(
+              scrollController: controller,
+            );
+          },
+        ),
       );
     },
   );
@@ -171,7 +67,7 @@ Future showGoogleLoginSHeet(BuildContext context) {
       return Container(
           height: 200,
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          color: AppColor.gray,
+          // color: AppColor.gray,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

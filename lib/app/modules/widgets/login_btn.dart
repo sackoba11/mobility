@@ -8,16 +8,26 @@ import '../services/controllers/services_controller.dart';
 class LoginButton extends StatelessWidget {
   final String title;
   final bool login;
-  const LoginButton({super.key, required this.title, required this.login});
+  final GlobalKey<FormState> formKey;
+  const LoginButton(
+      {super.key,
+      required this.title,
+      required this.login,
+      required this.formKey});
 
   @override
   Widget build(BuildContext context) {
     Get.put(ServicesController);
     return TextButton(
       onPressed: () {
-        login
-            ? Get.find<ServicesController>().login()
-            : Get.find<ServicesController>().driverRegister();
+        print("onsubmit");
+        if (formKey.currentState!.validate()) {
+          login
+              ? Get.find<ServicesController>().login()
+              : Get.find<ServicesController>().driverRegister();
+        } else {
+          Get.snackbar("erreur", "Veuillez remplir correctement les champs");
+        }
       },
       child: Container(
         width: 372,

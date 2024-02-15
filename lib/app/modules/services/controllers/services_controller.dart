@@ -8,12 +8,19 @@ import '../../home/views/home_driver_view.dart';
 
 class ServicesController extends GetxController {
   final name = TextEditingController();
+  String? nameTextError;
   final number = TextEditingController();
+  String? numberTextError;
   final email = TextEditingController();
+  String? emailTextError;
   final password = TextEditingController();
+  String? passwordTextError;
   final typeOfCar = TextEditingController();
+  String? typeCarTextError;
   final brand = TextEditingController();
+  String? brandTextError;
   final color = TextEditingController();
+  String? colorTextError;
 
   @override
   void onInit() {
@@ -33,6 +40,29 @@ class ServicesController extends GetxController {
   static int exitApp() {
     return exit(0);
   }
+
+// String? validateEmail(String? value) {
+//     if (value!.isEmpty) {
+//       setState(() {
+//         controller.emailTextError = 'Saisissez votre email';
+//       });
+//       return controller.emailTextError!;
+//     } else if (!isEmailValid(value)) {
+//       setState(() {
+//         controller.emailTextError = 'Entrez un email valide';
+//       });
+//       return controller.emailTextError!;
+//     } else {
+//       setState(() {
+//         controller.emailTextError = null;
+//       });
+//       return null;
+//     }
+//   }
+
+//   bool isEmailValid(String email) {
+//     return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
+//   }
 
   static Future<bool> onWillPop(context) async {
     bool value = false;

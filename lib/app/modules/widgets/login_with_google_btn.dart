@@ -16,9 +16,13 @@ class LoginWithGoogleButton extends StatelessWidget {
     return TextButton(
       onPressed: () async {
         try {
-          AuthRepositoryImpl()
-              .signInWithGoogle()
-              .whenComplete(() => Get.offAll(const HomeUserView()));
+          final response = (await AuthRepositoryImpl().signInWithGoogle())
+              .fold((l) => null, (r) => r);
+          if (response != null) {
+            Get.offAll(const HomeUserView());
+          } else {
+            Get.back();
+          }
         } catch (e) {
           Get.snackbar("Erreur :", e.toString());
         }

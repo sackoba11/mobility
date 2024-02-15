@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:mobility/app/models/user/my_user.dart';
+import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
+import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart';
 import 'package:mobility/app/routes/app_pages.dart';
 
 class SplashScreenController extends GetxController
@@ -13,6 +17,9 @@ class SplashScreenController extends GetxController
   void onInit() {
     super.onInit();
     currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      // IAuthRepository.
+    }
     splashDuration();
     animationInitilization();
   }
@@ -30,14 +37,23 @@ class SplashScreenController extends GetxController
   splashDuration() async {
     return Future.delayed(
       const Duration(seconds: 3),
-      () {
-        print(currentUser);
-        Get.offAllNamed(Routes.services);
-        // if (currentUser == null) {
-        //   Get.offAllNamed(Routes.services);
-        // } else {
-        //   Get.offAllNamed(Routes.homeUser);
-        // }
+      () async {
+        print("Current User : $currentUser");
+
+        // Get.offAllNamed(Routes.services);
+
+        if (currentUser != null) {
+          String uid = currentUser!.uid;
+          MyUser user = (await AuthRepositoryImpl().getUser(uid))
+              .fold((l) => null, (r) => r)!;
+          if (user.isDriver) {
+            Get.offAllNamed(Routes.homeDriver);
+          } else {
+            Get.offAllNamed(Routes.homeUser);
+          }
+        } else {
+          Get.offAllNamed(Routes.services);
+        }
       },
     );
   }
