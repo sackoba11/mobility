@@ -1,6 +1,8 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../constants/app colors/app_colors.dart';
 import '../../services/controllers/services_controller.dart';
 import '../custom_input.dart';
 import '../login_btn.dart';
@@ -20,9 +22,10 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
   final controller = Get.find<ServicesController>();
   final formKey = GlobalKey<FormState>();
 
+  String? selectedValue;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Get.put(ServicesController);
   }
@@ -50,6 +53,7 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
                         CustomInput(
                           hint: "Nom",
                           controller: controller.name,
+                          keyboardType: TextInputType.text,
                           textError: controller.nameTextError,
                           validator: validName,
                         ),
@@ -71,6 +75,8 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
                           hint: "Email",
                           controller: controller.email,
                           keyboardType: TextInputType.emailAddress,
+                          textError: controller.emailTextError,
+                          validator: validateEmail,
                         ),
                         const SizedBox(
                           height: 10,
@@ -79,13 +85,55 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
                           hint: "Mot de passe",
                           controller: controller.password,
                           keyboardType: TextInputType.visiblePassword,
+                          textError: controller.passwordTextError,
+                          validator: passwordValid,
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
-                        CustomInput(
-                            hint: "Type de transport",
-                            controller: controller.typeOfCar),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.5, color: AppColor.primary),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton2<String>(
+                                isExpanded: true,
+                                hint: Text('Type de Transport',
+                                    style: TextStyle(color: AppColor.black)),
+                                items: controller.items
+                                    .map((String item) =>
+                                        DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(
+                                                color: AppColor.black),
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: selectedValue,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    selectedValue = value;
+                                    controller.typeOfCar = selectedValue;
+                                  });
+                                },
+                                buttonStyleData: const ButtonStyleData(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  height: 40,
+                                  width: 140,
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  height: 40,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -138,9 +186,14 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
   }
 
   String? validName(String? value) {
-    if (value!.isEmpty || value.length < 5) {
+    if (value!.isEmpty) {
       setState(() {
         controller.nameTextError = "Saisissez votre nom complet";
+      });
+      return controller.nameTextError;
+    } else if (value.length < 5) {
+      setState(() {
+        controller.nameTextError = "Saisissez un nom valide";
       });
       return controller.nameTextError;
     } else {
@@ -154,7 +207,7 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
   String? validNumber(String? value) {
     if (value!.isEmpty) {
       setState(() {
-        controller.numberTextError = "saisissez le bon numéro";
+        controller.numberTextError = "saisissez un numéro";
       });
       return controller.numberTextError;
     } else if (value.length != 10) {
@@ -168,5 +221,38 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
       });
       return null;
     }
+  }
+
+  String? validateEmail(String? value) {
+    if (value!.isEmpty) {
+      setState(() {
+        controller.emailTextError = 'Saisissez votre email';
+      });
+      return controller.emailTextError!;
+    } else if (!controller.isEmailValid(value)) {
+      setState(() {
+        controller.emailTextError = 'Entrez un email valide';
+      });
+      return controller.emailTextError!;
+    } else {
+      setState(() {
+        controller.emailTextError = null;
+      });
+      return null;
+    }
+  }
+
+  String? passwordValid(String? value) {
+    if (value!.isEmpty || value.length < 8) {
+      setState(() {
+        controller.passwordTextError = "Saisissez un mot de passe valide";
+      });
+      return controller.passwordTextError!;
+    } else {
+      setState(() {
+        controller.passwordTextError = null;
+      });
+    }
+    return null;
   }
 }

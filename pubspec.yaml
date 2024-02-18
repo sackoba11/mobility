@@ -32,6 +32,7 @@ dependencies:
   google_sign_in: ^6.1.6
   mapbox_maps_flutter: ^0.5.1
   http: ^1.1.0
+  dropdown_button2: ^2.3.9
   
 
 dev_dependencies: 

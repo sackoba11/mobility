@@ -51,9 +51,9 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
                         ),
                         CustomInput(
                           hint: "Email",
-                          controller: controller.email,
+                          controller: controller.emailLogin,
                           keyboardType: TextInputType.emailAddress,
-                          textError: controller.emailTextError,
+                          textError: controller.emailLoginTextError,
                           validator: validateEmail,
                         ),
                         const SizedBox(
@@ -61,9 +61,9 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
                         ),
                         CustomInput(
                           hint: "Mot de passe",
-                          controller: controller.password,
+                          controller: controller.passwordLogin,
                           keyboardType: TextInputType.visiblePassword,
-                          textError: controller.passwordTextError,
+                          textError: controller.passwordLoginTextError,
                           validator: passwordValid,
                         ),
                         const SizedBox(
@@ -108,35 +108,31 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
   String? validateEmail(String? value) {
     if (value!.isEmpty) {
       setState(() {
-        controller.emailTextError = 'Saisissez votre email';
+        controller.emailLoginTextError = 'Saisissez votre email';
       });
-      return controller.emailTextError!;
-    } else if (!isEmailValid(value)) {
+      return controller.emailLoginTextError!;
+    } else if (!controller.isEmailValid(value)) {
       setState(() {
-        controller.emailTextError = 'Entrez un email valide';
+        controller.emailLoginTextError = 'Entrez un email valide';
       });
-      return controller.emailTextError!;
+      return controller.emailLoginTextError!;
     } else {
       setState(() {
-        controller.emailTextError = null;
+        controller.emailLoginTextError = null;
       });
       return null;
     }
   }
 
-  bool isEmailValid(String email) {
-    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
-  }
-
   String? passwordValid(String? value) {
     if (value!.isEmpty || value.length < 8) {
       setState(() {
-        controller.passwordTextError = "Saisissez un mot de passe valide";
+        controller.passwordLoginTextError = "Saisissez un mot de passe valide";
       });
-      return controller.passwordTextError!;
+      return controller.passwordLoginTextError!;
     } else {
       setState(() {
-        controller.passwordTextError = null;
+        controller.passwordLoginTextError = null;
       });
     }
     return null;

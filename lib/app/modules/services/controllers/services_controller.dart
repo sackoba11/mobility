@@ -7,6 +7,7 @@ import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.da
 import '../../home/views/home_driver_view.dart';
 
 class ServicesController extends GetxController {
+  //Register sceen
   final name = TextEditingController();
   String? nameTextError;
   final number = TextEditingController();
@@ -15,12 +16,24 @@ class ServicesController extends GetxController {
   String? emailTextError;
   final password = TextEditingController();
   String? passwordTextError;
-  final typeOfCar = TextEditingController();
+  String? typeOfCar;
   String? typeCarTextError;
   final brand = TextEditingController();
   String? brandTextError;
   final color = TextEditingController();
   String? colorTextError;
+
+  //Login Screen
+  final emailLogin = TextEditingController();
+  String? emailLoginTextError;
+  final passwordLogin = TextEditingController();
+  String? passwordLoginTextError;
+
+  final List<String> items = [
+    'Taxi Compteur',
+    'Gbaka',
+    ' Taxi Collectif',
+  ];
 
   @override
   void onInit() {
@@ -107,11 +120,15 @@ class ServicesController extends GetxController {
     return value;
   }
 
+  bool isEmailValid(String email) {
+    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
+  }
+
   Future<void> login() async {
-    if (email.text.isNotEmpty) {
-      if (password.text.isNotEmpty) {
+    if (emailLogin.text.isNotEmpty) {
+      if (passwordLogin.text.isNotEmpty) {
         var response = await AuthRepositoryImpl().loginWithEmailAndPassword(
-            email: email.text, password: password.text);
+            email: emailLogin.text, password: passwordLogin.text);
         if (response.isRight()) {
           Get.off(const HomeDriverView());
         } else {
@@ -127,14 +144,14 @@ class ServicesController extends GetxController {
       if (number.text.isNotEmpty) {
         if (email.text.isNotEmpty) {
           if (password.text.isNotEmpty) {
-            if (typeOfCar.text.isNotEmpty) {
+            if (typeOfCar!.isNotEmpty) {
               if (brand.text.isNotEmpty) {
                 if (color.text.isNotEmpty) {
                   var response = await AuthRepositoryImpl()
                       .signInWithEmailAndPassword(
                           userName: name.text,
                           userNumber: number.text,
-                          typeOfCar: typeOfCar.text,
+                          typeOfCar: typeOfCar,
                           brand: brand.text,
                           color: color.text,
                           userEmail: email.text,
