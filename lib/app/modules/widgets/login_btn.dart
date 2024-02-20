@@ -20,13 +20,20 @@ class LoginButton extends StatelessWidget {
     Get.put(ServicesController);
     return TextButton(
       onPressed: () {
-        print("onsubmit");
         if (formKey.currentState!.validate()) {
           login
               ? Get.find<ServicesController>().login()
               : Get.find<ServicesController>().driverRegister();
         } else {
-          Get.snackbar("erreur", "Veuillez remplir correctement les champs");
+          Get.snackbar(
+            "Echec", "Veuillez remplir correctement les champs",
+            // duration: Duration(seconds: 5),
+            snackPosition: SnackPosition.BOTTOM,
+            icon: const Icon(
+              Icons.warning_amber_outlined,
+              color: Colors.red,
+            ),
+          );
         }
       },
       child: Container(

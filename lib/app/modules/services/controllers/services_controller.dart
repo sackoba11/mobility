@@ -33,6 +33,7 @@ class ServicesController extends GetxController {
     'Taxi Compteur',
     'Gbaka',
     ' Taxi Collectif',
+    'Autres'
   ];
 
   @override
@@ -53,29 +54,6 @@ class ServicesController extends GetxController {
   static int exitApp() {
     return exit(0);
   }
-
-// String? validateEmail(String? value) {
-//     if (value!.isEmpty) {
-//       setState(() {
-//         controller.emailTextError = 'Saisissez votre email';
-//       });
-//       return controller.emailTextError!;
-//     } else if (!isEmailValid(value)) {
-//       setState(() {
-//         controller.emailTextError = 'Entrez un email valide';
-//       });
-//       return controller.emailTextError!;
-//     } else {
-//       setState(() {
-//         controller.emailTextError = null;
-//       });
-//       return null;
-//     }
-//   }
-
-//   bool isEmailValid(String email) {
-//     return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
-//   }
 
   static Future<bool> onWillPop(context) async {
     bool value = false;
@@ -125,17 +103,12 @@ class ServicesController extends GetxController {
   }
 
   Future<void> login() async {
-    if (emailLogin.text.isNotEmpty) {
-      if (passwordLogin.text.isNotEmpty) {
-        var response = await AuthRepositoryImpl().loginWithEmailAndPassword(
-            email: emailLogin.text, password: passwordLogin.text);
-        if (response.isRight()) {
-          Get.off(const HomeDriverView());
-        } else {
-          Get.snackbar(
-              "Erreur", "Veuillez vérifier l'email ou le mot de passe");
-        }
-      }
+    var response = await AuthRepositoryImpl().loginWithEmailAndPassword(
+        email: emailLogin.text, password: passwordLogin.text);
+    if (response.isRight()) {
+      Get.off(const HomeDriverView());
+    } else {
+      Get.snackbar("Erreur", "Veuillez vérifier l'email ou le mot de passe");
     }
   }
 
@@ -156,7 +129,6 @@ class ServicesController extends GetxController {
                           color: color.text,
                           userEmail: email.text,
                           userPassword: password.text);
-                  // .whenComplete(() => Get.off(const HomeDriverView()));
 
                   if (response.isRight()) {
                     Get.off(const HomeDriverView());

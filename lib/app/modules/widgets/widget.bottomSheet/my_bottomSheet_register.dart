@@ -138,14 +138,20 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
                           height: 10,
                         ),
                         CustomInput(
-                            hint: "Immatriculation",
-                            controller: controller.brand),
+                          hint: "Immatriculation",
+                          controller: controller.brand,
+                          textError: controller.brandTextError,
+                          validator: immatriculationValid,
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
                         CustomInput(
-                            hint: "Couleur du vehicule",
-                            controller: controller.color),
+                          hint: "Couleur du vehicule",
+                          controller: controller.color,
+                          textError: controller.colorTextError,
+                          validator: couleurValid,
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -251,6 +257,34 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
     } else {
       setState(() {
         controller.passwordTextError = null;
+      });
+    }
+    return null;
+  }
+
+  String? immatriculationValid(String? value) {
+    if (value!.isEmpty || value.length < 8) {
+      setState(() {
+        controller.brandTextError = "Saisissez une immatriculation valide";
+      });
+      return controller.brandTextError!;
+    } else {
+      setState(() {
+        controller.brandTextError = null;
+      });
+    }
+    return null;
+  }
+
+  String? couleurValid(String? value) {
+    if (value!.isEmpty) {
+      setState(() {
+        controller.colorTextError = "Saisissez la couleur de votre véhicule";
+      });
+      return controller.colorTextError!;
+    } else {
+      setState(() {
+        controller.colorTextError = null;
       });
     }
     return null;
