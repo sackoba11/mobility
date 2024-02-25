@@ -26,8 +26,8 @@ class LoginButton extends StatelessWidget {
               : Get.find<ServicesController>().driverRegister();
         } else {
           Get.snackbar(
-            "Echec", "Veuillez remplir correctement les champs",
-            // duration: Duration(seconds: 5),
+            "Echec",
+            "Veuillez remplir correctement les champs",
             snackPosition: SnackPosition.BOTTOM,
             icon: const Icon(
               Icons.warning_amber_outlined,

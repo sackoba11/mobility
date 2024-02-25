@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:mobility/app/modules/driver/views/driver_view.dart';
 
 import '../../../constants/app colors/app_colors.dart';
@@ -40,47 +41,24 @@ class HomeDriverView extends GetView<HomeDriverController> {
           body: Stack(children: [
             Container(
                 color: AppColor.background,
-                child:
-                    // DisplayMap(
-                    //     source: Position(controller.localisation!.longitude,
-                    //         controller.localisation!.latitude))
-                    GoogleMap(
-                  // myLocationButtonEnabled: true,
-                  myLocationEnabled: true,
-                  // tiltGesturesEnabled: true,
-                  // compassEnabled: false,
-                  // scrollGesturesEnabled: true,
-                  // zoomGesturesEnabled: true,
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        double.parse(controller.originLatitude.value),
-                        double.parse(controller.originLongitude.value),
-                      ),
-                      zoom: 15),
-                  // )   polylines: {
-                  //     Polyline(
-                  //         width: 6,
-                  //         polylineId: const PolylineId(
-                  //           "route",
-                  //         ),
-                  //         points: controller.polylineCoordinates)
-                  //   },
-                  //   markers: {
-                  //     // for (var i in polylineCoordinates)
-                  //     //   Marker(markerId: MarkerId("way"), position: i),
-                  //     Marker(
-                  //         markerId: const MarkerId("source"),
-                  //         position: controller.sourceLocation),
-                  //     Marker(
-                  //         markerId: const MarkerId("destination"),
-                  //         position: controller.destinationLocaton),
-                  //     Marker(
-                  //         markerId: const MarkerId("iu"),
-                  //         position: LatLng(double.parse(controller.originLatitude),
-                  //             double.parse(controller.originLongitude)))
-                  //   },
-                  onMapCreated: controller.onMapCreated,
-                )),
+                child: Obx(() => GoogleMap(
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            double.parse(controller.originLatitude.value),
+                            double.parse(controller.originLongitude.value),
+                          ),
+                          zoom: 15),
+                      onMapCreated: controller.onMapCreated,
+                      markers: {
+                        Marker(
+                            markerId: const MarkerId("userPosition"),
+                            position: LatLng(
+                                double.parse(controller.originLatitude.value),
+                                double.parse(controller.originLongitude.value)))
+                      },
+                    ))),
             DraggableScrollableSheet(
               minChildSize: .3,
               maxChildSize: .5,
@@ -131,10 +109,34 @@ class HomeDriverView extends GetView<HomeDriverController> {
                   height: 5,
                 ),
                 CustomButton(
-                    // icon: AppString.icon,
                     title: AppString.chooseCurrentLocation,
                     radius: 40,
-                    ontap: () {}),
+                    ontap: () {
+                      Get.bottomSheet(Container(
+                        color: AppColor.background,
+                        height: Get.height,
+                        width: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextField(
+                                decoration: InputDecoration(
+                                    hintText: "recherche",
+                                    border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)))),
+                              ),
+                              const Center(child: Text("data")),
+                            ],
+                          ),
+                        ),
+                      ));
+                      // controller.search("abobo");
+                    }),
                 const SizedBox(
                   height: 10,
                 ),

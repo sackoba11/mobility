@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
+import 'package:mobility/app/models/search/feature_collection_response.dart';
+
+import '../../../constants/app string/app_string.dart';
 
 class HomeDriverController extends GetxController {
   late StreamSubscription<Position> streamSubscription;
@@ -18,12 +23,9 @@ class HomeDriverController extends GetxController {
   String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
 
   var originLatitude = "5.3502292".obs, originLongitude = "-3.9881887".obs;
-  var destLatitude = "5.3589712", destLongitude = "-4.0272913";
+  var sourceLatitude = "".obs, sourceLongitude = "".obs;
+  var destLatitude = " ".obs, destLongitude = "".obs;
   var userPosition = const LatLng(5.3502292, -3.9881887);
-
-  LatLng destinationLocaton = LatLng(5.3502292, -3.9881887);
-  LatLng sourceLocation = LatLng(5.3589712, -4.0272913);
-  List<LatLng> polylineCoordinates = [];
 
   @override
   void onInit() async {
@@ -41,58 +43,6 @@ class HomeDriverController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  // void _addMarker(LatLng pos){
-
-//   if(controller.origin == null || (controller.origin !=null && controller.destination  != null)){
-//     Obx(() => controller.origin=Marker(
-//       markerId: const InfoWindow(title: "origin"),
-//       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-//       position: pos
-//     ))
-//   }
-// }
-
-  // void getPolyPoints() async {
-  //   PolylinePoints polylinePoints = PolylinePoints();
-  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-  //     apikey,
-  //     PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-  //     PointLatLng(destinationLocaton.latitude, destinationLocaton.longitude),
-  //     // travelMode: TravelMode.driving,
-  //   );
-  //   // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
-  //   // print("result de  ${result.points}");
-  //   if (result.points.isNotEmpty) {
-  //     result.points.forEach((PointLatLng point) {
-  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-  //       print("polilnecoordonnées $polylineCoordinates");
-
-  //     });
-  //   }
-  // }
-
-  // Future<String> showGoogleAutoComplete() async {
-  //   var kGoogleApiKey = apikey;
-
-  //   Prediction? p = await PlacesAutocomplete(
-  //       offset: 0,
-  //       radius: 1000,
-  //       strictbounds: false,
-  //       region: "us",
-  //       context: context,
-  //       apiKey: kGoogleApiKey,
-  //       mode: Mode.overlay, // Mode.fullscreen
-  //       language: "en",
-  //       components: [Component(Component.country, "en")],
-  //       types: ["(cities)"],
-  //       hint: "Search City");
-
-  //   return p!.description!;
-  // }
-  // String place =
-  //                                       await showGoogleAutoComplete();
-  //                                   sourcecontroller.text = place;
 
   Future<void> getLocation() async {
     bool serviceEnabled;
@@ -126,9 +76,17 @@ class HomeDriverController extends GetxController {
       originLongitude = RxString("${position.longitude}");
       userPosition = LatLng(double.parse(originLatitude.value),
           double.parse(originLongitude.value));
-      // print(userPosition);
-      // print(originLatitude);
-      // print(originLongitude);
     });
+  }
+
+  Future<void> search(String location) async {
+    Uri query = Uri.parse(
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/$location.json?country=ci&proximity=${originLongitude.value}%2C${originLatitude.value}&access_token=${AppString.pkkeyMapBox}");
+    // "https://api.mapbox.com/search/searchbox/v1/suggest?q=$location+&language=fr&country=ci&proximity=-73.990593,40.740121&session_token=0df446cf-5d9c-41c1-88de-10c9ebf0085c&access_token=${AppString.pkkeyMapBox}");
+    final response = await get(query);
+    final result = jsonDecode(response.body);
+    final search = FeatureCollectionResponse.fromJson(result);
+    // var suggestions = search.suggestions.map((e) => e.name);
+    print("resultat de la requet  ${search.features}");
   }
 }
