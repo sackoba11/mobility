@@ -18,6 +18,14 @@ class HomeDriverController extends GetxController {
   late mapbox.MapboxMap? mapboxController;
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    controller.moveCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+          target: LatLng(
+            double.parse(originLatitude.value),
+            double.parse(originLongitude.value),
+          ),
+          zoom: 15),
+    ));
   }
 
   String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
@@ -29,14 +37,15 @@ class HomeDriverController extends GetxController {
 
   @override
   void onInit() async {
-    await getLocation();
     super.onInit();
+    await getLocation();
     isLoading = RxBool(false);
   }
 
   @override
   void onReady() {
     super.onReady();
+    getLocation();
   }
 
   @override
@@ -76,6 +85,7 @@ class HomeDriverController extends GetxController {
       originLongitude = RxString("${position.longitude}");
       userPosition = LatLng(double.parse(originLatitude.value),
           double.parse(originLongitude.value));
+      print("coordonnées : ${originLatitude.value},${originLongitude.value}");
     });
   }
 

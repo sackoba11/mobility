@@ -39,9 +39,13 @@ class HomeDriverView extends GetView<HomeDriverController> {
           ),
           backgroundColor: AppColor.background,
           body: Stack(children: [
-            Container(
-                color: AppColor.background,
-                child: Obx(() => GoogleMap(
+            GetBuilder<HomeDriverController>(
+              init: HomeDriverController(),
+              initState: (_) {},
+              builder: (_) {
+                return Container(
+                    color: AppColor.background,
+                    child: GoogleMap(
                       myLocationButtonEnabled: true,
                       myLocationEnabled: true,
                       initialCameraPosition: CameraPosition(
@@ -50,6 +54,14 @@ class HomeDriverView extends GetView<HomeDriverController> {
                             double.parse(controller.originLongitude.value),
                           ),
                           zoom: 15),
+                      onCameraMove: (position) {
+                        CameraPosition(
+                            target: LatLng(
+                              double.parse(controller.originLatitude.value),
+                              double.parse(controller.originLongitude.value),
+                            ),
+                            zoom: 15);
+                      },
                       onMapCreated: controller.onMapCreated,
                       markers: {
                         Marker(
@@ -58,7 +70,9 @@ class HomeDriverView extends GetView<HomeDriverController> {
                                 double.parse(controller.originLatitude.value),
                                 double.parse(controller.originLongitude.value)))
                       },
-                    ))),
+                    ));
+              },
+            ),
             DraggableScrollableSheet(
               minChildSize: .3,
               maxChildSize: .5,
@@ -116,8 +130,8 @@ class HomeDriverView extends GetView<HomeDriverController> {
                         color: AppColor.background,
                         height: Get.height,
                         width: 100,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30.0),
                           child: Column(
                             children: [
                               SizedBox(
@@ -126,11 +140,11 @@ class HomeDriverView extends GetView<HomeDriverController> {
                               TextField(
                                 decoration: InputDecoration(
                                     hintText: "recherche",
-                                    border: const OutlineInputBorder(
+                                    border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)))),
                               ),
-                              const Center(child: Text("data")),
+                              Center(child: Text("data")),
                             ],
                           ),
                         ),
