@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 
-import '../controllers/second_home_other_car_controller.dart';
+import '../controllers/other_car_controller.dart';
 
-class SecondHomeOtherCarBinding extends Bindings {
+class OtherCarBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<SecondHomeOtherCarController>(
-      () => SecondHomeOtherCarController(),
+    Get.lazyPut<OtherCarController>(
+      () => OtherCarController(),
     );
   }
 }

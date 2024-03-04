@@ -66,6 +66,7 @@ class HomeBus extends GetView<BusController> {
             initState: (_) {},
             builder: (_) {
               return CustomSearchBar(
+                  hintText: "Bus Numéro ...",
                   textEditingController: _.textEditingController,
                   onChanged: (value) {
                     if (_.textEditingController.text.isNotEmpty) {

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobility/app/models/road/road_map.dart';
+import 'package:mobility/app/models/stop/stop.dart';
 
 part 'bus.freezed.dart';
 part 'bus.g.dart';
@@ -10,8 +10,8 @@ class Bus with _$Bus {
     required int number,
     required String source,
     required String destination,
-    required RoadMap roadMap,
     required bool isActive,
+    required List<Stop> roadMap,
   }) = _Bus;
   factory Bus.fromJson(Map<String, dynamic> json) => _$BusFromJson(json);
 }

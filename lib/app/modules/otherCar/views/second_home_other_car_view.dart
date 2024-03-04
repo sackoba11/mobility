@@ -6,13 +6,13 @@ import 'package:mobility/app/modules/otherCar/views/details_home_other_car_view.
 
 import '../../../constants/app colors/app_colors.dart';
 import '../../../constants/typography/typography.dart';
-import '../controllers/second_home_other_car_controller.dart';
+import '../controllers/other_car_controller.dart';
 
-class SecondHomeOtherCarView extends GetView<SecondHomeOtherCarController> {
+class SecondHomeOtherCarView extends GetView<OtherCarController> {
   const SecondHomeOtherCarView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.put(SecondHomeOtherCarController());
+    Get.put(OtherCarController());
     return Scaffold(
         backgroundColor: AppColor.background,
         body: Stack(children: [

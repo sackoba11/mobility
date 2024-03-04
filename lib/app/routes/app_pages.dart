@@ -5,8 +5,6 @@ import 'package:mobility/app/modules/bus/views/home_bus.dart';
 import 'package:mobility/app/modules/bus/views/second_home_bus.dart';
 import 'package:mobility/app/modules/home/bindings/home_driver_binding.dart';
 import 'package:mobility/app/modules/home/views/home_driver_view.dart';
-import 'package:mobility/app/modules/otherCar/bindings/details_home_other_car_binding.dart';
-import 'package:mobility/app/modules/otherCar/bindings/home_other_car_binding.dart';
 import 'package:mobility/app/modules/otherCar/bindings/second_home_other_car_binding.dart';
 import 'package:mobility/app/modules/otherCar/views/details_home_other_car_view.dart';
 import 'package:mobility/app/modules/otherCar/views/home_other_car_view.dart';
@@ -103,17 +101,17 @@ class AppPages {
     GetPage(
       name: _Paths.homeOtherCar,
       page: () => const HomeOtherCarView(),
-      binding: HomeOtherCarBinding(),
+      binding: OtherCarBinding(),
     ),
     GetPage(
       name: _Paths.secondOtherCar,
       page: () => const SecondHomeOtherCarView(),
-      binding: SecondHomeOtherCarBinding(),
+      binding: OtherCarBinding(),
     ),
     GetPage(
       name: _Paths.detailOtherCar,
       page: () => const DetailsHomeOtherCarView(),
-      binding: DetailsHomeOtherCarBinding(),
+      binding: OtherCarBinding(),
     ),
   ];
 }

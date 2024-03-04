@@ -8,13 +8,13 @@ import '../../../constants/app colors/app_colors.dart';
 import '../../../constants/app string/app_string.dart';
 import '../../../constants/typography/typography.dart';
 import '../../widgets/custom_button.dart';
-import '../controllers/home_other_car_controller.dart';
+import '../controllers/other_car_controller.dart';
 
-class HomeOtherCarView extends GetView<HomeOtherCarController> {
+class HomeOtherCarView extends GetView<OtherCarController> {
   const HomeOtherCarView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeOtherCarController());
+    Get.put(OtherCarController());
     return Scaffold(
         backgroundColor: AppColor.background,
         body: Stack(children: [

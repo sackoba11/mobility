@@ -23,8 +23,8 @@ mixin _$Bus {
   int get number => throw _privateConstructorUsedError;
   String get source => throw _privateConstructorUsedError;
   String get destination => throw _privateConstructorUsedError;
-  RoadMap get roadMap => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
+  List<Stop> get roadMap => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,10 +40,8 @@ abstract class $BusCopyWith<$Res> {
       {int number,
       String source,
       String destination,
-      RoadMap roadMap,
-      bool isActive});
-
-  $RoadMapCopyWith<$Res> get roadMap;
+      bool isActive,
+      List<Stop> roadMap});
 }
 
 /// @nodoc
@@ -61,8 +59,8 @@ class _$BusCopyWithImpl<$Res, $Val extends Bus> implements $BusCopyWith<$Res> {
     Object? number = null,
     Object? source = null,
     Object? destination = null,
-    Object? roadMap = null,
     Object? isActive = null,
+    Object? roadMap = null,
   }) {
     return _then(_value.copyWith(
       number: null == number
@@ -77,23 +75,15 @@ class _$BusCopyWithImpl<$Res, $Val extends Bus> implements $BusCopyWith<$Res> {
           ? _value.destination
           : destination // ignore: cast_nullable_to_non_nullable
               as String,
-      roadMap: null == roadMap
-          ? _value.roadMap
-          : roadMap // ignore: cast_nullable_to_non_nullable
-              as RoadMap,
       isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
+      roadMap: null == roadMap
+          ? _value.roadMap
+          : roadMap // ignore: cast_nullable_to_non_nullable
+              as List<Stop>,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $RoadMapCopyWith<$Res> get roadMap {
-    return $RoadMapCopyWith<$Res>(_value.roadMap, (value) {
-      return _then(_value.copyWith(roadMap: value) as $Val);
-    });
   }
 }
 
@@ -107,11 +97,8 @@ abstract class _$$BusImplCopyWith<$Res> implements $BusCopyWith<$Res> {
       {int number,
       String source,
       String destination,
-      RoadMap roadMap,
-      bool isActive});
-
-  @override
-  $RoadMapCopyWith<$Res> get roadMap;
+      bool isActive,
+      List<Stop> roadMap});
 }
 
 /// @nodoc
@@ -126,8 +113,8 @@ class __$$BusImplCopyWithImpl<$Res> extends _$BusCopyWithImpl<$Res, _$BusImpl>
     Object? number = null,
     Object? source = null,
     Object? destination = null,
-    Object? roadMap = null,
     Object? isActive = null,
+    Object? roadMap = null,
   }) {
     return _then(_$BusImpl(
       number: null == number
@@ -142,14 +129,14 @@ class __$$BusImplCopyWithImpl<$Res> extends _$BusCopyWithImpl<$Res, _$BusImpl>
           ? _value.destination
           : destination // ignore: cast_nullable_to_non_nullable
               as String,
-      roadMap: null == roadMap
-          ? _value.roadMap
-          : roadMap // ignore: cast_nullable_to_non_nullable
-              as RoadMap,
       isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
+      roadMap: null == roadMap
+          ? _value._roadMap
+          : roadMap // ignore: cast_nullable_to_non_nullable
+              as List<Stop>,
     ));
   }
 }
@@ -161,8 +148,9 @@ class _$BusImpl implements _Bus {
       {required this.number,
       required this.source,
       required this.destination,
-      required this.roadMap,
-      required this.isActive});
+      required this.isActive,
+      required final List<Stop> roadMap})
+      : _roadMap = roadMap;
 
   factory _$BusImpl.fromJson(Map<String, dynamic> json) =>
       _$$BusImplFromJson(json);
@@ -174,13 +162,18 @@ class _$BusImpl implements _Bus {
   @override
   final String destination;
   @override
-  final RoadMap roadMap;
-  @override
   final bool isActive;
+  final List<Stop> _roadMap;
+  @override
+  List<Stop> get roadMap {
+    if (_roadMap is EqualUnmodifiableListView) return _roadMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_roadMap);
+  }
 
   @override
   String toString() {
-    return 'Bus(number: $number, source: $source, destination: $destination, roadMap: $roadMap, isActive: $isActive)';
+    return 'Bus(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap)';
   }
 
   @override
@@ -192,15 +185,15 @@ class _$BusImpl implements _Bus {
             (identical(other.source, source) || other.source == source) &&
             (identical(other.destination, destination) ||
                 other.destination == destination) &&
-            (identical(other.roadMap, roadMap) || other.roadMap == roadMap) &&
             (identical(other.isActive, isActive) ||
-                other.isActive == isActive));
+                other.isActive == isActive) &&
+            const DeepCollectionEquality().equals(other._roadMap, _roadMap));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, number, source, destination, roadMap, isActive);
+  int get hashCode => Object.hash(runtimeType, number, source, destination,
+      isActive, const DeepCollectionEquality().hash(_roadMap));
 
   @JsonKey(ignore: true)
   @override
@@ -221,8 +214,8 @@ abstract class _Bus implements Bus {
       {required final int number,
       required final String source,
       required final String destination,
-      required final RoadMap roadMap,
-      required final bool isActive}) = _$BusImpl;
+      required final bool isActive,
+      required final List<Stop> roadMap}) = _$BusImpl;
 
   factory _Bus.fromJson(Map<String, dynamic> json) = _$BusImpl.fromJson;
 
@@ -233,9 +226,9 @@ abstract class _Bus implements Bus {
   @override
   String get destination;
   @override
-  RoadMap get roadMap;
-  @override
   bool get isActive;
+  @override
+  List<Stop> get roadMap;
   @override
   @JsonKey(ignore: true)
   _$$BusImplCopyWith<_$BusImpl> get copyWith =>

@@ -10,13 +10,13 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/illustrator.dart';
 import '../../widgets/infos_car.dart';
 import '../../widgets/infos_destination.dart';
-import '../controllers/details_home_other_car_controller.dart';
+import '../controllers/other_car_controller.dart';
 
-class DetailsHomeOtherCarView extends GetView<DetilsHomeOtherCarController> {
+class DetailsHomeOtherCarView extends GetView<OtherCarController> {
   const DetailsHomeOtherCarView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.put(DetilsHomeOtherCarController());
+    Get.put(OtherCarController());
 
     return Scaffold(
         backgroundColor: AppColor.background,
