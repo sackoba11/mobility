@@ -4,11 +4,12 @@ import 'package:mobility/app/models/gare/gare.dart';
 
 class MockData {
   //Gares des Gbakas
-  List<Gare> garesGbaka = [
+  static List<Gare> garesGbaka = [
     // Abobo
     Gare(
       name: "Abobo Gare Mairie",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -17,6 +18,7 @@ class MockData {
     Gare(
       name: "Abobo PK 18",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -25,6 +27,7 @@ class MockData {
     Gare(
       name: "Kennedy Marché",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -33,6 +36,7 @@ class MockData {
     Gare(
       name: "Kennedy Mosquée Ado",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -41,6 +45,7 @@ class MockData {
     Gare(
       name: "Akekoi Village",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -49,6 +54,7 @@ class MockData {
     Gare(
       name: "Abobo Marché ",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -57,6 +63,7 @@ class MockData {
     Gare(
       name: "Biabou",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -65,6 +72,7 @@ class MockData {
     Gare(
       name: "Abobo Samaké ",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -73,6 +81,7 @@ class MockData {
     Gare(
       name: "Abobo BC",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -81,6 +90,7 @@ class MockData {
     Gare(
       name: "Carrefour JAUG",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -89,6 +99,7 @@ class MockData {
     Gare(
       name: "Lycée Moderne Abobo",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -97,6 +108,7 @@ class MockData {
     Gare(
       name: "Abobo Gare",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -105,6 +117,7 @@ class MockData {
     Gare(
       name: "belle Ville",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -113,6 +126,7 @@ class MockData {
     Gare(
       name: "Abobo Gendarmerie",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -121,6 +135,7 @@ class MockData {
     Gare(
       name: "Abobo Agripac",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -129,6 +144,7 @@ class MockData {
     Gare(
       name: "N’dotre",
       commune: "Abobo",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -139,6 +155,7 @@ class MockData {
     Gare(
       name: "Bingerville",
       commune: "Bingerville",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -149,6 +166,7 @@ class MockData {
     Gare(
       name: "Angré Petro Ivoire",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -157,6 +175,7 @@ class MockData {
     Gare(
       name: "Akouedo Attié",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -165,6 +184,7 @@ class MockData {
     Gare(
       name: "Cocody Anono",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -173,6 +193,7 @@ class MockData {
     Gare(
       name: "Cocody Attoban Camp",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -181,6 +202,7 @@ class MockData {
     Gare(
       name: "Cocody Riviera M’badon",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -189,6 +211,7 @@ class MockData {
     Gare(
       name: "Cocody Riviera M’pouto",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -197,6 +220,7 @@ class MockData {
     Gare(
       name: "Cocody Riviera 2",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -205,6 +229,7 @@ class MockData {
     Gare(
       name: "Cocody Riviera 2",
       commune: "Cocody",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -215,6 +240,7 @@ class MockData {
     Gare(
       name: "Adjamé Agban",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -223,6 +249,7 @@ class MockData {
     Gare(
       name: "Adjamé Gare en Haut",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -231,6 +258,7 @@ class MockData {
     Gare(
       name: "Adjamé Liberté",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -239,6 +267,7 @@ class MockData {
     Gare(
       name: "Adjamé Mosquée",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -247,6 +276,7 @@ class MockData {
     Gare(
       name: "Adjamé Nouvelle Gare",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -255,6 +285,7 @@ class MockData {
     Gare(
       name: "Adjamé Renault",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -263,6 +294,7 @@ class MockData {
     Gare(
       name: "Adjamé Texaco",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -271,6 +303,7 @@ class MockData {
     Gare(
       name: "Gare Kobenan Agban",
       commune: "Adjamé",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -281,6 +314,7 @@ class MockData {
     Gare(
       name: "Treichville Gare de Bassam",
       commune: "Treichville",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -289,6 +323,7 @@ class MockData {
     Gare(
       name: "Treichville Rue 12",
       commune: "Treichville",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -299,6 +334,7 @@ class MockData {
     Gare(
       name: "Casier",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -307,6 +343,7 @@ class MockData {
     Gare(
       name: "Belleville",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -315,6 +352,7 @@ class MockData {
     Gare(
       name: "Gonzaqueville Corridor",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -323,6 +361,7 @@ class MockData {
     Gare(
       name: "Abraham",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -331,6 +370,7 @@ class MockData {
     Gare(
       name: "Eléphant",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -339,6 +379,7 @@ class MockData {
     Gare(
       name: "Usine",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -347,6 +388,7 @@ class MockData {
     Gare(
       name: "Mobiobi",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -355,6 +397,7 @@ class MockData {
     Gare(
       name: "Terminus Mobiobi",
       commune: "Port-Bouet",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -365,6 +408,7 @@ class MockData {
     Gare(
       name: "Yopougon Académie",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -373,6 +417,7 @@ class MockData {
     Gare(
       name: "Yopougon Diop",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -381,6 +426,7 @@ class MockData {
     Gare(
       name: "Yopougon Carrefour CHU",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -389,6 +435,7 @@ class MockData {
     Gare(
       name: "Yopougon Sable",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -397,6 +444,7 @@ class MockData {
     Gare(
       name: "Yopougon Carrefour Zone",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -405,6 +453,7 @@ class MockData {
     Gare(
       name: "Yopougon Koweit",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -413,6 +462,7 @@ class MockData {
     Gare(
       name: "Yopougon Zone Industrielle",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -421,6 +471,7 @@ class MockData {
     Gare(
       name: "Yopougon Locodjro Marine",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -429,6 +480,7 @@ class MockData {
     Gare(
       name: "Attecoubé Garage",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -437,6 +489,7 @@ class MockData {
     Gare(
       name: "Yopougon Palais",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -445,6 +498,7 @@ class MockData {
     Gare(
       name: "Beago Wolosso",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -453,6 +507,7 @@ class MockData {
     Gare(
       name: "Yopougon Siporex",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -461,6 +516,7 @@ class MockData {
     Gare(
       name: "Songon Agban",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -469,6 +525,7 @@ class MockData {
     Gare(
       name: "Yopougon Gesco",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -477,6 +534,7 @@ class MockData {
     Gare(
       name: "Yopougon IGES",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -485,6 +543,7 @@ class MockData {
     Gare(
       name: "Yopougon Lokoa",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -493,6 +552,7 @@ class MockData {
     Gare(
       name: "Yopougon Lubafrique",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -501,6 +561,7 @@ class MockData {
     Gare(
       name: "Yopougon Marché Bagnon",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -509,6 +570,7 @@ class MockData {
     Gare(
       name: "Yopougon Niangon Terminus 27",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -517,6 +579,7 @@ class MockData {
     Gare(
       name: "Yopougon Camp Militaire",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -525,6 +588,7 @@ class MockData {
     Gare(
       name: "Yopougon Palais",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -533,6 +597,7 @@ class MockData {
     Gare(
       name: "Yopougon Sideci IGES",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -541,6 +606,7 @@ class MockData {
     Gare(
       name: "Yopougon Boassi",
       commune: "Yopougon",
+      type: "Gbaka",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -549,11 +615,12 @@ class MockData {
   ];
 
 //Gares de Taxi Communaux
-  List<Gare> garesTaxi = [
+  static List<Gare> garesTaxi = [
     //Abobo
     Gare(
       name: "Abobo Gare",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -562,6 +629,7 @@ class MockData {
     Gare(
       name: "Biabou",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -570,6 +638,7 @@ class MockData {
     Gare(
       name: "Terminus Derrière Rail",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -578,6 +647,7 @@ class MockData {
     Gare(
       name: "Abobo Gendarmerie",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -586,6 +656,7 @@ class MockData {
     Gare(
       name: "Houphouet-Boigny",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -594,6 +665,7 @@ class MockData {
     Gare(
       name: "Terminus Derrière Rail Céleste",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -602,6 +674,7 @@ class MockData {
     Gare(
       name: "Abobo Marché",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -610,6 +683,7 @@ class MockData {
     Gare(
       name: "Abobo Baoulé",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -618,6 +692,7 @@ class MockData {
     Gare(
         name: "Carrefour Kennedy",
         commune: "Abobo",
+        type: "Taxi",
         location: Stop(
           lat: 5.3502292,
           long: -3.9881887,
@@ -625,6 +700,7 @@ class MockData {
     Gare(
       name: "Dokui",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -633,6 +709,7 @@ class MockData {
     Gare(
       name: "Habitat Grace",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -641,6 +718,7 @@ class MockData {
     Gare(
       name: "Abobo Samaké",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -649,6 +727,7 @@ class MockData {
     Gare(
       name: "Ancienne Gendarmerie",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -657,6 +736,7 @@ class MockData {
     Gare(
       name: "Grand Carrefour",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -665,6 +745,7 @@ class MockData {
     Gare(
       name: "Gare d’Anyama",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -673,6 +754,7 @@ class MockData {
     Gare(
       name: "Mairie d’Anyama",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -681,6 +763,7 @@ class MockData {
     Gare(
       name: "Lycée Moderne d’Abobo",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -689,6 +772,7 @@ class MockData {
     Gare(
       name: "Abobo Azur Mobile",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -697,6 +781,7 @@ class MockData {
     Gare(
       name: "Mahou / Azur",
       commune: "Abobo",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -707,6 +792,7 @@ class MockData {
     Gare(
       name: "Adjamé Liberté",
       commune: "Adjamé",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -715,6 +801,7 @@ class MockData {
     Gare(
       name: "Adjamé Mairie Dallas",
       commune: "Adjamé",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -723,6 +810,7 @@ class MockData {
     Gare(
       name: "Saint Michel",
       commune: "Adjamé",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -733,6 +821,7 @@ class MockData {
     Gare(
       name: "Mossikro",
       commune: "Attecoubé",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -741,6 +830,7 @@ class MockData {
     Gare(
       name: "Abobo Doumé Santé",
       commune: "Attecoubé",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -749,6 +839,7 @@ class MockData {
     Gare(
       name: "Abobo Doumé Gare Bateau-bus",
       commune: "Attecoubé",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -759,6 +850,7 @@ class MockData {
     Gare(
       name: "9 Kilo",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -767,6 +859,7 @@ class MockData {
     Gare(
       name: "Akouédo",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -775,6 +868,7 @@ class MockData {
     Gare(
       name: "Sol Beni au Bateau",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -783,6 +877,7 @@ class MockData {
     Gare(
       name: "Saint Jean",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -791,6 +886,7 @@ class MockData {
     Gare(
       name: "Blockauss",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -799,6 +895,7 @@ class MockData {
     Gare(
       name: "La Vie",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -807,6 +904,7 @@ class MockData {
     Gare(
       name: "Carrefour 9Km",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -815,6 +913,7 @@ class MockData {
     Gare(
       name: "Palmeraie SIPIM 4",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -823,6 +922,7 @@ class MockData {
     Gare(
       name: "Gare Bonoumin",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -831,6 +931,7 @@ class MockData {
     Gare(
       name: "Abri 2000",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -839,6 +940,7 @@ class MockData {
     Gare(
       name: "Gare Carrefour 2 Plateaux",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -847,6 +949,7 @@ class MockData {
     Gare(
       name: "Vallon",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -855,6 +958,7 @@ class MockData {
     Gare(
       name: "Palmeraie",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -863,6 +967,7 @@ class MockData {
     Gare(
       name: "Les Rosiers",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -871,6 +976,7 @@ class MockData {
     Gare(
       name: "Terminus 81-82",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -879,6 +985,7 @@ class MockData {
     Gare(
       name: "Riviera 2",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -886,6 +993,7 @@ class MockData {
     ),
     Gare(
       name: "Anono",
+      type: "Taxi",
       commune: "Cocody",
       location: Stop(
         lat: 5.3502292,
@@ -894,6 +1002,7 @@ class MockData {
     ),
     Gare(
       name: "Riviera 2 Station",
+      type: "Taxi",
       commune: "Cocody",
       location: Stop(
         lat: 5.3502292,
@@ -902,6 +1011,7 @@ class MockData {
     ),
     Gare(
       name: "Angré 22ème",
+      type: "Taxi",
       commune: "Cocody",
       location: Stop(
         lat: 5.3502292,
@@ -911,6 +1021,7 @@ class MockData {
     Gare(
       name: "Attoban Camp",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -918,6 +1029,7 @@ class MockData {
     ),
     Gare(
       name: "Angré Château",
+      type: "Taxi",
       commune: "Cocody",
       location: Stop(
         lat: 5.3502292,
@@ -927,6 +1039,7 @@ class MockData {
     Gare(
       name: "Station après Barrage",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -935,6 +1048,7 @@ class MockData {
     Gare(
       name: "CHU Angré",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -943,6 +1057,7 @@ class MockData {
     Gare(
       name: "Rosier Programme 6",
       commune: "Cocody",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -950,6 +1065,7 @@ class MockData {
     ),
     Gare(
       name: "Zoo",
+      type: "Taxi",
       commune: "Cocody",
       location: Stop(
         lat: 5.3502292,
@@ -958,6 +1074,7 @@ class MockData {
     ),
     Gare(
       name: "Pont Soro",
+      type: "Taxi",
       commune: "Cocody",
       location: Stop(
         lat: 5.3502292,
@@ -966,6 +1083,7 @@ class MockData {
     ),
     Gare(
       name: "Zinsou",
+      type: "Taxi",
       commune: "Cocody",
       location: Stop(
         lat: 5.3502292,
@@ -977,6 +1095,7 @@ class MockData {
     Gare(
       name: "Anoumabo sans fil",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -985,6 +1104,7 @@ class MockData {
     Gare(
       name: "Koumassi Hôpital général",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -993,6 +1113,7 @@ class MockData {
     Gare(
       name: "Sicogi",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1001,6 +1122,7 @@ class MockData {
     Gare(
       name: "Gare Communale",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1009,6 +1131,7 @@ class MockData {
     Gare(
       name: "Soweto",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1017,6 +1140,7 @@ class MockData {
     Gare(
       name: "Koumassi Grand Marché",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1025,6 +1149,7 @@ class MockData {
     Gare(
       name: "Ancien Koumassi",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1033,6 +1158,7 @@ class MockData {
     Gare(
       name: "Terminus 05",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1041,6 +1167,7 @@ class MockData {
     Gare(
       name: "Terminus 32",
       commune: "Koumassi",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1051,6 +1178,7 @@ class MockData {
     Gare(
       name: "Carrefour Lycée",
       commune: "Marcory",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1058,6 +1186,7 @@ class MockData {
     ),
     Gare(
       name: "CTAO",
+      type: "Taxi",
       commune: "Marcory",
       location: Stop(
         lat: 5.3502292,
@@ -1067,6 +1196,7 @@ class MockData {
     Gare(
       name: "Mairie de Marcory",
       commune: "Marcory",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1075,6 +1205,7 @@ class MockData {
     Gare(
         name: "Hibiscus",
         commune: "Marcory",
+        type: "Taxi",
         location: Stop(
           lat: 5.3502292,
           long: -3.9881887,
@@ -1082,6 +1213,7 @@ class MockData {
     Gare(
       name: "Gare Sotra Marcory",
       commune: "Marcory",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1092,6 +1224,7 @@ class MockData {
     Gare(
       name: "Carrefour Aéroport",
       commune: "Port-Bouet",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1100,6 +1233,7 @@ class MockData {
     Gare(
       name: "Anani",
       commune: "Port-Bouet",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1107,6 +1241,7 @@ class MockData {
     ),
     Gare(
       name: "Aéroport",
+      type: "Taxi",
       commune: "Port-Bouet",
       location: Stop(
         lat: 5.3502292,
@@ -1115,6 +1250,7 @@ class MockData {
     ),
     Gare(
       name: "Vridi Cité",
+      type: "Taxi",
       commune: "Port-Bouet",
       location: Stop(
         lat: 5.3502292,
@@ -1123,6 +1259,7 @@ class MockData {
     ),
     Gare(
       name: "Vridi Canal",
+      type: "Taxi",
       commune: "Port-Bouet",
       location: Stop(
         lat: 5.3502292,
@@ -1132,6 +1269,7 @@ class MockData {
     Gare(
       name: "Port de Pêche",
       commune: "Port-Bouet",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1140,6 +1278,7 @@ class MockData {
     Gare(
       name: "Marché de Port-Bouet",
       commune: "Port-Bouet",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1148,6 +1287,7 @@ class MockData {
     Gare(
       name: "Terre Rouge",
       commune: "Port-Bouet",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1156,6 +1296,7 @@ class MockData {
     Gare(
       name: "Benogosso",
       commune: "Port-Bouet",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1164,6 +1305,7 @@ class MockData {
     Gare(
       name: "Carrefour Deux Poteaux",
       commune: "Port-Bouet",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1174,6 +1316,7 @@ class MockData {
     Gare(
       name: "Treichville Gare Bassam",
       commune: "Treichville",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1182,6 +1325,7 @@ class MockData {
     Gare(
       name: "Treichville Gare Bateau-bus",
       commune: "Treichville",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1192,6 +1336,7 @@ class MockData {
     Gare(
       name: "Toit Rouge Jean-Paul 2",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1200,6 +1345,7 @@ class MockData {
     Gare(
       name: "Bel Air",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1208,6 +1354,7 @@ class MockData {
     Gare(
       name: "Gabriel Gare",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1215,6 +1362,7 @@ class MockData {
     ),
     Gare(
       name: "Mossikro",
+      type: "Taxi",
       commune: "Yopougon",
       location: Stop(
         lat: 5.3502292,
@@ -1223,6 +1371,7 @@ class MockData {
     ),
     Gare(
       name: "BHCI",
+      type: "Taxi",
       commune: "Yopougon",
       location: Stop(
         lat: 5.3502292,
@@ -1232,6 +1381,7 @@ class MockData {
     Gare(
       name: "Micao",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1239,6 +1389,7 @@ class MockData {
     ),
     Gare(
       name: "Sable",
+      type: "Taxi",
       commune: "Yopougon",
       location: Stop(
         lat: 5.3502292,
@@ -1247,6 +1398,7 @@ class MockData {
     ),
     Gare(
       name: "Mairie",
+      type: "Taxi",
       commune: "Yopougon",
       location: Stop(
         lat: 5.3502292,
@@ -1256,6 +1408,7 @@ class MockData {
     Gare(
       name: "Kenya",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1264,6 +1417,7 @@ class MockData {
     Gare(
       name: "Palais",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1272,6 +1426,7 @@ class MockData {
     Gare(
       name: "Prison Civile",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1280,6 +1435,7 @@ class MockData {
     Gare(
       name: "Carrefour Oasis",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1288,6 +1444,7 @@ class MockData {
     Gare(
       name: "Coopec Ananeraie",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1296,6 +1453,7 @@ class MockData {
     Gare(
       name: "Zone Industrielle",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1304,6 +1462,7 @@ class MockData {
     Gare(
       name: "Camp Militaire",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1312,6 +1471,7 @@ class MockData {
     Gare(
       name: "Koweit",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1319,6 +1479,7 @@ class MockData {
     ),
     Gare(
       name: "Saguidiba",
+      type: "Taxi",
       commune: "Yopougon",
       location: Stop(
         lat: 5.3502292,
@@ -1327,6 +1488,7 @@ class MockData {
     ),
     Gare(
       name: "Carrefour Zone",
+      type: "Taxi",
       commune: "Yopougon",
       location: Stop(
         lat: 5.3502292,
@@ -1336,6 +1498,7 @@ class MockData {
     Gare(
       name: "Sapeur-Pompier",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,
@@ -1344,6 +1507,7 @@ class MockData {
     Gare(
       name: "Millionnaire Antenne",
       commune: "Yopougon",
+      type: "Taxi",
       location: Stop(
         lat: 5.3502292,
         long: -3.9881887,

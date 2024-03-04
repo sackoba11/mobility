@@ -4,6 +4,7 @@ import 'package:mobility/app/modules/bus/views/second_home_bus.dart';
 import 'package:mobility/app/modules/otherCar/controllers/other_car_controller.dart';
 
 import '../../../constants/app colors/app_colors.dart';
+import '../../../mockData/mock_data.dart';
 import '../../widgets/custom_list_title.dart';
 import '../../widgets/custom_search_bar.dart';
 
@@ -83,10 +84,10 @@ class HomeOtherCar extends GetView<OtherCarController> {
                           title: "",
                           backgroundColor: AppColor.background,
                           radius: 10,
-                          onWillPop: () async {
-                            print('object');
-                            return true;
-                          },
+                          // onWillPop: () async {
+                          //   print('object');
+                          //   return true;
+                          // },
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
                           content: Column(
@@ -164,6 +165,31 @@ class HomeOtherCar extends GetView<OtherCarController> {
             },
           ),
           const SizedBox(height: 15),
+          Expanded(
+            child: ListView.builder(itemBuilder: (context, index) {
+              return Column(
+                children: controller.gares
+                    .map((e) => Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: AppColor.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: ListTile(
+                                title: Text(e.name),
+                                trailing: Text(e.commune),
+                                subtitle: Text(e.type),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            )
+                          ],
+                        ))
+                    .toList(),
+              );
+            }),
+          )
           // Obx(() {
           //   if (controller.isLoading.value == true) {
           //     return const Center(

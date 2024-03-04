@@ -9,6 +9,7 @@ abstract class Gare with _$Gare {
   factory Gare(
       {required String name,
       required String commune,
+      required String type,
       required Stop location}) = _Gare;
   factory Gare.fromJson(Map<String, dynamic> json) => _$GareFromJson(json);
 }

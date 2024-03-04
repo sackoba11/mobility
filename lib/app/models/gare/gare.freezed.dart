@@ -22,6 +22,7 @@ Gare _$GareFromJson(Map<String, dynamic> json) {
 mixin _$Gare {
   String get name => throw _privateConstructorUsedError;
   String get commune => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   Stop get location => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +35,7 @@ abstract class $GareCopyWith<$Res> {
   factory $GareCopyWith(Gare value, $Res Function(Gare) then) =
       _$GareCopyWithImpl<$Res, Gare>;
   @useResult
-  $Res call({String name, String commune, Stop location});
+  $Res call({String name, String commune, String type, Stop location});
 
   $StopCopyWith<$Res> get location;
 }
@@ -54,6 +55,7 @@ class _$GareCopyWithImpl<$Res, $Val extends Gare>
   $Res call({
     Object? name = null,
     Object? commune = null,
+    Object? type = null,
     Object? location = null,
   }) {
     return _then(_value.copyWith(
@@ -64,6 +66,10 @@ class _$GareCopyWithImpl<$Res, $Val extends Gare>
       commune: null == commune
           ? _value.commune
           : commune // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
       location: null == location
           ? _value.location
@@ -88,7 +94,7 @@ abstract class _$$GareImplCopyWith<$Res> implements $GareCopyWith<$Res> {
       __$$GareImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String commune, Stop location});
+  $Res call({String name, String commune, String type, Stop location});
 
   @override
   $StopCopyWith<$Res> get location;
@@ -106,6 +112,7 @@ class __$$GareImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? commune = null,
+    Object? type = null,
     Object? location = null,
   }) {
     return _then(_$GareImpl(
@@ -116,6 +123,10 @@ class __$$GareImplCopyWithImpl<$Res>
       commune: null == commune
           ? _value.commune
           : commune // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
       location: null == location
           ? _value.location
@@ -129,7 +140,10 @@ class __$$GareImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GareImpl implements _Gare {
   _$GareImpl(
-      {required this.name, required this.commune, required this.location});
+      {required this.name,
+      required this.commune,
+      required this.type,
+      required this.location});
 
   factory _$GareImpl.fromJson(Map<String, dynamic> json) =>
       _$$GareImplFromJson(json);
@@ -139,11 +153,13 @@ class _$GareImpl implements _Gare {
   @override
   final String commune;
   @override
+  final String type;
+  @override
   final Stop location;
 
   @override
   String toString() {
-    return 'Gare(name: $name, commune: $commune, location: $location)';
+    return 'Gare(name: $name, commune: $commune, type: $type, location: $location)';
   }
 
   @override
@@ -153,13 +169,14 @@ class _$GareImpl implements _Gare {
             other is _$GareImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.commune, commune) || other.commune == commune) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.location, location) ||
                 other.location == location));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, commune, location);
+  int get hashCode => Object.hash(runtimeType, name, commune, type, location);
 
   @JsonKey(ignore: true)
   @override
@@ -179,6 +196,7 @@ abstract class _Gare implements Gare {
   factory _Gare(
       {required final String name,
       required final String commune,
+      required final String type,
       required final Stop location}) = _$GareImpl;
 
   factory _Gare.fromJson(Map<String, dynamic> json) = _$GareImpl.fromJson;
@@ -187,6 +205,8 @@ abstract class _Gare implements Gare {
   String get name;
   @override
   String get commune;
+  @override
+  String get type;
   @override
   Stop get location;
   @override

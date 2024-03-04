@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobility/app/models/gare/gare.dart';
+
+import '../../../mockData/mock_data.dart';
 
 class OtherCarController extends GetxController {
   RxBool filterGbaka = false.obs;
@@ -47,6 +50,9 @@ class OtherCarController extends GetxController {
 // //     ))
 // //   }
 // // }
+
+  List<Gare> gares = MockData.garesGbaka + MockData.garesTaxi;
+
   List<LatLng> polylineCoordinates = const [
     LatLng(5.3502292, -3.9881887),
     LatLng(5.350667, -3.988207),
