@@ -5,6 +5,8 @@ import 'package:mobility/app/modules/otherCar/controllers/other_car_controller.d
 
 import '../../../constants/app colors/app_colors.dart';
 import '../../../mockData/mock_data.dart';
+import '../../../repositories/OtherCarRepository/i_other_car_repository.dart';
+import '../../../repositories/OtherCarRepository/other_car_repository_impl.dart';
 import '../../widgets/custom_list_title.dart';
 import '../../widgets/custom_search_bar.dart';
 
@@ -79,7 +81,7 @@ class HomeOtherCar extends GetView<OtherCarController> {
                     width: 10,
                   ),
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
                       Get.defaultDialog(
                           title: "",
                           backgroundColor: AppColor.background,

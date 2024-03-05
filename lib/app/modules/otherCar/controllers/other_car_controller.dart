@@ -1,19 +1,29 @@
 import 'dart:async';
 
+import 'package:dartz/dartz.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobility/app/error/app_error.dart';
 import 'package:mobility/app/models/gare/gare.dart';
-
-import '../../../mockData/mock_data.dart';
+import '../../../repositories/OtherCarRepository/other_car_repository_impl.dart';
 
 class OtherCarController extends GetxController {
   RxBool filterGbaka = false.obs;
   RxBool filterTaxi = false.obs;
+  List<Gare> gares = <Gare>[];
+
+  var originLatitude = "5.3502292".obs, originLongitude = "-3.9881887".obs;
+  var destLatitude = "5.3589712".obs, destLongitude = "-4.0272913".obs;
+  LatLng second = const LatLng(5.354784, -3.974198);
+  LatLng first = const LatLng(5.358065, -3.964597);
+  LatLng destinationLocaton = const LatLng(5.351888, -3.983774);
+  LatLng sourceLocation = const LatLng(5.3502292, -3.9881887);
 
   @override
   void onInit() {
     super.onInit();
+    getGares();
   }
 
   @override
@@ -32,16 +42,18 @@ class OtherCarController extends GetxController {
     mapController = controller;
   }
 
+  Future<Either<AppError, List<Gare>>> getGares() async {
+    try {
+      gares = (await OtherCarRepositoryImpl().getAllGares())
+          .fold((l) => [], (r) => r);
+      return right(gares);
+    } catch (e) {
+      return left(GenericAppError("erreur:$e"));
+    }
+  }
 //   String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
 
-  var originLatitude = "5.3502292".obs, originLongitude = "-3.9881887".obs;
-  var destLatitude = "5.3589712".obs, destLongitude = "-4.0272913".obs;
-  LatLng second = const LatLng(5.354784, -3.974198);
-  LatLng first = const LatLng(5.358065, -3.964597);
-  LatLng destinationLocaton = const LatLng(5.351888, -3.983774);
-  LatLng sourceLocation = const LatLng(5.3502292, -3.9881887);
 // void _addMarker(LatLng pos){
-
 // //   if(controller.origin == null || (controller.origin !=null && controller.destination  != null)){
 // //     Obx(() => controller.origin=Marker(
 // //       markerId: const InfoWindow(title: "origin"),
@@ -50,8 +62,6 @@ class OtherCarController extends GetxController {
 // //     ))
 // //   }
 // // }
-
-  List<Gare> gares = MockData.garesGbaka + MockData.garesTaxi;
 
   List<LatLng> polylineCoordinates = const [
     LatLng(5.3502292, -3.9881887),

@@ -5,4 +5,5 @@ import '../../error/app_error.dart';
 
 abstract class IOtherCarRepository {
   Future<Either<AppError, List<Gare>>> getAllGares();
+  Future<Either<AppError, bool>> addAllGares();
 }
