@@ -27,8 +27,10 @@ class SecondHomeOtherCarView extends GetView<OtherCarController> {
                     zoomGesturesEnabled: true,
                     initialCameraPosition: CameraPosition(
                         target: LatLng(
-                          double.parse(controller.originLatitude.value),
-                          double.parse(controller.originLongitude.value),
+                          double.parse(
+                              controller.gare.value.location["lat"].toString()),
+                          double.parse(controller.gare.value.location["long"]
+                              .toString()),
                         ),
                         zoom: 15),
                     //   // polylines: {
@@ -44,22 +46,12 @@ class SecondHomeOtherCarView extends GetView<OtherCarController> {
                           icon: BitmapDescriptor.defaultMarkerWithHue(
                               BitmapDescriptor.hueOrange),
                           markerId: const MarkerId("source"),
-                          position: controller.sourceLocation),
-                      Marker(
-                          icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueOrange),
-                          markerId: const MarkerId("destination"),
-                          position: controller.destinationLocaton),
-                      Marker(
-                          icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueOrange),
-                          markerId: const MarkerId("first"),
-                          position: controller.first),
-                      Marker(
-                          icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueOrange),
-                          markerId: const MarkerId("second"),
-                          position: controller.second)
+                          position: LatLng(
+                            double.parse(controller.gare.value.location["lat"]
+                                .toString()),
+                            double.parse(controller.gare.value.location["long"]
+                                .toString()),
+                          )),
                     },
                     onMapCreated: controller.onMapCreated,
                   ))),
@@ -102,73 +94,14 @@ class SecondHomeOtherCarView extends GetView<OtherCarController> {
             ),
           ),
           const SizedBox(height: 20),
-          // const CustomSearchBar(),
           const SizedBox(height: 15),
           Column(
             children: [
-              // Container(
-              //   child: StreamBuilder<QuerySnapshot>(
-              //       stream: FirebaseFirestore.instance
-              //           .collection('bus')
-              //           .snapshots(),
-              //       builder: (context, snapshots) {
-              //         return (snapshots.connectionState ==
-              //                 ConnectionState.waiting)
-              //             ? Center(
-              //                 child: CircularProgressIndicator(),
-              //               )
-              //             : ListView.builder(
-              //                 itemCount: snapshots.data!.docs.length,
-              //                 itemBuilder: (context, index) {
-              //                   var data = snapshots.data!.docs[index].data()
-              //                       as Map<String, dynamic>;
-              //                   print(data["number"]);
-              //                   if (data.isEmpty) {
-              //                     return ListTile(
-              //                       title: Text(
-              //                         data["start"],
-              //                         maxLines: 1,
-              //                         overflow: TextOverflow.ellipsis,
-              //                         style: TextStyle(
-              //                             color: Colors.black54,
-              //                             fontSize: 16,
-              //                             fontWeight: FontWeight.bold),
-              //                       ),
-              //                       subtitle: Text(
-              //                         data["destination"],
-              //                         maxLines: 1,
-              //                         overflow: TextOverflow.ellipsis,
-              //                         style: TextStyle(
-              //                             color: Colors.black54,
-              //                             fontSize: 16,
-              //                             fontWeight: FontWeight.bold),
-              //                       ),
-              //                       leading: Text(
-              //                         data["number"],
-              //                         maxLines: 1,
-              //                         overflow: TextOverflow.ellipsis,
-              //                         style: TextStyle(
-              //                             color: Colors.black54,
-              //                             fontSize: 20,
-              //                             fontWeight: FontWeight.bold),
-              //                       ),
-              //                     );
-              //                   }
-              //                 });
-              //       }),
-              // )
-              _buildItemContainer(
-                  context, "Gbaka", "Adjame, Ecole de police, Bingerville"),
+              _buildItemContainer(context, controller.gare.value.name,
+                  controller.gare.value.type),
               const SizedBox(
                 height: 5,
               ),
-              _buildItemContainer(
-                  context, "Taxi Collectif", "Cocody, Bingerville"),
-              const SizedBox(
-                height: 5,
-              ),
-              _buildItemContainer(
-                  context, "Gbaka", "Adjame, Riviera 2, Bingerville"),
             ],
           )
         ],

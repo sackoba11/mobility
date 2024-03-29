@@ -86,8 +86,10 @@ class HomeBus extends GetView<BusController> {
           const SizedBox(height: 15),
           Obx(() {
             if (controller.isLoading.value == true) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColor.primary,
+                ),
               );
             }
             if (controller.availableBusList.isEmpty) {

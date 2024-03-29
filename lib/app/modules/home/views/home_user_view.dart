@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/assets/assets.gen.dart';
 import 'package:mobility/app/modules/bus/views/home_bus.dart';
-import 'package:mobility/app/modules/otherCar/views/home_other_car_view.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
 
 import '../../../constants/app colors/app_colors.dart';
 import '../../../constants/typography/typography.dart';
-import '../../otherCar/views/home_other_car.dart';
+import '../../otherCar/views/home_other_car_view.dart';
 import '../../services/controllers/services_controller.dart';
 import '../../services/views/services_view.dart';
 import '../../widgets/custom_button_without_ontap.dart';
@@ -88,7 +87,7 @@ class HomeUserView extends GetView<HomeUserController> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const HomeOtherCar());
+                    Get.to(() => const HomeOtherCarView());
                   },
                   child: CustomButtonWithoutOnTap(
                     icon: Assets.bus.svg(),

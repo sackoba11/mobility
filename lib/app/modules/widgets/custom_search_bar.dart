@@ -6,17 +6,19 @@ class CustomSearchBar extends StatelessWidget {
   final ValueChanged<String?> onChanged;
   final TextEditingController textEditingController;
   final String hintText;
+  final TextInputType keyBoardtype;
   const CustomSearchBar(
       {super.key,
       required this.onChanged,
       required this.textEditingController,
-      required this.hintText});
+      required this.hintText,
+      this.keyBoardtype = TextInputType.phone});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: AppColor.black,
-      keyboardType: TextInputType.phone,
+      keyboardType: keyBoardtype,
       controller: textEditingController,
       onChanged: onChanged,
       decoration: InputDecoration(

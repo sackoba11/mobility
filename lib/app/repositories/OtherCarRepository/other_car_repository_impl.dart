@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/app/error/app_error.dart';
 import 'package:mobility/app/mockData/mock_data.dart';
 import 'package:mobility/app/models/gare/gare.dart';
+import 'package:mobility/app/models/itineraire_gare/itineraire_gare.dart';
 
 import 'i_other_car_repository.dart';
 
@@ -12,12 +14,23 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
   @override
   Future<Either<AppError, List<Gare>>> getAllGares() async {
     try {
-      final snapShotListGares =
+      final snapShotList =
+          await FirebaseFirestore.instance.collection('Itineraires').get();
+      debugPrint(
+          "teste de itineraire : ${snapShotList.docs.map((e) => ItineraireGare.fromJson(e.data())).toString()}");
+
+      final snapShotListGaresGbaka =
           await FirebaseFirestore.instance.collection('GaresGbaka').get();
-      final docsListGares = snapShotListGares.docs;
-      final buslistFirebse =
-          docsListGares.map((e) => Gare.fromJson(e.data())).toList();
-      return right(buslistFirebse);
+      final docsListGaresGbaka = snapShotListGaresGbaka.docs;
+      final buslistFirebaseGbaka =
+          docsListGaresGbaka.map((e) => Gare.fromJson(e.data())).toList();
+      final snapShotListGaresTaxi =
+          await FirebaseFirestore.instance.collection('GaresTaxi').get();
+      final docsListGaresTaxi = snapShotListGaresTaxi.docs;
+      final buslistFirebaseTaxi =
+          docsListGaresTaxi.map((e) => Gare.fromJson(e.data())).toList();
+      final buslistFirebase = buslistFirebaseGbaka + buslistFirebaseTaxi;
+      return right(buslistFirebase);
     } catch (e) {
       return left(GenericAppError("erreur: ${e.toString()}"));
     }
@@ -26,19 +39,25 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
   @override
   Future<Either<AppError, bool>> addAllGares() async {
     List<Gare> garesGbaka = MockData.garesGbaka;
-    // List<Gare> garestaxi = MockData.garesTaxi;
+    List<Gare> garestaxi = MockData.garesTaxi;
+    List<ItineraireGare> itineraires = MockData.itinraire;
     try {
-      for (var element in garesGbaka) {
-        print(element.toJson());
-        await FirebaseFirestore.instance
-            .collection("GaresGbaka")
-            .add(element.toJson());
-      }
+      // for (var element in garesGbaka) {
+      //   await FirebaseFirestore.instance
+      //       .collection("GaresGbaka")
+      //       .add(element.toJson());
+      // }
       // for (var element in garestaxi) {
       //   await FirebaseFirestore.instance
       //       .collection("GaresTaxi")
       //       .add(element.toJson());
       // }
+      for (var element in itineraires) {
+        await FirebaseFirestore.instance
+            .collection("Itineraires")
+            .add(element.toJson())
+            .whenComplete(() => print("succes"));
+      }
       return right(true);
     } catch (e) {
       return left(GenericAppError("erreur : ${e.toString()}"));

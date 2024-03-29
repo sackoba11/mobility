@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobility/app/models/stop/stop.dart';
 
 part 'gare.freezed.dart';
 part 'gare.g.dart';

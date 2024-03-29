@@ -1,17 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/models/user/my_user.dart';
+import 'package:mobility/app/repositories/OtherCarRepository/i_other_car_repository.dart';
+import 'package:mobility/app/repositories/OtherCarRepository/other_car_repository_impl.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
-import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart';
 import 'package:mobility/app/routes/app_pages.dart';
 
 class SplashScreenController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
+  IOtherCarRepository iOtherCarRepository = OtherCarRepositoryImpl();
   User? currentUser;
   @override
   void onInit() {
@@ -22,6 +22,9 @@ class SplashScreenController extends GetxController
     }
     splashDuration();
     animationInitilization();
+    iOtherCarRepository
+        .addAllGares()
+        .whenComplete(() => print("jouté avec succes"));
   }
 
   @override

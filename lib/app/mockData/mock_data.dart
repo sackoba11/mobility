@@ -1,59 +1,46 @@
 import 'package:mobility/app/models/bus/bus.dart';
+import 'package:mobility/app/models/itineraire_gare/itineraire_gare.dart';
 import 'package:mobility/app/models/stop/stop.dart';
 import 'package:mobility/app/models/gare/gare.dart';
 
 class MockData {
-  static List<Gare> gares = [
-    Gare(name: "Abobo Gare Mairie", commune: "Abobo", type: "Gbaka", location: {
-      "label": "teste",
-      "lat": 5.3502292,
-      "long": -3.9881887,
-    }),
-    Gare(name: "Abobo Gare Mairie", commune: "Abobo", type: "Gbaka", location: {
-      "label": "teste",
-      "lat": 5.3502292,
-      "long": -3.9881887,
-    }),
-    // {
-    //   "name": "Abobo Gare Mairie",
-    //   "commune": "Abobo",
-    //   "type": "Gbaka",
-    //   "location": {
-    //     "label": "teste",
-    //     "lat": 5.3502292,
-    //     "long": -3.9881887,
-    //   }
-    // },
-    // {
-    //   "name": "Abobo Gare Mairie",
-    //   "commune": "Abobo",
-    //   "type": "Gbaka",
-    //   "location": {
-    //     "label": "teste",
-    //     "lat": 5.3502292,
-    //     "long": -3.9881887,
-    //   }
-    // },
-    // {
-    //   "name": "Abobo Gare Mairie",
-    //   "commune": "Abobo",
-    //   "type": "Gbaka",
-    //   "location": {
-    //     "label": "teste",
-    //     "lat": 5.3502292,
-    //     "long": -3.9881887,
-    //   }
-    // },
-    // {
-    //   "name": "Abobo Gare Mairie",
-    //   "commune": "Abobo",
-    //   "type": "Gbaka",
-    //   "location": {
-    //     "label": "teste",
-    //     "lat": 5.3502292,
-    //     "long": -3.9881887,
-    //   }
-    // },
+  static List<ItineraireGare> itinraire = [
+    ItineraireGare(
+      commune: "Abobo",
+      type: "Gbaka",
+      source: "Abobo Gare Mairie",
+      destination: "Abobo PK 18",
+    ),
+    ItineraireGare(
+      commune: "Abobo",
+      type: "Gbaka",
+      source: "Abobo Gare Mairie",
+      destination: "Kennedy Marché",
+    ),
+    ItineraireGare(
+      commune: "Abobo",
+      type: "Gbaka",
+      source: "Abobo Gare Mairie",
+      destination: "Kennedy Mosquée Ado",
+    ),
+    ItineraireGare(
+      commune: "Abobo",
+      type: "Gbaka",
+      source: "Abobo Gare Mairie",
+      destination: "Akekoi Village",
+    ),
+    ItineraireGare(
+      commune: "Abobo",
+      type: "Gbaka",
+      source: "Abobo Marché",
+      destination: "Biabou",
+    ),
+    ItineraireGare(
+      commune: "Abobo",
+      type: "Gbaka",
+      source: "Abobo Samaké",
+      destination: "Biabou",
+    ),
   ];
   //Gares des Gbakas
   static List<Gare> garesGbaka = [
@@ -221,11 +208,6 @@ class MockData {
           "lat": 5.3502292,
           "long": -3.9881887,
         }),
-    Gare(name: "Cocody Riviera 2", commune: "Cocody", type: "Gbaka", location: {
-      "label": "teste",
-      "lat": 5.3502292,
-      "long": -3.9881887,
-    }),
     Gare(name: "Cocody Riviera 2", commune: "Cocody", type: "Gbaka", location: {
       "label": "teste",
       "lat": 5.3502292,
@@ -539,905 +521,989 @@ class MockData {
   ];
 
 // //Gares de Taxi Communaux
-//   static List<Gare> garesTaxi = [
-//     //Abobo
-//     Gare(
-//       name: "Abobo Gare",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Biabou",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Terminus Derrière Rail",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abobo Gendarmerie",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Houphouet-Boigny",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Terminus Derrière Rail Céleste",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abobo Marché",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abobo Baoulé",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//         name: "Carrefour Kennedy",
-//         commune: "Abobo",
-//         type: "Taxi",
-//         location: Stop(
-//           lat: 5.3502292,
-//           long: -3.9881887,
-//         )),
-//     Gare(
-//       name: "Dokui",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Habitat Grace",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abobo Samaké",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Ancienne Gendarmerie",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Grand Carrefour",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Gare d’Anyama",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Mairie d’Anyama",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Lycée Moderne d’Abobo",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abobo Azur Mobile",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Mahou / Azur",
-//       commune: "Abobo",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+  static List<Gare> garesTaxi = [
+    //Abobo
+    Gare(name: "Abobo Gare", commune: "Abobo", type: "Taxi", location: {
+      "label": "teste",
+      "lat": 5.3502292,
+      "long": -3.9881887,
+    }),
+    Gare(
+      name: "Biabou",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Terminus Derrière Rail",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abobo Gendarmerie",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Houphouet-Boigny",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Terminus Derrière Rail Céleste",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abobo Marché",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abobo Baoulé",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(name: "Carrefour Kennedy", commune: "Abobo", type: "Taxi", location: {
+      "label": "teste",
+      "lat": 5.3502292,
+      "long": -3.9881887,
+    }),
+    Gare(
+      name: "Dokui",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Habitat Grace",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abobo Samaké",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Ancienne Gendarmerie",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Grand Carrefour",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Gare d’Anyama",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Mairie d’Anyama",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Lycée Moderne d’Abobo",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abobo Azur Mobile",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Mahou / Azur",
+      commune: "Abobo",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     //Adjamé
-//     Gare(
-//       name: "Adjamé Liberté",
-//       commune: "Adjamé",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Adjamé Mairie Dallas",
-//       commune: "Adjamé",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Saint Michel",
-//       commune: "Adjamé",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+    //Adjamé
+    Gare(
+      name: "Adjamé Liberté",
+      commune: "Adjamé",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Adjamé Mairie Dallas",
+      commune: "Adjamé",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Saint Michel",
+      commune: "Adjamé",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     //Attecoubé
-//     Gare(
-//       name: "Mossikro",
-//       commune: "Attecoubé",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abobo Doumé Santé",
-//       commune: "Attecoubé",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abobo Doumé Gare Bateau-bus",
-//       commune: "Attecoubé",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+    //Attecoubé
+    Gare(
+      name: "Mossikro",
+      commune: "Attecoubé",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abobo Doumé Santé",
+      commune: "Attecoubé",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abobo Doumé Gare Bateau-bus",
+      commune: "Attecoubé",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     //Cocody
-//     Gare(
-//       name: "9 Kilo",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Akouédo",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Sol Beni au Bateau",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Saint Jean",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Blockauss",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "La Vie",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Carrefour 9Km",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Palmeraie SIPIM 4",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Gare Bonoumin",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Abri 2000",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Gare Carrefour 2 Plateaux",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Vallon",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Palmeraie",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Les Rosiers",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Terminus 81-82",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Riviera 2",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Anono",
-//       type: "Taxi",
-//       commune: "Cocody",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Riviera 2 Station",
-//       type: "Taxi",
-//       commune: "Cocody",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Angré 22ème",
-//       type: "Taxi",
-//       commune: "Cocody",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Attoban Camp",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Angré Château",
-//       type: "Taxi",
-//       commune: "Cocody",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Station après Barrage",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "CHU Angré",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Rosier Programme 6",
-//       commune: "Cocody",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Zoo",
-//       type: "Taxi",
-//       commune: "Cocody",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Pont Soro",
-//       type: "Taxi",
-//       commune: "Cocody",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Zinsou",
-//       type: "Taxi",
-//       commune: "Cocody",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+    //Cocody
+    Gare(
+      name: "9 Kilo",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Akouédo",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Sol Beni au Bateau",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Saint Jean",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Blockauss",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "La Vie",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Carrefour 9Km",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Palmeraie SIPIM 4",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Gare Bonoumin",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Abri 2000",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Gare Carrefour 2 Plateaux",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Vallon",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Palmeraie",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Les Rosiers",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Terminus 81-82",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Riviera 2",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Anono",
+      type: "Taxi",
+      commune: "Cocody",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Riviera 2 Station",
+      type: "Taxi",
+      commune: "Cocody",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Angré 22ème",
+      type: "Taxi",
+      commune: "Cocody",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Attoban Camp",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Angré Château",
+      type: "Taxi",
+      commune: "Cocody",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Station après Barrage",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "CHU Angré",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Rosier Programme 6",
+      commune: "Cocody",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Zoo",
+      type: "Taxi",
+      commune: "Cocody",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Pont Soro",
+      type: "Taxi",
+      commune: "Cocody",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Zinsou",
+      type: "Taxi",
+      commune: "Cocody",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     //Koumassi
-//     Gare(
-//       name: "Anoumabo sans fil",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Koumassi Hôpital général",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Sicogi",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Gare Communale",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Soweto",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Koumassi Grand Marché",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Ancien Koumassi",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Terminus 05",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Terminus 32",
-//       commune: "Koumassi",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+    //Koumassi
+    Gare(
+      name: "Anoumabo sans fil",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Koumassi Hôpital général",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Sicogi",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Gare Communale",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Soweto",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Koumassi Grand Marché",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Ancien Koumassi",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Terminus 05",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Terminus 32",
+      commune: "Koumassi",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     //Marcory
-//     Gare(
-//       name: "Carrefour Lycée",
-//       commune: "Marcory",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "CTAO",
-//       type: "Taxi",
-//       commune: "Marcory",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Mairie de Marcory",
-//       commune: "Marcory",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//         name: "Hibiscus",
-//         commune: "Marcory",
-//         type: "Taxi",
-//         location: Stop(
-//           lat: 5.3502292,
-//           long: -3.9881887,
-//         )),
-//     Gare(
-//       name: "Gare Sotra Marcory",
-//       commune: "Marcory",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+    //Marcory
+    Gare(
+      name: "Carrefour Lycée",
+      commune: "Marcory",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "CTAO",
+      type: "Taxi",
+      commune: "Marcory",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Mairie de Marcory",
+      commune: "Marcory",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(name: "Hibiscus", commune: "Marcory", type: "Taxi", location: {
+      "label": "teste",
+      "lat": 5.3502292,
+      "long": -3.9881887,
+    }),
+    Gare(
+      name: "Gare Sotra Marcory",
+      commune: "Marcory",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     //Port-Bouet
-//     Gare(
-//       name: "Carrefour Aéroport",
-//       commune: "Port-Bouet",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Anani",
-//       commune: "Port-Bouet",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Aéroport",
-//       type: "Taxi",
-//       commune: "Port-Bouet",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Vridi Cité",
-//       type: "Taxi",
-//       commune: "Port-Bouet",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Vridi Canal",
-//       type: "Taxi",
-//       commune: "Port-Bouet",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Port de Pêche",
-//       commune: "Port-Bouet",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Marché de Port-Bouet",
-//       commune: "Port-Bouet",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Terre Rouge",
-//       commune: "Port-Bouet",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Benogosso",
-//       commune: "Port-Bouet",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Carrefour Deux Poteaux",
-//       commune: "Port-Bouet",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+    //Port-Bouet
+    Gare(
+      name: "Carrefour Aéroport",
+      commune: "Port-Bouet",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Anani",
+      commune: "Port-Bouet",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Aéroport",
+      type: "Taxi",
+      commune: "Port-Bouet",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Vridi Cité",
+      type: "Taxi",
+      commune: "Port-Bouet",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Vridi Canal",
+      type: "Taxi",
+      commune: "Port-Bouet",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Port de Pêche",
+      commune: "Port-Bouet",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Marché de Port-Bouet",
+      commune: "Port-Bouet",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Terre Rouge",
+      commune: "Port-Bouet",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Benogosso",
+      commune: "Port-Bouet",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Carrefour Deux Poteaux",
+      commune: "Port-Bouet",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     //Treichville
-//     Gare(
-//       name: "Treichville Gare Bassam",
-//       commune: "Treichville",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Treichville Gare Bateau-bus",
-//       commune: "Treichville",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
+    //Treichville
+    Gare(
+      name: "Treichville Gare Bassam",
+      commune: "Treichville",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Treichville Gare Bateau-bus",
+      commune: "Treichville",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
 
-//     // Yopougon
-//     Gare(
-//       name: "Toit Rouge Jean-Paul 2",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Bel Air",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Gabriel Gare",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Mossikro",
-//       type: "Taxi",
-//       commune: "Yopougon",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "BHCI",
-//       type: "Taxi",
-//       commune: "Yopougon",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Micao",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Sable",
-//       type: "Taxi",
-//       commune: "Yopougon",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Mairie",
-//       type: "Taxi",
-//       commune: "Yopougon",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Kenya",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Palais",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Prison Civile",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Carrefour Oasis",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Coopec Ananeraie",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Zone Industrielle",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Camp Militaire",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Koweit",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Saguidiba",
-//       type: "Taxi",
-//       commune: "Yopougon",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Carrefour Zone",
-//       type: "Taxi",
-//       commune: "Yopougon",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Sapeur-Pompier",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//     Gare(
-//       name: "Millionnaire Antenne",
-//       commune: "Yopougon",
-//       type: "Taxi",
-//       location: Stop(
-//         lat: 5.3502292,
-//         long: -3.9881887,
-//       ),
-//     ),
-//   ];
+    // Yopougon
+    Gare(
+      name: "Toit Rouge Jean-Paul 2",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Bel Air",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Gabriel Gare",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Mossikro",
+      type: "Taxi",
+      commune: "Yopougon",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "BHCI",
+      type: "Taxi",
+      commune: "Yopougon",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Micao",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Sable",
+      type: "Taxi",
+      commune: "Yopougon",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Mairie",
+      type: "Taxi",
+      commune: "Yopougon",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Kenya",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Palais",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Prison Civile",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Carrefour Oasis",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Coopec Ananeraie",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Zone Industrielle",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Camp Militaire",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Koweit",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Saguidiba",
+      type: "Taxi",
+      commune: "Yopougon",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Carrefour Zone",
+      type: "Taxi",
+      commune: "Yopougon",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+      name: "Sapeur-Pompier",
+      commune: "Yopougon",
+      type: "Taxi",
+      location: {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    ),
+    Gare(
+        name: "Millionnaire Antenne",
+        commune: "Yopougon",
+        type: "Taxi",
+        location: {
+          "label": "teste",
+          "lat": 5.3502292,
+          "long": -3.9881887,
+        }),
+  ];
 
 //Données sur les bus
   static List<Stop> stop = [
