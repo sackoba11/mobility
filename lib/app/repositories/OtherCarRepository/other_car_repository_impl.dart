@@ -14,11 +14,6 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
   @override
   Future<Either<AppError, List<Gare>>> getAllGares() async {
     try {
-      final snapShotList =
-          await FirebaseFirestore.instance.collection('Itineraires').get();
-      debugPrint(
-          "teste de itineraire : ${snapShotList.docs.map((e) => ItineraireGare.fromJson(e.data())).toString()}");
-
       final snapShotListGaresGbaka =
           await FirebaseFirestore.instance.collection('GaresGbaka').get();
       final docsListGaresGbaka = snapShotListGaresGbaka.docs;
@@ -42,25 +37,42 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
     List<Gare> garestaxi = MockData.garesTaxi;
     List<ItineraireGare> itineraires = MockData.itinraire;
     try {
-      // for (var element in garesGbaka) {
-      //   await FirebaseFirestore.instance
-      //       .collection("GaresGbaka")
-      //       .add(element.toJson());
-      // }
-      // for (var element in garestaxi) {
-      //   await FirebaseFirestore.instance
-      //       .collection("GaresTaxi")
-      //       .add(element.toJson());
-      // }
+      for (var element in garesGbaka) {
+        await FirebaseFirestore.instance
+            .collection("GaresGbaka")
+            .add(element.toJson());
+      }
+      for (var element in garestaxi) {
+        await FirebaseFirestore.instance
+            .collection("GaresTaxi")
+            .add(element.toJson());
+      }
       for (var element in itineraires) {
         await FirebaseFirestore.instance
             .collection("Itineraires")
-            .add(element.toJson())
-            .whenComplete(() => print("succes"));
+            .add(element.toJson());
       }
       return right(true);
     } catch (e) {
       return left(GenericAppError("erreur : ${e.toString()}"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<ItineraireGare>>> getAllItinerary() async {
+    try {
+      final snapShotList =
+          await FirebaseFirestore.instance.collection('Itineraires').get();
+
+      final docListItinerary = snapShotList.docs;
+      final listItinerary = docListItinerary
+          .map((e) => ItineraireGare.fromJson(e.data()))
+          .toList();
+      debugPrint(
+          "teste de itineraire : ${snapShotList.docs..map((e) => ItineraireGare.fromJson(e.data())).toString()}");
+      return right(listItinerary);
+    } catch (e) {
+      return left(GenericAppError("erreur: ${e.toString()}"));
     }
   }
 }
