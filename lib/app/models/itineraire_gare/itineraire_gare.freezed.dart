@@ -20,8 +20,8 @@ ItineraireGare _$ItineraireGareFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ItineraireGare {
-  String get source => throw _privateConstructorUsedError;
-  String get destination => throw _privateConstructorUsedError;
+  Map<String, dynamic> get source => throw _privateConstructorUsedError;
+  Map<String, dynamic> get destination => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get commune => throw _privateConstructorUsedError;
 
@@ -37,7 +37,11 @@ abstract class $ItineraireGareCopyWith<$Res> {
           ItineraireGare value, $Res Function(ItineraireGare) then) =
       _$ItineraireGareCopyWithImpl<$Res, ItineraireGare>;
   @useResult
-  $Res call({String source, String destination, String type, String commune});
+  $Res call(
+      {Map<String, dynamic> source,
+      Map<String, dynamic> destination,
+      String type,
+      String commune});
 }
 
 /// @nodoc
@@ -62,11 +66,11 @@ class _$ItineraireGareCopyWithImpl<$Res, $Val extends ItineraireGare>
       source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, dynamic>,
       destination: null == destination
           ? _value.destination
           : destination // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, dynamic>,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -87,7 +91,11 @@ abstract class _$$ItineraireGareImplCopyWith<$Res>
       __$$ItineraireGareImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String source, String destination, String type, String commune});
+  $Res call(
+      {Map<String, dynamic> source,
+      Map<String, dynamic> destination,
+      String type,
+      String commune});
 }
 
 /// @nodoc
@@ -108,13 +116,13 @@ class __$$ItineraireGareImplCopyWithImpl<$Res>
   }) {
     return _then(_$ItineraireGareImpl(
       source: null == source
-          ? _value.source
+          ? _value._source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, dynamic>,
       destination: null == destination
-          ? _value.destination
+          ? _value._destination
           : destination // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, dynamic>,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -131,18 +139,32 @@ class __$$ItineraireGareImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ItineraireGareImpl implements _ItineraireGare {
   _$ItineraireGareImpl(
-      {required this.source,
-      required this.destination,
+      {required final Map<String, dynamic> source,
+      required final Map<String, dynamic> destination,
       required this.type,
-      required this.commune});
+      required this.commune})
+      : _source = source,
+        _destination = destination;
 
   factory _$ItineraireGareImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItineraireGareImplFromJson(json);
 
+  final Map<String, dynamic> _source;
   @override
-  final String source;
+  Map<String, dynamic> get source {
+    if (_source is EqualUnmodifiableMapView) return _source;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_source);
+  }
+
+  final Map<String, dynamic> _destination;
   @override
-  final String destination;
+  Map<String, dynamic> get destination {
+    if (_destination is EqualUnmodifiableMapView) return _destination;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_destination);
+  }
+
   @override
   final String type;
   @override
@@ -158,17 +180,21 @@ class _$ItineraireGareImpl implements _ItineraireGare {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ItineraireGareImpl &&
-            (identical(other.source, source) || other.source == source) &&
-            (identical(other.destination, destination) ||
-                other.destination == destination) &&
+            const DeepCollectionEquality().equals(other._source, _source) &&
+            const DeepCollectionEquality()
+                .equals(other._destination, _destination) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.commune, commune) || other.commune == commune));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, source, destination, type, commune);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_source),
+      const DeepCollectionEquality().hash(_destination),
+      type,
+      commune);
 
   @JsonKey(ignore: true)
   @override
@@ -187,8 +213,8 @@ class _$ItineraireGareImpl implements _ItineraireGare {
 
 abstract class _ItineraireGare implements ItineraireGare {
   factory _ItineraireGare(
-      {required final String source,
-      required final String destination,
+      {required final Map<String, dynamic> source,
+      required final Map<String, dynamic> destination,
       required final String type,
       required final String commune}) = _$ItineraireGareImpl;
 
@@ -196,9 +222,9 @@ abstract class _ItineraireGare implements ItineraireGare {
       _$ItineraireGareImpl.fromJson;
 
   @override
-  String get source;
+  Map<String, dynamic> get source;
   @override
-  String get destination;
+  Map<String, dynamic> get destination;
   @override
   String get type;
   @override

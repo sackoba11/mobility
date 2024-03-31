@@ -4,7 +4,7 @@ import 'package:mobility/app/modules/otherCar/controllers/other_car_controller.d
 
 import '../../../constants/app colors/app_colors.dart';
 import '../../widgets/custom_search_bar.dart';
-import '../../widgets/item_gare.dart';
+import '../../widgets/item_itinerary.dart';
 
 class HomeOtherCarView extends GetView<OtherCarController> {
   const HomeOtherCarView({Key? key}) : super(key: key);
@@ -72,11 +72,12 @@ class HomeOtherCarView extends GetView<OtherCarController> {
                         textEditingController: _.textEdittingSearch,
                         onChanged: (value) async {
                           if (_.textEdittingSearch.text.isNotEmpty) {
-                            _.availableGare.value =
-                                await _.getsearchGare(value!);
+                            _.availableItinerary.value =
+                                await _.searchItinerary(value!);
                           } else {
-                            _.availableGare.value =
-                                (await _.getGares()).fold((l) => [], (r) => r);
+                            _.availableItinerary.value =
+                                (await _.getItinerary())
+                                    .fold((l) => [], (r) => r);
                           }
                         }),
                   ),
@@ -85,7 +86,7 @@ class HomeOtherCarView extends GetView<OtherCarController> {
                   ),
                   InkWell(
                     onTap: () async {
-                      await _.filter();
+                      await filter();
                     },
                     child: Container(
                         height: 58,
@@ -113,14 +114,14 @@ class HomeOtherCarView extends GetView<OtherCarController> {
                   ),
                 );
               }
-              if (controller.availableGare.isEmpty &&
+              if (controller.availableItinerary.isEmpty &&
                   controller.textEdittingSearch.text.isEmpty) {
                 return const Center(
                   child: Text("Pas de Gares disponibles"),
                 );
               }
               if (controller.textEdittingSearch.text.isNotEmpty &&
-                  controller.availableGare.isEmpty) {
+                  controller.availableItinerary.isEmpty) {
                 return Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -138,26 +139,26 @@ class HomeOtherCarView extends GetView<OtherCarController> {
               }
 
               return ListView(
-                children: controller.availableGare
+                children: controller.availableItinerary
                     .map((element) => Column(
                           children: [
                             if (controller.filterGbaka.value == true &&
                                 controller.filterTaxi.value == false &&
                                 element.type == "Gbaka")
-                              ItemGare(
+                              ItemItinerary(
                                 element: element,
                               )
                             else if (controller.filterTaxi.value == true &&
                                 controller.filterGbaka.value == false &&
                                 element.type == "Taxi")
-                              ItemGare(
+                              ItemItinerary(
                                 element: element,
                               )
                             else if (controller.filterTaxi.value == true &&
                                     controller.filterGbaka.value == true ||
                                 controller.filterTaxi.value == false &&
                                     controller.filterGbaka.value == false)
-                              ItemGare(
+                              ItemItinerary(
                                 element: element,
                               ),
                           ],
@@ -169,5 +170,53 @@ class HomeOtherCarView extends GetView<OtherCarController> {
         ],
       ),
     );
+  }
+
+  Future<void> filter() async {
+    await Get.defaultDialog(
+        title: "",
+        backgroundColor: AppColor.background,
+        radius: 10,
+        // onWillPop: () async {
+        //   print('object');
+        //   return true;
+        // },
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+        content: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Gbaka",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+                Obx(() => Checkbox(
+                    value: controller.filterGbaka.value,
+                    activeColor: AppColor.primary,
+                    onChanged: (value) {
+                      controller.filterGbaka.value =
+                          !controller.filterGbaka.value;
+                    })),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Taxi",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+                Obx(() => Checkbox(
+                    value: controller.filterTaxi.value,
+                    activeColor: AppColor.primary,
+                    onChanged: (value) {
+                      controller.filterTaxi.value =
+                          !controller.filterTaxi.value;
+                    })),
+              ],
+            )
+          ],
+        ));
   }
 }

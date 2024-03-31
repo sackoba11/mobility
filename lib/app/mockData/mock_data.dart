@@ -4,43 +4,3154 @@ import 'package:mobility/app/models/stop/stop.dart';
 import 'package:mobility/app/models/gare/gare.dart';
 
 class MockData {
-  static List<ItineraireGare> itinraire = [
-    ItineraireGare(
-      commune: "Abobo",
-      type: "Gbaka",
-      source: "Abobo Gare Mairie",
-      destination: "Abobo PK 18",
-    ),
-    ItineraireGare(
-      commune: "Abobo",
-      type: "Gbaka",
-      source: "Abobo Gare Mairie",
-      destination: "Kennedy Marché",
-    ),
-    ItineraireGare(
-      commune: "Abobo",
-      type: "Gbaka",
-      source: "Abobo Gare Mairie",
-      destination: "Kennedy Mosquée Ado",
-    ),
-    ItineraireGare(
-      commune: "Abobo",
-      type: "Gbaka",
-      source: "Abobo Gare Mairie",
-      destination: "Akekoi Village",
-    ),
-    ItineraireGare(
-      commune: "Abobo",
-      type: "Gbaka",
-      source: "Abobo Marché",
-      destination: "Biabou",
-    ),
-    ItineraireGare(
-      commune: "Abobo",
-      type: "Gbaka",
-      source: "Abobo Samaké",
-      destination: "Biabou",
-    ),
+  static List<ItineraireGare> itineraireGbaka = [
+    //Abobo
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare Mairie",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo PK 18",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare Mairie",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Kennedy Marché",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare Mairie",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Kennedy Mosquée Ado",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare Mairie",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Akekoi Village",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Marché",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Biabou",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Samaké",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Biabou",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare Mairie",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Adjamé Renault",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare Mairie",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo BC",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Adjamé Nouvelle Gare",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Carrefour JAUG",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Adjamé Nouvelle Gare",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Lycée Moderne Abobo",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Angré Petro Ivoire",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Belle Ville",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Gare d'Anyama",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gare",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Ndotré",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Gendarmerie",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Carrefour Zone",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Gbaka", source: {
+      "name": "Abobo Agripac",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Carrefour Zone",
+      "commune": "yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Adjamé
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "BingeVille",
+      "commune": "BingerVille",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Port-Bouet Vridi",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Bouassi",
+      "commune": "yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Camp Militaire",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Gare Gesco",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Gare en Haut",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Akouedo Attié",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Gare en Haut",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "BingerVille",
+      "commune": "BingerVille",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Gare en Haut",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Cocody Akouedo",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Gare en Haut",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Cocody Anono",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Gare en Haut",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Cocody Attoban Camp",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Gare en Haut",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Cocody Riviera M'Badon",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Gare en Haut",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Cocody Riviera M'Pouto",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "BingerVille",
+      "commune": "BingerVille",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Carrefour Lokoa",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Cocody Riviera 2",
+      "commune": "Cocody",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Koumassi",
+      "commune": "Koumassi",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "TreichVille Gare de Bassam",
+      "commune": "TreichVille",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Palais",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Carrefour Académie",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Niangon Ternminus 27",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Sideci IGES",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Mosquée",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Carrefour Académie",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Mosquée",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Sideci IGES",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Mosquée",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Lokoa",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Mosquée",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Niangon Terminus 27",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Renault",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Palais",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Texaco",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Camp Militaire",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Texaco",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Koweit",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Adjamé Texaco",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Lubafirque",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Gare Kobenan Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "BingerVille",
+      "commune": "BingerVille",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Gare Kobenan Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Carrefour Académie",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Gare Kobenan Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Koweit",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Gare Kobenan Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Lubafrique",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Gare Kobenan Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Marché Bagnon",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Gbaka", source: {
+      "name": "Gare Kobenan Agban",
+      "commune": "Adjamé",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Niangon Terminus 27",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+//TreichVille
+
+    ItineraireGare(commune: "TreichVille", type: "Gbaka", source: {
+      "name": "TreichVille Gare de Bassam",
+      "commune": "TreichVille",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Port-Bouet GonzagueVille",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "TreichVille", type: "Gbaka", source: {
+      "name": "TreichVille Rue 12",
+      "commune": "TreichVille",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Marcory Anoumabo sans fil",
+      "commune": "Marcory",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Port-Bouet
+    ItineraireGare(commune: "Port-Bouet", type: "Gbaka", source: {
+      "name": "Casier",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "BelleVille",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Gbaka", source: {
+      "name": "GonzagueVille Corridor",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abraham",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Gbaka", source: {
+      "name": "GonzagueVille Corridor",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Eléphant",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Gbaka", source: {
+      "name": "GonzagueVille Corridor",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Usine",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Gbaka", source: {
+      "name": "Mobiobi",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Terminus Mobiobi",
+      "commune": "Port-Bouet",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Yopougon
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Académie",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Diop",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Carrefour CHU",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Sable",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Carrefour Zone",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo Agripac",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Carrefour Zone",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Ndotré",
+      "commune": "Abobo",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Koweit",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Zone Industrielle",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Locodjro marine",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Attecoubé Garage",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Palais",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Beago Wolosso",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Sable",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Koweit",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Siporex",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Songon Agban",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Siporex",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon carrefour Académie",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Siporex",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Gesco",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Siporex",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Sdeci IGES",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Yopougon Siporex",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Lokoa",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Gbaka", source: {
+      "name": "Zone Insdustrielle",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Yopougon Gesco",
+      "commune": "Yopougon",
+      "type": "Gbaka",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+  ];
+
+  static List<ItineraireGare> itineraireTaxi = [
+    //Abobo
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Gare",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Angré Petro Ivoire",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Gare",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Biabou",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Gare",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Terminus Derrière Rail",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Gendarmerie",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Houphouet-Boigny",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Gendarmerie",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Ndotré",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Gendarmerie",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Terminus Derrière Rail Celeste",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Marché",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo Baoulé",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Marché",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Carrefour Kennedy",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Marché",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Dokui",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Marché",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Habitat Grace",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Marché",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "houphouet-Boigny",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Marché",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Kennedy",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Abobo Samaké",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo Baoulé",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Ancienne Gendarmerie",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Grand Carrefour",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Gare d'Anyama",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "MAirie d'Anyama",
+      "commune": "Anyama",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Abobo", type: "Taxi", source: {
+      "name": "Lycée Moderne d'Abobo",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Houphouet-Boigny",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Adjamé
+    ItineraireGare(commune: "Adjamé", type: "Taxi", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Adjamé Mairie Dallas",
+      "commune": "Adjamé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Adjamé", type: "Taxi", source: {
+      "name": "Adjamé Liberté",
+      "commune": "Adjamé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Saint Michel",
+      "commune": "Adjamé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Attecoubé
+    ItineraireGare(commune: "Attecoubé", type: "Taxi", source: {
+      "name": "Mossikro",
+      "commune": "Attecoubé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo Doumé Santé",
+      "commune": "Attecoubé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Cocody
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "9 Kilo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Akouedo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "9 Kilo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Sol Beni Au Bateau",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Abobo Azur Mobil",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Saint Jean",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Blockauss",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "CHU de Cocody",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Blockauss",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "La Vie",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Carrefour 9 Km",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Palmeraie SIPIM 4 ",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Gare Bonoumin",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abri 2000",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Gare Carrefour 2 Plateaux",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "vallon",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Palmeraie",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Les Rosiers",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Palmeraie",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Mahou / Azur",
+      "commune": "Abobo",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Palmeraie",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Terminus 81-82",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Riviera 2",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Anono",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Riviera 2 Station",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Akouedo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Riviera 2",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Angré 22ème",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Riviera 2",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Angré Terminus 81-82",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Riviera 2",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Attoban Camp",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Saint Jean",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Angré Château",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Saint Jean",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Blockauss",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Saint Jean",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Riviera 2",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Station Après Barage",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "CHU Angré",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Station Après Barage",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Rosier Programme 6",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Zoo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Attoban",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Zoo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Pont Soro",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Zoo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Vallon",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Cocody", type: "Taxi", source: {
+      "name": "Zoo",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Zinsou",
+      "commune": "Cocody",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Koumassi
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Anoumabo San Fil",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Koumassi Hôpital Général",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Anoumabo San Fil",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Sicogi",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Gare Comunale",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Sicogi",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Gare Comunale",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Soweto",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Koumassi Grand Marché ",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Ancien Koumassi",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Koumassi Grand Marché ",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Soweto",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Koumassi Grand Marché ",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Terminus 05",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Sicogi",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Soweto",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Koumassi", type: "Taxi", source: {
+      "name": "Sicogi",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Terminus 32",
+      "commune": "Koumassi",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Marcory
+
+    ItineraireGare(commune: "Marcory", type: "Taxi", source: {
+      "name": "Carrefour Lycée",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "CTAO",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Marcory", type: "Taxi", source: {
+      "name": "Carrefour Lycée",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Maison Blanche",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Marcory", type: "Taxi", source: {
+      "name": "Gare Sotra Marcory",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "CTAO",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Marcory", type: "Taxi", source: {
+      "name": "Gare Sotra Marcory",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Maison Blanche",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Marcory", type: "Taxi", source: {
+      "name": "Hibiscus",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Mairie de Marcory",
+      "commune": "Marcory",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Port-Bouet
+    ItineraireGare(commune: "Port-Bouet", type: "Taxi", source: {
+      "name": "Carrefour Aéroport",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Aéroport",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Taxi", source: {
+      "name": "Marché de Port-Bouet",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Anani",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Taxi", source: {
+      "name": "Marché de Port-Bouet",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Port de pêche",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Taxi", source: {
+      "name": "Marché de Port-Bouet",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Vridi Canal",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Taxi", source: {
+      "name": "Marché de Port-Bouet",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Vridi Cité",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Taxi", source: {
+      "name": "Terre Rouge",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Bonogosso",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Port-Bouet", type: "Taxi", source: {
+      "name": "Terre Rouge",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Carrefour Deux Poteaux",
+      "commune": "Port-Bouet",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //TreichVille
+    ItineraireGare(commune: "TreichVille", type: "Taxi", source: {
+      "name": "TreichVille Gare de Bassam",
+      "commune": "TreichVille",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "TreichVille Gare Bateau-Bus",
+      "commune": "TreichVille",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+
+    //Yopougon
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Abobo Doumé",
+      "commune": "Attecoubé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Toit Rouge Jean-Paul 2",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Bel Air",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Gabriel Gare",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Bel Air",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Millionnaire Antenne",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Bel Air",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Mossikro",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "BHCI",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Complexe",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "BHCI",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Sapeur Pompier",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "BHCI",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Toit Rouge Jean-Paul 2",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Camp Militaire",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo Doumé",
+      "commune": "Attecoubé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Camp Militaire",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Koweit",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Camp Militaire",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Saguidiba",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Carrefour Zone",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Micao",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Carrefour Zone",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Zone Industrielle",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Complexe",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Koweit",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Coopec Ananeraie",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Carrefour Oasis",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Gabriel Gare",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Mossikro",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Gabriel Gare",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Prison Civile",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Keneya",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Coopec Ananeraie",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Koweit",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo Doumé",
+      "commune": "Attecoubé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Koweit",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Sable",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Koweit",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Toit Rouge Jean-Paul 2",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Yopougon Mairie",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Gabriel Gare",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Palais",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Abobo Doumé",
+      "commune": "Attecoubé",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Palais",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Camp Militaire",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Palais",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Koweit",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
+    ItineraireGare(commune: "Yopougon", type: "Taxi", source: {
+      "name": "Palais",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      }
+    }, destination: {
+      "name": "Toit Rouge Jean-Paul 2",
+      "commune": "Yopougon",
+      "type": "Taxi",
+      "location": {
+        "label": "teste",
+        "lat": 5.3502292,
+        "long": -3.9881887,
+      },
+    }),
   ];
   //Gares des Gbakas
   static List<Gare> garesGbaka = [

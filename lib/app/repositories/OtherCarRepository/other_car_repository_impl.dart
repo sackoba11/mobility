@@ -33,23 +33,29 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
 
   @override
   Future<Either<AppError, bool>> addAllGares() async {
-    List<Gare> garesGbaka = MockData.garesGbaka;
-    List<Gare> garestaxi = MockData.garesTaxi;
-    List<ItineraireGare> itineraires = MockData.itinraire;
+    // List<Gare> garesGbaka = MockData.garesGbaka;
+    // List<Gare> garestaxi = MockData.garesTaxi;
+    List<ItineraireGare> itineraireGbaka = MockData.itineraireGbaka;
+    List<ItineraireGare> itineraireTaxi = MockData.itineraireTaxi;
     try {
-      for (var element in garesGbaka) {
+      // for (var element in garesGbaka) {
+      //   await FirebaseFirestore.instance
+      //       .collection("GaresGbaka")
+      //       .add(element.toJson());
+      // }
+      // for (var element in garestaxi) {
+      //   await FirebaseFirestore.instance
+      //       .collection("GaresTaxi")
+      //       .add(element.toJson());
+      // }
+      // for (var element in itineraireGbaka) {
+      //   await FirebaseFirestore.instance
+      //       .collection("ItinerairesGbaka")
+      //       .add(element.toJson());
+      // }
+      for (var element in itineraireTaxi) {
         await FirebaseFirestore.instance
-            .collection("GaresGbaka")
-            .add(element.toJson());
-      }
-      for (var element in garestaxi) {
-        await FirebaseFirestore.instance
-            .collection("GaresTaxi")
-            .add(element.toJson());
-      }
-      for (var element in itineraires) {
-        await FirebaseFirestore.instance
-            .collection("Itineraires")
+            .collection("ItinerairesTaxi")
             .add(element.toJson());
       }
       return right(true);
@@ -61,16 +67,23 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
   @override
   Future<Either<AppError, List<ItineraireGare>>> getAllItinerary() async {
     try {
-      final snapShotList =
-          await FirebaseFirestore.instance.collection('Itineraires').get();
+      final snapShotListGbaka =
+          await FirebaseFirestore.instance.collection('ItinerairesGbaka').get();
 
-      final docListItinerary = snapShotList.docs;
-      final listItinerary = docListItinerary
+      final docListItineraryGbaka = snapShotListGbaka.docs;
+      final listItineraryGbaka = docListItineraryGbaka
           .map((e) => ItineraireGare.fromJson(e.data()))
           .toList();
-      debugPrint(
-          "teste de itineraire : ${snapShotList.docs..map((e) => ItineraireGare.fromJson(e.data())).toString()}");
-      return right(listItinerary);
+      final snapShotListTaxi =
+          await FirebaseFirestore.instance.collection('ItinerairesTaxi').get();
+
+      final docListItineraryTaxi = snapShotListTaxi.docs;
+      final listItineraryTaxi = docListItineraryTaxi
+          .map((e) => ItineraireGare.fromJson(e.data()))
+          .toList();
+
+      final listItineraires = listItineraryGbaka + listItineraryTaxi;
+      return right(listItineraires);
     } catch (e) {
       return left(GenericAppError("erreur: ${e.toString()}"));
     }

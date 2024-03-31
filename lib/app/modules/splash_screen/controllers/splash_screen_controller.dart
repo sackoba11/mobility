@@ -14,15 +14,15 @@ class SplashScreenController extends GetxController
   IOtherCarRepository iOtherCarRepository = OtherCarRepositoryImpl();
   User? currentUser;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {}
     splashDuration();
     animationInitilization();
-    // iOtherCarRepository
-    //     .addAllGares()
-    //     .whenComplete(() => print("jouté avec succes"));
+    // (await iOtherCarRepository.addAllGares()).isRight()
+    //     ? print(true)
+    //     : print(false);
   }
 
   @override

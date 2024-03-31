@@ -8,8 +8,8 @@ part of 'itineraire_gare.dart';
 
 _$ItineraireGareImpl _$$ItineraireGareImplFromJson(Map<String, dynamic> json) =>
     _$ItineraireGareImpl(
-      source: json['source'] as String,
-      destination: json['destination'] as String,
+      source: json['source'] as Map<String, dynamic>,
+      destination: json['destination'] as Map<String, dynamic>,
       type: json['type'] as String,
       commune: json['commune'] as String,
     );

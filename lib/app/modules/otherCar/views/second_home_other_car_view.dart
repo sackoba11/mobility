@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobility/app/modules/otherCar/views/details_home_other_car_view.dart';
+import 'package:mobility/app/models/gare/gare.dart';
 
 import '../../../constants/app colors/app_colors.dart';
-import '../../../constants/typography/typography.dart';
+import '../../widgets/item_gare.dart';
 import '../controllers/other_car_controller.dart';
 
 class SecondHomeOtherCarView extends GetView<OtherCarController> {
@@ -27,31 +27,19 @@ class SecondHomeOtherCarView extends GetView<OtherCarController> {
                     zoomGesturesEnabled: true,
                     initialCameraPosition: CameraPosition(
                         target: LatLng(
-                          double.parse(
-                              controller.gare.value.location["lat"].toString()),
-                          double.parse(controller.gare.value.location["long"]
-                              .toString()),
-                        ),
+                            double.parse(controller.userLatitude.value),
+                            double.parse(controller.userLongitude.value)),
                         zoom: 15),
-                    //   // polylines: {
-                    //   //   Polyline(
-                    //   //       width: 6,
-                    //   //       polylineId: PolylineId(
-                    //   //     )    "route",
-                    //   //       ),
-                    //   //       points: polylineCoordinates)
-                    //   // },
                     markers: {
                       Marker(
-                          icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueOrange),
-                          markerId: const MarkerId("source"),
-                          position: LatLng(
-                            double.parse(controller.gare.value.location["lat"]
-                                .toString()),
-                            double.parse(controller.gare.value.location["long"]
-                                .toString()),
-                          )),
+                        infoWindow: const InfoWindow(title: "Votre Position"),
+                        markerId: const MarkerId("UserPosition"),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(
+                            BitmapDescriptor.hueAzure),
+                        position: LatLng(
+                            double.parse(controller.userLatitude.value),
+                            double.parse(controller.userLongitude.value)),
+                      ),
                     },
                     onMapCreated: controller.onMapCreated,
                   ))),
@@ -97,42 +85,18 @@ class SecondHomeOtherCarView extends GetView<OtherCarController> {
           const SizedBox(height: 15),
           Column(
             children: [
-              _buildItemContainer(context, controller.gare.value.name,
-                  controller.gare.value.type),
+              ItemGare(
+                gare: Gare.fromJson(controller.itinerary.value.source),
+              ),
               const SizedBox(
                 height: 5,
+              ),
+              ItemGare(
+                gare: Gare.fromJson(controller.itinerary.value.destination),
               ),
             ],
           )
         ],
-      ),
-    );
-  }
-
-  Widget _buildItemContainer(
-      BuildContext context, String? title, String? itinerary) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(const DetailsHomeOtherCarView());
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-            color: AppColor.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: AppColor.black.withOpacity(.3),
-            )),
-        width: 392,
-        height: 69,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppTypography().medium16(text: title),
-            AppTypography().lightSmall(text: itinerary)
-          ],
-        ),
       ),
     );
   }
