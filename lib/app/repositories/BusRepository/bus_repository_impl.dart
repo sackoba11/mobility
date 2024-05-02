@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../error/app_error.dart';
+import '../../models/bus/bus.dart';
 import 'i_bus_repository.dart';
 
 @LazySingleton(as: IBusRepository)
@@ -201,16 +202,15 @@ class BusRepositoryImpl implements IBusRepository {
   }
 
   @override
-  Future<Either<AppError, List<QueryDocumentSnapshot<Map<String, dynamic>>>>>
-      getBusRoadMaps() async {
+  Future<Either<AppError, List<Bus>>> getBusRoadMaps() async {
     final snapShotListBus =
         await FirebaseFirestore.instance.collection('listBus').get();
     // print(snapShotListBus);
     final docsListBus = snapShotListBus.docs;
     // print(docsListBus);
-    // final buslistFirebse =
-    //     docsListBus.map((e) => Bus.fromJson(e.data())).toList();
-    // print(buslistFirebse.first);
-    return right(docsListBus);
+    final buslistFirebse =
+        docsListBus.map((e) => Bus.fromJson(e.data())).toList();
+    print(buslistFirebse.first);
+    return right(buslistFirebse);
   }
 }

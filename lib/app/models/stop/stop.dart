@@ -6,7 +6,6 @@ part 'stop.g.dart';
 @freezed
 class Stop with _$Stop {
   factory Stop({
-    String? label,
     required double lat,
     required double long,
   }) = _Stop;

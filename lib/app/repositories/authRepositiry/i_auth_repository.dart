@@ -22,5 +22,10 @@ abstract class IAuthRepository {
   Future<Either<AppError, User>> getCurrentUser();
   Future<Either<AppError, bool>> addDriverInfos(
       {required String uid, required Map<String, dynamic> map});
+
+  Future<Either<AppError, UserCredential>> loginWithEmailAndPassword({
+    required String email,
+    required String password,
+  });
   // Future<Either<AppError, Unit>> signInWithFacebook();
 }

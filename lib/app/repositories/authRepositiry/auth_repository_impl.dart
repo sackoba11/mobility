@@ -141,6 +141,7 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
+  @override
   Future<Either<AppError, UserCredential>> loginWithEmailAndPassword({
     required String email,
     required String password,

@@ -6,33 +6,6 @@ abstract class AppString {
   static String apikey2 = "AIzaSyADK8u_9dJ86WX2MAmJDJWU5uipKed3INc";
   static String apikey3 = "AIzaSyDDtB0Flxxax5RdGrQqhM1FpVkNhe0v90Q";
 
-// Icons paths
-  // static String bus = "assets/icons/bus.svg";
-  // static String gbaka = "assets/icons/gbaka.png";
-  // static String back = "assets/icons/Vector (2).svg";
-  // static String google = "assets/icons/Google.png";
-  // static String googleSvg = "assets/icons/Googole icon.svg";
-  // static String icon = "assets/icons/Icon.png";
-  // static String illustrator1 = "assets/icons/Map.png";
-  // static String illustrator2 = "assets/icons/Map1.png";
-  // static String vector1 = "assets/icons/Vector1.png";
-  // static String vector2 = "assets/icons/Vector2.png";
-  // static String vector3 = "assets/icons/Vector3.png";
-  // static String vector4 = "assets/icons/Vector4.png";
-  // static String robot = "assets/icons/robot.png";
-  // static String dots = "assets/icons/Dots.png";
-  // static String oval = "assets/icons/Oval.png";
-  // static String oval1 = "assets/icons/Oval1.png";
-  // static String rectangle = "assets/icons/Rectangle.png";
-  // static String rectangle1 = "assets/icons/Rectangle1.png";
-
-  // svg
-  // static String driverSvg = "assets/icons/driver.svg";
-  // static String nextSvg = "assets/icons/next.svg";
-  // static String passebgerSvg = "assets/icons/passenger.svg";
-  // static String roadSvg = "assets/icons/road.svg";
-  // static String currentSvg = "assets/icons/current.svg";
-
   // text
   static String hey = "Hey 👋";
   static String authTitle = "Choisissez l'un de nos services";
@@ -60,9 +33,9 @@ abstract class AppString {
       "Join Freelancer Plus to start each month fresh with 80 Connects.";
   static String myServices = 'My Services';
   static String passenger = "Passager";
-  static String trackyoucar = "Demander un service";
-  static String driver = "Conducteur";
-  static String shareyourposition = "Offrir un service ";
+  static String trackyoucar = "Rechercher un service";
+  static String driver = "Conducteur Bus";
+  static String shareyourposition = "Activer un service ";
 
   // UserPage and DriverPage Texts
   static String starttracking = "Commencer";

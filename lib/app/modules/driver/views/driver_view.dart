@@ -222,9 +222,9 @@ class DriverView extends GetView<DriverController> {
                     children: [
                       Expanded(
                           child: CustomButton(
-                              title: "Annuler",
+                              title: "Mettre en service",
                               ontap: () {
-                                Navigator.of(context).pop();
+                                Get.back();
                               },
                               radius: 15))
                     ],

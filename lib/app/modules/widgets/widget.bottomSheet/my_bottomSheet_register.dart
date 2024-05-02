@@ -88,70 +88,70 @@ class _MyBottomSheetRegisterState extends State<MyBottomSheetRegister> {
                           textError: controller.passwordTextError,
                           validator: passwordValid,
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Container(
-                            height: 60,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5, color: AppColor.primary),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton2<String>(
-                                isExpanded: true,
-                                hint: Text('Type de Transport',
-                                    style: TextStyle(color: AppColor.black)),
-                                items: controller.items
-                                    .map((String item) =>
-                                        DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: TextStyle(
-                                                color: AppColor.black),
-                                          ),
-                                        ))
-                                    .toList(),
-                                value: selectedValue,
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    selectedValue = value;
-                                    controller.typeOfCar = selectedValue;
-                                  });
-                                },
-                                buttonStyleData: const ButtonStyleData(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  height: 40,
-                                  width: 140,
-                                ),
-                                menuItemStyleData: const MenuItemStyleData(
-                                  height: 40,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomInput(
-                          hint: "Immatriculation",
-                          controller: controller.brand,
-                          textError: controller.brandTextError,
-                          validator: immatriculationValid,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomInput(
-                          hint: "Couleur du vehicule",
-                          controller: controller.color,
-                          textError: controller.colorTextError,
-                          validator: couleurValid,
-                        ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                        //   child: Container(
+                        //     height: 60,
+                        //     decoration: BoxDecoration(
+                        //         border: Border.all(
+                        //             width: 0.5, color: AppColor.primary),
+                        //         borderRadius: BorderRadius.circular(15)),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton2<String>(
+                        //         isExpanded: true,
+                        //         hint: Text('Type de Transport',
+                        //             style: TextStyle(color: AppColor.black)),
+                        //         items: controller.items
+                        //             .map((String item) =>
+                        //                 DropdownMenuItem<String>(
+                        //                   value: item,
+                        //                   child: Text(
+                        //                     item,
+                        //                     style: TextStyle(
+                        //                         color: AppColor.black),
+                        //                   ),
+                        //                 ))
+                        //             .toList(),
+                        //         value: selectedValue,
+                        //         onChanged: (String? value) {
+                        //           setState(() {
+                        //             selectedValue = value;
+                        //             controller.typeOfCar = selectedValue;
+                        //           });
+                        //         },
+                        //         buttonStyleData: const ButtonStyleData(
+                        //           padding: EdgeInsets.symmetric(horizontal: 16),
+                        //           height: 40,
+                        //           width: 140,
+                        //         ),
+                        //         menuItemStyleData: const MenuItemStyleData(
+                        //           height: 40,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // CustomInput(
+                        //   hint: "Immatriculation",
+                        //   controller: controller.brand,
+                        //   textError: controller.brandTextError,
+                        //   validator: immatriculationValid,
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // CustomInput(
+                        //   hint: "Couleur du vehicule",
+                        //   controller: controller.color,
+                        //   textError: controller.colorTextError,
+                        //   validator: couleurValid,
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),

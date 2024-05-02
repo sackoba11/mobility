@@ -4,13 +4,14 @@ import 'package:mobility/app/modules/bus/controllers/home_bus_controller.dart';
 
 import '../../constants/app colors/app_colors.dart';
 import '../../constants/typography/typography.dart';
+import '../../models/stop/stop.dart';
 
 class CustomListTitle extends StatelessWidget {
   final int title;
   final String description;
   final String? source;
   final String? destination;
-  final List<dynamic>? roadMap;
+  final List<Stop>? roadMap;
   final path;
   final bool isActive;
   const CustomListTitle(

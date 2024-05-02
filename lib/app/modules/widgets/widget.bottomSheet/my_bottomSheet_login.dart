@@ -18,14 +18,15 @@ class MyBottomSheetLogin extends StatefulWidget {
 }
 
 class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
+  final _formKey = GlobalKey<FormState>();
+  var controller = Get.find<ServicesController>();
+
   @override
   void initState() {
     super.initState();
     Get.put(ServicesController);
   }
 
-  final _formKey = GlobalKey<FormState>();
-  var controller = Get.find<ServicesController>();
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -40,14 +41,11 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Expanded(
                         child: ListView(
                       children: [
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         CustomInput(
                           hint: "Email",
@@ -67,32 +65,32 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
                           validator: passwordValid,
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 15,
                         ),
                         LoginButton(
                           formKey: _formKey,
                           login: true,
                           title: "Se connecter",
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextButton(
-                            onPressed: () => showDriverRegister(context),
-                            child: const Center(
-                              child: Text(
-                                'Vous n’avez pas de compte?, S’inscrire',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF263238),
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                  decoration: TextDecoration.underline,
-                                  height: 0,
-                                ),
-                              ),
-                            ))
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
+                        // TextButton(
+                        //     onPressed: () => showDriverRegister(context),
+                        //     child: const Center(
+                        //       child: Text(
+                        //         'Vous n’avez pas de compte?, S’inscrire',
+                        //         textAlign: TextAlign.center,
+                        //         style: TextStyle(
+                        //           color: Color(0xFF263238),
+                        //           fontSize: 14,
+                        //           fontFamily: 'Poppins',
+                        //           fontWeight: FontWeight.w400,
+                        //           decoration: TextDecoration.underline,
+                        //           height: 0,
+                        //         ),
+                        //       ),
+                        //     ))
                       ],
                     )),
                   ],
@@ -127,7 +125,7 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
   String? passwordValid(String? value) {
     if (value!.isEmpty || value.length < 8) {
       setState(() {
-        controller.passwordLoginTextError = "Saisissez un mot de passe valide";
+        controller.passwordLoginTextError = "Au moins 8 caractères";
       });
       return controller.passwordLoginTextError!;
     } else {

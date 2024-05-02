@@ -92,8 +92,8 @@ class SecondHomeBus extends GetView<BusController> {
                             .map(
                               (e) => Column(
                                 children: [
-                                  if (e["isActive"] == true)
-                                    ((e['number'] ==
+                                  if (e.isActive == true)
+                                    ((e.number ==
                                             int.parse(_.number.toString()))
                                         ? Column(
                                             children: [
@@ -101,12 +101,12 @@ class SecondHomeBus extends GetView<BusController> {
                                                 height: 10,
                                               ),
                                               CustomListTitle(
-                                                source: e["source"],
-                                                destination: e["destination"],
-                                                isActive: e["isActive"],
+                                                source: e.source,
+                                                destination: e.destination,
+                                                isActive: e.isActive,
                                                 description:
-                                                    "${e["source"]}  <->  ${e["destination"]}",
-                                                title: e["number"],
+                                                    "${e.source}  <->  ${e.destination}",
+                                                title: e.number,
                                                 path: const DetailsHomeBus(),
                                               ),
                                             ],

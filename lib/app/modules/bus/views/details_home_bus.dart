@@ -67,7 +67,7 @@ class DetailsHomeBus extends GetView<BusController> {
                   for (var i in controller.road)
                     Marker(
                         markerId: const MarkerId("route"),
-                        position: LatLng(i["lat"], i["long"]))
+                        position: LatLng(i.lat, i.long))
                 },
                 onMapCreated: controller.onMapCreated,
               )),
@@ -202,7 +202,7 @@ class DetailsHomeBus extends GetView<BusController> {
                       children: [
                         Expanded(
                             child: CustomButton(
-                                title: "Payer",
+                                title: "Retour",
                                 ontap: () {
                                   Navigator.of(context).pop();
                                 },

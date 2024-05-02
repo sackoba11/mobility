@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,9 +13,11 @@ import 'package:mobility/app/models/search/feature_collection_response.dart';
 import '../../../constants/app string/app_string.dart';
 
 class HomeDriverController extends GetxController {
+  User? currentUser;
   late StreamSubscription<Position> streamSubscription;
   Position? localisation;
   RxBool isLoading = true.obs;
+  TextEditingController textEditingController = TextEditingController();
   GoogleMapController? mapController;
   late mapbox.MapboxMap? mapboxController;
   void onMapCreated(GoogleMapController controller) {

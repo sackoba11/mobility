@@ -22,7 +22,7 @@ class CustomButtonWithoutOnTap extends StatelessWidget {
           color: AppColor.black, borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 40, right: 40, top: 10, bottom: 20),
+            const EdgeInsets.only(left: 20, right: 25, top: 10, bottom: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -32,7 +32,7 @@ class CustomButtonWithoutOnTap extends StatelessWidget {
               children: [
                 icon,
                 const SizedBox(
-                  width: 36,
+                  width: 20,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

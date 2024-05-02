@@ -20,7 +20,6 @@ Stop _$StopFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Stop {
-  String? get label => throw _privateConstructorUsedError;
   double get lat => throw _privateConstructorUsedError;
   double get long => throw _privateConstructorUsedError;
 
@@ -34,7 +33,7 @@ abstract class $StopCopyWith<$Res> {
   factory $StopCopyWith(Stop value, $Res Function(Stop) then) =
       _$StopCopyWithImpl<$Res, Stop>;
   @useResult
-  $Res call({String? label, double lat, double long});
+  $Res call({double lat, double long});
 }
 
 /// @nodoc
@@ -50,15 +49,10 @@ class _$StopCopyWithImpl<$Res, $Val extends Stop>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? label = freezed,
     Object? lat = null,
     Object? long = null,
   }) {
     return _then(_value.copyWith(
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
       lat: null == lat
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
@@ -78,7 +72,7 @@ abstract class _$$StopImplCopyWith<$Res> implements $StopCopyWith<$Res> {
       __$$StopImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? label, double lat, double long});
+  $Res call({double lat, double long});
 }
 
 /// @nodoc
@@ -91,15 +85,10 @@ class __$$StopImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? label = freezed,
     Object? lat = null,
     Object? long = null,
   }) {
     return _then(_$StopImpl(
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
       lat: null == lat
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
@@ -115,13 +104,11 @@ class __$$StopImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$StopImpl implements _Stop {
-  _$StopImpl({this.label, required this.lat, required this.long});
+  _$StopImpl({required this.lat, required this.long});
 
   factory _$StopImpl.fromJson(Map<String, dynamic> json) =>
       _$$StopImplFromJson(json);
 
-  @override
-  final String? label;
   @override
   final double lat;
   @override
@@ -129,7 +116,7 @@ class _$StopImpl implements _Stop {
 
   @override
   String toString() {
-    return 'Stop(label: $label, lat: $lat, long: $long)';
+    return 'Stop(lat: $lat, long: $long)';
   }
 
   @override
@@ -137,14 +124,13 @@ class _$StopImpl implements _Stop {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StopImpl &&
-            (identical(other.label, label) || other.label == label) &&
             (identical(other.lat, lat) || other.lat == lat) &&
             (identical(other.long, long) || other.long == long));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, label, lat, long);
+  int get hashCode => Object.hash(runtimeType, lat, long);
 
   @JsonKey(ignore: true)
   @override
@@ -161,15 +147,11 @@ class _$StopImpl implements _Stop {
 }
 
 abstract class _Stop implements Stop {
-  factory _Stop(
-      {final String? label,
-      required final double lat,
-      required final double long}) = _$StopImpl;
+  factory _Stop({required final double lat, required final double long}) =
+      _$StopImpl;
 
   factory _Stop.fromJson(Map<String, dynamic> json) = _$StopImpl.fromJson;
 
-  @override
-  String? get label;
   @override
   double get lat;
   @override

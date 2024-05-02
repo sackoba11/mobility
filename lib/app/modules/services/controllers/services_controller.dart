@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
 
+import '../../../repositories/authRepositiry/i_auth_repository.dart';
 import '../../home/views/home_driver_view.dart';
 
 class ServicesController extends GetxController {
+  late IAuthRepository iAuthRepository = AuthRepositoryImpl();
   //Register sceen
   final name = TextEditingController();
   String? nameTextError;
@@ -29,12 +31,7 @@ class ServicesController extends GetxController {
   final passwordLogin = TextEditingController();
   String? passwordLoginTextError;
 
-  final List<String> items = [
-    'Taxi Compteur',
-    'Gbaka',
-    ' Taxi Collectif',
-    'Autres'
-  ];
+  final List<String> items = ['Gbaka', ' Taxi Collectif', 'Autres'];
 
   @override
   void onInit() {
@@ -103,7 +100,7 @@ class ServicesController extends GetxController {
   }
 
   Future<void> login() async {
-    var response = await AuthRepositoryImpl().loginWithEmailAndPassword(
+    var response = await iAuthRepository.loginWithEmailAndPassword(
         email: emailLogin.text, password: passwordLogin.text);
     if (response.isRight()) {
       Get.off(const HomeDriverView());

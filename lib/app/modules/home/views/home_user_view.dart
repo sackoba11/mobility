@@ -54,8 +54,9 @@ class HomeUserView extends GetView<HomeUserController> {
           backgroundColor: AppColor.background,
         ),
         body: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppTypography().regularBig(

@@ -47,7 +47,7 @@ class HomeBus extends GetView<BusController> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
+        children: [
           const SizedBox(height: 10),
           Container(
             width: 40,
@@ -117,11 +117,11 @@ class HomeBus extends GetView<BusController> {
                                 (e) => Column(
                                   children: [
                                     CustomListTitle(
-                                        roadMap: e["roadMap"],
-                                        isActive: e["isActive"],
+                                        roadMap: e.roadMap,
+                                        isActive: e.isActive,
                                         description:
-                                            "${e["source"]}  <->  ${e["destination"]}",
-                                        title: e["number"],
+                                            "${e.source}  <->  ${e.destination}",
+                                        title: e.number,
                                         path: const SecondHomeBus()),
                                     const SizedBox(
                                       height: 5,

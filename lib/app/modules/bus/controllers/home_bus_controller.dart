@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
+import 'package:mobility/app/models/bus/bus.dart';
 
 import '../../../constants/app string/app_string.dart';
 import '../../../models/routes_model/data_model.dart';
+import '../../../models/stop/stop.dart';
 import '../../../repositories/BusRepository/bus_repository_impl.dart';
 
 class BusController extends GetxController {
@@ -18,17 +19,14 @@ class BusController extends GetxController {
 
   BusRepositoryImpl busRepository = BusRepositoryImpl();
   RxBool isLoading = true.obs;
-  List<QueryDocumentSnapshot<Object?>> busList =
-      <QueryDocumentSnapshot<Object?>>[].obs;
-  List<QueryDocumentSnapshot<Object?>> availableBusList =
-      <QueryDocumentSnapshot<Object?>>[].obs;
-  List<QueryDocumentSnapshot<Object?>> searchBus =
-      <QueryDocumentSnapshot<Object?>>[].obs;
+  List<Bus> busList = <Bus>[].obs;
+  List<Bus> availableBusList = <Bus>[].obs;
+  List<Bus> searchBus = <Bus>[].obs;
   RxInt? number = 0.obs;
   RxString sourceBus = " ".obs;
   RxString destinationBus = " ".obs;
-  List<dynamic> routes = [].obs;
-  List<dynamic> road = [].obs;
+  List<dynamic> routes = <Stop>[].obs;
+  List<Stop> road = <Stop>[].obs;
 
   // second home Bus
   late StreamSubscription<Position> streamSubscription;
@@ -96,7 +94,7 @@ class BusController extends GetxController {
 
   Future<void> getBusByNumber(RxInt busNumber) async {
     searchBus = busList
-        .where((bus) => bus["number"].toString().contains(busNumber.toString()))
+        .where((bus) => bus.number.toString().contains(busNumber.toString()))
         .toList();
     availableBusList = searchBus;
     update();
@@ -145,10 +143,10 @@ class BusController extends GetxController {
 //   }
 // }
 
-  Future<List<dynamic>> getRoutes(List<dynamic> source) async {
+  Future<List<dynamic>> getRoutes(List<Stop> source) async {
     Uri url = Uri.parse(
       "https://api.mapbox.com/directions/v5/mapbox/driving/${(source.map(
-            (e) => "${e["long"]},${e["lat"]}",
+            (e) => "${e.long},${e.lat}",
           ).join(";"))}?steps=true&geometries=geojson&access_token=${AppString.pkkeyMapBox}",
     );
     final response = await get(url);
@@ -161,8 +159,8 @@ class BusController extends GetxController {
             .toList() ??
         [];
     // print("la distance entre les deux points est : $distance");
-    // print("routes : $formattedCoordinates");
-    print(result);
+    print("routes : $formattedCoordinates");
+
     return formattedCoordinates;
   }
 

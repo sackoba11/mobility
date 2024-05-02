@@ -28,7 +28,7 @@ class LoginButton extends StatelessWidget {
           Get.snackbar(
             "Echec",
             "Veuillez remplir correctement les champs",
-            snackPosition: SnackPosition.BOTTOM,
+            snackPosition: SnackPosition.TOP,
             icon: const Icon(
               Icons.warning_amber_outlined,
               color: Colors.red,

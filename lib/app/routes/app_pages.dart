@@ -21,8 +21,6 @@ import '../modules/services/views/services_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/unknown_page/unknown_page.dart';
-import '../modules/user/bindings/user_binding.dart';
-import '../modules/user/views/user_view.dart';
 
 part 'app_routes.dart';
 
@@ -51,13 +49,6 @@ class AppPages {
       name: _Paths.driver,
       page: () => const DriverView(),
       binding: DriverBinding(),
-    ),
-
-    // User Pages
-    GetPage(
-      name: _Paths.user,
-      page: () => const UserView(),
-      binding: UserBinding(),
     ),
 
     // Services Pages
