@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/models/user/my_user.dart';
-import 'package:mobility/app/repositories/OtherCarRepository/i_other_car_repository.dart';
-import 'package:mobility/app/repositories/OtherCarRepository/other_car_repository_impl.dart';
+import 'package:mobility/app/repositories/otherCarRepository/i_other_car_repository.dart';
+import 'package:mobility/app/repositories/otherCarRepository/other_car_repository_impl.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
 import 'package:mobility/app/routes/app_pages.dart';
 

@@ -11,7 +11,7 @@ import 'package:mobility/app/models/bus/bus.dart';
 import '../../../constants/app string/app_string.dart';
 import '../../../models/routes_model/data_model.dart';
 import '../../../models/stop/stop.dart';
-import '../../../repositories/BusRepository/bus_repository_impl.dart';
+import '../../../repositories/busRepository/bus_repository_impl.dart';
 
 class BusController extends GetxController {
   //home Bus
@@ -45,30 +45,12 @@ class BusController extends GetxController {
   LatLng destinationLocaton = const LatLng(5.351888, -3.983774);
   LatLng sourceLocation = const LatLng(5.3502292, -3.9881887);
 
-  List<LatLng> polylineCoordinates = const [
-    LatLng(5.3502292, -3.9881887),
-    LatLng(5.350667, -3.988207),
-    LatLng(5.351888, -3.983774),
-    LatLng(5.353108, -3.979858),
-    LatLng(5.353845, -3.977656),
-    LatLng(5.354784, -3.974198),
-    LatLng(5.356915, -3.967548),
-    LatLng(5.358065, -3.964597),
-    LatLng(5.360552, -3.965393),
-    LatLng(5.362438, -3.966146),
-    LatLng(5.362040, -3.967070)
-  ].obs;
-
   @override
   void onInit() async {
     super.onInit();
     // await busRepository.addRoadMap();
     await getBus();
     getLocation();
-    // routes = await getRoutes(
-    //     [LatLng(5.3502292, -3.9881887), LatLng(5.362040, -3.967070)]);
-
-    // print("Liste de routes $road");
   }
 
   @override
@@ -132,17 +114,6 @@ class BusController extends GetxController {
     });
   }
 
-//   void _addMarker(LatLng pos){
-
-//   if(controller.origin == null || (controller.origin !=null && controller.destination  != null)){
-//     Obx(() => controller.origin=Marker(
-//       markerId: const InfoWindow(title: "origin"),
-//       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-//       position: pos
-//     ))
-//   }
-// }
-
   Future<List<dynamic>> getRoutes(List<Stop> source) async {
     Uri url = Uri.parse(
       "https://api.mapbox.com/directions/v5/mapbox/driving/${(source.map(
@@ -158,7 +129,6 @@ class BusController extends GetxController {
             ?.expand((route) => route.geometry?.coordinates ?? [])
             .toList() ??
         [];
-    // print("la distance entre les deux points est : $distance");
     print("routes : $formattedCoordinates");
 
     return formattedCoordinates;

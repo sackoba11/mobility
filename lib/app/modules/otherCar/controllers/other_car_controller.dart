@@ -12,8 +12,8 @@ import 'package:mobility/app/models/gare/gare.dart';
 import 'package:mobility/app/models/itineraire_gare/itineraire_gare.dart';
 import '../../../constants/app string/app_string.dart';
 import '../../../models/routes_model/data_model.dart';
-import '../../../repositories/OtherCarRepository/i_other_car_repository.dart';
-import '../../../repositories/OtherCarRepository/other_car_repository_impl.dart';
+import '../../../repositories/otherCarRepository/i_other_car_repository.dart';
+import '../../../repositories/otherCarRepository/other_car_repository_impl.dart';
 
 class OtherCarController extends GetxController {
   IOtherCarRepository otherCarRepositoryImpl = OtherCarRepositoryImpl();
