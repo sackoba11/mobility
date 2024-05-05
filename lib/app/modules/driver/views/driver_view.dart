@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/app/assets/assets.gen.dart';
 import 'package:mobility/app/models/bus/bus.dart';
-import 'package:mobility/app/repositories/driverRepository/driver_repository_impl.dart';
 
 import '../../../constants/app colors/app_colors.dart';
 import '../../widgets/custom_button.dart';
@@ -17,52 +18,90 @@ class DriverView extends GetView<DriverController> {
   const DriverView({Key? key, this.busSelected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Future<bool> onWillPop(context) async {
+      bool value = false;
+      await showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return AlertDialog(
+              content: const Text(
+                " Veuillez arrêter le service avant de revenir à la page précédente !",
+                textAlign: TextAlign.center,
+              ),
+              actions: <Widget>[
+                Center(
+                  child: TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      )),
+                )
+              ],
+            );
+          });
+      return value;
+    }
+
+    Future<bool> back() async {
+      Get.back();
+      return false;
+    }
+
     Get.put(DriverController());
-    return Scaffold(
-        backgroundColor: AppColor.background,
-        body: Stack(children: [
-          Container(
-              color: AppColor.background,
-              child: Obx(() => GoogleMap(
-                    onMapCreated: controller.onMapCreated,
-                    myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    tiltGesturesEnabled: true,
-                    compassEnabled: false,
-                    scrollGesturesEnabled: true,
-                    zoomGesturesEnabled: true,
-                    initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                          double.parse(controller.userLatitude.value),
-                          double.parse(controller.userLongitude.value),
-                        ),
-                        zoom: 15),
-                    markers: {
-                      Marker(
-                        markerId: const MarkerId("UserPosition"),
-                        icon: BitmapDescriptor.defaultMarkerWithHue(
-                            BitmapDescriptor.hueAzure),
-                        position: LatLng(
-                            double.parse(controller.userLatitude.value),
-                            double.parse(controller.userLongitude.value)),
-                      ),
-                    },
-                  ))),
-          DraggableScrollableSheet(
-            minChildSize: .3,
-            maxChildSize: .6,
-            initialChildSize: .45,
-            builder: (context, controller) {
-              return Container(
+    return WillPopScope(
+      onWillPop: () => controller.isActive.value ? onWillPop(context) : back(),
+      child: Scaffold(
+          backgroundColor: AppColor.background,
+          body: Stack(children: [
+            Container(
                 color: AppColor.background,
-                child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: controller,
-                    child: _buildColumn(context)),
-              );
-            },
-          )
-        ]));
+                child: Obx(() => GoogleMap(
+                      onMapCreated: controller.onMapCreated,
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
+                      tiltGesturesEnabled: true,
+                      compassEnabled: false,
+                      scrollGesturesEnabled: true,
+                      zoomGesturesEnabled: true,
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            double.parse(controller.userLatitude.value),
+                            double.parse(controller.userLongitude.value),
+                          ),
+                          zoom: 15),
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId("UserPosition"),
+                          icon: BitmapDescriptor.defaultMarkerWithHue(
+                              BitmapDescriptor.hueAzure),
+                          position: LatLng(
+                              double.parse(controller.userLatitude.value),
+                              double.parse(controller.userLongitude.value)),
+                        ),
+                      },
+                    ))),
+            DraggableScrollableSheet(
+              minChildSize: .3,
+              maxChildSize: .6,
+              initialChildSize: .45,
+              builder: (context, controller) {
+                return Container(
+                  color: AppColor.background,
+                  child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      controller: controller,
+                      child: _buildColumn(context)),
+                );
+              },
+            )
+          ])),
+    );
   }
 
   Widget _buildColumn(BuildContext context) {
@@ -158,13 +197,40 @@ class DriverView extends GetView<DriverController> {
                 Row(
                   children: [
                     Expanded(
-                        child: CustomButton(
-                            title: "Mettre en service",
+                        child: Obx(() => CustomButton(
+                            title: controller.isActive.value
+                                ? "Arrêter le service"
+                                : "Mettre en Service",
                             ontap: () async {
-                              await DriverRepositoryImpl()
-                                  .activateBusService(busSelected!);
+                              if (controller.isActive.value == false) {
+                                controller.isActive.value = true;
+                                controller.idBusController.value =
+                                    await controller.activeBusService(
+                                        busSelected!,
+                                        controller.positionBus.value);
+
+                                Timer.periodic(const Duration(seconds: 5),
+                                    (timer) async {
+                                  if (controller.isActive.value) {
+                                    controller.updateBusService(
+                                        busSelected!.number,
+                                        controller.idBusController.value,
+                                        double.parse(
+                                            controller.userLatitude.value),
+                                        double.parse(
+                                            controller.userLongitude.value));
+                                  } else {
+                                    timer.cancel();
+                                  }
+                                });
+                              } else {
+                                controller.isActive.value = false;
+                                await controller.deactiveBusService(
+                                    busSelected!.number,
+                                    controller.idBusController.value);
+                              }
                             },
-                            radius: 15))
+                            radius: 15)))
                   ],
                 )
               ],
