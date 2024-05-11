@@ -9,13 +9,13 @@ part of 'feature_properties.dart';
 _$FeaturePropertiesImpl _$$FeaturePropertiesImplFromJson(
         Map<String, dynamic> json) =>
     _$FeaturePropertiesImpl(
-      mapboxId: json['mapbox_id'] as String,
+      mapboxId: json['mapboxId'] as String,
       wikidata: json['wikidata'] as String?,
     );
 
 Map<String, dynamic> _$$FeaturePropertiesImplToJson(
         _$FeaturePropertiesImpl instance) =>
     <String, dynamic>{
-      'mapbox_id': instance.mapboxId,
+      'mapboxId': instance.mapboxId,
       'wikidata': instance.wikidata,
     };

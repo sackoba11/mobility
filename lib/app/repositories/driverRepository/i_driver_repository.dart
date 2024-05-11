@@ -5,6 +5,7 @@ import 'package:mobility/app/models/bus/bus.dart';
 import '../../error/app_error.dart';
 
 abstract class IDriverRepository {
+  Future<Either<AppError, List<Bus>>> getBusRoadMaps();
   Future<Either<AppError, String>> activateBusService(
       {required Bus bus, required Position position});
   Future<Either<AppError, void>> updatePosition(

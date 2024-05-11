@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../models/bus/bus.dart';
-import '../../../repositories/busRepository/bus_repository_impl.dart';
+import '../../../repositories/driverRepository/driver_repository_impl.dart';
+import '../../../repositories/driverRepository/i_driver_repository.dart';
 
 class HomeDriverController extends GetxController {
-  BusRepositoryImpl busRepository = BusRepositoryImpl();
+  IDriverRepository busRepository = DriverRepositoryImpl();
   RxBool isLoading = true.obs;
   List<Bus> busList = <Bus>[].obs;
   List<Bus> availableBusList = <Bus>[].obs;

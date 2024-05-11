@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:mobility/app/models/bus/bus.dart';
+import 'package:mobility/app/models/bus/bus_from_db.dart';
 
 import '../../../constants/app string/app_string.dart';
 import '../../../models/routes_model/data_model.dart';
@@ -19,9 +20,9 @@ class BusController extends GetxController {
 
   BusRepositoryImpl busRepository = BusRepositoryImpl();
   RxBool isLoading = true.obs;
-  List<Bus> busList = <Bus>[].obs;
-  List<Bus> availableBusList = <Bus>[].obs;
-  List<Bus> searchBus = <Bus>[].obs;
+  List<BusFromDb> busList = <BusFromDb>[].obs;
+  List<BusFromDb> availableBusList = <BusFromDb>[].obs;
+  List<BusFromDb> searchBus = <BusFromDb>[].obs;
   RxInt? number = 0.obs;
   RxString sourceBus = " ".obs;
   RxString destinationBus = " ".obs;

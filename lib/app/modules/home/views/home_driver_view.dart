@@ -20,36 +20,8 @@ class HomeDriverView extends GetView<HomeDriverController> {
           appBar: AppBar(
             backgroundColor: AppColor.black,
             elevation: 0,
-            leading: Container(
-                margin: const EdgeInsets.only(left: 8),
-                child: controller.currentUser?.photoURL != null
-                    ? CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(controller.currentUser!.photoURL!),
-                      )
-                    : CircleAvatar(
-                        child: Text(
-                          controller.currentUser!.email![0]
-                              .toString()
-                              .toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 25),
-                        ),
-                      )),
-            actions: [
-              IconButton(
-                  onPressed: () async {
-                    await AuthRepositoryImpl()
-                        .signOut()
-                        .whenComplete(() => Get.offAll(const ServicesView()));
-                  },
-                  icon: Icon(
-                    Icons.logout,
-                    color: AppColor.white,
-                    size: 30,
-                  ))
-            ],
+            leading: _customAvatar(context),
+            actions: [_logOut()],
           ),
           backgroundColor: AppColor.black,
           body: Stack(children: [
@@ -73,6 +45,37 @@ class HomeDriverView extends GetView<HomeDriverController> {
             )
           ])),
     );
+  }
+
+  IconButton _logOut() {
+    return IconButton(
+        onPressed: () async {
+          await AuthRepositoryImpl()
+              .signOut()
+              .whenComplete(() => Get.offAll(const ServicesView()));
+        },
+        icon: Icon(
+          Icons.logout,
+          color: AppColor.white,
+          size: 30,
+        ));
+  }
+
+  Container _customAvatar(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(left: 8),
+        child: controller.currentUser?.photoURL != null
+            ? CircleAvatar(
+                backgroundImage:
+                    NetworkImage(controller.currentUser!.photoURL!),
+              )
+            : CircleAvatar(
+                child: Text(
+                  controller.currentUser!.email![0].toString().toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, fontSize: 25),
+                ),
+              ));
   }
 
   Widget _buildColumn(BuildContext context) {

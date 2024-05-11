@@ -10,14 +10,13 @@ _$FeatureModelImpl _$$FeatureModelImplFromJson(Map<String, dynamic> json) =>
     _$FeatureModelImpl(
       id: json['id'] as String,
       type: json['type'] as String,
-      placeType: (json['place_type'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      placeType:
+          (json['placeType'] as List<dynamic>).map((e) => e as String).toList(),
       relevance: (json['relevance'] as num).toDouble(),
       properties: FeatureProperties.fromJson(
           json['properties'] as Map<String, dynamic>),
       text: json['text'] as String,
-      placeName: json['place_name'] as String,
+      placeName: json['placeName'] as String,
       center: (json['center'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
           .toList(),
@@ -32,11 +31,11 @@ Map<String, dynamic> _$$FeatureModelImplToJson(_$FeatureModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
-      'place_type': instance.placeType,
+      'placeType': instance.placeType,
       'relevance': instance.relevance,
       'properties': instance.properties,
       'text': instance.text,
-      'place_name': instance.placeName,
+      'placeName': instance.placeName,
       'center': instance.center,
       'geometry': instance.geometry,
       'context': instance.context,
