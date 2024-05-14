@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../models/bus/bus.dart';
+import '../../../models/bus/bus_from_firestore/bus.dart';
 import '../../../repositories/driverRepository/driver_repository_impl.dart';
 import '../../../repositories/driverRepository/i_driver_repository.dart';
 
@@ -39,7 +39,7 @@ class HomeDriverController extends GetxController {
 
   Future<void> getBus() async {
     isLoading(true);
-    busList = (await busRepository.getBusRoadMaps()).fold((l) => [], (r) => r);
+    busList = (await busRepository.getAllBus()).fold((l) => [], (r) => r);
     availableBusList = busList;
 
     isLoading(false);

@@ -25,8 +25,8 @@ mixin _$BusFromDb {
   String get destination => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   List<Stop> get roadMap => throw _privateConstructorUsedError;
-  Stop get position => throw _privateConstructorUsedError;
-  DateTime get startDate => throw _privateConstructorUsedError;
+  Stop? get position => throw _privateConstructorUsedError;
+  DateTime? get startDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,10 +45,10 @@ abstract class $BusFromDbCopyWith<$Res> {
       String destination,
       bool isActive,
       List<Stop> roadMap,
-      Stop position,
-      DateTime startDate});
+      Stop? position,
+      DateTime? startDate});
 
-  $StopCopyWith<$Res> get position;
+  $StopCopyWith<$Res>? get position;
 }
 
 /// @nodoc
@@ -69,8 +69,8 @@ class _$BusFromDbCopyWithImpl<$Res, $Val extends BusFromDb>
     Object? destination = null,
     Object? isActive = null,
     Object? roadMap = null,
-    Object? position = null,
-    Object? startDate = null,
+    Object? position = freezed,
+    Object? startDate = freezed,
   }) {
     return _then(_value.copyWith(
       number: null == number
@@ -93,21 +93,25 @@ class _$BusFromDbCopyWithImpl<$Res, $Val extends BusFromDb>
           ? _value.roadMap
           : roadMap // ignore: cast_nullable_to_non_nullable
               as List<Stop>,
-      position: null == position
+      position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
-              as Stop,
-      startDate: null == startDate
+              as Stop?,
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $StopCopyWith<$Res> get position {
-    return $StopCopyWith<$Res>(_value.position, (value) {
+  $StopCopyWith<$Res>? get position {
+    if (_value.position == null) {
+      return null;
+    }
+
+    return $StopCopyWith<$Res>(_value.position!, (value) {
       return _then(_value.copyWith(position: value) as $Val);
     });
   }
@@ -127,11 +131,11 @@ abstract class _$$BusFromDbImplCopyWith<$Res>
       String destination,
       bool isActive,
       List<Stop> roadMap,
-      Stop position,
-      DateTime startDate});
+      Stop? position,
+      DateTime? startDate});
 
   @override
-  $StopCopyWith<$Res> get position;
+  $StopCopyWith<$Res>? get position;
 }
 
 /// @nodoc
@@ -150,8 +154,8 @@ class __$$BusFromDbImplCopyWithImpl<$Res>
     Object? destination = null,
     Object? isActive = null,
     Object? roadMap = null,
-    Object? position = null,
-    Object? startDate = null,
+    Object? position = freezed,
+    Object? startDate = freezed,
   }) {
     return _then(_$BusFromDbImpl(
       number: null == number
@@ -174,14 +178,14 @@ class __$$BusFromDbImplCopyWithImpl<$Res>
           ? _value._roadMap
           : roadMap // ignore: cast_nullable_to_non_nullable
               as List<Stop>,
-      position: null == position
+      position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
-              as Stop,
-      startDate: null == startDate
+              as Stop?,
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -219,9 +223,9 @@ class _$BusFromDbImpl implements _BusFromDb {
   }
 
   @override
-  final Stop position;
+  final Stop? position;
   @override
-  final DateTime startDate;
+  final DateTime? startDate;
 
   @override
   String toString() {
@@ -279,8 +283,8 @@ abstract class _BusFromDb implements BusFromDb {
       required final String destination,
       required final bool isActive,
       required final List<Stop> roadMap,
-      required final Stop position,
-      required final DateTime startDate}) = _$BusFromDbImpl;
+      required final Stop? position,
+      required final DateTime? startDate}) = _$BusFromDbImpl;
 
   factory _BusFromDb.fromJson(Map<String, dynamic> json) =
       _$BusFromDbImpl.fromJson;
@@ -296,9 +300,9 @@ abstract class _BusFromDb implements BusFromDb {
   @override
   List<Stop> get roadMap;
   @override
-  Stop get position;
+  Stop? get position;
   @override
-  DateTime get startDate;
+  DateTime? get startDate;
   @override
   @JsonKey(ignore: true)
   _$$BusFromDbImplCopyWith<_$BusFromDbImpl> get copyWith =>

@@ -15,8 +15,12 @@ _$BusFromDbImpl _$$BusFromDbImplFromJson(Map<String, dynamic> json) =>
       roadMap: (json['roadMap'] as List<dynamic>)
           .map((e) => Stop.fromJson(e as Map<String, dynamic>))
           .toList(),
-      position: Stop.fromJson(json['position'] as Map<String, dynamic>),
-      startDate: DateTime.parse(json['startDate'] as String),
+      position: json['position'] == null
+          ? null
+          : Stop.fromJson(json['position'] as Map<String, dynamic>),
+      startDate: json['startDate'] == null
+          ? null
+          : DateTime.parse(json['startDate'] as String),
     );
 
 Map<String, dynamic> _$$BusFromDbImplToJson(_$BusFromDbImpl instance) =>
@@ -27,5 +31,5 @@ Map<String, dynamic> _$$BusFromDbImplToJson(_$BusFromDbImpl instance) =>
       'isActive': instance.isActive,
       'roadMap': instance.roadMap,
       'position': instance.position,
-      'startDate': instance.startDate.toIso8601String(),
+      'startDate': instance.startDate?.toIso8601String(),
     };

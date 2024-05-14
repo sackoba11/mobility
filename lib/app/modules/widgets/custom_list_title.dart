@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobility/app/models/bus/bus_from_realTime/bus_from_db.dart';
 import 'package:mobility/app/modules/bus/controllers/home_bus_controller.dart';
 
 import '../../constants/app colors/app_colors.dart';
 import '../../constants/typography/typography.dart';
-import '../../models/stop/stop.dart';
 
 class CustomListTitle extends StatelessWidget {
-  final int title;
-  final String description;
-  final String? source;
-  final String? destination;
-  final List<Stop>? roadMap;
+  final BusFromDb bus;
   final path;
-  final bool isActive;
-  const CustomListTitle(
-      {super.key,
-      required this.description,
-      required this.title,
-      required this.path,
-      required this.isActive,
-      this.roadMap,
-      this.source = "source",
-      this.destination = "destination"});
+  const CustomListTitle({
+    super.key,
+    required this.bus,
+    required this.path,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +21,8 @@ class CustomListTitle extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         Get.to(path);
-        controller.number = RxInt(title);
-        controller.sourceBus = RxString(source!);
-        controller.destinationBus = RxString(destination!);
-        controller.road = roadMap!;
-        controller.routes = await controller.getRoutes(controller.road);
+        controller.currentBus.value = bus;
+        controller.routes = await controller.getRoutes(bus.roadMap);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -53,8 +41,8 @@ class CustomListTitle extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTypography().mediumDefault(text: title.toString()),
-                isActive == true
+                AppTypography().mediumDefault(text: bus.number.toString()),
+                bus.isActive == true
                     ? const Text(
                         "Actif",
                         style: TextStyle(fontSize: 10, color: Colors.green),
@@ -65,7 +53,8 @@ class CustomListTitle extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            AppTypography().lightSmall(text: description)
+            AppTypography()
+                .lightSmall(text: "${bus.source}  <->  ${bus.destination}"),
           ],
         ),
       ),

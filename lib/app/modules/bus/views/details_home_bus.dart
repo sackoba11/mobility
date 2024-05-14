@@ -64,7 +64,7 @@ class DetailsHomeBus extends GetView<BusController> {
                       markerId: const MarkerId("destination"),
                       position: LatLng(controller.routes.last[1],
                           controller.routes.last[0])),
-                  for (var i in controller.road)
+                  for (var i in controller.currentBus.value.roadMap)
                     Marker(
                         markerId: const MarkerId("route"),
                         position: LatLng(i.lat, i.long))
@@ -146,8 +146,9 @@ class DetailsHomeBus extends GetView<BusController> {
                                         ],
                                       ),
                                       Column(
-                                        children: (controller.road.map((e) =>
-                                                InfosDestination(
+                                        children: (controller
+                                                .currentBus.value.roadMap
+                                                .map((e) => InfosDestination(
                                                     infos:
                                                         "Arrêt ${e.toString()}")))
                                             .toList(),
@@ -180,13 +181,17 @@ class DetailsHomeBus extends GetView<BusController> {
                                     height: 10,
                                   ),
                                   InfosCar(
-                                    infos: controller.number.toString(),
+                                    infos: controller.currentBus.value.number
+                                        .toString(),
                                   ),
                                   InfosCar(
-                                    infos: controller.sourceBus.toString(),
+                                    infos: controller.currentBus.value.source
+                                        .toString(),
                                   ),
                                   InfosCar(
-                                    infos: controller.destinationBus.toString(),
+                                    infos: controller
+                                        .currentBus.value.destination
+                                        .toString(),
                                   ),
                                 ],
                               ),

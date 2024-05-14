@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/app/repositories/driverRepository/driver_repository_impl.dart';
 import 'package:mobility/app/repositories/driverRepository/i_driver_repository.dart';
 
-import '../../../models/bus/bus.dart';
+import '../../../models/bus/bus_from_firestore/bus.dart';
 
 class DriverController extends GetxController {
   IDriverRepository iDriverRepository = DriverRepositoryImpl();

@@ -4,8 +4,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/app/error/app_error.dart';
-import 'package:mobility/app/models/bus/bus.dart';
 
+import '../../models/bus/bus_from_firestore/bus.dart';
 import 'i_driver_repository.dart';
 
 @LazySingleton(as: IDriverRepository)
@@ -13,15 +13,12 @@ class DriverRepositoryImpl implements IDriverRepository {
   DatabaseReference ref = FirebaseDatabase.instance.ref().child("activeBus");
 
   @override
-  Future<Either<AppError, List<Bus>>> getBusRoadMaps() async {
+  Future<Either<AppError, List<Bus>>> getAllBus() async {
     final snapShotListBus =
         await FirebaseFirestore.instance.collection('listBus').get();
-    // print(snapShotListBus);
     final docsListBus = snapShotListBus.docs;
-    // print(docsListBus);
     final buslistFirebse =
         docsListBus.map((e) => Bus.fromJson(e.data())).toList();
-    print(buslistFirebse.first);
     return right(buslistFirebse);
   }
 

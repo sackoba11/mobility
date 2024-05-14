@@ -1,7 +1,8 @@
-import 'package:mobility/app/models/bus/bus.dart';
 import 'package:mobility/app/models/itineraire_gare/itineraire_gare.dart';
 import 'package:mobility/app/models/stop/stop.dart';
 import 'package:mobility/app/models/gare/gare.dart';
+
+import '../models/bus/bus_from_firestore/bus.dart';
 
 class MockData {
   static List<ItineraireGare> itineraireGbaka = [

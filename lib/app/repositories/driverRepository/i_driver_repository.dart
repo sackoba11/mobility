@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:mobility/app/models/bus/bus.dart';
 
 import '../../error/app_error.dart';
+import '../../models/bus/bus_from_firestore/bus.dart';
 
 abstract class IDriverRepository {
-  Future<Either<AppError, List<Bus>>> getBusRoadMaps();
+  Future<Either<AppError, List<Bus>>> getAllBus();
   Future<Either<AppError, String>> activateBusService(
       {required Bus bus, required Position position});
   Future<Either<AppError, void>> updatePosition(

@@ -6,10 +6,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
-import 'package:mobility/app/models/bus/bus.dart';
-import 'package:mobility/app/models/bus/bus_from_db.dart';
+import 'package:mobility/app/models/bus/bus_from_firestore/bus.dart';
 
 import '../../../constants/app string/app_string.dart';
+import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/routes_model/data_model.dart';
 import '../../../models/stop/stop.dart';
 import '../../../repositories/busRepository/bus_repository_impl.dart';
@@ -20,14 +20,22 @@ class BusController extends GetxController {
 
   BusRepositoryImpl busRepository = BusRepositoryImpl();
   RxBool isLoading = true.obs;
-  List<BusFromDb> busList = <BusFromDb>[].obs;
-  List<BusFromDb> availableBusList = <BusFromDb>[].obs;
-  List<BusFromDb> searchBus = <BusFromDb>[].obs;
-  RxInt? number = 0.obs;
-  RxString sourceBus = " ".obs;
-  RxString destinationBus = " ".obs;
+  List<BusFromDb> activeBusList = <BusFromDb>[].obs;
+  List<BusFromDb> availableActiveBusList = <BusFromDb>[].obs;
+  List<BusFromDb> searchActiveBus = <BusFromDb>[].obs;
+  List<BusFromDb> listAllBus = <BusFromDb>[].obs;
+  List<Bus> searchListAllBus = <Bus>[].obs;
+
   List<dynamic> routes = <Stop>[].obs;
-  List<Stop> road = <Stop>[].obs;
+  Rx<BusFromDb> currentBus = BusFromDb(
+          number: 0,
+          source: "",
+          destination: "",
+          isActive: false,
+          roadMap: [],
+          position: Stop(lat: 0, long: 0),
+          startDate: DateTime.now())
+      .obs;
 
   // second home Bus
   late StreamSubscription<Position> streamSubscription;
@@ -39,18 +47,13 @@ class BusController extends GetxController {
   String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
 
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
-  var destLatitude = "5.3589712".obs, destLongitude = "-4.0272913".obs;
-  // var userPosition = const LatLng(5.3502292, -3.9881887);
-  LatLng second = const LatLng(5.354784, -3.974198);
-  LatLng first = const LatLng(5.358065, -3.964597);
-  LatLng destinationLocaton = const LatLng(5.351888, -3.983774);
-  LatLng sourceLocation = const LatLng(5.3502292, -3.9881887);
+  Rx<LatLng> busPosition = const LatLng(5.3502292, -3.9881887).obs;
 
   @override
   void onInit() async {
     super.onInit();
     // await busRepository.addRoadMap();
-    await getBus();
+    await getAllBus();
     getLocation();
   }
 
@@ -66,20 +69,24 @@ class BusController extends GetxController {
   }
 
 // home Bus
-  Future<void> getBus() async {
+  Future<void> getAllBus() async {
     isLoading(true);
-    busList = (await busRepository.getBusRoadMaps()).fold((l) => [], (r) => r);
-    availableBusList = busList;
+    activeBusList =
+        (await busRepository.getActiveBus()).fold((l) => [], (r) => r);
+
+    listAllBus = (await busRepository.getAllBus()).fold((l) => [], (r) => r);
+
+    availableActiveBusList = activeBusList + listAllBus;
 
     isLoading(false);
     update();
   }
 
-  Future<void> getBusByNumber(RxInt busNumber) async {
-    searchBus = busList
+  Future<void> getBusByNumber(int busNumber) async {
+    searchActiveBus = (activeBusList + listAllBus)
         .where((bus) => bus.number.toString().contains(busNumber.toString()))
         .toList();
-    availableBusList = searchBus;
+    availableActiveBusList = searchActiveBus;
     update();
   }
 

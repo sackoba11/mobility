@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../stop/stop.dart';
+import '../../stop/stop.dart';
 
 part 'bus.freezed.dart';
 part 'bus.g.dart';

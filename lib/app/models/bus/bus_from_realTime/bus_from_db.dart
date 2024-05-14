@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../stop/stop.dart';
+import '../../stop/stop.dart';
 
 part 'bus_from_db.freezed.dart';
 part 'bus_from_db.g.dart';
@@ -13,8 +13,8 @@ abstract class BusFromDb with _$BusFromDb {
       required String destination,
       required bool isActive,
       required List<Stop> roadMap,
-      required Stop position,
-      required DateTime startDate}) = _BusFromDb;
+      required Stop? position,
+      required DateTime? startDate}) = _BusFromDb;
   factory BusFromDb.fromJson(Map<String, dynamic> json) =>
       _$BusFromDbFromJson(json);
 }

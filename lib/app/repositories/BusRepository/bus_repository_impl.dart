@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../error/app_error.dart';
-import '../../models/bus/bus.dart';
-import '../../models/bus/bus_from_db.dart';
+import '../../models/bus/bus_from_firestore/bus.dart';
+import '../../models/bus/bus_from_realTime/bus_from_db.dart';
 import 'i_bus_repository.dart';
 
 @LazySingleton(as: IBusRepository)
@@ -204,20 +206,28 @@ class BusRepositoryImpl implements IBusRepository {
   }
 
   @override
-  Future<Either<AppError, List<BusFromDb>>> getBusRoadMaps() async {
+  Future<Either<AppError, List<BusFromDb>>> getActiveBus() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref().child("activeBus");
 
-    BusFromDb dataBus;
-    final snapShotListBus = await ref.get();
-    // print(snapShotListBus);
-    // if (snapShotListBus.exists) {
-    //   dataBus = BusFromDb.fromJson(snapShotListBus.value);
-    // } else {}
-    final docsListBus = snapShotListBus.value;
-    print(docsListBus);
-    // final buslistFirebse =
-    //     docsListBus.map((e) => BusFromDb.fromJson(e.data())).toList();
-    // print(buslistFirebse.first);
-    return right([]);
+    List<BusFromDb> dataBus = [];
+    final activeListBus = await ref.get();
+    activeListBus.children
+        .map((e) => (e.children
+            .map((e) => dataBus
+                .add(BusFromDb.fromJson(jsonDecode(jsonEncode(e.value)))))
+            .toList()))
+        .toList();
+
+    return right(dataBus);
+  }
+
+  @override
+  Future<Either<AppError, List<BusFromDb>>> getAllBus() async {
+    final snapShotListBus =
+        await FirebaseFirestore.instance.collection('listBus').get();
+    final docsListBus = snapShotListBus.docs;
+    final buslistFirebse =
+        docsListBus.map((e) => BusFromDb.fromJson(e.data())).toList();
+    return right(buslistFirebse);
   }
 }

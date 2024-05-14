@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/app/assets/assets.gen.dart';
-import 'package:mobility/app/models/bus/bus.dart';
 
 import '../../../constants/app colors/app_colors.dart';
+import '../../../models/bus/bus_from_firestore/bus.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/illustrator.dart';
 import '../../widgets/infos_car.dart';
@@ -209,7 +209,7 @@ class DriverView extends GetView<DriverController> {
                                         busSelected!,
                                         controller.positionBus.value);
 
-                                Timer.periodic(const Duration(seconds: 5),
+                                Timer.periodic(const Duration(seconds: 15),
                                     (timer) async {
                                   if (controller.isActive.value) {
                                     controller.updateBusService(

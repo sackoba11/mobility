@@ -18,6 +18,15 @@ class HomeBus extends GetView<BusController> {
       appBar: AppBar(
         backgroundColor: AppColor.black,
         elevation: 0,
+        actions: [
+          IconButton(
+            iconSize: 26,
+            icon: const Icon(Icons.restart_alt),
+            onPressed: () async {
+              await controller.getAllBus();
+            },
+          )
+        ],
       ),
       backgroundColor: AppColor.black,
       body: Stack(
@@ -68,17 +77,14 @@ class HomeBus extends GetView<BusController> {
               return CustomSearchBar(
                   hintText: "Bus Numéro ...",
                   textEditingController: _.textEditingController,
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     if (_.textEditingController.text.isNotEmpty) {
-                      _.number =
-                          RxInt(int.tryParse(_.textEditingController.text)!);
-                      if (_.number != null) {
-                        _.getBusByNumber(_.number!);
-                        _.availableBusList = _.searchBus;
-                      }
+                      await _.getBusByNumber(
+                          int.tryParse(_.textEditingController.text)!);
+                      _.availableActiveBusList = _.searchActiveBus;
                     } else {
-                      _.getBus();
-                      _.availableBusList = _.busList;
+                      await _.getAllBus();
+                      // _.availableActiveBusList = _.activeBusList;
                     }
                   });
             },
@@ -92,7 +98,7 @@ class HomeBus extends GetView<BusController> {
                 ),
               );
             }
-            if (controller.availableBusList.isEmpty) {
+            if (controller.availableActiveBusList.isEmpty) {
               return const Center(
                 child: Text("Pas de bus disponibles"),
               );
@@ -102,27 +108,21 @@ class HomeBus extends GetView<BusController> {
                 init: BusController(),
                 initState: (_) {},
                 builder: (_) {
-                  if (_.availableBusList.isEmpty) {
-                    return Center(
-                      child:
-                          Text("Aucun Bus de numéro ${_.number}  disponibles"),
+                  if (_.availableActiveBusList.isEmpty) {
+                    return const Center(
+                      child: Text("Aucun Bus trouvé"),
                     );
                   }
                   return ListView.builder(
                     itemCount: 1,
                     itemBuilder: ((context, snapshot) {
                       return Column(
-                          children: _.availableBusList
+                          children: _.availableActiveBusList
                               .map(
                                 (e) => Column(
                                   children: [
                                     CustomListTitle(
-                                        roadMap: e.roadMap,
-                                        isActive: e.isActive,
-                                        description:
-                                            "${e.source}  <->  ${e.destination}",
-                                        title: e.number,
-                                        path: const SecondHomeBus()),
+                                        bus: e, path: const SecondHomeBus()),
                                     const SizedBox(
                                       height: 5,
                                     )
