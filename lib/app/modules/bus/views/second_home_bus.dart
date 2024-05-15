@@ -29,18 +29,24 @@ class SecondHomeBus extends GetView<BusController> {
                     scrollGesturesEnabled: true,
                     zoomGesturesEnabled: true,
                     initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                            controller.currentBus.value.position!.lat,
-                            controller.currentBus.value.position!.long),
+                        target: (controller.currentBus.value.position) != null
+                            ? LatLng(controller.currentBus.value.position!.lat,
+                                controller.currentBus.value.position!.long)
+                            : LatLng(
+                                double.parse(controller.userLatitude.value),
+                                double.parse(controller.userLongitude.value)),
                         zoom: 15),
                     markers: {
                       Marker(
                         markerId: const MarkerId("BusPosition"),
                         icon: BitmapDescriptor.defaultMarkerWithHue(
                             BitmapDescriptor.hueAzure),
-                        position: LatLng(
-                            controller.currentBus.value.position!.lat,
-                            controller.currentBus.value.position!.long),
+                        position: (controller.currentBus.value.position) != null
+                            ? LatLng(controller.currentBus.value.position!.lat,
+                                controller.currentBus.value.position!.long)
+                            : LatLng(
+                                double.parse(controller.userLatitude.value),
+                                double.parse(controller.userLongitude.value)),
                       ),
                     },
                     onMapCreated: controller.onMapCreated,
