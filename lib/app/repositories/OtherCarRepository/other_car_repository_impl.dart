@@ -32,16 +32,16 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
 
   @override
   Future<Either<AppError, bool>> addAllGares() async {
-    // List<Gare> garesGbaka = MockData.garesGbaka;
+    List<Gare> garesGbaka = MockData.garesGbaka + MockData.garesTaxi;
     // List<Gare> garestaxi = MockData.garesTaxi;
     List<ItineraireGare> itineraireGbaka = MockData.itineraireGbaka;
     List<ItineraireGare> itineraireTaxi = MockData.itineraireTaxi;
     try {
-      // for (var element in garesGbaka) {
-      //   await FirebaseFirestore.instance
-      //       .collection("GaresGbaka")
-      //       .add(element.toJson());
-      // }
+      for (var element in garesGbaka) {
+        await FirebaseFirestore.instance
+            .collection("Gares")
+            .add(element.toJson());
+      }
       // for (var element in garestaxi) {
       //   await FirebaseFirestore.instance
       //       .collection("GaresTaxi")
@@ -52,11 +52,11 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
       //       .collection("ItinerairesGbaka")
       //       .add(element.toJson());
       // }
-      for (var element in itineraireTaxi) {
-        await FirebaseFirestore.instance
-            .collection("ItinerairesTaxi")
-            .add(element.toJson());
-      }
+      // for (var element in itineraireTaxi) {
+      //   await FirebaseFirestore.instance
+      //       .collection("ItinerairesTaxi")
+      //       .add(element.toJson());
+      // }
       return right(true);
     } catch (e) {
       return left(GenericAppError("erreur : ${e.toString()}"));

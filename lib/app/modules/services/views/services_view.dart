@@ -16,8 +16,8 @@ class ServicesView extends GetView<ServicesController> {
   Widget build(BuildContext context) {
     final typo = AppTypography();
     Get.put(ServicesController());
-    return WillPopScope(
-      onWillPop: () => ServicesController.onWillPop(context),
+    return PopScope(
+      onPopInvoked: (bool test) => ServicesController.onWillPop(context),
       child: Scaffold(
         backgroundColor: AppColor.background,
         body: Padding(

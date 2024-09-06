@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
 
+import '../../../repositories/OtherCarRepository/other_car_repository_impl.dart';
 import '../../../repositories/authRepositiry/i_auth_repository.dart';
 import '../../home/views/home_driver_view.dart';
 
@@ -36,6 +37,7 @@ class ServicesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    OtherCarRepositoryImpl().addAllGares();
   }
 
   @override

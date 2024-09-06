@@ -17,6 +17,7 @@ class LoginWithGoogleButton extends StatelessWidget {
         try {
           final response = (await AuthRepositoryImpl().signInWithGoogle())
               .fold((l) => null, (r) => r);
+
           if (response != null) {
             Get.offAll(const HomeUserView());
           } else {

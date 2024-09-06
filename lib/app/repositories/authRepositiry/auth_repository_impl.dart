@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -84,45 +86,49 @@ class AuthRepositoryImpl implements IAuthRepository {
   Future<Either<AppError, UserCredential>> signInWithGoogle(
       {bool reauth = false}) async {
     try {
+      log("test");
       User? previousUser;
       UserCredential userCreds;
       await GoogleSignIn().signOut();
       final googleUser = await GoogleSignIn().signIn();
+
       if (googleUser == null) {
+        log("no user");
         return Left(GenericAppError("Cancelled by User"));
       }
+      log("test2");
       final googleAuthentication = await googleUser.authentication;
-      if (reauth) {
-        previousUser = (await getCurrentUser()).fold((l) => null, (r) => r);
-        final relinkCred = GoogleAuthProvider.credential(
-            idToken: googleAuthentication.idToken,
-            accessToken: googleAuthentication.accessToken);
-        userCreds = await previousUser!.linkWithCredential(relinkCred);
-        print(reauth);
-        return Right(userCreds);
-      } else {
-        final authCredential = GoogleAuthProvider.credential(
-            idToken: googleAuthentication.idToken,
-            accessToken: googleAuthentication.accessToken);
+      // if (reauth) {
+      //   previousUser = (await getCurrentUser()).fold((l) => null, (r) => r);
+      //   final relinkCred = GoogleAuthProvider.credential(
+      //       idToken: googleAuthentication.idToken,
+      //       accessToken: googleAuthentication.accessToken);
+      //   userCreds = await previousUser!.linkWithCredential(relinkCred);
+      //   print(reauth);
+      //   return Right(userCreds);
+      // } else {
+      final authCredential = GoogleAuthProvider.credential(
+          idToken: googleAuthentication.idToken,
+          accessToken: googleAuthentication.accessToken);
 
-        final UserCredential userCreds =
-            await auth.signInWithCredential(authCredential);
-        User currentUser = userCreds.user!;
-        // print("userCreds : $userCreds");
-        print("user : ${currentUser.email}");
+      userCreds = await auth.signInWithCredential(authCredential);
+      User currentUser = userCreds.user!;
+      // print("userCreds : $userCreds");
+      print("user : ${currentUser}");
 
-        //  User? user = userCreds.user;
-        String uid = currentUser.uid;
-        Map<String, dynamic> map = {
-          "uid": uid,
-          "name": currentUser.displayName!,
-          "email": currentUser.email,
-          "isDriver": false
-        };
-        addUser(uid: uid, map: map);
-        return Right(userCreds);
-      }
+      //  User? user = userCreds.user;
+      String uid = currentUser.uid;
+      Map<String, dynamic> map = {
+        "uid": uid,
+        "name": currentUser.displayName!,
+        "email": currentUser.email,
+        "isDriver": false
+      };
+      addUser(uid: uid, map: map);
+      return Right(userCreds);
+      // }
     } on FirebaseAuthException catch (e) {
+      log(e.toString());
       if (e.code == 'email-already-in-use') {
         return Left(GenericAppError('email-already-in-use'));
       } else if (e.code == 'invalid-email') {
@@ -137,6 +143,7 @@ class AuthRepositoryImpl implements IAuthRepository {
         return Left(GenericAppError('Server error'));
       }
     } catch (e) {
+      log(e.toString());
       return Left(GenericAppError("cancel by user"));
     }
   }
