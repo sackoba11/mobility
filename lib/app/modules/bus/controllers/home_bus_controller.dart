@@ -44,7 +44,7 @@ class BusController extends GetxController {
     mapController = controller;
   }
 
-  String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
+  // String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
 
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
   Rx<LatLng> busPosition = const LatLng(5.3502292, -3.9881887).obs;
