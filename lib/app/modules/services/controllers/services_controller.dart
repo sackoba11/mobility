@@ -111,36 +111,36 @@ class ServicesController extends GetxController {
     }
   }
 
-  Future<void> driverRegister() async {
-    if (name.text.isNotEmpty) {
-      if (number.text.isNotEmpty) {
-        if (email.text.isNotEmpty) {
-          if (password.text.isNotEmpty) {
-            if (typeOfCar!.isNotEmpty) {
-              if (brand.text.isNotEmpty) {
-                if (color.text.isNotEmpty) {
-                  var response = await AuthRepositoryImpl()
-                      .signInWithEmailAndPassword(
-                          userName: name.text,
-                          userNumber: number.text,
-                          typeOfCar: typeOfCar,
-                          brand: brand.text,
-                          color: color.text,
-                          userEmail: email.text,
-                          userPassword: password.text);
+  // Future<void> driverRegister() async {
+  //   if (name.text.isNotEmpty) {
+  //     if (number.text.isNotEmpty) {
+  //       if (email.text.isNotEmpty) {
+  //         if (password.text.isNotEmpty) {
+  //           if (typeOfCar!.isNotEmpty) {
+  //             if (brand.text.isNotEmpty) {
+  //               if (color.text.isNotEmpty) {
+  //                 var response = await AuthRepositoryImpl()
+  //                     .signInWithEmailAndPassword(
+  //                         userName: name.text,
+  //                         userNumber: number.text,
+  //                         typeOfCar: typeOfCar,
+  //                         brand: brand.text,
+  //                         color: color.text,
+  //                         userEmail: email.text,
+  //                         userPassword: password.text);
 
-                  if (response.isRight()) {
-                    Get.off(const HomeDriverView());
-                  } else {
-                    Get.snackbar("Erreur",
-                        "Veuillez vérifier l'email ou le mot de passe");
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  //                 if (response.isRight()) {
+  //                   Get.off(const HomeDriverView());
+  //                 } else {
+  //                   Get.snackbar("Erreur",
+  //                       "Veuillez vérifier l'email ou le mot de passe");
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }

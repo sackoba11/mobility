@@ -21,9 +21,7 @@ class LoginButton extends StatelessWidget {
     return TextButton(
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          login
-              ? Get.find<ServicesController>().login()
-              : Get.find<ServicesController>().driverRegister();
+          Get.find<ServicesController>().login();
         } else {
           Get.snackbar(
             "Echec",

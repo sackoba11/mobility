@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/models/user/my_user.dart';
+import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart';
 import 'package:mobility/app/repositories/otherCarRepository/i_other_car_repository.dart';
 import 'package:mobility/app/repositories/otherCarRepository/other_car_repository_impl.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
@@ -12,6 +13,7 @@ class SplashScreenController extends GetxController
   late AnimationController animationController;
   late Animation<double> animation;
   IOtherCarRepository iOtherCarRepository = OtherCarRepositoryImpl();
+  IAuthRepository iAuthRepository = AuthRepositoryImpl();
   User? currentUser;
   @override
   void onInit() async {
@@ -45,8 +47,8 @@ class SplashScreenController extends GetxController
 
         if (currentUser != null) {
           String uid = currentUser!.uid;
-          MyUser user = (await AuthRepositoryImpl().getUser(uid))
-              .fold((l) => null, (r) => r)!;
+          MyUser user =
+              (await iAuthRepository.getUser(uid)).fold((l) => null, (r) => r)!;
           if (user.isDriver) {
             Get.offAllNamed(Routes.homeDriver);
           } else {

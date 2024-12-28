@@ -4,11 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/app/error/app_error.dart';
 import 'package:mobility/app/models/user/my_user.dart';
 import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart';
+
+import '../../modules/home/views/home_user_view.dart';
 
 @LazySingleton(as: IAuthRepository)
 class AuthRepositoryImpl implements IAuthRepository {
@@ -82,21 +86,17 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
-  @override
   Future<Either<AppError, UserCredential>> signInWithGoogle(
       {bool reauth = false}) async {
     try {
-      log("test");
       User? previousUser;
       UserCredential userCreds;
       await GoogleSignIn().signOut();
       final googleUser = await GoogleSignIn().signIn();
 
       if (googleUser == null) {
-        log("no user");
         return Left(GenericAppError("Cancelled by User"));
       }
-      log("test2");
       final googleAuthentication = await googleUser.authentication;
       if (reauth) {
         previousUser = (await getCurrentUser()).fold((l) => null, (r) => r);
@@ -104,7 +104,6 @@ class AuthRepositoryImpl implements IAuthRepository {
             idToken: googleAuthentication.idToken,
             accessToken: googleAuthentication.accessToken);
         userCreds = await previousUser!.linkWithCredential(relinkCred);
-        print(reauth);
         return Right(userCreds);
       } else {
         final authCredential = GoogleAuthProvider.credential(
@@ -113,10 +112,7 @@ class AuthRepositoryImpl implements IAuthRepository {
 
         userCreds = await auth.signInWithCredential(authCredential);
         User currentUser = userCreds.user!;
-        // print("userCreds : $userCreds");
-        print("user : ${currentUser}");
 
-        //  User? user = userCreds.user;
         String uid = currentUser.uid;
         Map<String, dynamic> map = {
           "uid": uid,
@@ -247,6 +243,24 @@ class AuthRepositoryImpl implements IAuthRepository {
       } else {
         return Left(GenericAppError('Server error'));
       }
+    }
+  }
+
+  @override
+  Future<void> login({required ValueNotifier<bool> loarding}) async {
+    try {
+      loarding.value = true;
+      final response = (await signInWithGoogle()).fold((l) => null, (r) => r);
+
+      if (response != null) {
+        loarding.value = false;
+        Get.offAll(const HomeUserView());
+      } else {
+        loarding.value = false;
+        Get.back();
+      }
+    } catch (e) {
+      Get.snackbar("Erreur :", e.toString());
     }
   }
 

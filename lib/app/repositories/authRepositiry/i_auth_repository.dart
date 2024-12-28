@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:mobility/app/error/app_error.dart';
 import 'package:mobility/app/models/user/my_user.dart';
 
 abstract class IAuthRepository {
-  Future<Either<AppError, UserCredential>> signInWithGoogle();
+  Future<void> login({required ValueNotifier<bool> loarding});
   Future<Either<AppError, UserCredential>> signInWithEmailAndPassword({
     required String userName,
     required String userNumber,
