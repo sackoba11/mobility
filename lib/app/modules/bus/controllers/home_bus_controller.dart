@@ -12,7 +12,7 @@ import '../../../constants/app string/app_string.dart';
 import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/routes_model/data_model.dart';
 import '../../../models/stop/stop.dart';
-import '../../../repositories/busRepository/bus_repository_impl.dart';
+import '../../../repositories/BusRepository/bus_repository_impl.dart';
 
 class BusController extends GetxController {
   //home Bus

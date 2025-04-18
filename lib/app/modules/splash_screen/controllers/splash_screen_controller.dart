@@ -3,10 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mobility/app/models/user/my_user.dart';
 import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart';
-import 'package:mobility/app/repositories/otherCarRepository/i_other_car_repository.dart';
-import 'package:mobility/app/repositories/otherCarRepository/other_car_repository_impl.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
 import 'package:mobility/app/routes/app_pages.dart';
+
+import '../../../repositories/OtherCarRepository/i_other_car_repository.dart';
+import '../../../repositories/OtherCarRepository/other_car_repository_impl.dart';
 
 class SplashScreenController extends GetxController
     with GetSingleTickerProviderStateMixin {
