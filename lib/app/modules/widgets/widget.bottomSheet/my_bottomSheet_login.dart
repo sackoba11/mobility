@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../services/controllers/services_controller.dart';
-import '../apps_methodes.dart';
 import '../custom_input.dart';
 import '../login_btn.dart';
 

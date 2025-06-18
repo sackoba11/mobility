@@ -10,10 +10,7 @@ dependencies:
   get: ^4.6.6
   flutter: 
     sdk: flutter
-  firebase_core: ^2.24.2
-  firebase_database: ^10.3.8
-  firebase_auth: ^4.15.2
-  cloud_firestore: ^4.13.5
+  firebase_core: ^3.14.0
   google_fonts: ^4.0.4
   geolocator: ^10.0.0
   geocoding: ^2.1.0
@@ -27,11 +24,15 @@ dependencies:
   dartz: ^0.10.1
   flutter_polyline_points:
   google_places_flutter:
-  firebase_storage: ^11.5.6
   dio: ^4.0.6
-  google_sign_in: ^6.1.6
   http: ^1.1.0
   dropdown_button2: ^2.3.9
+  firebase_database: ^11.3.7
+  firebase_auth: ^5.6.0
+  cloud_firestore: ^5.6.9
+  firebase_storage: ^12.4.7
+  google_sign_in: ^6.3.0
+  
   
 
 dev_dependencies: 

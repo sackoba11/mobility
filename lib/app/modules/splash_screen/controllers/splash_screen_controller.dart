@@ -28,16 +28,6 @@ class SplashScreenController extends GetxController
     //     : print(false);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   splashDuration() async {
     return Future.delayed(
       const Duration(seconds: 3),

@@ -6,7 +6,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../error/app_error.dart';
-import '../../models/bus/bus_from_firestore/bus.dart';
 import '../../models/bus/bus_from_realTime/bus_from_db.dart';
 import 'i_bus_repository.dart';
 

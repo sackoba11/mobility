@@ -1,8 +1,6 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../constants/app colors/app_colors.dart';
 import '../../services/controllers/services_controller.dart';
 import '../custom_input.dart';
 import '../login_btn.dart';
