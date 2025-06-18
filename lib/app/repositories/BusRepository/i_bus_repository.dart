@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../error/app_error.dart';
-import '../../models/bus/bus_from_firestore/bus.dart';
 import '../../models/bus/bus_from_realTime/bus_from_db.dart';
 
 abstract class IBusRepository {

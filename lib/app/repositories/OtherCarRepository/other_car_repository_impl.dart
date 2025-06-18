@@ -34,8 +34,8 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
   Future<Either<AppError, bool>> addAllGares() async {
     List<Gare> garesGbaka = MockData.garesGbaka + MockData.garesTaxi;
     // List<Gare> garestaxi = MockData.garesTaxi;
-    List<ItineraireGare> itineraireGbaka = MockData.itineraireGbaka;
-    List<ItineraireGare> itineraireTaxi = MockData.itineraireTaxi;
+    // List<ItineraireGare> itineraireGbaka = MockData.itineraireGbaka;
+    // List<ItineraireGare> itineraireTaxi = MockData.itineraireTaxi;
     try {
       for (var element in garesGbaka) {
         await FirebaseFirestore.instance
