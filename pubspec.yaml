@@ -73,7 +73,6 @@ scripts:
   gen-watch: "dart run build_runner watch"
   build: ".fvm/flutter_sdk/bin/flutter build apk --split-per-abi"
   gen-assets: "fluttergen -c pubspec.yaml && dart run build_runner build"
-
-splash:
+  native-splash:
     - dart pub run flutter_native_splash:remove --path=splash.yaml
     - dart pub run flutter_native_splash:create --path=splash.yaml
