@@ -153,7 +153,7 @@ class AuthRepositoryImpl implements IAuthRepository {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       User currentUser = credential.user!;
-      print("user : ${currentUser.email}");
+      log("user : ${currentUser.email}");
       return Right(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -226,7 +226,7 @@ class AuthRepositoryImpl implements IAuthRepository {
         //   await user.sendEmailVerification();
         // }
         User currentUser = userCreds.user!;
-        print("user : ${currentUser.email}");
+        log("user : ${currentUser.email}");
         return Right(userCreds);
       }
     } on FirebaseAuthException catch (e) {

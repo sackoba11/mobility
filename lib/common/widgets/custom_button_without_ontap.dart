@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
 import '../../utils/constants/app colors/app_colors.dart';
 import '../../utils/constants/typography/typography.dart';
 
 class CustomButtonWithoutOnTap extends StatelessWidget {
-  final icon;
+  final SvgPicture icon;
   final String subtitle;
   final String title;
   const CustomButtonWithoutOnTap(

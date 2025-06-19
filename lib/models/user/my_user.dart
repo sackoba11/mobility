@@ -4,7 +4,7 @@ part 'my_user.freezed.dart';
 part 'my_user.g.dart';
 
 @freezed
-class MyUser with _$MyUser {
+abstract class MyUser with _$MyUser {
   factory MyUser(
       {required String uid,
       required String name,

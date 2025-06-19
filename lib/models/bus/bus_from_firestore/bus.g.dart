@@ -6,8 +6,8 @@ part of 'bus.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BusImpl _$$BusImplFromJson(Map<String, dynamic> json) => _$BusImpl(
-      number: json['number'] as int,
+_Bus _$BusFromJson(Map<String, dynamic> json) => _Bus(
+      number: (json['number'] as num).toInt(),
       source: json['source'] as String,
       destination: json['destination'] as String,
       isActive: json['isActive'] as bool,
@@ -16,7 +16,7 @@ _$BusImpl _$$BusImplFromJson(Map<String, dynamic> json) => _$BusImpl(
           .toList(),
     );
 
-Map<String, dynamic> _$$BusImplToJson(_$BusImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$BusToJson(_Bus instance) => <String, dynamic>{
       'number': instance.number,
       'source': instance.source,
       'destination': instance.destination,

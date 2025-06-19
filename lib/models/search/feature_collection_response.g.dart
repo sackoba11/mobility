@@ -6,9 +6,9 @@ part of 'feature_collection_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FeatureCollectionResponseImpl _$$FeatureCollectionResponseImplFromJson(
+_FeatureCollectionResponse _$FeatureCollectionResponseFromJson(
         Map<String, dynamic> json) =>
-    _$FeatureCollectionResponseImpl(
+    _FeatureCollectionResponse(
       type: json['type'] as String,
       query: (json['query'] as List<dynamic>).map((e) => e as String).toList(),
       features: (json['features'] as List<dynamic>)
@@ -17,8 +17,8 @@ _$FeatureCollectionResponseImpl _$$FeatureCollectionResponseImplFromJson(
       attribution: json['attribution'] as String,
     );
 
-Map<String, dynamic> _$$FeatureCollectionResponseImplToJson(
-        _$FeatureCollectionResponseImpl instance) =>
+Map<String, dynamic> _$FeatureCollectionResponseToJson(
+        _FeatureCollectionResponse instance) =>
     <String, dynamic>{
       'type': instance.type,
       'query': instance.query,

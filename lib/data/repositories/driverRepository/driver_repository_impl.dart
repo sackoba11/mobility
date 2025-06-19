@@ -62,7 +62,7 @@ class DriverRepositoryImpl implements IDriverRepository {
   }
 
   @override
-  Future<Either<AppError, void>> updatePosition(
+  Future<Either<AppError, bool>> updatePosition(
       {required int busNumber,
       required String idBus,
       required double lat,

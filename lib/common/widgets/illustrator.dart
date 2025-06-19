@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Illustrator extends StatelessWidget {
-  final illustrator;
+  final dynamic illustrator;
   final double height;
   final double width;
   const Illustrator({

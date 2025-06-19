@@ -6,7 +6,7 @@ part 'bus.freezed.dart';
 part 'bus.g.dart';
 
 @freezed
-class Bus with _$Bus {
+abstract class Bus with _$Bus {
   factory Bus({
     required int number,
     required String source,

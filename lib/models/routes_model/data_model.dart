@@ -4,7 +4,7 @@ part 'data_model.freezed.dart';
 part 'data_model.g.dart';
 
 @freezed
-class DataModel with _$DataModel {
+abstract class DataModel with _$DataModel {
   factory DataModel({
     List<Waypoints>? waypoints,
     List<Routes>? routes,
@@ -16,7 +16,7 @@ class DataModel with _$DataModel {
 }
 
 @freezed
-class Waypoints with _$Waypoints {
+abstract class Waypoints with _$Waypoints {
   factory Waypoints({
     List<double>? location,
     String? name,
@@ -27,7 +27,7 @@ class Waypoints with _$Waypoints {
 }
 
 @freezed
-class Routes with _$Routes {
+abstract class Routes with _$Routes {
   factory Routes({
     List<Legs>? legs,
     String? weightName,
@@ -41,7 +41,7 @@ class Routes with _$Routes {
 }
 
 @freezed
-class Legs with _$Legs {
+abstract class Legs with _$Legs {
   factory Legs({
     List? steps,
     double? weight,
@@ -54,7 +54,7 @@ class Legs with _$Legs {
 }
 
 @freezed
-class Geometry with _$Geometry {
+abstract class Geometry with _$Geometry {
   factory Geometry({
     List<List>? coordinates,
     String? type,

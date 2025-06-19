@@ -8,7 +8,7 @@ part 'feature_model.freezed.dart';
 part 'feature_model.g.dart';
 
 @freezed
-class FeatureModel with _$FeatureModel {
+abstract class FeatureModel with _$FeatureModel {
   factory FeatureModel({
     required String id,
     required String type,

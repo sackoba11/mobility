@@ -10,13 +10,13 @@ class HomeUserController extends GetxController {
     currentUser = FirebaseAuth.instance.currentUser;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 }

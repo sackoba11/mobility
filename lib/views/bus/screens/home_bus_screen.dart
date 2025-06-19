@@ -73,18 +73,19 @@ class HomeBusScreen extends GetView<BusController> {
           GetBuilder<BusController>(
             init: BusController(),
             initState: (_) {},
-            builder: (_) {
+            builder: (busController) {
               return CustomSearchBar(
                   hintText: "Bus Numéro ...",
-                  textEditingController: _.textEditingController,
+                  textEditingController: busController.textEditingController,
                   onChanged: (value) async {
-                    if (_.textEditingController.text.isNotEmpty) {
-                      await _.getBusByNumber(
-                          int.tryParse(_.textEditingController.text)!);
-                      _.availableActiveBusList = _.searchActiveBus;
+                    if (busController.textEditingController.text.isNotEmpty) {
+                      await busController.getBusByNumber(int.tryParse(
+                          busController.textEditingController.text)!);
+                      busController.availableActiveBusList =
+                          busController.searchActiveBus;
                     } else {
-                      await _.getAllBus();
-                      // _.availableActiveBusList = _.activeBusList;
+                      await busController.getAllBus();
+                      // busController.availableActiveBusList = busController.activeBusList;
                     }
                   });
             },
@@ -106,9 +107,8 @@ class HomeBusScreen extends GetView<BusController> {
             return Expanded(
               child: GetBuilder<BusController>(
                 init: BusController(),
-                initState: (_) {},
-                builder: (_) {
-                  if (_.availableActiveBusList.isEmpty) {
+                builder: (busController) {
+                  if (busController.availableActiveBusList.isEmpty) {
                     return const Center(
                       child: Text("Aucun Bus trouvé"),
                     );
@@ -117,7 +117,7 @@ class HomeBusScreen extends GetView<BusController> {
                     itemCount: 1,
                     itemBuilder: ((context, snapshot) {
                       return Column(
-                          children: _.availableActiveBusList
+                          children: busController.availableActiveBusList
                               .map(
                                 (e) => Column(
                                   children: [

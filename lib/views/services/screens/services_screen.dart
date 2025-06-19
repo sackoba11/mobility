@@ -17,7 +17,8 @@ class ServiceScreen extends GetView<ServicesController> {
     final typo = AppTypography();
     Get.put(ServicesController());
     return PopScope(
-      onPopInvoked: (bool test) => ServicesController.onWillPop(context),
+      canPop: false,
+      onPopInvokedWithResult:(didPop, result) => ServicesController.onWillPop(context),
       child: Scaffold(
         backgroundColor: AppColor.background,
         body: Padding(

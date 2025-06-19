@@ -6,9 +6,8 @@ part of 'bus_from_db.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BusFromDbImpl _$$BusFromDbImplFromJson(Map<String, dynamic> json) =>
-    _$BusFromDbImpl(
-      number: json['number'] as int,
+_BusFromDb _$BusFromDbFromJson(Map<String, dynamic> json) => _BusFromDb(
+      number: (json['number'] as num).toInt(),
       source: json['source'] as String,
       destination: json['destination'] as String,
       isActive: json['isActive'] as bool,
@@ -23,7 +22,7 @@ _$BusFromDbImpl _$$BusFromDbImplFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['startDate'] as String),
     );
 
-Map<String, dynamic> _$$BusFromDbImplToJson(_$BusFromDbImpl instance) =>
+Map<String, dynamic> _$BusFromDbToJson(_BusFromDb instance) =>
     <String, dynamic>{
       'number': instance.number,
       'source': instance.source,

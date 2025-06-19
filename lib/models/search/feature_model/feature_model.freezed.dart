@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,39 +10,80 @@ part of 'feature_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-FeatureModel _$FeatureModelFromJson(Map<String, dynamic> json) {
-  return _FeatureModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FeatureModel {
-  String get id => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
-  List<String> get placeType => throw _privateConstructorUsedError;
-  double get relevance => throw _privateConstructorUsedError;
-  FeatureProperties get properties => throw _privateConstructorUsedError;
-  String get text => throw _privateConstructorUsedError;
-  String get placeName => throw _privateConstructorUsedError;
-  List<double> get center => throw _privateConstructorUsedError;
-  FeatureGeometry get geometry => throw _privateConstructorUsedError;
-  List<FeatureContext> get context => throw _privateConstructorUsedError;
+  String get id;
+  String get type;
+  List<String> get placeType;
+  double get relevance;
+  FeatureProperties get properties;
+  String get text;
+  String get placeName;
+  List<double> get center;
+  FeatureGeometry get geometry;
+  List<FeatureContext> get context;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $FeatureModelCopyWith<FeatureModel> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$FeatureModelCopyWithImpl<FeatureModel>(
+          this as FeatureModel, _$identity);
+
+  /// Serializes this FeatureModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeatureModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality().equals(other.placeType, placeType) &&
+            (identical(other.relevance, relevance) ||
+                other.relevance == relevance) &&
+            (identical(other.properties, properties) ||
+                other.properties == properties) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.placeName, placeName) ||
+                other.placeName == placeName) &&
+            const DeepCollectionEquality().equals(other.center, center) &&
+            (identical(other.geometry, geometry) ||
+                other.geometry == geometry) &&
+            const DeepCollectionEquality().equals(other.context, context));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      type,
+      const DeepCollectionEquality().hash(placeType),
+      relevance,
+      properties,
+      text,
+      placeName,
+      const DeepCollectionEquality().hash(center),
+      geometry,
+      const DeepCollectionEquality().hash(context));
+
+  @override
+  String toString() {
+    return 'FeatureModel(id: $id, type: $type, placeType: $placeType, relevance: $relevance, properties: $properties, text: $text, placeName: $placeName, center: $center, geometry: $geometry, context: $context)';
+  }
 }
 
 /// @nodoc
-abstract class $FeatureModelCopyWith<$Res> {
+abstract mixin class $FeatureModelCopyWith<$Res> {
   factory $FeatureModelCopyWith(
-          FeatureModel value, $Res Function(FeatureModel) then) =
-      _$FeatureModelCopyWithImpl<$Res, FeatureModel>;
+          FeatureModel value, $Res Function(FeatureModel) _then) =
+      _$FeatureModelCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -60,15 +102,14 @@ abstract class $FeatureModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FeatureModelCopyWithImpl<$Res, $Val extends FeatureModel>
-    implements $FeatureModelCopyWith<$Res> {
-  _$FeatureModelCopyWithImpl(this._value, this._then);
+class _$FeatureModelCopyWithImpl<$Res> implements $FeatureModelCopyWith<$Res> {
+  _$FeatureModelCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final FeatureModel _self;
+  final $Res Function(FeatureModel) _then;
 
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -83,164 +124,75 @@ class _$FeatureModelCopyWithImpl<$Res, $Val extends FeatureModel>
     Object? geometry = null,
     Object? context = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
-          ? _value.type
+          ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
       placeType: null == placeType
-          ? _value.placeType
+          ? _self.placeType
           : placeType // ignore: cast_nullable_to_non_nullable
               as List<String>,
       relevance: null == relevance
-          ? _value.relevance
+          ? _self.relevance
           : relevance // ignore: cast_nullable_to_non_nullable
               as double,
       properties: null == properties
-          ? _value.properties
+          ? _self.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as FeatureProperties,
       text: null == text
-          ? _value.text
+          ? _self.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
       placeName: null == placeName
-          ? _value.placeName
+          ? _self.placeName
           : placeName // ignore: cast_nullable_to_non_nullable
               as String,
       center: null == center
-          ? _value.center
+          ? _self.center
           : center // ignore: cast_nullable_to_non_nullable
               as List<double>,
       geometry: null == geometry
-          ? _value.geometry
+          ? _self.geometry
           : geometry // ignore: cast_nullable_to_non_nullable
               as FeatureGeometry,
       context: null == context
-          ? _value.context
-          : context // ignore: cast_nullable_to_non_nullable
-              as List<FeatureContext>,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $FeaturePropertiesCopyWith<$Res> get properties {
-    return $FeaturePropertiesCopyWith<$Res>(_value.properties, (value) {
-      return _then(_value.copyWith(properties: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $FeatureGeometryCopyWith<$Res> get geometry {
-    return $FeatureGeometryCopyWith<$Res>(_value.geometry, (value) {
-      return _then(_value.copyWith(geometry: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$FeatureModelImplCopyWith<$Res>
-    implements $FeatureModelCopyWith<$Res> {
-  factory _$$FeatureModelImplCopyWith(
-          _$FeatureModelImpl value, $Res Function(_$FeatureModelImpl) then) =
-      __$$FeatureModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      String type,
-      List<String> placeType,
-      double relevance,
-      FeatureProperties properties,
-      String text,
-      String placeName,
-      List<double> center,
-      FeatureGeometry geometry,
-      List<FeatureContext> context});
-
-  @override
-  $FeaturePropertiesCopyWith<$Res> get properties;
-  @override
-  $FeatureGeometryCopyWith<$Res> get geometry;
-}
-
-/// @nodoc
-class __$$FeatureModelImplCopyWithImpl<$Res>
-    extends _$FeatureModelCopyWithImpl<$Res, _$FeatureModelImpl>
-    implements _$$FeatureModelImplCopyWith<$Res> {
-  __$$FeatureModelImplCopyWithImpl(
-      _$FeatureModelImpl _value, $Res Function(_$FeatureModelImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? type = null,
-    Object? placeType = null,
-    Object? relevance = null,
-    Object? properties = null,
-    Object? text = null,
-    Object? placeName = null,
-    Object? center = null,
-    Object? geometry = null,
-    Object? context = null,
-  }) {
-    return _then(_$FeatureModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      placeType: null == placeType
-          ? _value._placeType
-          : placeType // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      relevance: null == relevance
-          ? _value.relevance
-          : relevance // ignore: cast_nullable_to_non_nullable
-              as double,
-      properties: null == properties
-          ? _value.properties
-          : properties // ignore: cast_nullable_to_non_nullable
-              as FeatureProperties,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String,
-      placeName: null == placeName
-          ? _value.placeName
-          : placeName // ignore: cast_nullable_to_non_nullable
-              as String,
-      center: null == center
-          ? _value._center
-          : center // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-      geometry: null == geometry
-          ? _value.geometry
-          : geometry // ignore: cast_nullable_to_non_nullable
-              as FeatureGeometry,
-      context: null == context
-          ? _value._context
+          ? _self.context
           : context // ignore: cast_nullable_to_non_nullable
               as List<FeatureContext>,
     ));
+  }
+
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FeaturePropertiesCopyWith<$Res> get properties {
+    return $FeaturePropertiesCopyWith<$Res>(_self.properties, (value) {
+      return _then(_self.copyWith(properties: value));
+    });
+  }
+
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FeatureGeometryCopyWith<$Res> get geometry {
+    return $FeatureGeometryCopyWith<$Res>(_self.geometry, (value) {
+      return _then(_self.copyWith(geometry: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$FeatureModelImpl implements _FeatureModel {
-  _$FeatureModelImpl(
+class _FeatureModel implements FeatureModel {
+  _FeatureModel(
       {required this.id,
       required this.type,
       required final List<String> placeType,
@@ -254,9 +206,8 @@ class _$FeatureModelImpl implements _FeatureModel {
       : _placeType = placeType,
         _center = center,
         _context = context;
-
-  factory _$FeatureModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FeatureModelImplFromJson(json);
+  factory _FeatureModel.fromJson(Map<String, dynamic> json) =>
+      _$FeatureModelFromJson(json);
 
   @override
   final String id;
@@ -296,16 +247,26 @@ class _$FeatureModelImpl implements _FeatureModel {
     return EqualUnmodifiableListView(_context);
   }
 
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FeatureModel(id: $id, type: $type, placeType: $placeType, relevance: $relevance, properties: $properties, text: $text, placeName: $placeName, center: $center, geometry: $geometry, context: $context)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FeatureModelCopyWith<_FeatureModel> get copyWith =>
+      __$FeatureModelCopyWithImpl<_FeatureModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FeatureModelToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FeatureModelImpl &&
+            other is _FeatureModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
@@ -323,7 +284,7 @@ class _$FeatureModelImpl implements _FeatureModel {
             const DeepCollectionEquality().equals(other._context, _context));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -338,58 +299,125 @@ class _$FeatureModelImpl implements _FeatureModel {
       geometry,
       const DeepCollectionEquality().hash(_context));
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FeatureModelImplCopyWith<_$FeatureModelImpl> get copyWith =>
-      __$$FeatureModelImplCopyWithImpl<_$FeatureModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FeatureModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FeatureModel(id: $id, type: $type, placeType: $placeType, relevance: $relevance, properties: $properties, text: $text, placeName: $placeName, center: $center, geometry: $geometry, context: $context)';
   }
 }
 
-abstract class _FeatureModel implements FeatureModel {
-  factory _FeatureModel(
-      {required final String id,
-      required final String type,
-      required final List<String> placeType,
-      required final double relevance,
-      required final FeatureProperties properties,
-      required final String text,
-      required final String placeName,
-      required final List<double> center,
-      required final FeatureGeometry geometry,
-      required final List<FeatureContext> context}) = _$FeatureModelImpl;
+/// @nodoc
+abstract mixin class _$FeatureModelCopyWith<$Res>
+    implements $FeatureModelCopyWith<$Res> {
+  factory _$FeatureModelCopyWith(
+          _FeatureModel value, $Res Function(_FeatureModel) _then) =
+      __$FeatureModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String type,
+      List<String> placeType,
+      double relevance,
+      FeatureProperties properties,
+      String text,
+      String placeName,
+      List<double> center,
+      FeatureGeometry geometry,
+      List<FeatureContext> context});
 
-  factory _FeatureModel.fromJson(Map<String, dynamic> json) =
-      _$FeatureModelImpl.fromJson;
-
   @override
-  String get id;
+  $FeaturePropertiesCopyWith<$Res> get properties;
   @override
-  String get type;
-  @override
-  List<String> get placeType;
-  @override
-  double get relevance;
-  @override
-  FeatureProperties get properties;
-  @override
-  String get text;
-  @override
-  String get placeName;
-  @override
-  List<double> get center;
-  @override
-  FeatureGeometry get geometry;
-  @override
-  List<FeatureContext> get context;
-  @override
-  @JsonKey(ignore: true)
-  _$$FeatureModelImplCopyWith<_$FeatureModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  $FeatureGeometryCopyWith<$Res> get geometry;
 }
+
+/// @nodoc
+class __$FeatureModelCopyWithImpl<$Res>
+    implements _$FeatureModelCopyWith<$Res> {
+  __$FeatureModelCopyWithImpl(this._self, this._then);
+
+  final _FeatureModel _self;
+  final $Res Function(_FeatureModel) _then;
+
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? placeType = null,
+    Object? relevance = null,
+    Object? properties = null,
+    Object? text = null,
+    Object? placeName = null,
+    Object? center = null,
+    Object? geometry = null,
+    Object? context = null,
+  }) {
+    return _then(_FeatureModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      placeType: null == placeType
+          ? _self._placeType
+          : placeType // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      relevance: null == relevance
+          ? _self.relevance
+          : relevance // ignore: cast_nullable_to_non_nullable
+              as double,
+      properties: null == properties
+          ? _self.properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as FeatureProperties,
+      text: null == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      placeName: null == placeName
+          ? _self.placeName
+          : placeName // ignore: cast_nullable_to_non_nullable
+              as String,
+      center: null == center
+          ? _self._center
+          : center // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+      geometry: null == geometry
+          ? _self.geometry
+          : geometry // ignore: cast_nullable_to_non_nullable
+              as FeatureGeometry,
+      context: null == context
+          ? _self._context
+          : context // ignore: cast_nullable_to_non_nullable
+              as List<FeatureContext>,
+    ));
+  }
+
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FeaturePropertiesCopyWith<$Res> get properties {
+    return $FeaturePropertiesCopyWith<$Res>(_self.properties, (value) {
+      return _then(_self.copyWith(properties: value));
+    });
+  }
+
+  /// Create a copy of FeatureModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FeatureGeometryCopyWith<$Res> get geometry {
+    return $FeatureGeometryCopyWith<$Res>(_self.geometry, (value) {
+      return _then(_self.copyWith(geometry: value));
+    });
+  }
+}
+
+// dart format on

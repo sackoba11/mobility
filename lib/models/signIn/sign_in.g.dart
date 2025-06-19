@@ -6,7 +6,7 @@ part of 'sign_in.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SignInImpl _$$SignInImplFromJson(Map<String, dynamic> json) => _$SignInImpl(
+_SignIn _$SignInFromJson(Map<String, dynamic> json) => _SignIn(
       fullname: json['fullname'] as String,
       numero: json['numero'] as String,
       email: json['email'] as String,
@@ -17,8 +17,7 @@ _$SignInImpl _$$SignInImplFromJson(Map<String, dynamic> json) => _$SignInImpl(
       vehiculeNumber: json['vehiculeNumber'] as String,
     );
 
-Map<String, dynamic> _$$SignInImplToJson(_$SignInImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SignInToJson(_SignIn instance) => <String, dynamic>{
       'fullname': instance.fullname,
       'numero': instance.numero,
       'email': instance.email,

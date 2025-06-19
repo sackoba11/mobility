@@ -4,7 +4,7 @@ part 'feature_properties.freezed.dart';
 part 'feature_properties.g.dart';
 
 @freezed
-class FeatureProperties with _$FeatureProperties {
+abstract class FeatureProperties with _$FeatureProperties {
   factory FeatureProperties({
     required String mapboxId,
     String? wikidata,

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,92 +10,65 @@ part of 'driver.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-Driver _$DriverFromJson(Map<String, dynamic> json) {
-  return _Driver.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Driver {
-  String get name => throw _privateConstructorUsedError;
-  String get number => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
+  String get name;
+  String get number;
+  String get email;
+  String get password;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $DriverCopyWith<Driver> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DriverCopyWith<$Res> {
-  factory $DriverCopyWith(Driver value, $Res Function(Driver) then) =
-      _$DriverCopyWithImpl<$Res, Driver>;
-  @useResult
-  $Res call({String name, String number, String email, String password});
-}
-
-/// @nodoc
-class _$DriverCopyWithImpl<$Res, $Val extends Driver>
-    implements $DriverCopyWith<$Res> {
-  _$DriverCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of Driver
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $DriverCopyWith<Driver> get copyWith =>
+      _$DriverCopyWithImpl<Driver>(this as Driver, _$identity);
+
+  /// Serializes this Driver to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? name = null,
-    Object? number = null,
-    Object? email = null,
-    Object? password = null,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      number: null == number
-          ? _value.number
-          : number // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Driver &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.password, password) ||
+                other.password == password));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, number, email, password);
+
+  @override
+  String toString() {
+    return 'Driver(name: $name, number: $number, email: $email, password: $password)';
   }
 }
 
 /// @nodoc
-abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
-  factory _$$DriverImplCopyWith(
-          _$DriverImpl value, $Res Function(_$DriverImpl) then) =
-      __$$DriverImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $DriverCopyWith<$Res> {
+  factory $DriverCopyWith(Driver value, $Res Function(Driver) _then) =
+      _$DriverCopyWithImpl;
   @useResult
   $Res call({String name, String number, String email, String password});
 }
 
 /// @nodoc
-class __$$DriverImplCopyWithImpl<$Res>
-    extends _$DriverCopyWithImpl<$Res, _$DriverImpl>
-    implements _$$DriverImplCopyWith<$Res> {
-  __$$DriverImplCopyWithImpl(
-      _$DriverImpl _value, $Res Function(_$DriverImpl) _then)
-      : super(_value, _then);
+class _$DriverCopyWithImpl<$Res> implements $DriverCopyWith<$Res> {
+  _$DriverCopyWithImpl(this._self, this._then);
 
+  final Driver _self;
+  final $Res Function(Driver) _then;
+
+  /// Create a copy of Driver
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -103,21 +77,21 @@ class __$$DriverImplCopyWithImpl<$Res>
     Object? email = null,
     Object? password = null,
   }) {
-    return _then(_$DriverImpl(
+    return _then(_self.copyWith(
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       number: null == number
-          ? _value.number
+          ? _self.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
-          ? _value.email
+          ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
       password: null == password
-          ? _value.password
+          ? _self.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -126,15 +100,13 @@ class __$$DriverImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DriverImpl implements _Driver {
-  _$DriverImpl(
+class _Driver implements Driver {
+  _Driver(
       {required this.name,
       required this.number,
       required this.email,
       required this.password});
-
-  factory _$DriverImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DriverImplFromJson(json);
+  factory _Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
 
   @override
   final String name;
@@ -145,16 +117,26 @@ class _$DriverImpl implements _Driver {
   @override
   final String password;
 
+  /// Create a copy of Driver
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Driver(name: $name, number: $number, email: $email, password: $password)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DriverCopyWith<_Driver> get copyWith =>
+      __$DriverCopyWithImpl<_Driver>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DriverToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DriverImpl &&
+            other is _Driver &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.number, number) || other.number == number) &&
             (identical(other.email, email) || other.email == email) &&
@@ -162,43 +144,61 @@ class _$DriverImpl implements _Driver {
                 other.password == password));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, number, email, password);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DriverImplCopyWith<_$DriverImpl> get copyWith =>
-      __$$DriverImplCopyWithImpl<_$DriverImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DriverImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Driver(name: $name, number: $number, email: $email, password: $password)';
   }
 }
 
-abstract class _Driver implements Driver {
-  factory _Driver(
-      {required final String name,
-      required final String number,
-      required final String email,
-      required final String password}) = _$DriverImpl;
-
-  factory _Driver.fromJson(Map<String, dynamic> json) = _$DriverImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$DriverCopyWith<$Res> implements $DriverCopyWith<$Res> {
+  factory _$DriverCopyWith(_Driver value, $Res Function(_Driver) _then) =
+      __$DriverCopyWithImpl;
   @override
-  String get name;
-  @override
-  String get number;
-  @override
-  String get email;
-  @override
-  String get password;
-  @override
-  @JsonKey(ignore: true)
-  _$$DriverImplCopyWith<_$DriverImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call({String name, String number, String email, String password});
 }
+
+/// @nodoc
+class __$DriverCopyWithImpl<$Res> implements _$DriverCopyWith<$Res> {
+  __$DriverCopyWithImpl(this._self, this._then);
+
+  final _Driver _self;
+  final $Res Function(_Driver) _then;
+
+  /// Create a copy of Driver
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = null,
+    Object? number = null,
+    Object? email = null,
+    Object? password = null,
+  }) {
+    return _then(_Driver(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      number: null == number
+          ? _self.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

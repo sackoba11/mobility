@@ -6,16 +6,15 @@ part of 'itineraire_gare.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ItineraireGareImpl _$$ItineraireGareImplFromJson(Map<String, dynamic> json) =>
-    _$ItineraireGareImpl(
+_ItineraireGare _$ItineraireGareFromJson(Map<String, dynamic> json) =>
+    _ItineraireGare(
       source: json['source'] as Map<String, dynamic>,
       destination: json['destination'] as Map<String, dynamic>,
       type: json['type'] as String,
       commune: json['commune'] as String,
     );
 
-Map<String, dynamic> _$$ItineraireGareImplToJson(
-        _$ItineraireGareImpl instance) =>
+Map<String, dynamic> _$ItineraireGareToJson(_ItineraireGare instance) =>
     <String, dynamic>{
       'source': instance.source,
       'destination': instance.destination,

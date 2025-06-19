@@ -62,21 +62,23 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
           const SizedBox(height: 20),
           GetBuilder<OtherCarController>(
             init: OtherCarController(),
-            builder: (_) {
+            builder: (otherController) {
               return Row(
                 children: [
                   Expanded(
                     child: CustomSearchBar(
                         hintText: "Recherche",
                         keyBoardtype: TextInputType.text,
-                        textEditingController: _.textEdittingSearch,
+                        textEditingController:
+                            otherController.textEdittingSearch,
                         onChanged: (value) async {
-                          if (_.textEdittingSearch.text.isNotEmpty) {
-                            _.availableItinerary.value =
-                                await _.searchItinerary(value!);
+                          if (otherController
+                              .textEdittingSearch.text.isNotEmpty) {
+                            otherController.availableItinerary.value =
+                                await otherController.searchItinerary(value!);
                           } else {
-                            _.availableItinerary.value =
-                                (await _.getItinerary())
+                            otherController.availableItinerary.value =
+                                (await otherController.getItinerary())
                                     .fold((l) => [], (r) => r);
                           }
                         }),

@@ -6,13 +6,12 @@ part of 'login.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LoginImpl _$$LoginImplFromJson(Map<String, dynamic> json) => _$LoginImpl(
+_Login _$LoginFromJson(Map<String, dynamic> json) => _Login(
       email: json['email'] as String,
       password: json['password'] as String,
     );
 
-Map<String, dynamic> _$$LoginImplToJson(_$LoginImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$LoginToJson(_Login instance) => <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
     };

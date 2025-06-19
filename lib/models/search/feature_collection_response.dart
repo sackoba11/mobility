@@ -6,7 +6,7 @@ part 'feature_collection_response.freezed.dart';
 part 'feature_collection_response.g.dart';
 
 @freezed
-class FeatureCollectionResponse with _$FeatureCollectionResponse {
+abstract class FeatureCollectionResponse with _$FeatureCollectionResponse {
   factory FeatureCollectionResponse({
     required String type,
     required List<String> query,

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,94 +10,59 @@ part of 'feature_context.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-FeatureContext _$FeatureContextFromJson(Map<String, dynamic> json) {
-  return _FeatureContext.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FeatureContext {
-  String get id => throw _privateConstructorUsedError;
-  String get mapboxId => throw _privateConstructorUsedError;
-  String? get wikidata => throw _privateConstructorUsedError;
-  String get shortCode => throw _privateConstructorUsedError;
-  String get text => throw _privateConstructorUsedError;
+  String get id;
+  String get mapboxId;
+  String? get wikidata;
+  String get shortCode;
+  String get text;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $FeatureContextCopyWith<FeatureContext> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FeatureContextCopyWith<$Res> {
-  factory $FeatureContextCopyWith(
-          FeatureContext value, $Res Function(FeatureContext) then) =
-      _$FeatureContextCopyWithImpl<$Res, FeatureContext>;
-  @useResult
-  $Res call(
-      {String id,
-      String mapboxId,
-      String? wikidata,
-      String shortCode,
-      String text});
-}
-
-/// @nodoc
-class _$FeatureContextCopyWithImpl<$Res, $Val extends FeatureContext>
-    implements $FeatureContextCopyWith<$Res> {
-  _$FeatureContextCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of FeatureContext
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $FeatureContextCopyWith<FeatureContext> get copyWith =>
+      _$FeatureContextCopyWithImpl<FeatureContext>(
+          this as FeatureContext, _$identity);
+
+  /// Serializes this FeatureContext to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? mapboxId = null,
-    Object? wikidata = freezed,
-    Object? shortCode = null,
-    Object? text = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      mapboxId: null == mapboxId
-          ? _value.mapboxId
-          : mapboxId // ignore: cast_nullable_to_non_nullable
-              as String,
-      wikidata: freezed == wikidata
-          ? _value.wikidata
-          : wikidata // ignore: cast_nullable_to_non_nullable
-              as String?,
-      shortCode: null == shortCode
-          ? _value.shortCode
-          : shortCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeatureContext &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.mapboxId, mapboxId) ||
+                other.mapboxId == mapboxId) &&
+            (identical(other.wikidata, wikidata) ||
+                other.wikidata == wikidata) &&
+            (identical(other.shortCode, shortCode) ||
+                other.shortCode == shortCode) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, mapboxId, wikidata, shortCode, text);
+
+  @override
+  String toString() {
+    return 'FeatureContext(id: $id, mapboxId: $mapboxId, wikidata: $wikidata, shortCode: $shortCode, text: $text)';
   }
 }
 
 /// @nodoc
-abstract class _$$FeatureContextImplCopyWith<$Res>
-    implements $FeatureContextCopyWith<$Res> {
-  factory _$$FeatureContextImplCopyWith(_$FeatureContextImpl value,
-          $Res Function(_$FeatureContextImpl) then) =
-      __$$FeatureContextImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FeatureContextCopyWith<$Res> {
+  factory $FeatureContextCopyWith(
+          FeatureContext value, $Res Function(FeatureContext) _then) =
+      _$FeatureContextCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -107,13 +73,15 @@ abstract class _$$FeatureContextImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FeatureContextImplCopyWithImpl<$Res>
-    extends _$FeatureContextCopyWithImpl<$Res, _$FeatureContextImpl>
-    implements _$$FeatureContextImplCopyWith<$Res> {
-  __$$FeatureContextImplCopyWithImpl(
-      _$FeatureContextImpl _value, $Res Function(_$FeatureContextImpl) _then)
-      : super(_value, _then);
+class _$FeatureContextCopyWithImpl<$Res>
+    implements $FeatureContextCopyWith<$Res> {
+  _$FeatureContextCopyWithImpl(this._self, this._then);
 
+  final FeatureContext _self;
+  final $Res Function(FeatureContext) _then;
+
+  /// Create a copy of FeatureContext
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -123,25 +91,25 @@ class __$$FeatureContextImplCopyWithImpl<$Res>
     Object? shortCode = null,
     Object? text = null,
   }) {
-    return _then(_$FeatureContextImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       mapboxId: null == mapboxId
-          ? _value.mapboxId
+          ? _self.mapboxId
           : mapboxId // ignore: cast_nullable_to_non_nullable
               as String,
       wikidata: freezed == wikidata
-          ? _value.wikidata
+          ? _self.wikidata
           : wikidata // ignore: cast_nullable_to_non_nullable
               as String?,
       shortCode: null == shortCode
-          ? _value.shortCode
+          ? _self.shortCode
           : shortCode // ignore: cast_nullable_to_non_nullable
               as String,
       text: null == text
-          ? _value.text
+          ? _self.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -150,16 +118,15 @@ class __$$FeatureContextImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FeatureContextImpl implements _FeatureContext {
-  _$FeatureContextImpl(
+class _FeatureContext implements FeatureContext {
+  _FeatureContext(
       {required this.id,
       required this.mapboxId,
       this.wikidata,
       required this.shortCode,
       required this.text});
-
-  factory _$FeatureContextImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FeatureContextImplFromJson(json);
+  factory _FeatureContext.fromJson(Map<String, dynamic> json) =>
+      _$FeatureContextFromJson(json);
 
   @override
   final String id;
@@ -172,16 +139,26 @@ class _$FeatureContextImpl implements _FeatureContext {
   @override
   final String text;
 
+  /// Create a copy of FeatureContext
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FeatureContext(id: $id, mapboxId: $mapboxId, wikidata: $wikidata, shortCode: $shortCode, text: $text)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FeatureContextCopyWith<_FeatureContext> get copyWith =>
+      __$FeatureContextCopyWithImpl<_FeatureContext>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FeatureContextToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FeatureContextImpl &&
+            other is _FeatureContext &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.mapboxId, mapboxId) ||
                 other.mapboxId == mapboxId) &&
@@ -192,49 +169,75 @@ class _$FeatureContextImpl implements _FeatureContext {
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, mapboxId, wikidata, shortCode, text);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FeatureContextImplCopyWith<_$FeatureContextImpl> get copyWith =>
-      __$$FeatureContextImplCopyWithImpl<_$FeatureContextImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FeatureContextImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FeatureContext(id: $id, mapboxId: $mapboxId, wikidata: $wikidata, shortCode: $shortCode, text: $text)';
   }
 }
 
-abstract class _FeatureContext implements FeatureContext {
-  factory _FeatureContext(
-      {required final String id,
-      required final String mapboxId,
-      final String? wikidata,
-      required final String shortCode,
-      required final String text}) = _$FeatureContextImpl;
-
-  factory _FeatureContext.fromJson(Map<String, dynamic> json) =
-      _$FeatureContextImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$FeatureContextCopyWith<$Res>
+    implements $FeatureContextCopyWith<$Res> {
+  factory _$FeatureContextCopyWith(
+          _FeatureContext value, $Res Function(_FeatureContext) _then) =
+      __$FeatureContextCopyWithImpl;
   @override
-  String get id;
-  @override
-  String get mapboxId;
-  @override
-  String? get wikidata;
-  @override
-  String get shortCode;
-  @override
-  String get text;
-  @override
-  @JsonKey(ignore: true)
-  _$$FeatureContextImplCopyWith<_$FeatureContextImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call(
+      {String id,
+      String mapboxId,
+      String? wikidata,
+      String shortCode,
+      String text});
 }
+
+/// @nodoc
+class __$FeatureContextCopyWithImpl<$Res>
+    implements _$FeatureContextCopyWith<$Res> {
+  __$FeatureContextCopyWithImpl(this._self, this._then);
+
+  final _FeatureContext _self;
+  final $Res Function(_FeatureContext) _then;
+
+  /// Create a copy of FeatureContext
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? mapboxId = null,
+    Object? wikidata = freezed,
+    Object? shortCode = null,
+    Object? text = null,
+  }) {
+    return _then(_FeatureContext(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      mapboxId: null == mapboxId
+          ? _self.mapboxId
+          : mapboxId // ignore: cast_nullable_to_non_nullable
+              as String,
+      wikidata: freezed == wikidata
+          ? _self.wikidata
+          : wikidata // ignore: cast_nullable_to_non_nullable
+              as String?,
+      shortCode: null == shortCode
+          ? _self.shortCode
+          : shortCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

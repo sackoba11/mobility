@@ -6,8 +6,8 @@ part of 'feature_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FeatureModelImpl _$$FeatureModelImplFromJson(Map<String, dynamic> json) =>
-    _$FeatureModelImpl(
+_FeatureModel _$FeatureModelFromJson(Map<String, dynamic> json) =>
+    _FeatureModel(
       id: json['id'] as String,
       type: json['type'] as String,
       placeType:
@@ -27,7 +27,7 @@ _$FeatureModelImpl _$$FeatureModelImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$FeatureModelImplToJson(_$FeatureModelImpl instance) =>
+Map<String, dynamic> _$FeatureModelToJson(_FeatureModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

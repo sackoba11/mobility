@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,87 +10,59 @@ part of 'itineraire_gare.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-ItineraireGare _$ItineraireGareFromJson(Map<String, dynamic> json) {
-  return _ItineraireGare.fromJson(json);
-}
 
 /// @nodoc
 mixin _$ItineraireGare {
-  Map<String, dynamic> get source => throw _privateConstructorUsedError;
-  Map<String, dynamic> get destination => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
-  String get commune => throw _privateConstructorUsedError;
+  Map<String, dynamic> get source;
+  Map<String, dynamic> get destination;
+  String get type;
+  String get commune;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ItineraireGareCopyWith<ItineraireGare> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ItineraireGareCopyWith<$Res> {
-  factory $ItineraireGareCopyWith(
-          ItineraireGare value, $Res Function(ItineraireGare) then) =
-      _$ItineraireGareCopyWithImpl<$Res, ItineraireGare>;
-  @useResult
-  $Res call(
-      {Map<String, dynamic> source,
-      Map<String, dynamic> destination,
-      String type,
-      String commune});
-}
-
-/// @nodoc
-class _$ItineraireGareCopyWithImpl<$Res, $Val extends ItineraireGare>
-    implements $ItineraireGareCopyWith<$Res> {
-  _$ItineraireGareCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of ItineraireGare
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $ItineraireGareCopyWith<ItineraireGare> get copyWith =>
+      _$ItineraireGareCopyWithImpl<ItineraireGare>(
+          this as ItineraireGare, _$identity);
+
+  /// Serializes this ItineraireGare to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? source = null,
-    Object? destination = null,
-    Object? type = null,
-    Object? commune = null,
-  }) {
-    return _then(_value.copyWith(
-      source: null == source
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-      destination: null == destination
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      commune: null == commune
-          ? _value.commune
-          : commune // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ItineraireGare &&
+            const DeepCollectionEquality().equals(other.source, source) &&
+            const DeepCollectionEquality()
+                .equals(other.destination, destination) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.commune, commune) || other.commune == commune));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(source),
+      const DeepCollectionEquality().hash(destination),
+      type,
+      commune);
+
+  @override
+  String toString() {
+    return 'ItineraireGare(source: $source, destination: $destination, type: $type, commune: $commune)';
   }
 }
 
 /// @nodoc
-abstract class _$$ItineraireGareImplCopyWith<$Res>
-    implements $ItineraireGareCopyWith<$Res> {
-  factory _$$ItineraireGareImplCopyWith(_$ItineraireGareImpl value,
-          $Res Function(_$ItineraireGareImpl) then) =
-      __$$ItineraireGareImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $ItineraireGareCopyWith<$Res> {
+  factory $ItineraireGareCopyWith(
+          ItineraireGare value, $Res Function(ItineraireGare) _then) =
+      _$ItineraireGareCopyWithImpl;
   @useResult
   $Res call(
       {Map<String, dynamic> source,
@@ -99,13 +72,15 @@ abstract class _$$ItineraireGareImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ItineraireGareImplCopyWithImpl<$Res>
-    extends _$ItineraireGareCopyWithImpl<$Res, _$ItineraireGareImpl>
-    implements _$$ItineraireGareImplCopyWith<$Res> {
-  __$$ItineraireGareImplCopyWithImpl(
-      _$ItineraireGareImpl _value, $Res Function(_$ItineraireGareImpl) _then)
-      : super(_value, _then);
+class _$ItineraireGareCopyWithImpl<$Res>
+    implements $ItineraireGareCopyWith<$Res> {
+  _$ItineraireGareCopyWithImpl(this._self, this._then);
 
+  final ItineraireGare _self;
+  final $Res Function(ItineraireGare) _then;
+
+  /// Create a copy of ItineraireGare
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,21 +89,21 @@ class __$$ItineraireGareImplCopyWithImpl<$Res>
     Object? type = null,
     Object? commune = null,
   }) {
-    return _then(_$ItineraireGareImpl(
+    return _then(_self.copyWith(
       source: null == source
-          ? _value._source
+          ? _self.source
           : source // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
       destination: null == destination
-          ? _value._destination
+          ? _self.destination
           : destination // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
       type: null == type
-          ? _value.type
+          ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
       commune: null == commune
-          ? _value.commune
+          ? _self.commune
           : commune // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -137,17 +112,16 @@ class __$$ItineraireGareImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ItineraireGareImpl implements _ItineraireGare {
-  _$ItineraireGareImpl(
+class _ItineraireGare implements ItineraireGare {
+  _ItineraireGare(
       {required final Map<String, dynamic> source,
       required final Map<String, dynamic> destination,
       required this.type,
       required this.commune})
       : _source = source,
         _destination = destination;
-
-  factory _$ItineraireGareImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ItineraireGareImplFromJson(json);
+  factory _ItineraireGare.fromJson(Map<String, dynamic> json) =>
+      _$ItineraireGareFromJson(json);
 
   final Map<String, dynamic> _source;
   @override
@@ -170,16 +144,26 @@ class _$ItineraireGareImpl implements _ItineraireGare {
   @override
   final String commune;
 
+  /// Create a copy of ItineraireGare
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'ItineraireGare(source: $source, destination: $destination, type: $type, commune: $commune)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ItineraireGareCopyWith<_ItineraireGare> get copyWith =>
+      __$ItineraireGareCopyWithImpl<_ItineraireGare>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ItineraireGareToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ItineraireGareImpl &&
+            other is _ItineraireGare &&
             const DeepCollectionEquality().equals(other._source, _source) &&
             const DeepCollectionEquality()
                 .equals(other._destination, _destination) &&
@@ -187,7 +171,7 @@ class _$ItineraireGareImpl implements _ItineraireGare {
             (identical(other.commune, commune) || other.commune == commune));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -196,41 +180,64 @@ class _$ItineraireGareImpl implements _ItineraireGare {
       type,
       commune);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ItineraireGareImplCopyWith<_$ItineraireGareImpl> get copyWith =>
-      __$$ItineraireGareImplCopyWithImpl<_$ItineraireGareImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ItineraireGareImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ItineraireGare(source: $source, destination: $destination, type: $type, commune: $commune)';
   }
 }
 
-abstract class _ItineraireGare implements ItineraireGare {
-  factory _ItineraireGare(
-      {required final Map<String, dynamic> source,
-      required final Map<String, dynamic> destination,
-      required final String type,
-      required final String commune}) = _$ItineraireGareImpl;
-
-  factory _ItineraireGare.fromJson(Map<String, dynamic> json) =
-      _$ItineraireGareImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$ItineraireGareCopyWith<$Res>
+    implements $ItineraireGareCopyWith<$Res> {
+  factory _$ItineraireGareCopyWith(
+          _ItineraireGare value, $Res Function(_ItineraireGare) _then) =
+      __$ItineraireGareCopyWithImpl;
   @override
-  Map<String, dynamic> get source;
-  @override
-  Map<String, dynamic> get destination;
-  @override
-  String get type;
-  @override
-  String get commune;
-  @override
-  @JsonKey(ignore: true)
-  _$$ItineraireGareImplCopyWith<_$ItineraireGareImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call(
+      {Map<String, dynamic> source,
+      Map<String, dynamic> destination,
+      String type,
+      String commune});
 }
+
+/// @nodoc
+class __$ItineraireGareCopyWithImpl<$Res>
+    implements _$ItineraireGareCopyWith<$Res> {
+  __$ItineraireGareCopyWithImpl(this._self, this._then);
+
+  final _ItineraireGare _self;
+  final $Res Function(_ItineraireGare) _then;
+
+  /// Create a copy of ItineraireGare
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? source = null,
+    Object? destination = null,
+    Object? type = null,
+    Object? commune = null,
+  }) {
+    return _then(_ItineraireGare(
+      source: null == source
+          ? _self._source
+          : source // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      destination: null == destination
+          ? _self._destination
+          : destination // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      commune: null == commune
+          ? _self.commune
+          : commune // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

@@ -54,8 +54,10 @@ class DriverScreen extends GetView<DriverController> {
     }
 
     Get.put(DriverController());
-    return WillPopScope(
-      onWillPop: () => controller.isActive.value ? onWillPop(context) : back(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) =>
+          controller.isActive.value ? onWillPop(context) : back(),
       child: Scaffold(
           backgroundColor: AppColor.background,
           body: Stack(children: [

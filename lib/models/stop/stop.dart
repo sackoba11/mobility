@@ -4,7 +4,7 @@ part 'stop.freezed.dart';
 part 'stop.g.dart';
 
 @freezed
-class Stop with _$Stop {
+abstract class Stop with _$Stop {
   factory Stop({
     required double lat,
     required double long,

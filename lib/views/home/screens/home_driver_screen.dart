@@ -14,8 +14,10 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeDriverController());
-    return WillPopScope(
-      onWillPop: () => ServicesController.onWillPop(context),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) =>
+          ServicesController.onWillPop(context),
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: AppColor.black,
@@ -97,22 +99,26 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
           const SizedBox(height: 20),
           GetBuilder<HomeDriverController>(
             init: HomeDriverController(),
-            initState: (_) {},
-            builder: (_) {
+            builder: (homeDriverController) {
               return CustomSearchBar(
                   hintText: "Numéro Bus",
-                  textEditingController: _.textEditingController,
+                  textEditingController:
+                      homeDriverController.textEditingController,
                   onChanged: (value) {
-                    if (_.textEditingController.text.isNotEmpty) {
-                      _.number =
-                          RxInt(int.tryParse(_.textEditingController.text)!);
-                      if (_.number != null) {
-                        _.getBusByNumber(_.number!);
-                        _.availableBusList = _.searchBus;
+                    if (homeDriverController
+                        .textEditingController.text.isNotEmpty) {
+                      homeDriverController.number = RxInt(int.tryParse(
+                          homeDriverController.textEditingController.text)!);
+                      if (homeDriverController.number != null) {
+                        homeDriverController
+                            .getBusByNumber(homeDriverController.number!);
+                        homeDriverController.availableBusList =
+                            homeDriverController.searchBus;
                       }
                     } else {
-                      _.getBus();
-                      _.availableBusList = _.busList;
+                      homeDriverController.getBus();
+                      homeDriverController.availableBusList =
+                          homeDriverController.busList;
                     }
                   });
             },
@@ -134,19 +140,18 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
             return Expanded(
               child: GetBuilder<HomeDriverController>(
                 init: HomeDriverController(),
-                initState: (_) {},
-                builder: (_) {
-                  if (_.availableBusList.isEmpty) {
+                builder: (homeDriverController) {
+                  if (homeDriverController.availableBusList.isEmpty) {
                     return Center(
-                      child:
-                          Text("Aucun Bus de numéro ${_.number}  disponibles"),
+                      child: Text(
+                          "Aucun Bus de numéro ${homeDriverController.number}  disponibles"),
                     );
                   }
                   return ListView.builder(
                     itemCount: 1,
                     itemBuilder: ((context, snapshot) {
                       return Column(
-                          children: _.availableBusList
+                          children: homeDriverController.availableBusList
                               .map(
                                 (e) => Column(
                                   children: [

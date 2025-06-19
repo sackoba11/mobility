@@ -4,7 +4,7 @@ part 'feature_geometry.freezed.dart';
 part 'feature_geometry.g.dart';
 
 @freezed
-class FeatureGeometry with _$FeatureGeometry {
+abstract class FeatureGeometry with _$FeatureGeometry {
   factory FeatureGeometry(
       {required String type,
       required List<double> coordinates}) = _FeatureGeometry;

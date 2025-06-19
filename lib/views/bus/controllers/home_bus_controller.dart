@@ -132,7 +132,6 @@ class BusController extends GetxController {
             ?.expand((route) => route.geometry?.coordinates ?? [])
             .toList() ??
         [];
-    print("routes : $formattedCoordinates");
 
     return formattedCoordinates;
   }

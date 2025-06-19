@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,90 +10,59 @@ part of 'feature_collection_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-FeatureCollectionResponse _$FeatureCollectionResponseFromJson(
-    Map<String, dynamic> json) {
-  return _FeatureCollectionResponse.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FeatureCollectionResponse {
-  String get type => throw _privateConstructorUsedError;
-  List<String> get query => throw _privateConstructorUsedError;
-  List<FeatureModel> get features => throw _privateConstructorUsedError;
-  String get attribution => throw _privateConstructorUsedError;
+  String get type;
+  List<String> get query;
+  List<FeatureModel> get features;
+  String get attribution;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $FeatureCollectionResponseCopyWith<FeatureCollectionResponse> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FeatureCollectionResponseCopyWith<$Res> {
-  factory $FeatureCollectionResponseCopyWith(FeatureCollectionResponse value,
-          $Res Function(FeatureCollectionResponse) then) =
-      _$FeatureCollectionResponseCopyWithImpl<$Res, FeatureCollectionResponse>;
-  @useResult
-  $Res call(
-      {String type,
-      List<String> query,
-      List<FeatureModel> features,
-      String attribution});
-}
-
-/// @nodoc
-class _$FeatureCollectionResponseCopyWithImpl<$Res,
-        $Val extends FeatureCollectionResponse>
-    implements $FeatureCollectionResponseCopyWith<$Res> {
-  _$FeatureCollectionResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of FeatureCollectionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $FeatureCollectionResponseCopyWith<FeatureCollectionResponse> get copyWith =>
+      _$FeatureCollectionResponseCopyWithImpl<FeatureCollectionResponse>(
+          this as FeatureCollectionResponse, _$identity);
+
+  /// Serializes this FeatureCollectionResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? type = null,
-    Object? query = null,
-    Object? features = null,
-    Object? attribution = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      query: null == query
-          ? _value.query
-          : query // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      features: null == features
-          ? _value.features
-          : features // ignore: cast_nullable_to_non_nullable
-              as List<FeatureModel>,
-      attribution: null == attribution
-          ? _value.attribution
-          : attribution // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeatureCollectionResponse &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality().equals(other.query, query) &&
+            const DeepCollectionEquality().equals(other.features, features) &&
+            (identical(other.attribution, attribution) ||
+                other.attribution == attribution));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      type,
+      const DeepCollectionEquality().hash(query),
+      const DeepCollectionEquality().hash(features),
+      attribution);
+
+  @override
+  String toString() {
+    return 'FeatureCollectionResponse(type: $type, query: $query, features: $features, attribution: $attribution)';
   }
 }
 
 /// @nodoc
-abstract class _$$FeatureCollectionResponseImplCopyWith<$Res>
-    implements $FeatureCollectionResponseCopyWith<$Res> {
-  factory _$$FeatureCollectionResponseImplCopyWith(
-          _$FeatureCollectionResponseImpl value,
-          $Res Function(_$FeatureCollectionResponseImpl) then) =
-      __$$FeatureCollectionResponseImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FeatureCollectionResponseCopyWith<$Res> {
+  factory $FeatureCollectionResponseCopyWith(FeatureCollectionResponse value,
+          $Res Function(FeatureCollectionResponse) _then) =
+      _$FeatureCollectionResponseCopyWithImpl;
   @useResult
   $Res call(
       {String type,
@@ -102,15 +72,15 @@ abstract class _$$FeatureCollectionResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FeatureCollectionResponseImplCopyWithImpl<$Res>
-    extends _$FeatureCollectionResponseCopyWithImpl<$Res,
-        _$FeatureCollectionResponseImpl>
-    implements _$$FeatureCollectionResponseImplCopyWith<$Res> {
-  __$$FeatureCollectionResponseImplCopyWithImpl(
-      _$FeatureCollectionResponseImpl _value,
-      $Res Function(_$FeatureCollectionResponseImpl) _then)
-      : super(_value, _then);
+class _$FeatureCollectionResponseCopyWithImpl<$Res>
+    implements $FeatureCollectionResponseCopyWith<$Res> {
+  _$FeatureCollectionResponseCopyWithImpl(this._self, this._then);
 
+  final FeatureCollectionResponse _self;
+  final $Res Function(FeatureCollectionResponse) _then;
+
+  /// Create a copy of FeatureCollectionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,21 +89,21 @@ class __$$FeatureCollectionResponseImplCopyWithImpl<$Res>
     Object? features = null,
     Object? attribution = null,
   }) {
-    return _then(_$FeatureCollectionResponseImpl(
+    return _then(_self.copyWith(
       type: null == type
-          ? _value.type
+          ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
       query: null == query
-          ? _value._query
+          ? _self.query
           : query // ignore: cast_nullable_to_non_nullable
               as List<String>,
       features: null == features
-          ? _value._features
+          ? _self.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<FeatureModel>,
       attribution: null == attribution
-          ? _value.attribution
+          ? _self.attribution
           : attribution // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -142,17 +112,16 @@ class __$$FeatureCollectionResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FeatureCollectionResponseImpl implements _FeatureCollectionResponse {
-  _$FeatureCollectionResponseImpl(
+class _FeatureCollectionResponse implements FeatureCollectionResponse {
+  _FeatureCollectionResponse(
       {required this.type,
       required final List<String> query,
       required final List<FeatureModel> features,
       required this.attribution})
       : _query = query,
         _features = features;
-
-  factory _$FeatureCollectionResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FeatureCollectionResponseImplFromJson(json);
+  factory _FeatureCollectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$FeatureCollectionResponseFromJson(json);
 
   @override
   final String type;
@@ -175,16 +144,28 @@ class _$FeatureCollectionResponseImpl implements _FeatureCollectionResponse {
   @override
   final String attribution;
 
+  /// Create a copy of FeatureCollectionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FeatureCollectionResponse(type: $type, query: $query, features: $features, attribution: $attribution)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FeatureCollectionResponseCopyWith<_FeatureCollectionResponse>
+      get copyWith =>
+          __$FeatureCollectionResponseCopyWithImpl<_FeatureCollectionResponse>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FeatureCollectionResponseToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FeatureCollectionResponseImpl &&
+            other is _FeatureCollectionResponse &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other._query, _query) &&
             const DeepCollectionEquality().equals(other._features, _features) &&
@@ -192,7 +173,7 @@ class _$FeatureCollectionResponseImpl implements _FeatureCollectionResponse {
                 other.attribution == attribution));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -201,41 +182,64 @@ class _$FeatureCollectionResponseImpl implements _FeatureCollectionResponse {
       const DeepCollectionEquality().hash(_features),
       attribution);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FeatureCollectionResponseImplCopyWith<_$FeatureCollectionResponseImpl>
-      get copyWith => __$$FeatureCollectionResponseImplCopyWithImpl<
-          _$FeatureCollectionResponseImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FeatureCollectionResponseImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FeatureCollectionResponse(type: $type, query: $query, features: $features, attribution: $attribution)';
   }
 }
 
-abstract class _FeatureCollectionResponse implements FeatureCollectionResponse {
-  factory _FeatureCollectionResponse(
-      {required final String type,
-      required final List<String> query,
-      required final List<FeatureModel> features,
-      required final String attribution}) = _$FeatureCollectionResponseImpl;
-
-  factory _FeatureCollectionResponse.fromJson(Map<String, dynamic> json) =
-      _$FeatureCollectionResponseImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$FeatureCollectionResponseCopyWith<$Res>
+    implements $FeatureCollectionResponseCopyWith<$Res> {
+  factory _$FeatureCollectionResponseCopyWith(_FeatureCollectionResponse value,
+          $Res Function(_FeatureCollectionResponse) _then) =
+      __$FeatureCollectionResponseCopyWithImpl;
   @override
-  String get type;
-  @override
-  List<String> get query;
-  @override
-  List<FeatureModel> get features;
-  @override
-  String get attribution;
-  @override
-  @JsonKey(ignore: true)
-  _$$FeatureCollectionResponseImplCopyWith<_$FeatureCollectionResponseImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @useResult
+  $Res call(
+      {String type,
+      List<String> query,
+      List<FeatureModel> features,
+      String attribution});
 }
+
+/// @nodoc
+class __$FeatureCollectionResponseCopyWithImpl<$Res>
+    implements _$FeatureCollectionResponseCopyWith<$Res> {
+  __$FeatureCollectionResponseCopyWithImpl(this._self, this._then);
+
+  final _FeatureCollectionResponse _self;
+  final $Res Function(_FeatureCollectionResponse) _then;
+
+  /// Create a copy of FeatureCollectionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? type = null,
+    Object? query = null,
+    Object? features = null,
+    Object? attribution = null,
+  }) {
+    return _then(_FeatureCollectionResponse(
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      query: null == query
+          ? _self._query
+          : query // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      features: null == features
+          ? _self._features
+          : features // ignore: cast_nullable_to_non_nullable
+              as List<FeatureModel>,
+      attribution: null == attribution
+          ? _self.attribution
+          : attribution // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

@@ -27,15 +27,15 @@ class HomeDriverController extends GetxController {
     isLoading = RxBool(false);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 
   Future<void> getBus() async {
     isLoading(true);

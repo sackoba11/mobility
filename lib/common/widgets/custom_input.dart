@@ -7,7 +7,7 @@ class CustomInput extends StatelessWidget {
   final String? textError;
   final TextEditingController controller;
   final TextInputType? keyboardType;
-  final validator;
+  final String? Function(String?)? validator;
   final int? maxlength;
 
   const CustomInput(

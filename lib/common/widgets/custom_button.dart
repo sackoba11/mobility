@@ -5,7 +5,7 @@ import '../../utils/constants/app colors/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final String? icon;
-  final ontap;
+  final void Function()? ontap;
   final double radius;
 
   const CustomButton({
@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
       child: TextButton(
           onPressed: ontap,
           style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(const Size(60, 60))),
+              minimumSize: WidgetStateProperty.all(const Size(60, 60))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

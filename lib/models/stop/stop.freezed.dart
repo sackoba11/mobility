@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,92 +10,73 @@ part of 'stop.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-Stop _$StopFromJson(Map<String, dynamic> json) {
-  return _Stop.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Stop {
-  double get lat => throw _privateConstructorUsedError;
-  double get long => throw _privateConstructorUsedError;
+  double get lat;
+  double get long;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $StopCopyWith<Stop> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $StopCopyWith<$Res> {
-  factory $StopCopyWith(Stop value, $Res Function(Stop) then) =
-      _$StopCopyWithImpl<$Res, Stop>;
-  @useResult
-  $Res call({double lat, double long});
-}
-
-/// @nodoc
-class _$StopCopyWithImpl<$Res, $Val extends Stop>
-    implements $StopCopyWith<$Res> {
-  _$StopCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of Stop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $StopCopyWith<Stop> get copyWith =>
+      _$StopCopyWithImpl<Stop>(this as Stop, _$identity);
+
+  /// Serializes this Stop to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? lat = null,
-    Object? long = null,
-  }) {
-    return _then(_value.copyWith(
-      lat: null == lat
-          ? _value.lat
-          : lat // ignore: cast_nullable_to_non_nullable
-              as double,
-      long: null == long
-          ? _value.long
-          : long // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Stop &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.long, long) || other.long == long));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, lat, long);
+
+  @override
+  String toString() {
+    return 'Stop(lat: $lat, long: $long)';
   }
 }
 
 /// @nodoc
-abstract class _$$StopImplCopyWith<$Res> implements $StopCopyWith<$Res> {
-  factory _$$StopImplCopyWith(
-          _$StopImpl value, $Res Function(_$StopImpl) then) =
-      __$$StopImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $StopCopyWith<$Res> {
+  factory $StopCopyWith(Stop value, $Res Function(Stop) _then) =
+      _$StopCopyWithImpl;
   @useResult
   $Res call({double lat, double long});
 }
 
 /// @nodoc
-class __$$StopImplCopyWithImpl<$Res>
-    extends _$StopCopyWithImpl<$Res, _$StopImpl>
-    implements _$$StopImplCopyWith<$Res> {
-  __$$StopImplCopyWithImpl(_$StopImpl _value, $Res Function(_$StopImpl) _then)
-      : super(_value, _then);
+class _$StopCopyWithImpl<$Res> implements $StopCopyWith<$Res> {
+  _$StopCopyWithImpl(this._self, this._then);
 
+  final Stop _self;
+  final $Res Function(Stop) _then;
+
+  /// Create a copy of Stop
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? lat = null,
     Object? long = null,
   }) {
-    return _then(_$StopImpl(
+    return _then(_self.copyWith(
       lat: null == lat
-          ? _value.lat
+          ? _self.lat
           : lat // ignore: cast_nullable_to_non_nullable
               as double,
       long: null == long
-          ? _value.long
+          ? _self.long
           : long // ignore: cast_nullable_to_non_nullable
               as double,
     ));
@@ -103,61 +85,84 @@ class __$$StopImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$StopImpl implements _Stop {
-  _$StopImpl({required this.lat, required this.long});
-
-  factory _$StopImpl.fromJson(Map<String, dynamic> json) =>
-      _$$StopImplFromJson(json);
+class _Stop implements Stop {
+  _Stop({required this.lat, required this.long});
+  factory _Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
 
   @override
   final double lat;
   @override
   final double long;
 
+  /// Create a copy of Stop
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Stop(lat: $lat, long: $long)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$StopCopyWith<_Stop> get copyWith =>
+      __$StopCopyWithImpl<_Stop>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$StopToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$StopImpl &&
+            other is _Stop &&
             (identical(other.lat, lat) || other.lat == lat) &&
             (identical(other.long, long) || other.long == long));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, lat, long);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$StopImplCopyWith<_$StopImpl> get copyWith =>
-      __$$StopImplCopyWithImpl<_$StopImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$StopImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Stop(lat: $lat, long: $long)';
   }
 }
 
-abstract class _Stop implements Stop {
-  factory _Stop({required final double lat, required final double long}) =
-      _$StopImpl;
-
-  factory _Stop.fromJson(Map<String, dynamic> json) = _$StopImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$StopCopyWith<$Res> implements $StopCopyWith<$Res> {
+  factory _$StopCopyWith(_Stop value, $Res Function(_Stop) _then) =
+      __$StopCopyWithImpl;
   @override
-  double get lat;
-  @override
-  double get long;
-  @override
-  @JsonKey(ignore: true)
-  _$$StopImplCopyWith<_$StopImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call({double lat, double long});
 }
+
+/// @nodoc
+class __$StopCopyWithImpl<$Res> implements _$StopCopyWith<$Res> {
+  __$StopCopyWithImpl(this._self, this._then);
+
+  final _Stop _self;
+  final $Res Function(_Stop) _then;
+
+  /// Create a copy of Stop
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? lat = null,
+    Object? long = null,
+  }) {
+    return _then(_Stop(
+      lat: null == lat
+          ? _self.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double,
+      long: null == long
+          ? _self.long
+          : long // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+// dart format on

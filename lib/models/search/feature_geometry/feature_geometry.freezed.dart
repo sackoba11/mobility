@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,96 +10,78 @@ part of 'feature_geometry.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-FeatureGeometry _$FeatureGeometryFromJson(Map<String, dynamic> json) {
-  return _FeatureGeometry.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FeatureGeometry {
-  String get type => throw _privateConstructorUsedError;
-  List<double> get coordinates => throw _privateConstructorUsedError;
+  String get type;
+  List<double> get coordinates;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $FeatureGeometryCopyWith<FeatureGeometry> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FeatureGeometryCopyWith<$Res> {
-  factory $FeatureGeometryCopyWith(
-          FeatureGeometry value, $Res Function(FeatureGeometry) then) =
-      _$FeatureGeometryCopyWithImpl<$Res, FeatureGeometry>;
-  @useResult
-  $Res call({String type, List<double> coordinates});
-}
-
-/// @nodoc
-class _$FeatureGeometryCopyWithImpl<$Res, $Val extends FeatureGeometry>
-    implements $FeatureGeometryCopyWith<$Res> {
-  _$FeatureGeometryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of FeatureGeometry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $FeatureGeometryCopyWith<FeatureGeometry> get copyWith =>
+      _$FeatureGeometryCopyWithImpl<FeatureGeometry>(
+          this as FeatureGeometry, _$identity);
+
+  /// Serializes this FeatureGeometry to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? type = null,
-    Object? coordinates = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      coordinates: null == coordinates
-          ? _value.coordinates
-          : coordinates // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeatureGeometry &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other.coordinates, coordinates));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, type, const DeepCollectionEquality().hash(coordinates));
+
+  @override
+  String toString() {
+    return 'FeatureGeometry(type: $type, coordinates: $coordinates)';
   }
 }
 
 /// @nodoc
-abstract class _$$FeatureGeometryImplCopyWith<$Res>
-    implements $FeatureGeometryCopyWith<$Res> {
-  factory _$$FeatureGeometryImplCopyWith(_$FeatureGeometryImpl value,
-          $Res Function(_$FeatureGeometryImpl) then) =
-      __$$FeatureGeometryImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FeatureGeometryCopyWith<$Res> {
+  factory $FeatureGeometryCopyWith(
+          FeatureGeometry value, $Res Function(FeatureGeometry) _then) =
+      _$FeatureGeometryCopyWithImpl;
   @useResult
   $Res call({String type, List<double> coordinates});
 }
 
 /// @nodoc
-class __$$FeatureGeometryImplCopyWithImpl<$Res>
-    extends _$FeatureGeometryCopyWithImpl<$Res, _$FeatureGeometryImpl>
-    implements _$$FeatureGeometryImplCopyWith<$Res> {
-  __$$FeatureGeometryImplCopyWithImpl(
-      _$FeatureGeometryImpl _value, $Res Function(_$FeatureGeometryImpl) _then)
-      : super(_value, _then);
+class _$FeatureGeometryCopyWithImpl<$Res>
+    implements $FeatureGeometryCopyWith<$Res> {
+  _$FeatureGeometryCopyWithImpl(this._self, this._then);
 
+  final FeatureGeometry _self;
+  final $Res Function(FeatureGeometry) _then;
+
+  /// Create a copy of FeatureGeometry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? type = null,
     Object? coordinates = null,
   }) {
-    return _then(_$FeatureGeometryImpl(
+    return _then(_self.copyWith(
       type: null == type
-          ? _value.type
+          ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
       coordinates: null == coordinates
-          ? _value._coordinates
+          ? _self.coordinates
           : coordinates // ignore: cast_nullable_to_non_nullable
               as List<double>,
     ));
@@ -107,13 +90,12 @@ class __$$FeatureGeometryImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FeatureGeometryImpl implements _FeatureGeometry {
-  _$FeatureGeometryImpl(
+class _FeatureGeometry implements FeatureGeometry {
+  _FeatureGeometry(
       {required this.type, required final List<double> coordinates})
       : _coordinates = coordinates;
-
-  factory _$FeatureGeometryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FeatureGeometryImplFromJson(json);
+  factory _FeatureGeometry.fromJson(Map<String, dynamic> json) =>
+      _$FeatureGeometryFromJson(json);
 
   @override
   final String type;
@@ -125,55 +107,80 @@ class _$FeatureGeometryImpl implements _FeatureGeometry {
     return EqualUnmodifiableListView(_coordinates);
   }
 
+  /// Create a copy of FeatureGeometry
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FeatureGeometry(type: $type, coordinates: $coordinates)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FeatureGeometryCopyWith<_FeatureGeometry> get copyWith =>
+      __$FeatureGeometryCopyWithImpl<_FeatureGeometry>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FeatureGeometryToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FeatureGeometryImpl &&
+            other is _FeatureGeometry &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
                 .equals(other._coordinates, _coordinates));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, type, const DeepCollectionEquality().hash(_coordinates));
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FeatureGeometryImplCopyWith<_$FeatureGeometryImpl> get copyWith =>
-      __$$FeatureGeometryImplCopyWithImpl<_$FeatureGeometryImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FeatureGeometryImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FeatureGeometry(type: $type, coordinates: $coordinates)';
   }
 }
 
-abstract class _FeatureGeometry implements FeatureGeometry {
-  factory _FeatureGeometry(
-      {required final String type,
-      required final List<double> coordinates}) = _$FeatureGeometryImpl;
-
-  factory _FeatureGeometry.fromJson(Map<String, dynamic> json) =
-      _$FeatureGeometryImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$FeatureGeometryCopyWith<$Res>
+    implements $FeatureGeometryCopyWith<$Res> {
+  factory _$FeatureGeometryCopyWith(
+          _FeatureGeometry value, $Res Function(_FeatureGeometry) _then) =
+      __$FeatureGeometryCopyWithImpl;
   @override
-  String get type;
-  @override
-  List<double> get coordinates;
-  @override
-  @JsonKey(ignore: true)
-  _$$FeatureGeometryImplCopyWith<_$FeatureGeometryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call({String type, List<double> coordinates});
 }
+
+/// @nodoc
+class __$FeatureGeometryCopyWithImpl<$Res>
+    implements _$FeatureGeometryCopyWith<$Res> {
+  __$FeatureGeometryCopyWithImpl(this._self, this._then);
+
+  final _FeatureGeometry _self;
+  final $Res Function(_FeatureGeometry) _then;
+
+  /// Create a copy of FeatureGeometry
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? type = null,
+    Object? coordinates = null,
+  }) {
+    return _then(_FeatureGeometry(
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      coordinates: null == coordinates
+          ? _self._coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ));
+  }
+}
+
+// dart format on

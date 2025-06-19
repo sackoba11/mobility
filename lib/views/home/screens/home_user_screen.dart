@@ -18,8 +18,9 @@ class HomeUserScreen extends GetView<HomeUserController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeUserController());
-    return WillPopScope(
-      onWillPop: () => ServicesController.onWillPop(context),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult:(didPop, result) => ServicesController.onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,

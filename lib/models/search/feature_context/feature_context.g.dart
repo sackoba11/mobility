@@ -6,8 +6,8 @@ part of 'feature_context.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FeatureContextImpl _$$FeatureContextImplFromJson(Map<String, dynamic> json) =>
-    _$FeatureContextImpl(
+_FeatureContext _$FeatureContextFromJson(Map<String, dynamic> json) =>
+    _FeatureContext(
       id: json['id'] as String,
       mapboxId: json['mapboxId'] as String,
       wikidata: json['wikidata'] as String?,
@@ -15,8 +15,7 @@ _$FeatureContextImpl _$$FeatureContextImplFromJson(Map<String, dynamic> json) =>
       text: json['text'] as String,
     );
 
-Map<String, dynamic> _$$FeatureContextImplToJson(
-        _$FeatureContextImpl instance) =>
+Map<String, dynamic> _$FeatureContextToJson(_FeatureContext instance) =>
     <String, dynamic>{
       'id': instance.id,
       'mapboxId': instance.mapboxId,

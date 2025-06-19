@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,112 +10,65 @@ part of 'sign_in.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-SignIn _$SignInFromJson(Map<String, dynamic> json) {
-  return _SignIn.fromJson(json);
-}
 
 /// @nodoc
 mixin _$SignIn {
-  String get fullname => throw _privateConstructorUsedError;
-  String get numero => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
-  String get accountType => throw _privateConstructorUsedError;
-  String get brand => throw _privateConstructorUsedError;
-  String get vehiculeColor => throw _privateConstructorUsedError;
-  String get vehiculeNumber => throw _privateConstructorUsedError;
+  String get fullname;
+  String get numero;
+  String get email;
+  String get password;
+  String get accountType;
+  String get brand;
+  String get vehiculeColor;
+  String get vehiculeNumber;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $SignInCopyWith<SignIn> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SignInCopyWith<$Res> {
-  factory $SignInCopyWith(SignIn value, $Res Function(SignIn) then) =
-      _$SignInCopyWithImpl<$Res, SignIn>;
-  @useResult
-  $Res call(
-      {String fullname,
-      String numero,
-      String email,
-      String password,
-      String accountType,
-      String brand,
-      String vehiculeColor,
-      String vehiculeNumber});
-}
-
-/// @nodoc
-class _$SignInCopyWithImpl<$Res, $Val extends SignIn>
-    implements $SignInCopyWith<$Res> {
-  _$SignInCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of SignIn
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $SignInCopyWith<SignIn> get copyWith =>
+      _$SignInCopyWithImpl<SignIn>(this as SignIn, _$identity);
+
+  /// Serializes this SignIn to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? fullname = null,
-    Object? numero = null,
-    Object? email = null,
-    Object? password = null,
-    Object? accountType = null,
-    Object? brand = null,
-    Object? vehiculeColor = null,
-    Object? vehiculeNumber = null,
-  }) {
-    return _then(_value.copyWith(
-      fullname: null == fullname
-          ? _value.fullname
-          : fullname // ignore: cast_nullable_to_non_nullable
-              as String,
-      numero: null == numero
-          ? _value.numero
-          : numero // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      accountType: null == accountType
-          ? _value.accountType
-          : accountType // ignore: cast_nullable_to_non_nullable
-              as String,
-      brand: null == brand
-          ? _value.brand
-          : brand // ignore: cast_nullable_to_non_nullable
-              as String,
-      vehiculeColor: null == vehiculeColor
-          ? _value.vehiculeColor
-          : vehiculeColor // ignore: cast_nullable_to_non_nullable
-              as String,
-      vehiculeNumber: null == vehiculeNumber
-          ? _value.vehiculeNumber
-          : vehiculeNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SignIn &&
+            (identical(other.fullname, fullname) ||
+                other.fullname == fullname) &&
+            (identical(other.numero, numero) || other.numero == numero) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
+            (identical(other.accountType, accountType) ||
+                other.accountType == accountType) &&
+            (identical(other.brand, brand) || other.brand == brand) &&
+            (identical(other.vehiculeColor, vehiculeColor) ||
+                other.vehiculeColor == vehiculeColor) &&
+            (identical(other.vehiculeNumber, vehiculeNumber) ||
+                other.vehiculeNumber == vehiculeNumber));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, fullname, numero, email,
+      password, accountType, brand, vehiculeColor, vehiculeNumber);
+
+  @override
+  String toString() {
+    return 'SignIn(fullname: $fullname, numero: $numero, email: $email, password: $password, accountType: $accountType, brand: $brand, vehiculeColor: $vehiculeColor, vehiculeNumber: $vehiculeNumber)';
   }
 }
 
 /// @nodoc
-abstract class _$$SignInImplCopyWith<$Res> implements $SignInCopyWith<$Res> {
-  factory _$$SignInImplCopyWith(
-          _$SignInImpl value, $Res Function(_$SignInImpl) then) =
-      __$$SignInImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SignInCopyWith<$Res> {
+  factory $SignInCopyWith(SignIn value, $Res Function(SignIn) _then) =
+      _$SignInCopyWithImpl;
   @useResult
   $Res call(
       {String fullname,
@@ -128,13 +82,14 @@ abstract class _$$SignInImplCopyWith<$Res> implements $SignInCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$SignInImplCopyWithImpl<$Res>
-    extends _$SignInCopyWithImpl<$Res, _$SignInImpl>
-    implements _$$SignInImplCopyWith<$Res> {
-  __$$SignInImplCopyWithImpl(
-      _$SignInImpl _value, $Res Function(_$SignInImpl) _then)
-      : super(_value, _then);
+class _$SignInCopyWithImpl<$Res> implements $SignInCopyWith<$Res> {
+  _$SignInCopyWithImpl(this._self, this._then);
 
+  final SignIn _self;
+  final $Res Function(SignIn) _then;
+
+  /// Create a copy of SignIn
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -147,37 +102,37 @@ class __$$SignInImplCopyWithImpl<$Res>
     Object? vehiculeColor = null,
     Object? vehiculeNumber = null,
   }) {
-    return _then(_$SignInImpl(
+    return _then(_self.copyWith(
       fullname: null == fullname
-          ? _value.fullname
+          ? _self.fullname
           : fullname // ignore: cast_nullable_to_non_nullable
               as String,
       numero: null == numero
-          ? _value.numero
+          ? _self.numero
           : numero // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
-          ? _value.email
+          ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
       password: null == password
-          ? _value.password
+          ? _self.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
       accountType: null == accountType
-          ? _value.accountType
+          ? _self.accountType
           : accountType // ignore: cast_nullable_to_non_nullable
               as String,
       brand: null == brand
-          ? _value.brand
+          ? _self.brand
           : brand // ignore: cast_nullable_to_non_nullable
               as String,
       vehiculeColor: null == vehiculeColor
-          ? _value.vehiculeColor
+          ? _self.vehiculeColor
           : vehiculeColor // ignore: cast_nullable_to_non_nullable
               as String,
       vehiculeNumber: null == vehiculeNumber
-          ? _value.vehiculeNumber
+          ? _self.vehiculeNumber
           : vehiculeNumber // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -186,8 +141,8 @@ class __$$SignInImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$SignInImpl implements _SignIn {
-  _$SignInImpl(
+class _SignIn implements SignIn {
+  _SignIn(
       {required this.fullname,
       required this.numero,
       required this.email,
@@ -196,9 +151,7 @@ class _$SignInImpl implements _SignIn {
       required this.brand,
       required this.vehiculeColor,
       required this.vehiculeNumber});
-
-  factory _$SignInImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SignInImplFromJson(json);
+  factory _SignIn.fromJson(Map<String, dynamic> json) => _$SignInFromJson(json);
 
   @override
   final String fullname;
@@ -217,16 +170,26 @@ class _$SignInImpl implements _SignIn {
   @override
   final String vehiculeNumber;
 
+  /// Create a copy of SignIn
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SignIn(fullname: $fullname, numero: $numero, email: $email, password: $password, accountType: $accountType, brand: $brand, vehiculeColor: $vehiculeColor, vehiculeNumber: $vehiculeNumber)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SignInCopyWith<_SignIn> get copyWith =>
+      __$SignInCopyWithImpl<_SignIn>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SignInToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignInImpl &&
+            other is _SignIn &&
             (identical(other.fullname, fullname) ||
                 other.fullname == fullname) &&
             (identical(other.numero, numero) || other.numero == numero) &&
@@ -242,56 +205,90 @@ class _$SignInImpl implements _SignIn {
                 other.vehiculeNumber == vehiculeNumber));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fullname, numero, email,
       password, accountType, brand, vehiculeColor, vehiculeNumber);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SignInImplCopyWith<_$SignInImpl> get copyWith =>
-      __$$SignInImplCopyWithImpl<_$SignInImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SignInImplToJson(
-      this,
-    );
+  String toString() {
+    return 'SignIn(fullname: $fullname, numero: $numero, email: $email, password: $password, accountType: $accountType, brand: $brand, vehiculeColor: $vehiculeColor, vehiculeNumber: $vehiculeNumber)';
   }
 }
 
-abstract class _SignIn implements SignIn {
-  factory _SignIn(
-      {required final String fullname,
-      required final String numero,
-      required final String email,
-      required final String password,
-      required final String accountType,
-      required final String brand,
-      required final String vehiculeColor,
-      required final String vehiculeNumber}) = _$SignInImpl;
-
-  factory _SignIn.fromJson(Map<String, dynamic> json) = _$SignInImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$SignInCopyWith<$Res> implements $SignInCopyWith<$Res> {
+  factory _$SignInCopyWith(_SignIn value, $Res Function(_SignIn) _then) =
+      __$SignInCopyWithImpl;
   @override
-  String get fullname;
-  @override
-  String get numero;
-  @override
-  String get email;
-  @override
-  String get password;
-  @override
-  String get accountType;
-  @override
-  String get brand;
-  @override
-  String get vehiculeColor;
-  @override
-  String get vehiculeNumber;
-  @override
-  @JsonKey(ignore: true)
-  _$$SignInImplCopyWith<_$SignInImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call(
+      {String fullname,
+      String numero,
+      String email,
+      String password,
+      String accountType,
+      String brand,
+      String vehiculeColor,
+      String vehiculeNumber});
 }
+
+/// @nodoc
+class __$SignInCopyWithImpl<$Res> implements _$SignInCopyWith<$Res> {
+  __$SignInCopyWithImpl(this._self, this._then);
+
+  final _SignIn _self;
+  final $Res Function(_SignIn) _then;
+
+  /// Create a copy of SignIn
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? fullname = null,
+    Object? numero = null,
+    Object? email = null,
+    Object? password = null,
+    Object? accountType = null,
+    Object? brand = null,
+    Object? vehiculeColor = null,
+    Object? vehiculeNumber = null,
+  }) {
+    return _then(_SignIn(
+      fullname: null == fullname
+          ? _self.fullname
+          : fullname // ignore: cast_nullable_to_non_nullable
+              as String,
+      numero: null == numero
+          ? _self.numero
+          : numero // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      accountType: null == accountType
+          ? _self.accountType
+          : accountType // ignore: cast_nullable_to_non_nullable
+              as String,
+      brand: null == brand
+          ? _self.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String,
+      vehiculeColor: null == vehiculeColor
+          ? _self.vehiculeColor
+          : vehiculeColor // ignore: cast_nullable_to_non_nullable
+              as String,
+      vehiculeNumber: null == vehiculeNumber
+          ? _self.vehiculeNumber
+          : vehiculeNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

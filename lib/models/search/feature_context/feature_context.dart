@@ -4,7 +4,7 @@ part 'feature_context.freezed.dart';
 part 'feature_context.g.dart';
 
 @freezed
-class FeatureContext with _$FeatureContext {
+abstract class FeatureContext with _$FeatureContext {
   factory FeatureContext(
       {required String id,
       required String mapboxId,

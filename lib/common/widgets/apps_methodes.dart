@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobility/common/widgets/widget.bottomSheet/dodgeKeyboard.dart';
-import 'package:mobility/common/widgets/widget.bottomSheet/my_bottomSheet_register.dart';
+import 'package:mobility/common/widgets/widget.bottomSheet/dodge_keyboard.dart';
+import 'package:mobility/common/widgets/widget.bottomSheet/my_bottom_sheet_register.dart';
 import '../assets/assets.gen.dart';
 import '../../utils/constants/app colors/app_colors.dart';
 import '../../utils/constants/app string/app_string.dart';
@@ -12,7 +12,7 @@ import 'illustrator.dart';
 import 'infos_car.dart';
 import 'infos_destination.dart';
 import 'login_with_google_btn.dart';
-import 'widget.bottomSheet/my_bottomSheet_login.dart';
+import 'widget.bottomSheet/my_bottom_sheet_login.dart';
 
 Future showDriverLogin(BuildContext context) {
   return showModalBottomSheet(
@@ -236,7 +236,7 @@ Future<dynamic> secondBottomSheetUser() {
               Row(
                 children: [
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 184,
                       child: ListView(
                         children: [
@@ -416,7 +416,7 @@ Future<dynamic> secondBottomSheetDriver() {
               Row(
                 children: [
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 184,
                       child: ListView(
                         children: [

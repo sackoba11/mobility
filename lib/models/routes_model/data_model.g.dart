@@ -6,8 +6,7 @@ part of 'data_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DataModelImpl _$$DataModelImplFromJson(Map<String, dynamic> json) =>
-    _$DataModelImpl(
+_DataModel _$DataModelFromJson(Map<String, dynamic> json) => _DataModel(
       waypoints: (json['waypoints'] as List<dynamic>?)
           ?.map((e) => Waypoints.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17,28 +16,27 @@ _$DataModelImpl _$$DataModelImplFromJson(Map<String, dynamic> json) =>
       code: json['code'] as String?,
     );
 
-Map<String, dynamic> _$$DataModelImplToJson(_$DataModelImpl instance) =>
+Map<String, dynamic> _$DataModelToJson(_DataModel instance) =>
     <String, dynamic>{
       'waypoints': instance.waypoints,
       'routes': instance.routes,
       'code': instance.code,
     };
 
-_$WaypointsImpl _$$WaypointsImplFromJson(Map<String, dynamic> json) =>
-    _$WaypointsImpl(
+_Waypoints _$WaypointsFromJson(Map<String, dynamic> json) => _Waypoints(
       location: (json['location'] as List<dynamic>?)
           ?.map((e) => (e as num).toDouble())
           .toList(),
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$$WaypointsImplToJson(_$WaypointsImpl instance) =>
+Map<String, dynamic> _$WaypointsToJson(_Waypoints instance) =>
     <String, dynamic>{
       'location': instance.location,
       'name': instance.name,
     };
 
-_$RoutesImpl _$$RoutesImplFromJson(Map<String, dynamic> json) => _$RoutesImpl(
+_Routes _$RoutesFromJson(Map<String, dynamic> json) => _Routes(
       legs: (json['legs'] as List<dynamic>?)
           ?.map((e) => Legs.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -51,8 +49,7 @@ _$RoutesImpl _$$RoutesImplFromJson(Map<String, dynamic> json) => _$RoutesImpl(
       duration: (json['duration'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$RoutesImplToJson(_$RoutesImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$RoutesToJson(_Routes instance) => <String, dynamic>{
       'legs': instance.legs,
       'weightName': instance.weightName,
       'geometry': instance.geometry,
@@ -61,7 +58,7 @@ Map<String, dynamic> _$$RoutesImplToJson(_$RoutesImpl instance) =>
       'duration': instance.duration,
     };
 
-_$LegsImpl _$$LegsImplFromJson(Map<String, dynamic> json) => _$LegsImpl(
+_Legs _$LegsFromJson(Map<String, dynamic> json) => _Legs(
       steps: json['steps'] as List<dynamic>?,
       weight: (json['weight'] as num?)?.toDouble(),
       distance: (json['distance'] as num?)?.toDouble(),
@@ -69,8 +66,7 @@ _$LegsImpl _$$LegsImplFromJson(Map<String, dynamic> json) => _$LegsImpl(
       duration: (json['duration'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$LegsImplToJson(_$LegsImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$LegsToJson(_Legs instance) => <String, dynamic>{
       'steps': instance.steps,
       'weight': instance.weight,
       'distance': instance.distance,
@@ -78,16 +74,14 @@ Map<String, dynamic> _$$LegsImplToJson(_$LegsImpl instance) =>
       'duration': instance.duration,
     };
 
-_$GeometryImpl _$$GeometryImplFromJson(Map<String, dynamic> json) =>
-    _$GeometryImpl(
+_Geometry _$GeometryFromJson(Map<String, dynamic> json) => _Geometry(
       coordinates: (json['coordinates'] as List<dynamic>?)
           ?.map((e) => e as List<dynamic>)
           .toList(),
       type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$$GeometryImplToJson(_$GeometryImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$GeometryToJson(_Geometry instance) => <String, dynamic>{
       'coordinates': instance.coordinates,
       'type': instance.type,
     };

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,88 +10,66 @@ part of 'data_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-DataModel _$DataModelFromJson(Map<String, dynamic> json) {
-  return _DataModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$DataModel {
-  List<Waypoints>? get waypoints => throw _privateConstructorUsedError;
-  List<Routes>? get routes => throw _privateConstructorUsedError;
-  String? get code => throw _privateConstructorUsedError;
+  List<Waypoints>? get waypoints;
+  List<Routes>? get routes;
+  String? get code;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $DataModelCopyWith<DataModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DataModelCopyWith<$Res> {
-  factory $DataModelCopyWith(DataModel value, $Res Function(DataModel) then) =
-      _$DataModelCopyWithImpl<$Res, DataModel>;
-  @useResult
-  $Res call({List<Waypoints>? waypoints, List<Routes>? routes, String? code});
-}
-
-/// @nodoc
-class _$DataModelCopyWithImpl<$Res, $Val extends DataModel>
-    implements $DataModelCopyWith<$Res> {
-  _$DataModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of DataModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $DataModelCopyWith<DataModel> get copyWith =>
+      _$DataModelCopyWithImpl<DataModel>(this as DataModel, _$identity);
+
+  /// Serializes this DataModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? waypoints = freezed,
-    Object? routes = freezed,
-    Object? code = freezed,
-  }) {
-    return _then(_value.copyWith(
-      waypoints: freezed == waypoints
-          ? _value.waypoints
-          : waypoints // ignore: cast_nullable_to_non_nullable
-              as List<Waypoints>?,
-      routes: freezed == routes
-          ? _value.routes
-          : routes // ignore: cast_nullable_to_non_nullable
-              as List<Routes>?,
-      code: freezed == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DataModel &&
+            const DeepCollectionEquality().equals(other.waypoints, waypoints) &&
+            const DeepCollectionEquality().equals(other.routes, routes) &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(waypoints),
+      const DeepCollectionEquality().hash(routes),
+      code);
+
+  @override
+  String toString() {
+    return 'DataModel(waypoints: $waypoints, routes: $routes, code: $code)';
   }
 }
 
 /// @nodoc
-abstract class _$$DataModelImplCopyWith<$Res>
-    implements $DataModelCopyWith<$Res> {
-  factory _$$DataModelImplCopyWith(
-          _$DataModelImpl value, $Res Function(_$DataModelImpl) then) =
-      __$$DataModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $DataModelCopyWith<$Res> {
+  factory $DataModelCopyWith(DataModel value, $Res Function(DataModel) _then) =
+      _$DataModelCopyWithImpl;
   @useResult
   $Res call({List<Waypoints>? waypoints, List<Routes>? routes, String? code});
 }
 
 /// @nodoc
-class __$$DataModelImplCopyWithImpl<$Res>
-    extends _$DataModelCopyWithImpl<$Res, _$DataModelImpl>
-    implements _$$DataModelImplCopyWith<$Res> {
-  __$$DataModelImplCopyWithImpl(
-      _$DataModelImpl _value, $Res Function(_$DataModelImpl) _then)
-      : super(_value, _then);
+class _$DataModelCopyWithImpl<$Res> implements $DataModelCopyWith<$Res> {
+  _$DataModelCopyWithImpl(this._self, this._then);
 
+  final DataModel _self;
+  final $Res Function(DataModel) _then;
+
+  /// Create a copy of DataModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,17 +77,17 @@ class __$$DataModelImplCopyWithImpl<$Res>
     Object? routes = freezed,
     Object? code = freezed,
   }) {
-    return _then(_$DataModelImpl(
+    return _then(_self.copyWith(
       waypoints: freezed == waypoints
-          ? _value._waypoints
+          ? _self.waypoints
           : waypoints // ignore: cast_nullable_to_non_nullable
               as List<Waypoints>?,
       routes: freezed == routes
-          ? _value._routes
+          ? _self.routes
           : routes // ignore: cast_nullable_to_non_nullable
               as List<Routes>?,
       code: freezed == code
-          ? _value.code
+          ? _self.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
@@ -117,14 +96,13 @@ class __$$DataModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DataModelImpl implements _DataModel {
-  _$DataModelImpl(
+class _DataModel implements DataModel {
+  _DataModel(
       {final List<Waypoints>? waypoints, final List<Routes>? routes, this.code})
       : _waypoints = waypoints,
         _routes = routes;
-
-  factory _$DataModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DataModelImplFromJson(json);
+  factory _DataModel.fromJson(Map<String, dynamic> json) =>
+      _$DataModelFromJson(json);
 
   final List<Waypoints>? _waypoints;
   @override
@@ -149,23 +127,33 @@ class _$DataModelImpl implements _DataModel {
   @override
   final String? code;
 
+  /// Create a copy of DataModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'DataModel(waypoints: $waypoints, routes: $routes, code: $code)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DataModelCopyWith<_DataModel> get copyWith =>
+      __$DataModelCopyWithImpl<_DataModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DataModelToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DataModelImpl &&
+            other is _DataModel &&
             const DeepCollectionEquality()
                 .equals(other._waypoints, _waypoints) &&
             const DeepCollectionEquality().equals(other._routes, _routes) &&
             (identical(other.code, code) || other.code == code));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -173,125 +161,121 @@ class _$DataModelImpl implements _DataModel {
       const DeepCollectionEquality().hash(_routes),
       code);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DataModelImplCopyWith<_$DataModelImpl> get copyWith =>
-      __$$DataModelImplCopyWithImpl<_$DataModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DataModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'DataModel(waypoints: $waypoints, routes: $routes, code: $code)';
   }
 }
 
-abstract class _DataModel implements DataModel {
-  factory _DataModel(
-      {final List<Waypoints>? waypoints,
-      final List<Routes>? routes,
-      final String? code}) = _$DataModelImpl;
-
-  factory _DataModel.fromJson(Map<String, dynamic> json) =
-      _$DataModelImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$DataModelCopyWith<$Res>
+    implements $DataModelCopyWith<$Res> {
+  factory _$DataModelCopyWith(
+          _DataModel value, $Res Function(_DataModel) _then) =
+      __$DataModelCopyWithImpl;
   @override
-  List<Waypoints>? get waypoints;
-  @override
-  List<Routes>? get routes;
-  @override
-  String? get code;
-  @override
-  @JsonKey(ignore: true)
-  _$$DataModelImplCopyWith<_$DataModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call({List<Waypoints>? waypoints, List<Routes>? routes, String? code});
 }
 
-Waypoints _$WaypointsFromJson(Map<String, dynamic> json) {
-  return _Waypoints.fromJson(json);
+/// @nodoc
+class __$DataModelCopyWithImpl<$Res> implements _$DataModelCopyWith<$Res> {
+  __$DataModelCopyWithImpl(this._self, this._then);
+
+  final _DataModel _self;
+  final $Res Function(_DataModel) _then;
+
+  /// Create a copy of DataModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? waypoints = freezed,
+    Object? routes = freezed,
+    Object? code = freezed,
+  }) {
+    return _then(_DataModel(
+      waypoints: freezed == waypoints
+          ? _self._waypoints
+          : waypoints // ignore: cast_nullable_to_non_nullable
+              as List<Waypoints>?,
+      routes: freezed == routes
+          ? _self._routes
+          : routes // ignore: cast_nullable_to_non_nullable
+              as List<Routes>?,
+      code: freezed == code
+          ? _self.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$Waypoints {
-  List<double>? get location => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  List<double>? get location;
+  String? get name;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $WaypointsCopyWith<Waypoints> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WaypointsCopyWith<$Res> {
-  factory $WaypointsCopyWith(Waypoints value, $Res Function(Waypoints) then) =
-      _$WaypointsCopyWithImpl<$Res, Waypoints>;
-  @useResult
-  $Res call({List<double>? location, String? name});
-}
-
-/// @nodoc
-class _$WaypointsCopyWithImpl<$Res, $Val extends Waypoints>
-    implements $WaypointsCopyWith<$Res> {
-  _$WaypointsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of Waypoints
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $WaypointsCopyWith<Waypoints> get copyWith =>
+      _$WaypointsCopyWithImpl<Waypoints>(this as Waypoints, _$identity);
+
+  /// Serializes this Waypoints to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? location = freezed,
-    Object? name = freezed,
-  }) {
-    return _then(_value.copyWith(
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as List<double>?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Waypoints &&
+            const DeepCollectionEquality().equals(other.location, location) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(location), name);
+
+  @override
+  String toString() {
+    return 'Waypoints(location: $location, name: $name)';
   }
 }
 
 /// @nodoc
-abstract class _$$WaypointsImplCopyWith<$Res>
-    implements $WaypointsCopyWith<$Res> {
-  factory _$$WaypointsImplCopyWith(
-          _$WaypointsImpl value, $Res Function(_$WaypointsImpl) then) =
-      __$$WaypointsImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $WaypointsCopyWith<$Res> {
+  factory $WaypointsCopyWith(Waypoints value, $Res Function(Waypoints) _then) =
+      _$WaypointsCopyWithImpl;
   @useResult
   $Res call({List<double>? location, String? name});
 }
 
 /// @nodoc
-class __$$WaypointsImplCopyWithImpl<$Res>
-    extends _$WaypointsCopyWithImpl<$Res, _$WaypointsImpl>
-    implements _$$WaypointsImplCopyWith<$Res> {
-  __$$WaypointsImplCopyWithImpl(
-      _$WaypointsImpl _value, $Res Function(_$WaypointsImpl) _then)
-      : super(_value, _then);
+class _$WaypointsCopyWithImpl<$Res> implements $WaypointsCopyWith<$Res> {
+  _$WaypointsCopyWithImpl(this._self, this._then);
 
+  final Waypoints _self;
+  final $Res Function(Waypoints) _then;
+
+  /// Create a copy of Waypoints
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? location = freezed,
     Object? name = freezed,
   }) {
-    return _then(_$WaypointsImpl(
+    return _then(_self.copyWith(
       location: freezed == location
-          ? _value._location
+          ? _self.location
           : location // ignore: cast_nullable_to_non_nullable
               as List<double>?,
       name: freezed == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
@@ -300,12 +284,10 @@ class __$$WaypointsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$WaypointsImpl implements _Waypoints {
-  _$WaypointsImpl({final List<double>? location, this.name})
-      : _location = location;
-
-  factory _$WaypointsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WaypointsImplFromJson(json);
+class _Waypoints implements Waypoints {
+  _Waypoints({final List<double>? location, this.name}) : _location = location;
+  factory _Waypoints.fromJson(Map<String, dynamic> json) =>
+      _$WaypointsFromJson(json);
 
   final List<double>? _location;
   @override
@@ -320,221 +302,215 @@ class _$WaypointsImpl implements _Waypoints {
   @override
   final String? name;
 
+  /// Create a copy of Waypoints
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Waypoints(location: $location, name: $name)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$WaypointsCopyWith<_Waypoints> get copyWith =>
+      __$WaypointsCopyWithImpl<_Waypoints>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$WaypointsToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WaypointsImpl &&
+            other is _Waypoints &&
             const DeepCollectionEquality().equals(other._location, _location) &&
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_location), name);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$WaypointsImplCopyWith<_$WaypointsImpl> get copyWith =>
-      __$$WaypointsImplCopyWithImpl<_$WaypointsImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$WaypointsImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Waypoints implements Waypoints {
-  factory _Waypoints({final List<double>? location, final String? name}) =
-      _$WaypointsImpl;
-
-  factory _Waypoints.fromJson(Map<String, dynamic> json) =
-      _$WaypointsImpl.fromJson;
-
-  @override
-  List<double>? get location;
-  @override
-  String? get name;
-  @override
-  @JsonKey(ignore: true)
-  _$$WaypointsImplCopyWith<_$WaypointsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Routes _$RoutesFromJson(Map<String, dynamic> json) {
-  return _Routes.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Routes {
-  List<Legs>? get legs => throw _privateConstructorUsedError;
-  String? get weightName => throw _privateConstructorUsedError;
-  Geometry? get geometry => throw _privateConstructorUsedError;
-  double? get weight => throw _privateConstructorUsedError;
-  double? get distance => throw _privateConstructorUsedError;
-  double? get duration => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $RoutesCopyWith<Routes> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $RoutesCopyWith<$Res> {
-  factory $RoutesCopyWith(Routes value, $Res Function(Routes) then) =
-      _$RoutesCopyWithImpl<$Res, Routes>;
-  @useResult
-  $Res call(
-      {List<Legs>? legs,
-      String? weightName,
-      Geometry? geometry,
-      double? weight,
-      double? distance,
-      double? duration});
-
-  $GeometryCopyWith<$Res>? get geometry;
-}
-
-/// @nodoc
-class _$RoutesCopyWithImpl<$Res, $Val extends Routes>
-    implements $RoutesCopyWith<$Res> {
-  _$RoutesCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? legs = freezed,
-    Object? weightName = freezed,
-    Object? geometry = freezed,
-    Object? weight = freezed,
-    Object? distance = freezed,
-    Object? duration = freezed,
-  }) {
-    return _then(_value.copyWith(
-      legs: freezed == legs
-          ? _value.legs
-          : legs // ignore: cast_nullable_to_non_nullable
-              as List<Legs>?,
-      weightName: freezed == weightName
-          ? _value.weightName
-          : weightName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      geometry: freezed == geometry
-          ? _value.geometry
-          : geometry // ignore: cast_nullable_to_non_nullable
-              as Geometry?,
-      weight: freezed == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as double?,
-      distance: freezed == distance
-          ? _value.distance
-          : distance // ignore: cast_nullable_to_non_nullable
-              as double?,
-      duration: freezed == duration
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $GeometryCopyWith<$Res>? get geometry {
-    if (_value.geometry == null) {
-      return null;
-    }
-
-    return $GeometryCopyWith<$Res>(_value.geometry!, (value) {
-      return _then(_value.copyWith(geometry: value) as $Val);
-    });
+  String toString() {
+    return 'Waypoints(location: $location, name: $name)';
   }
 }
 
 /// @nodoc
-abstract class _$$RoutesImplCopyWith<$Res> implements $RoutesCopyWith<$Res> {
-  factory _$$RoutesImplCopyWith(
-          _$RoutesImpl value, $Res Function(_$RoutesImpl) then) =
-      __$$RoutesImplCopyWithImpl<$Res>;
+abstract mixin class _$WaypointsCopyWith<$Res>
+    implements $WaypointsCopyWith<$Res> {
+  factory _$WaypointsCopyWith(
+          _Waypoints value, $Res Function(_Waypoints) _then) =
+      __$WaypointsCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {List<Legs>? legs,
-      String? weightName,
-      Geometry? geometry,
-      double? weight,
-      double? distance,
-      double? duration});
-
-  @override
-  $GeometryCopyWith<$Res>? get geometry;
+  $Res call({List<double>? location, String? name});
 }
 
 /// @nodoc
-class __$$RoutesImplCopyWithImpl<$Res>
-    extends _$RoutesCopyWithImpl<$Res, _$RoutesImpl>
-    implements _$$RoutesImplCopyWith<$Res> {
-  __$$RoutesImplCopyWithImpl(
-      _$RoutesImpl _value, $Res Function(_$RoutesImpl) _then)
-      : super(_value, _then);
+class __$WaypointsCopyWithImpl<$Res> implements _$WaypointsCopyWith<$Res> {
+  __$WaypointsCopyWithImpl(this._self, this._then);
 
-  @pragma('vm:prefer-inline')
+  final _Waypoints _self;
+  final $Res Function(_Waypoints) _then;
+
+  /// Create a copy of Waypoints
+  /// with the given fields replaced by the non-null parameter values.
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
-    Object? legs = freezed,
-    Object? weightName = freezed,
-    Object? geometry = freezed,
-    Object? weight = freezed,
-    Object? distance = freezed,
-    Object? duration = freezed,
+    Object? location = freezed,
+    Object? name = freezed,
   }) {
-    return _then(_$RoutesImpl(
-      legs: freezed == legs
-          ? _value._legs
-          : legs // ignore: cast_nullable_to_non_nullable
-              as List<Legs>?,
-      weightName: freezed == weightName
-          ? _value.weightName
-          : weightName // ignore: cast_nullable_to_non_nullable
+    return _then(_Waypoints(
+      location: freezed == location
+          ? _self._location
+          : location // ignore: cast_nullable_to_non_nullable
+              as List<double>?,
+      name: freezed == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      geometry: freezed == geometry
-          ? _value.geometry
-          : geometry // ignore: cast_nullable_to_non_nullable
-              as Geometry?,
-      weight: freezed == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as double?,
-      distance: freezed == distance
-          ? _value.distance
-          : distance // ignore: cast_nullable_to_non_nullable
-              as double?,
-      duration: freezed == duration
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as double?,
     ));
   }
 }
 
 /// @nodoc
+mixin _$Routes {
+  List<Legs>? get legs;
+  String? get weightName;
+  Geometry? get geometry;
+  double? get weight;
+  double? get distance;
+  double? get duration;
+
+  /// Create a copy of Routes
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $RoutesCopyWith<Routes> get copyWith =>
+      _$RoutesCopyWithImpl<Routes>(this as Routes, _$identity);
+
+  /// Serializes this Routes to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Routes &&
+            const DeepCollectionEquality().equals(other.legs, legs) &&
+            (identical(other.weightName, weightName) ||
+                other.weightName == weightName) &&
+            (identical(other.geometry, geometry) ||
+                other.geometry == geometry) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.distance, distance) ||
+                other.distance == distance) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(legs),
+      weightName,
+      geometry,
+      weight,
+      distance,
+      duration);
+
+  @override
+  String toString() {
+    return 'Routes(legs: $legs, weightName: $weightName, geometry: $geometry, weight: $weight, distance: $distance, duration: $duration)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $RoutesCopyWith<$Res> {
+  factory $RoutesCopyWith(Routes value, $Res Function(Routes) _then) =
+      _$RoutesCopyWithImpl;
+  @useResult
+  $Res call(
+      {List<Legs>? legs,
+      String? weightName,
+      Geometry? geometry,
+      double? weight,
+      double? distance,
+      double? duration});
+
+  $GeometryCopyWith<$Res>? get geometry;
+}
+
+/// @nodoc
+class _$RoutesCopyWithImpl<$Res> implements $RoutesCopyWith<$Res> {
+  _$RoutesCopyWithImpl(this._self, this._then);
+
+  final Routes _self;
+  final $Res Function(Routes) _then;
+
+  /// Create a copy of Routes
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? legs = freezed,
+    Object? weightName = freezed,
+    Object? geometry = freezed,
+    Object? weight = freezed,
+    Object? distance = freezed,
+    Object? duration = freezed,
+  }) {
+    return _then(_self.copyWith(
+      legs: freezed == legs
+          ? _self.legs
+          : legs // ignore: cast_nullable_to_non_nullable
+              as List<Legs>?,
+      weightName: freezed == weightName
+          ? _self.weightName
+          : weightName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      geometry: freezed == geometry
+          ? _self.geometry
+          : geometry // ignore: cast_nullable_to_non_nullable
+              as Geometry?,
+      weight: freezed == weight
+          ? _self.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double?,
+      distance: freezed == distance
+          ? _self.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      duration: freezed == duration
+          ? _self.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+
+  /// Create a copy of Routes
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GeometryCopyWith<$Res>? get geometry {
+    if (_self.geometry == null) {
+      return null;
+    }
+
+    return $GeometryCopyWith<$Res>(_self.geometry!, (value) {
+      return _then(_self.copyWith(geometry: value));
+    });
+  }
+}
+
+/// @nodoc
 @JsonSerializable()
-class _$RoutesImpl implements _Routes {
-  _$RoutesImpl(
+class _Routes implements Routes {
+  _Routes(
       {final List<Legs>? legs,
       this.weightName,
       this.geometry,
@@ -542,9 +518,7 @@ class _$RoutesImpl implements _Routes {
       this.distance,
       this.duration})
       : _legs = legs;
-
-  factory _$RoutesImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RoutesImplFromJson(json);
+  factory _Routes.fromJson(Map<String, dynamic> json) => _$RoutesFromJson(json);
 
   final List<Legs>? _legs;
   @override
@@ -567,16 +541,26 @@ class _$RoutesImpl implements _Routes {
   @override
   final double? duration;
 
+  /// Create a copy of Routes
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Routes(legs: $legs, weightName: $weightName, geometry: $geometry, weight: $weight, distance: $distance, duration: $duration)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$RoutesCopyWith<_Routes> get copyWith =>
+      __$RoutesCopyWithImpl<_Routes>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$RoutesToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RoutesImpl &&
+            other is _Routes &&
             const DeepCollectionEquality().equals(other._legs, _legs) &&
             (identical(other.weightName, weightName) ||
                 other.weightName == weightName) &&
@@ -589,7 +573,7 @@ class _$RoutesImpl implements _Routes {
                 other.duration == duration));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -600,132 +584,147 @@ class _$RoutesImpl implements _Routes {
       distance,
       duration);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$RoutesImplCopyWith<_$RoutesImpl> get copyWith =>
-      __$$RoutesImplCopyWithImpl<_$RoutesImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$RoutesImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Routes(legs: $legs, weightName: $weightName, geometry: $geometry, weight: $weight, distance: $distance, duration: $duration)';
   }
 }
 
-abstract class _Routes implements Routes {
-  factory _Routes(
-      {final List<Legs>? legs,
-      final String? weightName,
-      final Geometry? geometry,
-      final double? weight,
-      final double? distance,
-      final double? duration}) = _$RoutesImpl;
+/// @nodoc
+abstract mixin class _$RoutesCopyWith<$Res> implements $RoutesCopyWith<$Res> {
+  factory _$RoutesCopyWith(_Routes value, $Res Function(_Routes) _then) =
+      __$RoutesCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<Legs>? legs,
+      String? weightName,
+      Geometry? geometry,
+      double? weight,
+      double? distance,
+      double? duration});
 
-  factory _Routes.fromJson(Map<String, dynamic> json) = _$RoutesImpl.fromJson;
-
   @override
-  List<Legs>? get legs;
-  @override
-  String? get weightName;
-  @override
-  Geometry? get geometry;
-  @override
-  double? get weight;
-  @override
-  double? get distance;
-  @override
-  double? get duration;
-  @override
-  @JsonKey(ignore: true)
-  _$$RoutesImplCopyWith<_$RoutesImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  $GeometryCopyWith<$Res>? get geometry;
 }
 
-Legs _$LegsFromJson(Map<String, dynamic> json) {
-  return _Legs.fromJson(json);
+/// @nodoc
+class __$RoutesCopyWithImpl<$Res> implements _$RoutesCopyWith<$Res> {
+  __$RoutesCopyWithImpl(this._self, this._then);
+
+  final _Routes _self;
+  final $Res Function(_Routes) _then;
+
+  /// Create a copy of Routes
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? legs = freezed,
+    Object? weightName = freezed,
+    Object? geometry = freezed,
+    Object? weight = freezed,
+    Object? distance = freezed,
+    Object? duration = freezed,
+  }) {
+    return _then(_Routes(
+      legs: freezed == legs
+          ? _self._legs
+          : legs // ignore: cast_nullable_to_non_nullable
+              as List<Legs>?,
+      weightName: freezed == weightName
+          ? _self.weightName
+          : weightName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      geometry: freezed == geometry
+          ? _self.geometry
+          : geometry // ignore: cast_nullable_to_non_nullable
+              as Geometry?,
+      weight: freezed == weight
+          ? _self.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double?,
+      distance: freezed == distance
+          ? _self.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      duration: freezed == duration
+          ? _self.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+
+  /// Create a copy of Routes
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GeometryCopyWith<$Res>? get geometry {
+    if (_self.geometry == null) {
+      return null;
+    }
+
+    return $GeometryCopyWith<$Res>(_self.geometry!, (value) {
+      return _then(_self.copyWith(geometry: value));
+    });
+  }
 }
 
 /// @nodoc
 mixin _$Legs {
-  List<dynamic>? get steps => throw _privateConstructorUsedError;
-  double? get weight => throw _privateConstructorUsedError;
-  double? get distance => throw _privateConstructorUsedError;
-  String? get summary => throw _privateConstructorUsedError;
-  double? get duration => throw _privateConstructorUsedError;
+  List? get steps;
+  double? get weight;
+  double? get distance;
+  String? get summary;
+  double? get duration;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $LegsCopyWith<Legs> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $LegsCopyWith<$Res> {
-  factory $LegsCopyWith(Legs value, $Res Function(Legs) then) =
-      _$LegsCopyWithImpl<$Res, Legs>;
-  @useResult
-  $Res call(
-      {List<dynamic>? steps,
-      double? weight,
-      double? distance,
-      String? summary,
-      double? duration});
-}
-
-/// @nodoc
-class _$LegsCopyWithImpl<$Res, $Val extends Legs>
-    implements $LegsCopyWith<$Res> {
-  _$LegsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of Legs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $LegsCopyWith<Legs> get copyWith =>
+      _$LegsCopyWithImpl<Legs>(this as Legs, _$identity);
+
+  /// Serializes this Legs to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? steps = freezed,
-    Object? weight = freezed,
-    Object? distance = freezed,
-    Object? summary = freezed,
-    Object? duration = freezed,
-  }) {
-    return _then(_value.copyWith(
-      steps: freezed == steps
-          ? _value.steps
-          : steps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
-      weight: freezed == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as double?,
-      distance: freezed == distance
-          ? _value.distance
-          : distance // ignore: cast_nullable_to_non_nullable
-              as double?,
-      summary: freezed == summary
-          ? _value.summary
-          : summary // ignore: cast_nullable_to_non_nullable
-              as String?,
-      duration: freezed == duration
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Legs &&
+            const DeepCollectionEquality().equals(other.steps, steps) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.distance, distance) ||
+                other.distance == distance) &&
+            (identical(other.summary, summary) || other.summary == summary) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(steps),
+      weight,
+      distance,
+      summary,
+      duration);
+
+  @override
+  String toString() {
+    return 'Legs(steps: $steps, weight: $weight, distance: $distance, summary: $summary, duration: $duration)';
   }
 }
 
 /// @nodoc
-abstract class _$$LegsImplCopyWith<$Res> implements $LegsCopyWith<$Res> {
-  factory _$$LegsImplCopyWith(
-          _$LegsImpl value, $Res Function(_$LegsImpl) then) =
-      __$$LegsImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $LegsCopyWith<$Res> {
+  factory $LegsCopyWith(Legs value, $Res Function(Legs) _then) =
+      _$LegsCopyWithImpl;
   @useResult
   $Res call(
-      {List<dynamic>? steps,
+      {List? steps,
       double? weight,
       double? distance,
       String? summary,
@@ -733,12 +732,14 @@ abstract class _$$LegsImplCopyWith<$Res> implements $LegsCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$LegsImplCopyWithImpl<$Res>
-    extends _$LegsCopyWithImpl<$Res, _$LegsImpl>
-    implements _$$LegsImplCopyWith<$Res> {
-  __$$LegsImplCopyWithImpl(_$LegsImpl _value, $Res Function(_$LegsImpl) _then)
-      : super(_value, _then);
+class _$LegsCopyWithImpl<$Res> implements $LegsCopyWith<$Res> {
+  _$LegsCopyWithImpl(this._self, this._then);
 
+  final Legs _self;
+  final $Res Function(Legs) _then;
+
+  /// Create a copy of Legs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -748,25 +749,25 @@ class __$$LegsImplCopyWithImpl<$Res>
     Object? summary = freezed,
     Object? duration = freezed,
   }) {
-    return _then(_$LegsImpl(
+    return _then(_self.copyWith(
       steps: freezed == steps
-          ? _value._steps
+          ? _self.steps
           : steps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List?,
       weight: freezed == weight
-          ? _value.weight
+          ? _self.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as double?,
       distance: freezed == distance
-          ? _value.distance
+          ? _self.distance
           : distance // ignore: cast_nullable_to_non_nullable
               as double?,
       summary: freezed == summary
-          ? _value.summary
+          ? _self.summary
           : summary // ignore: cast_nullable_to_non_nullable
               as String?,
       duration: freezed == duration
-          ? _value.duration
+          ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as double?,
     ));
@@ -775,21 +776,19 @@ class __$$LegsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LegsImpl implements _Legs {
-  _$LegsImpl(
-      {final List<dynamic>? steps,
+class _Legs implements Legs {
+  _Legs(
+      {final List? steps,
       this.weight,
       this.distance,
       this.summary,
       this.duration})
       : _steps = steps;
+  factory _Legs.fromJson(Map<String, dynamic> json) => _$LegsFromJson(json);
 
-  factory _$LegsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LegsImplFromJson(json);
-
-  final List<dynamic>? _steps;
+  final List? _steps;
   @override
-  List<dynamic>? get steps {
+  List? get steps {
     final value = _steps;
     if (value == null) return null;
     if (_steps is EqualUnmodifiableListView) return _steps;
@@ -806,16 +805,26 @@ class _$LegsImpl implements _Legs {
   @override
   final double? duration;
 
+  /// Create a copy of Legs
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Legs(steps: $steps, weight: $weight, distance: $distance, summary: $summary, duration: $duration)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LegsCopyWith<_Legs> get copyWith =>
+      __$LegsCopyWithImpl<_Legs>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$LegsToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LegsImpl &&
+            other is _Legs &&
             const DeepCollectionEquality().equals(other._steps, _steps) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.distance, distance) ||
@@ -825,7 +834,7 @@ class _$LegsImpl implements _Legs {
                 other.duration == duration));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -835,130 +844,135 @@ class _$LegsImpl implements _Legs {
       summary,
       duration);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$LegsImplCopyWith<_$LegsImpl> get copyWith =>
-      __$$LegsImplCopyWithImpl<_$LegsImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$LegsImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Legs(steps: $steps, weight: $weight, distance: $distance, summary: $summary, duration: $duration)';
   }
 }
 
-abstract class _Legs implements Legs {
-  factory _Legs(
-      {final List<dynamic>? steps,
-      final double? weight,
-      final double? distance,
-      final String? summary,
-      final double? duration}) = _$LegsImpl;
-
-  factory _Legs.fromJson(Map<String, dynamic> json) = _$LegsImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$LegsCopyWith<$Res> implements $LegsCopyWith<$Res> {
+  factory _$LegsCopyWith(_Legs value, $Res Function(_Legs) _then) =
+      __$LegsCopyWithImpl;
   @override
-  List<dynamic>? get steps;
-  @override
-  double? get weight;
-  @override
-  double? get distance;
-  @override
-  String? get summary;
-  @override
-  double? get duration;
-  @override
-  @JsonKey(ignore: true)
-  _$$LegsImplCopyWith<_$LegsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call(
+      {List? steps,
+      double? weight,
+      double? distance,
+      String? summary,
+      double? duration});
 }
 
-Geometry _$GeometryFromJson(Map<String, dynamic> json) {
-  return _Geometry.fromJson(json);
+/// @nodoc
+class __$LegsCopyWithImpl<$Res> implements _$LegsCopyWith<$Res> {
+  __$LegsCopyWithImpl(this._self, this._then);
+
+  final _Legs _self;
+  final $Res Function(_Legs) _then;
+
+  /// Create a copy of Legs
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? steps = freezed,
+    Object? weight = freezed,
+    Object? distance = freezed,
+    Object? summary = freezed,
+    Object? duration = freezed,
+  }) {
+    return _then(_Legs(
+      steps: freezed == steps
+          ? _self._steps
+          : steps // ignore: cast_nullable_to_non_nullable
+              as List?,
+      weight: freezed == weight
+          ? _self.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double?,
+      distance: freezed == distance
+          ? _self.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      summary: freezed == summary
+          ? _self.summary
+          : summary // ignore: cast_nullable_to_non_nullable
+              as String?,
+      duration: freezed == duration
+          ? _self.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$Geometry {
-  List<List>? get coordinates => throw _privateConstructorUsedError;
-  String? get type => throw _privateConstructorUsedError;
+  List<List>? get coordinates;
+  String? get type;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $GeometryCopyWith<Geometry> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $GeometryCopyWith<$Res> {
-  factory $GeometryCopyWith(Geometry value, $Res Function(Geometry) then) =
-      _$GeometryCopyWithImpl<$Res, Geometry>;
-  @useResult
-  $Res call({List<List>? coordinates, String? type});
-}
-
-/// @nodoc
-class _$GeometryCopyWithImpl<$Res, $Val extends Geometry>
-    implements $GeometryCopyWith<$Res> {
-  _$GeometryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of Geometry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $GeometryCopyWith<Geometry> get copyWith =>
+      _$GeometryCopyWithImpl<Geometry>(this as Geometry, _$identity);
+
+  /// Serializes this Geometry to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? coordinates = freezed,
-    Object? type = freezed,
-  }) {
-    return _then(_value.copyWith(
-      coordinates: freezed == coordinates
-          ? _value.coordinates
-          : coordinates // ignore: cast_nullable_to_non_nullable
-              as List<List>?,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Geometry &&
+            const DeepCollectionEquality()
+                .equals(other.coordinates, coordinates) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(coordinates), type);
+
+  @override
+  String toString() {
+    return 'Geometry(coordinates: $coordinates, type: $type)';
   }
 }
 
 /// @nodoc
-abstract class _$$GeometryImplCopyWith<$Res>
-    implements $GeometryCopyWith<$Res> {
-  factory _$$GeometryImplCopyWith(
-          _$GeometryImpl value, $Res Function(_$GeometryImpl) then) =
-      __$$GeometryImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $GeometryCopyWith<$Res> {
+  factory $GeometryCopyWith(Geometry value, $Res Function(Geometry) _then) =
+      _$GeometryCopyWithImpl;
   @useResult
   $Res call({List<List>? coordinates, String? type});
 }
 
 /// @nodoc
-class __$$GeometryImplCopyWithImpl<$Res>
-    extends _$GeometryCopyWithImpl<$Res, _$GeometryImpl>
-    implements _$$GeometryImplCopyWith<$Res> {
-  __$$GeometryImplCopyWithImpl(
-      _$GeometryImpl _value, $Res Function(_$GeometryImpl) _then)
-      : super(_value, _then);
+class _$GeometryCopyWithImpl<$Res> implements $GeometryCopyWith<$Res> {
+  _$GeometryCopyWithImpl(this._self, this._then);
 
+  final Geometry _self;
+  final $Res Function(Geometry) _then;
+
+  /// Create a copy of Geometry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? coordinates = freezed,
     Object? type = freezed,
   }) {
-    return _then(_$GeometryImpl(
+    return _then(_self.copyWith(
       coordinates: freezed == coordinates
-          ? _value._coordinates
+          ? _self.coordinates
           : coordinates // ignore: cast_nullable_to_non_nullable
               as List<List>?,
       type: freezed == type
-          ? _value.type
+          ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
@@ -967,12 +981,11 @@ class __$$GeometryImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$GeometryImpl implements _Geometry {
-  _$GeometryImpl({final List<List>? coordinates, this.type})
+class _Geometry implements Geometry {
+  _Geometry({final List<List>? coordinates, this.type})
       : _coordinates = coordinates;
-
-  factory _$GeometryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GeometryImplFromJson(json);
+  factory _Geometry.fromJson(Map<String, dynamic> json) =>
+      _$GeometryFromJson(json);
 
   final List<List>? _coordinates;
   @override
@@ -987,53 +1000,78 @@ class _$GeometryImpl implements _Geometry {
   @override
   final String? type;
 
+  /// Create a copy of Geometry
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Geometry(coordinates: $coordinates, type: $type)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$GeometryCopyWith<_Geometry> get copyWith =>
+      __$GeometryCopyWithImpl<_Geometry>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$GeometryToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GeometryImpl &&
+            other is _Geometry &&
             const DeepCollectionEquality()
                 .equals(other._coordinates, _coordinates) &&
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_coordinates), type);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$GeometryImplCopyWith<_$GeometryImpl> get copyWith =>
-      __$$GeometryImplCopyWithImpl<_$GeometryImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$GeometryImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Geometry(coordinates: $coordinates, type: $type)';
   }
 }
 
-abstract class _Geometry implements Geometry {
-  factory _Geometry({final List<List>? coordinates, final String? type}) =
-      _$GeometryImpl;
-
-  factory _Geometry.fromJson(Map<String, dynamic> json) =
-      _$GeometryImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$GeometryCopyWith<$Res>
+    implements $GeometryCopyWith<$Res> {
+  factory _$GeometryCopyWith(_Geometry value, $Res Function(_Geometry) _then) =
+      __$GeometryCopyWithImpl;
   @override
-  List<List>? get coordinates;
-  @override
-  String? get type;
-  @override
-  @JsonKey(ignore: true)
-  _$$GeometryImplCopyWith<_$GeometryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call({List<List>? coordinates, String? type});
 }
+
+/// @nodoc
+class __$GeometryCopyWithImpl<$Res> implements _$GeometryCopyWith<$Res> {
+  __$GeometryCopyWithImpl(this._self, this._then);
+
+  final _Geometry _self;
+  final $Res Function(_Geometry) _then;
+
+  /// Create a copy of Geometry
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? coordinates = freezed,
+    Object? type = freezed,
+  }) {
+    return _then(_Geometry(
+      coordinates: freezed == coordinates
+          ? _self._coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<List>?,
+      type: freezed == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+// dart format on

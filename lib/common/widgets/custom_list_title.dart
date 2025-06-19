@@ -8,7 +8,7 @@ import '../../utils/constants/typography/typography.dart';
 
 class CustomListTitle extends StatelessWidget {
   final BusFromDb bus;
-  final path;
+  final dynamic path;
   const CustomListTitle({
     super.key,
     required this.bus,

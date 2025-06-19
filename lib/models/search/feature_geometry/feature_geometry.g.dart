@@ -6,17 +6,15 @@ part of 'feature_geometry.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FeatureGeometryImpl _$$FeatureGeometryImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FeatureGeometryImpl(
+_FeatureGeometry _$FeatureGeometryFromJson(Map<String, dynamic> json) =>
+    _FeatureGeometry(
       type: json['type'] as String,
       coordinates: (json['coordinates'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
           .toList(),
     );
 
-Map<String, dynamic> _$$FeatureGeometryImplToJson(
-        _$FeatureGeometryImpl instance) =>
+Map<String, dynamic> _$FeatureGeometryToJson(_FeatureGeometry instance) =>
     <String, dynamic>{
       'type': instance.type,
       'coordinates': instance.coordinates,
