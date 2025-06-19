@@ -1,0 +1,27 @@
+name: Send Message on telegram  
+
+on:
+  push:
+  
+jobs:              
+    message:
+      name: send telegram message on push
+      if: github.event_name == 'push'
+      runs-on: ubuntu-latest
+      
+      steps:
+
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.CHAT_ID }}
+          token: ${{ secrets.BOT_ID }}
+          message: |
+            Commit : 
+            ${{ github.event.head_commit.message }}
+            
+            Commit by: ${{ github.actor }}
+            
+            Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}

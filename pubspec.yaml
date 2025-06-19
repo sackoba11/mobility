@@ -18,8 +18,7 @@ dependencies:
   google_maps_flutter: ^2.4.0
   flutter_svg: ^2.0.9
   freezed_annotation: ^3.0.0
-  json_annotation: ^4.8.1
-  flutter_gen: ^5.3.2
+  json_annotation: ^4.9.0
   flutter_screenutil: ^5.9.0
   injectable: ^2.3.2
   dartz: ^0.10.1
@@ -38,6 +37,7 @@ dependencies:
   flutter_steps: ^1.0.5
   infinite_scroll_pagination: ^5.1.0
   flutter_native_splash: ^2.4.6
+  flutter_gen: ^5.10.0
   
   
 
@@ -51,21 +51,22 @@ dev_dependencies:
   json_serializable: ^6.7.1
   injectable_generator: ^2.4.1
 
+
+
+flutter_gen:
+  output: lib/common/assets/
+
+  # Optional
+  integrations:
+    flutter_svg: true
+    rive: false
+    lottie: false
+    
 flutter: 
   uses-material-design: true
   assets:
     - assets/
 
-flutter_gen:
-  output: lib/app/assets/
-
-
-  # Optional
-  integrations:
-    flutter_svg: true
-    flare_flutter: false
-    rive: false
-    lottie: false
 
 scripts:
   gen-build: "dart run build_runner build"
