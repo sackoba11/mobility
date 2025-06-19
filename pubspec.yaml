@@ -15,7 +15,6 @@ dependencies:
   google_fonts: ^4.0.4
   geolocator: ^10.0.0
   geocoding: ^2.1.0
-
   google_maps_flutter: ^2.4.0
   flutter_svg: ^2.0.9
   freezed_annotation: ^3.0.0
@@ -26,9 +25,7 @@ dependencies:
   dartz: ^0.10.1
   flutter_polyline_points:
   google_places_flutter:
-
   dio: ^4.0.6
-
   http: ^1.1.0
   dropdown_button2: ^2.3.9
   firebase_database: ^11.3.7
@@ -36,6 +33,11 @@ dependencies:
   cloud_firestore: ^5.6.9
   firebase_storage: ^12.4.7
   google_sign_in: ^6.3.0
+  connectivity_plus: ^6.1.4
+  url_launcher: ^6.3.1
+  flutter_steps: ^1.0.5
+  infinite_scroll_pagination: ^5.1.0
+  flutter_native_splash: ^2.4.6
   
   
 
@@ -70,3 +72,7 @@ scripts:
   gen-watch: "dart run build_runner watch"
   build: ".fvm/flutter_sdk/bin/flutter build apk --split-per-abi"
   gen-assets: "fluttergen -c pubspec.yaml && dart run build_runner build"
+
+splash:
+    - dart pub run flutter_native_splash:remove --path=splash.yaml
+    - dart pub run flutter_native_splash:create --path=splash.yaml
