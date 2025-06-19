@@ -67,15 +67,7 @@ class OtherCarController extends GetxController {
     availableItinerary.value = (await getItinerary()).fold((l) => [], (r) => r);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+ 
 
   late StreamSubscription<Position> streamSubscription;
   GoogleMapController? mapController;

@@ -1,6 +1,11 @@
+import 'dart:developer' as developer;
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+
 import 'package:mobility/app/models/user/my_user.dart';
 import 'package:mobility/app/repositories/authRepositiry/i_auth_repository.dart';
 import 'package:mobility/app/repositories/authRepositiry/auth_repository_impl.dart';
@@ -16,6 +21,11 @@ class SplashScreenController extends GetxController
   IOtherCarRepository iOtherCarRepository = OtherCarRepositoryImpl();
   IAuthRepository iAuthRepository = AuthRepositoryImpl();
   User? currentUser;
+
+  late List<ConnectivityResult> _connectionStatus = <ConnectivityResult>[];
+  final Connectivity _connectivity = Connectivity();
+  List<ConnectivityResult> get connectionStatus => _connectionStatus;
+
   @override
   void onInit() async {
     super.onInit();
@@ -23,6 +33,7 @@ class SplashScreenController extends GetxController
     if (currentUser != null) {}
     splashDuration();
     animationInitilization();
+    checkConnectivity();
     // (await iOtherCarRepository.addAllGares()).isRight()
     //     ? print(true)
     //     : print(false);
@@ -32,10 +43,7 @@ class SplashScreenController extends GetxController
     return Future.delayed(
       const Duration(seconds: 3),
       () async {
-        print("Current User : $currentUser");
-
-        // Get.offAllNamed(Routes.services);
-
+        // Check if the user is logged in
         if (currentUser != null) {
           String uid = currentUser!.uid;
           MyUser user =
@@ -61,5 +69,22 @@ class SplashScreenController extends GetxController
             .value;
     animation.addListener(() => update());
     animationController.forward();
+  }
+
+  Future<void> checkConnectivity() async {
+    try {
+      _connectionStatus = await (_connectivity.checkConnectivity());
+      developer
+          .log('Connection status available : ${_connectionStatus.first.name}');
+      if (connectionStatus.contains(ConnectivityResult.none)) {
+        // No available network types
+        Get.snackbar('Pas accès a internet', 'Veuillez vous connecter');
+      }
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+
+    return;
   }
 }

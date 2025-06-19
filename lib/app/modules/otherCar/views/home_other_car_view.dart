@@ -7,7 +7,7 @@ import '../../widgets/custom_search_bar.dart';
 import '../../widgets/item_itinerary.dart';
 
 class HomeOtherCarView extends GetView<OtherCarController> {
-  const HomeOtherCarView({Key? key}) : super(key: key);
+  const HomeOtherCarView({super.key});
 
   @override
   Widget build(BuildContext context) {

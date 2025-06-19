@@ -6,7 +6,7 @@ import '../../../constants/app colors/app_colors.dart';
 import '../controllers/splash_screen_controller.dart';
 
 class SplashScreenView extends GetView<SplashScreenController> {
-  const SplashScreenView({Key? key}) : super(key: key);
+  const SplashScreenView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -40,15 +40,7 @@ class ServicesController extends GetxController {
     OtherCarRepositoryImpl().addAllGares();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  
 
   static int exitApp() {
     return exit(0);

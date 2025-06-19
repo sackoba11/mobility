@@ -47,10 +47,7 @@ class DriverController extends GetxController {
     await getLocation();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  
 
   Future<void> getLocation() async {
     bool serviceEnabled;

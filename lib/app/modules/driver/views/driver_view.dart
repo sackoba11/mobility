@@ -15,7 +15,7 @@ import '../controllers/driver_controller.dart';
 
 class DriverView extends GetView<DriverController> {
   final Bus? busSelected;
-  const DriverView({Key? key, this.busSelected}) : super(key: key);
+  const DriverView({super.key, this.busSelected});
   @override
   Widget build(BuildContext context) {
     Future<bool> onWillPop(context) async {
