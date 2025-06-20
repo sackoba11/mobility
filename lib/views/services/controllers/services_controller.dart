@@ -4,6 +4,7 @@ import 'package:mobility/data/repositories/authRepositiry/auth_repository_impl.d
 
 import '../../../data/repositories/authRepositiry/i_auth_repository.dart';
 import '../../home/screens/home_driver_screen.dart';
+import '../../home/screens/home_user_screen.dart';
 
 class ServicesController extends GetxController {
   late IAuthRepository iAuthRepository = AuthRepositoryImpl();
@@ -18,13 +19,39 @@ class ServicesController extends GetxController {
   //   // OtherCarRepositoryImpl().addAllGares();
   // }
 
-  Future<void> login() async {
-    var response = await iAuthRepository.loginWithEmailAndPassword(
-        email: emailLogin.text, password: passwordLogin.text);
-    if (response.isRight()) {
-      Get.off(const HomeDriverScreen());
-    } else {
-      Get.snackbar("Erreur", "Veuillez vérifier l'email ou le mot de passe");
+  Future<void> loginWithEmail({required ValueNotifier<bool> loading}) async {
+    try {
+      loading.value = true;
+      final response = (await iAuthRepository.loginWithEmailAndPassword(
+              email: emailLogin.text, password: passwordLogin.text))
+          .fold((l) => null, (r) => r);
+      if (response != null) {
+        loading.value = false;
+        Get.off(const HomeDriverScreen());
+      } else {
+        loading.value = false;
+        Get.snackbar("Erreur", "Veuillez vérifier l'email ou le mot de passe");
+      }
+    } catch (e) {
+      Get.snackbar("Erreur :", e.toString());
+    }
+  }
+
+  Future<void> loginWithGoogle({required ValueNotifier<bool> loading}) async {
+    try {
+      loading.value = true;
+      final response = (await iAuthRepository.signInWithGoogle())
+          .fold((l) => null, (r) => r);
+
+      if (response != null) {
+        loading.value = false;
+        Get.offAll(const HomeUserScreen());
+      } else {
+        loading.value = false;
+        Get.back();
+      }
+    } catch (e) {
+      Get.snackbar("Erreur :", e.toString());
     }
   }
 }

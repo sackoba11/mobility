@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../common/help_functions/help_functions.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/typography/typography.dart';
 import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
-import '../../../utils/helpers/helpers.dart';
 import '../../driver/screens/driver_screen.dart';
 import '../../services/screens/services_screen.dart';
 import '../../../common/widgets/custom_search_bar.dart';
@@ -16,7 +16,8 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
     Get.put(HomeDriverController());
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) => Helpers.onWillPop(context),
+      onPopInvokedWithResult: (didPop, result) =>
+          HelpFunctions.onWillPop(context),
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: AppColor.primary,

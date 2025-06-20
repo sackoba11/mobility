@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/constants/app string/app_string.dart';
-import 'apps_methodes.dart';
+import '../help_functions/help_functions.dart';
 
 class CustomButtonLogout extends StatelessWidget {
   const CustomButtonLogout({
@@ -22,7 +22,7 @@ class CustomButtonLogout extends StatelessWidget {
                 right: BorderSide(color: Colors.red))),
         child: TextButton(
           onPressed: () {
-            popupLogout();
+            HelpFunctions.popupLogout();
           },
           child: Text(
             AppString.logout,

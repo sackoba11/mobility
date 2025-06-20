@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:mobility/common/assets/assets.gen.dart';
-import 'package:mobility/data/repositories/authRepositiry/auth_repository_impl.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../utils/constants/app colors/app_colors.dart';
 import '../../utils/constants/typography/typography.dart';
-import '../../data/repositories/authRepositiry/i_auth_repository.dart';
 
-class LoginWithGoogleButton extends StatelessWidget {
-  const LoginWithGoogleButton({super.key});
-
+class CustomButtonWithoutIcon extends StatelessWidget {
+  const CustomButtonWithoutIcon(
+      {super.key,
+      required this.title,
+      this.onPressed,
+      this.loading,
+      this.icon});
+  final String title;
+  final void Function()? onPressed;
+  final ValueNotifier<bool>? loading;
+  final SvgPicture? icon;
   @override
   Widget build(BuildContext context) {
-    IAuthRepository iAuthRepository = AuthRepositoryImpl();
-    ValueNotifier<bool> loarding = ValueNotifier(false);
+    ValueNotifier<bool> defaultLoading = ValueNotifier(false);
     return TextButton(
-      onPressed: () async {
-        await iAuthRepository.login(loarding: loarding);
-      },
+      onPressed: onPressed,
       child: Container(
-          width: 372,
+          width: double.infinity,
           height: 60,
           decoration: ShapeDecoration(
             color: AppColor.primary,
@@ -27,7 +30,7 @@ class LoginWithGoogleButton extends StatelessWidget {
             ),
           ),
           child: ValueListenableBuilder(
-            valueListenable: loarding,
+            valueListenable: loading ?? defaultLoading,
             builder: (_, loardingValue, child) {
               return loardingValue
                   ? Row(
@@ -47,14 +50,17 @@ class LoginWithGoogleButton extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Assets.googoleIcon.svg(),
-                        // SvgPicture.asset(AppString.googleSvg),
-                        const SizedBox(
-                          width: 20,
-                        ),
+                        if (icon != null)
+                          Row(
+                            children: [
+                              icon!,
+                              const SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
                         AppTypography.medium16(
-                            text: "Se Connecter avec google",
-                            color: AppColor.white),
+                            text: title, color: AppColor.white),
                       ],
                     );
             },

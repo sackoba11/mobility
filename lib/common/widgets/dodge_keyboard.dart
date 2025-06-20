@@ -12,7 +12,10 @@ class DodgeKeyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
+        top: 20,
+        left: 20,
+        right: 20,
+        bottom: MediaQuery.viewInsetsOf(context).bottom + 20,
       ),
       child: child,
     );
