@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/validators/validator.dart';
 import '../../../views/services/controllers/services_controller.dart';
+import '../../help_functions/help_functions.dart';
 import '../custom_input.dart';
 import '../custom_button_without_icon.dart';
 
@@ -51,15 +53,11 @@ class BottomSheetDriver extends StatelessWidget {
                   await Get.find<ServicesController>()
                       .loginWithEmail(loading: loading);
                 } else {
-                  Get.snackbar(
-                    "Echec",
-                    "Veuillez remplir correctement les champs",
-                    snackPosition: SnackPosition.TOP,
-                    icon: const Icon(
-                      Icons.warning_amber_outlined,
-                      color: Colors.red,
-                    ),
-                  );
+                  HelpFunctions.customSnackbar(
+                      title: "Echec",
+                      message: 'Veuillez remplir tous les champs',
+                      colorText: AppColor.error.withOpacity(0.5),
+                      icon: Icons.warning_amber_outlined);
                 }
               },
             ),

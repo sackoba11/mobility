@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
 import '../../../common/help_functions/help_functions.dart';
+import '../../../common/widgets/body_wrapper.dart';
 import '../../../common/widgets/widget.bottomSheet/bottom_sheet_driver.dart';
 import '../../../common/widgets/widget.bottomSheet/bottom_sheet_user.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
@@ -18,39 +19,34 @@ class ServiceScreen extends GetView<ServicesController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.background,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            AppTypography.regularBig(text: AppString.hey),
-            const SizedBox(
-              height: 15,
-            ),
-            AppTypography.lightSmall(text: AppString.descriptionService),
-            const SizedBox(
-              height: 115,
-            ),
-            CustomButtonWithDoubleIcons(
-              icon: Assets.passenger.svg(),
-              title: AppString.passenger,
-              subtitle: AppString.searchService,
-              onPressed: () => HelpFunctions.customModalSheet(
-                  context: context, child: BottomSheetUser()),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomButtonWithDoubleIcons(
-              icon: Assets.driver.svg(),
-              title: AppString.driverBus,
-              subtitle: AppString.activateService,
-              onPressed: () => HelpFunctions.customModalSheet(
-                  context: context, child: BottomSheetDriver()),
-            ),
-          ],
-        ),
+      body: BodyWrapper(
+        children: [
+          AppTypography.regularBig(text: AppString.hey),
+          const SizedBox(
+            height: 15,
+          ),
+          AppTypography.lightSmall(text: AppString.descriptionService),
+          const SizedBox(
+            height: 115,
+          ),
+          CustomButtonWithDoubleIcons(
+            icon: Assets.passenger.svg(),
+            title: AppString.passenger,
+            subtitle: AppString.searchService,
+            onPressed: () => HelpFunctions.customModalSheet(
+                context: context, child: BottomSheetUser()),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          CustomButtonWithDoubleIcons(
+            icon: Assets.driver.svg(),
+            title: AppString.driverBus,
+            subtitle: AppString.activateService,
+            onPressed: () => HelpFunctions.customModalSheet(
+                context: context, child: BottomSheetDriver()),
+          ),
+        ],
       ),
     );
   }

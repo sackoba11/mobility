@@ -15,6 +15,7 @@ class BottomSheetUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ValueNotifier<bool> loading = ValueNotifier(false);
+    Get.put(ServicesController());
     return SizedBox(
         height: 140,
         child: Center(

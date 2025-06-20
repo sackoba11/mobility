@@ -52,7 +52,6 @@ class CustomButtonWithDoubleIcons extends StatelessWidget {
                 ],
               ),
               Assets.next.svg(),
-              // SvgPicture.asset(AppString.nextSvg)
             ],
           ),
         ),

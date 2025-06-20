@@ -6,7 +6,6 @@ import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
 import '../../../data/repositories/authRepositiry/i_auth_repository.dart';
 import '../../../models/user/my_user.dart';
 import '../../../routes/app_pages.dart';
-import '../../../utils/helpers/helpers.dart';
 
 class SplashScreenController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -21,7 +20,6 @@ class SplashScreenController extends GetxController
     currentUser = FirebaseAuth.instance.currentUser;
     await animationInitilization();
     redirection();
-    Helpers.checkConnectivity();
   }
 
   redirection() async {
