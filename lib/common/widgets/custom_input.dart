@@ -4,7 +4,6 @@ import '../../utils/constants/app colors/app_colors.dart';
 
 class CustomInput extends StatelessWidget {
   final String? hint;
-  final String? textError;
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
@@ -15,7 +14,6 @@ class CustomInput extends StatelessWidget {
       this.hint,
       required this.controller,
       this.keyboardType = TextInputType.text,
-      this.textError,
       this.validator,
       this.maxlength});
 
@@ -29,12 +27,11 @@ class CustomInput extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         decoration: InputDecoration(
-            errorText: textError,
             border: OutlineInputBorder(
                 borderSide: BorderSide(color: AppColor.primary),
                 borderRadius: BorderRadius.circular(15)),
             hintText: hint,
-            hintStyle: TextStyle(color: AppColor.black)),
+            hintStyle: TextStyle(color: AppColor.primary)),
       ),
     );
   }

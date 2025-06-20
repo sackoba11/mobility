@@ -4,15 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/utils/error/app_error.dart';
 import 'package:mobility/models/user/my_user.dart';
 import 'package:mobility/data/repositories/authRepositiry/i_auth_repository.dart';
-
-import '../../../views/home/screens/home_user_screen.dart';
 
 @LazySingleton(as: IAuthRepository)
 class AuthRepositoryImpl implements IAuthRepository {
@@ -86,6 +82,7 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
+  @override
   Future<Either<AppError, UserCredential>> signInWithGoogle(
       {bool reauth = false}) async {
     try {
@@ -243,24 +240,6 @@ class AuthRepositoryImpl implements IAuthRepository {
       } else {
         return Left(GenericAppError('Server error'));
       }
-    }
-  }
-
-  @override
-  Future<void> login({required ValueNotifier<bool> loarding}) async {
-    try {
-      loarding.value = true;
-      final response = (await signInWithGoogle()).fold((l) => null, (r) => r);
-
-      if (response != null) {
-        loarding.value = false;
-        Get.offAll(const HomeUserScreen());
-      } else {
-        loarding.value = false;
-        Get.back();
-      }
-    } catch (e) {
-      Get.snackbar("Erreur :", e.toString());
     }
   }
 

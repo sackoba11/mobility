@@ -16,33 +16,41 @@ class HomeBusScreen extends GetView<BusController> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        backgroundColor: AppColor.black,
+        backgroundColor: AppColor.primary,
         elevation: 0,
+        leading: IconButton(
+            iconSize: 26,
+            icon: Icon(Icons.arrow_back_sharp),
+            color: AppColor.white,
+            onPressed: () => Get.back()),
         actions: [
           IconButton(
             iconSize: 26,
-            icon: const Icon(Icons.restart_alt),
+            icon: Icon(
+              Icons.restart_alt,
+              color: AppColor.white,
+            ),
             onPressed: () async {
               await controller.getAllBus();
             },
           )
         ],
       ),
-      backgroundColor: AppColor.black,
+      backgroundColor: AppColor.primary,
       body: Stack(
         children: [
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                "Entrer le numero de votre bus pour le tracker.",
+                "Entrer le numero du bus à rechercher.",
                 style: TextStyle(fontSize: 30, color: AppColor.white),
               )),
           DraggableScrollableSheet(
-            initialChildSize: 0.7,
+            initialChildSize: 0.8,
             builder: (context, controller) {
               return Container(
                 color: AppColor.background,
-                child: _buildColumn(context),
+                child: BodyScreen(),
               );
             },
           )
@@ -50,8 +58,16 @@ class HomeBusScreen extends GetView<BusController> {
       ),
     );
   }
+}
 
-  Widget _buildColumn(BuildContext context) {
+class BodyScreen extends StatelessWidget {
+  const BodyScreen({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var controller = Get.put(BusController());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -72,7 +88,6 @@ class HomeBusScreen extends GetView<BusController> {
           const SizedBox(height: 20),
           GetBuilder<BusController>(
             init: BusController(),
-            initState: (_) {},
             builder: (busController) {
               return CustomSearchBar(
                   hintText: "Bus Numéro ...",

@@ -15,7 +15,7 @@ class RegisterBtn extends StatelessWidget {
         width: 372,
         height: 60,
         decoration: ShapeDecoration(
-          color: AppColor.black,
+          color: AppColor.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -24,7 +24,7 @@ class RegisterBtn extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppTypography().medium16(text: "S’inscrire", color: AppColor.white)
+            AppTypography.medium16(text: "S’inscrire", color: AppColor.white)
           ],
         ),
       ),

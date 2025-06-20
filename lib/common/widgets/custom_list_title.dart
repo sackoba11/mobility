@@ -30,7 +30,7 @@ class CustomListTitle extends StatelessWidget {
             color: AppColor.white,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppColor.black.withOpacity(.3),
+              color: AppColor.primary.withOpacity(.3),
             )),
         width: double.infinity,
         height: 70,
@@ -41,7 +41,7 @@ class CustomListTitle extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTypography().mediumDefault(text: bus.number.toString()),
+                AppTypography.mediumDefault(text: bus.number.toString()),
                 bus.isActive == true
                     ? const Text(
                         "Actif",
@@ -53,7 +53,7 @@ class CustomListTitle extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            AppTypography()
+            AppTypography
                 .lightSmall(text: "${bus.source}  <->  ${bus.destination}"),
           ],
         ),

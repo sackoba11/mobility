@@ -38,6 +38,7 @@ dependencies:
   infinite_scroll_pagination: ^5.1.0
   flutter_native_splash: ^2.4.6
   flutter_gen: ^5.10.0
+  get_storage: ^2.1.1
   
   
 

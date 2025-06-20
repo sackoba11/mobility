@@ -5,12 +5,13 @@ import 'package:mobility/common/assets/assets.gen.dart';
 import 'package:mobility/views/bus/screens/home_bus_screen.dart';
 import 'package:mobility/data/repositories/authRepositiry/auth_repository_impl.dart';
 
+import '../../../common/help_functions/help_functions.dart';
+import '../../../common/widgets/body_wrapper.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/typography/typography.dart';
 import '../../otherCar/screens/home_other_car_screen.dart';
-import '../../services/controllers/services_controller.dart';
 import '../../services/screens/services_screen.dart';
-import '../../../common/widgets/custom_button_without_ontap.dart';
+import '../../../common/widgets/custom_button_with_double_icons.dart';
 import '../controllers/home_user_controller.dart';
 
 class HomeUserScreen extends GetView<HomeUserController> {
@@ -20,25 +21,39 @@ class HomeUserScreen extends GetView<HomeUserController> {
     Get.put(HomeUserController());
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult:(didPop, result) => ServicesController.onWillPop(context),
+      onPopInvokedWithResult: (didPop, result) =>
+          HelpFunctions.onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0,
           leading: Container(
               margin: const EdgeInsets.only(left: 8),
-              child: controller.currentUser?.photoURL != null
-                  ? CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(controller.currentUser!.photoURL!),
-                    )
-                  : CircleAvatar(
-                      child: Text(
-                        controller.currentUser!.displayName![0].toString(),
-                        textAlign: TextAlign.center,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 25),
-                      ),
-                    )),
+              child: Obx(
+                () {
+                  return controller.isConnect.value == true
+                      ? controller.currentUser?.photoURL != null
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  controller.currentUser!.photoURL!),
+                            )
+                          : CircleAvatar(
+                              child: Text(
+                                controller.currentUser!.displayName![0]
+                                    .toString(),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 25),
+                              ),
+                            )
+                      : CircleAvatar(
+                          child: Text(
+                            controller.currentUser!.displayName![0].toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 25),
+                          ),
+                        );
+                },
+              )),
           actions: [
             IconButton(
                 onPressed: () async {
@@ -52,53 +67,43 @@ class HomeUserScreen extends GetView<HomeUserController> {
                   size: 30,
                 ))
           ],
-          backgroundColor: AppColor.background,
         ),
-        body: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppTypography().regularBig(
-                    text:
-                        "Bienvenue ${controller.currentUser!.displayName!.toUpperCase()} 👐",
-                    color: AppColor.black),
-                const SizedBox(
-                  height: 20,
-                ),
-                AppTypography().regularDefault(
-                    text:
-                        "Veuillez choisir le type  de transport pour votre voyage",
-                    color: AppColor.black),
-                const SizedBox(
-                  height: 130,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Get.to(const HomeBusScreen());
-                  },
-                  child: CustomButtonWithoutOnTap(
-                    icon: Assets.bus.svg(),
-                    title: "Bus",
-                    subtitle: "Sotra",
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => const HomeOtherCarScreen());
-                  },
-                  child: CustomButtonWithoutOnTap(
-                    icon: Assets.bus.svg(),
-                    title: "Autre",
-                    subtitle: "Gbaka, Taxi",
-                  ),
-                ),
-              ],
-            )),
+        body: BodyWrapper(
+          children: [
+            AppTypography.regularBig(
+                text:
+                    "Bienvenue ${controller.currentUser!.displayName!.toUpperCase()}",
+                color: AppColor.primary),
+            const SizedBox(height: 10),
+            AppTypography.lightSmall(
+                text:
+                    "Veuillez choisir le type  de transport pour votre voyage",
+                color: AppColor.primary),
+            const SizedBox(
+              height: 130,
+            ),
+            CustomButtonWithDoubleIcons(
+              icon: Assets.bus.svg(),
+              title: "Bus",
+              subtitle: "Sotra",
+              onPressed: () {
+                
+                Get.to(const HomeBusScreen());
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomButtonWithDoubleIcons(
+              icon: Assets.bus.svg(),
+              title: "Autre",
+              subtitle: "Gbaka, Taxi",
+              onPressed: () {
+                Get.to(() => const HomeOtherCarScreen());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

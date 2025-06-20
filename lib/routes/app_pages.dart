@@ -27,20 +27,20 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.splashScreen;
+  static const initial = Paths.splashScreen;
 
   static final routes = [
     // unkownRoute
-    GetPage(name: _Paths.unknownRoute, page: () => const UnknownPage()),
+    GetPage(name: Paths.unknownRoute, page: () => const UnknownPage()),
     //Home Pages
     GetPage(
-      name: _Paths.homeUser,
+      name: Paths.homeUser,
       page: () => const HomeUserScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<HomeUserController>(() => HomeUserController())),
     ),
     GetPage(
-      name: _Paths.homeDriver,
+      name: Paths.homeDriver,
       page: () => const HomeDriverScreen(),
       binding: BindingsBuilder(() =>
           Get.lazyPut<HomeDriverController>(() => HomeDriverController())),
@@ -48,7 +48,7 @@ class AppPages {
 
 // Driver Pages
     GetPage(
-      name: _Paths.driver,
+      name: Paths.driver,
       page: () => const DriverScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<DriverController>(() => DriverController())),
@@ -56,7 +56,7 @@ class AppPages {
 
     // Services Pages
     GetPage(
-      name: _Paths.services,
+      name: Paths.services,
       page: () => const ServiceScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<ServicesController>(() => ServicesController())),
@@ -64,7 +64,7 @@ class AppPages {
 
     //Profile Pages
     GetPage(
-      name: _Paths.profile,
+      name: Paths.profile,
       page: () => const ProfileScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<ProfileController>(() => ProfileController())),
@@ -72,7 +72,7 @@ class AppPages {
 
     // SplashScreen Pages
     GetPage(
-      name: _Paths.splashScreen,
+      name: Paths.splashScreen,
       page: () => const SplashScreen(),
       binding: BindingsBuilder(() =>
           Get.lazyPut<SplashScreenController>(() => SplashScreenController())),
@@ -80,38 +80,38 @@ class AppPages {
 
     // Bus Pages
     GetPage(
-      name: _Paths.homeBus,
+      name: Paths.homeBus,
       page: () => const HomeBusScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<BusController>(() => BusController())),
     ),
     GetPage(
-      name: _Paths.secondHomeBus,
+      name: Paths.secondHomeBus,
       page: () => const SecondHomeBusScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<BusController>(() => BusController())),
     ),
     GetPage(
-      name: _Paths.detailHomeBus,
+      name: Paths.detailHomeBus,
       page: () => const DetailsHomeBusScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<BusController>(() => BusController())),
     ),
     // Other Car Pages
     GetPage(
-      name: _Paths.homeOtherCar,
+      name: Paths.homeOtherCar,
       page: () => const HomeOtherCarScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<OtherCarController>(() => OtherCarController())),
     ),
     GetPage(
-      name: _Paths.secondOtherCar,
+      name: Paths.secondOtherCar,
       page: () => const SecondHomeOtherCarScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<OtherCarController>(() => OtherCarController())),
     ),
     GetPage(
-      name: _Paths.detailOtherCar,
+      name: Paths.detailOtherCar,
       page: () => const DetailsHomeOtherCarScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<OtherCarController>(() => OtherCarController())),

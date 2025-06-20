@@ -31,7 +31,7 @@ class ItemGare extends GetView<OtherCarController> {
             color: AppColor.white,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppColor.black.withOpacity(.3),
+              color: AppColor.primary.withOpacity(.3),
             )),
         width: 392,
         height: 69,
@@ -41,13 +41,13 @@ class ItemGare extends GetView<OtherCarController> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: AppTypography().medium16(text: gare.name),
+              child: AppTypography.medium16(text: gare.name),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTypography().lightSmall(text: gare.type),
-                AppTypography().lightSmall(text: gare.commune),
+                AppTypography.lightSmall(text: gare.type),
+                AppTypography.lightSmall(text: gare.commune),
               ],
             )
           ],

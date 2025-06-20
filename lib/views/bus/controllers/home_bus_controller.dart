@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:mobility/models/bus/bus_from_firestore/bus.dart';
 
+import '../../../common/help_functions/help_functions.dart';
 import '../../../utils/constants/app string/app_string.dart';
 import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/routes_model/data_model.dart';
@@ -20,6 +21,7 @@ class BusController extends GetxController {
 
   BusRepositoryImpl busRepository = BusRepositoryImpl();
   RxBool isLoading = true.obs;
+  late final RxBool isConnect = false.obs;
   List<BusFromDb> activeBusList = <BusFromDb>[].obs;
   List<BusFromDb> availableActiveBusList = <BusFromDb>[].obs;
   List<BusFromDb> searchActiveBus = <BusFromDb>[].obs;
@@ -53,6 +55,7 @@ class BusController extends GetxController {
   void onInit() async {
     super.onInit();
     // await busRepository.addRoadMap();
+    isConnect.value = await HelpFunctions.checkConnectivity();
     await getAllBus();
     getLocation();
   }
@@ -126,8 +129,6 @@ class BusController extends GetxController {
     final response = await get(url);
     final result = jsonDecode(response.body);
     final routes = DataModel.fromJson(result);
-    // final distance =
-    //     routes.routes?.expand((route) => route.legs ?? []).toList() ?? [];
     final formattedCoordinates = routes.routes
             ?.expand((route) => route.geometry?.coordinates ?? [])
             .toList() ??

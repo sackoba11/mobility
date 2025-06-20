@@ -28,7 +28,7 @@ class InfosDestination extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 12,
-                  color: AppColor.black,
+                  color: AppColor.primary,
                 ),
               ),
             ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../common/help_functions/help_functions.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/typography/typography.dart';
 import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
 import '../../driver/screens/driver_screen.dart';
-import '../../services/controllers/services_controller.dart';
 import '../../services/screens/services_screen.dart';
 import '../../../common/widgets/custom_search_bar.dart';
 import '../controllers/home_driver_controller.dart';
@@ -17,15 +17,15 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) =>
-          ServicesController.onWillPop(context),
+          HelpFunctions.onWillPop(context),
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: AppColor.black,
+            backgroundColor: AppColor.primary,
             elevation: 0,
             leading: _customAvatar(context),
             actions: [_logOut()],
           ),
-          backgroundColor: AppColor.black,
+          backgroundColor: AppColor.primary,
           body: Stack(children: [
             Padding(
                 padding:
@@ -169,7 +169,7 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             border: Border.all(
-                                              color: AppColor.black
+                                              color: AppColor.primary
                                                   .withOpacity(.3),
                                             )),
                                         width: double.infinity,
@@ -185,7 +185,7 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                AppTypography().mediumDefault(
+                                                AppTypography.mediumDefault(
                                                     text: e.number.toString()),
                                                 e.isActive == true
                                                     ? const Text(
@@ -201,7 +201,7 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
                                             const SizedBox(
                                               height: 10,
                                             ),
-                                            AppTypography().lightSmall(
+                                            AppTypography.lightSmall(
                                                 text:
                                                     "${e.source}  <->  ${e.destination}")
                                           ],

@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
+import '../../../common/widgets/custom_button_without_icon.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../models/bus/bus_from_firestore/bus.dart';
-import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/illustrator.dart';
 import '../../../common/widgets/infos_car.dart';
 import '../controllers/driver_controller.dart';
@@ -136,7 +136,7 @@ class DriverScreen extends GetView<DriverController> {
                         height: 150,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColor.black),
+                          border: Border.all(color: AppColor.primary),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -199,40 +199,40 @@ class DriverScreen extends GetView<DriverController> {
                 Row(
                   children: [
                     Expanded(
-                        child: Obx(() => CustomButton(
-                            title: controller.isActive.value
-                                ? "Arrêter le service"
-                                : "Mettre en Service",
-                            ontap: () async {
-                              if (controller.isActive.value == false) {
-                                controller.isActive.value = true;
-                                controller.idBusController.value =
-                                    await controller.activeBusService(
-                                        busSelected!,
-                                        controller.positionBus.value);
+                        child: Obx(() => CustomButtonWithoutIcon(
+                              title: controller.isActive.value
+                                  ? "Arrêter le service"
+                                  : "Mettre en Service",
+                              onPressed: () async {
+                                if (controller.isActive.value == false) {
+                                  controller.isActive.value = true;
+                                  controller.idBusController.value =
+                                      await controller.activeBusService(
+                                          busSelected!,
+                                          controller.positionBus.value);
 
-                                Timer.periodic(const Duration(seconds: 15),
-                                    (timer) async {
-                                  if (controller.isActive.value) {
-                                    controller.updateBusService(
-                                        busSelected!.number,
-                                        controller.idBusController.value,
-                                        double.parse(
-                                            controller.userLatitude.value),
-                                        double.parse(
-                                            controller.userLongitude.value));
-                                  } else {
-                                    timer.cancel();
-                                  }
-                                });
-                              } else {
-                                controller.isActive.value = false;
-                                await controller.deactiveBusService(
-                                    busSelected!.number,
-                                    controller.idBusController.value);
-                              }
-                            },
-                            radius: 15)))
+                                  Timer.periodic(const Duration(seconds: 15),
+                                      (timer) async {
+                                    if (controller.isActive.value) {
+                                      controller.updateBusService(
+                                          busSelected!.number,
+                                          controller.idBusController.value,
+                                          double.parse(
+                                              controller.userLatitude.value),
+                                          double.parse(
+                                              controller.userLongitude.value));
+                                    } else {
+                                      timer.cancel();
+                                    }
+                                  });
+                                } else {
+                                  controller.isActive.value = false;
+                                  await controller.deactiveBusService(
+                                      busSelected!.number,
+                                      controller.idBusController.value);
+                                }
+                              },
+                            )))
                   ],
                 )
               ],

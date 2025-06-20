@@ -17,7 +17,7 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      cursorColor: AppColor.black,
+      cursorColor: AppColor.primary,
       keyboardType: keyBoardtype,
       controller: textEditingController,
       onChanged: onChanged,
@@ -27,7 +27,7 @@ class CustomSearchBar extends StatelessWidget {
               borderSide: BorderSide(color: AppColor.primary),
               borderRadius: BorderRadius.circular(10)),
           hintText: hintText,
-          hintStyle: TextStyle(color: AppColor.black)),
+          hintStyle: TextStyle(color: AppColor.primary)),
     );
   }
 }

@@ -15,10 +15,10 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        backgroundColor: AppColor.black,
+        backgroundColor: AppColor.primary,
         elevation: 0,
       ),
-      backgroundColor: AppColor.black,
+      backgroundColor: AppColor.primary,
       body: Stack(
         children: [
           Padding(

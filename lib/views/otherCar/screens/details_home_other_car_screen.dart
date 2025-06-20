@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
+import '../../../common/widgets/custom_button_without_icon.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
-import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/illustrator.dart';
 import '../../../common/widgets/infos_car.dart';
 import '../controllers/other_car_controller.dart';
@@ -115,7 +115,7 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColor.black),
+                            border: Border.all(color: AppColor.primary),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
@@ -145,12 +145,12 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                   Row(
                     children: [
                       Expanded(
-                          child: CustomButton(
-                              title: "Retour",
-                              ontap: () {
-                                Navigator.of(context).pop();
-                              },
-                              radius: 15)),
+                          child: CustomButtonWithoutIcon(
+                          title: "Retour",
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )),
                       const SizedBox(
                         height: 20,
                       )

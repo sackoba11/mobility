@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
+import '../../../common/widgets/custom_button_without_icon.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
-import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/illustrator.dart';
 import '../../../common/widgets/infos_car.dart';
 import '../../../common/widgets/infos_destination.dart';
@@ -138,7 +138,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                                                       end: Alignment
                                                           .bottomCenter,
                                                       colors: [
-                                                    AppColor.black,
+                                                    AppColor.primary,
                                                     const Color(0xFFD2D3DA)
                                                   ])),
                                             ),
@@ -165,7 +165,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                             height: 160,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColor.black),
+                              border: Border.all(color: AppColor.primary),
                             ),
                             child: Padding(
                               padding:
@@ -206,12 +206,12 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                     Row(
                       children: [
                         Expanded(
-                            child: CustomButton(
-                                title: "Retour",
-                                ontap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                radius: 15))
+                            child: CustomButtonWithoutIcon(
+                          title: "Retour",
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ))
                       ],
                     )
                   ]),
