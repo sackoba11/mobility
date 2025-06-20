@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-          color: AppColor.black, borderRadius: BorderRadius.circular(radius)),
+          color: AppColor.primary, borderRadius: BorderRadius.circular(radius)),
       child: TextButton(
           onPressed: ontap,
           style: ButtonStyle(

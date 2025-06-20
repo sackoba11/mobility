@@ -8,34 +8,19 @@ abstract class AppString {
 
   // text
   static String hey = "Hey 👋";
-  static String authTitle = "Choisissez l'un de nos services";
-  static String authSubTitle =
+  static String descriptionService =
       "Cliquer sur Passager pour demander un service ou sur Conducteur pour offrir un service.";
-
-  // Paths routes
-  static String homeToService = "/services";
-  static String serviceToprofile = "/profile";
-  static String serviceTousererPage = "/userPage";
-  static String serviceTodriverPage = "/driverPage";
-  static String userAuth = "/userAuth";
-  static String home = "/";
 
   // Home Texts
   static String welcome = "Welcome back!";
-  static String description =
-      "Join Freelancer Plus to start each month fresh with 80 Connects";
   static String loginWithGoogle = "Login with google";
-  static String cantLogin = "Can’t login ? let us know";
 
   // Services Texts
   static String logout = "Logout";
-  static String joinFreelancer =
-      "Join Freelancer Plus to start each month fresh with 80 Connects.";
-  static String myServices = 'My Services';
   static String passenger = "Passager";
-  static String trackyoucar = "Rechercher un service";
-  static String driver = "Conducteur Bus";
-  static String shareyourposition = "Activer un service ";
+  static String searchService = "Rechercher un service";
+  static String driverBus = "Conducteur Bus";
+  static String activateService = "Activer un service ";
 
   // UserPage and DriverPage Texts
   static String starttracking = "Commencer";

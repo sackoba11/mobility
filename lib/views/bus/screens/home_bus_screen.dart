@@ -16,7 +16,7 @@ class HomeBusScreen extends GetView<BusController> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        backgroundColor: AppColor.black,
+        backgroundColor: AppColor.primary,
         elevation: 0,
         actions: [
           IconButton(
@@ -28,7 +28,7 @@ class HomeBusScreen extends GetView<BusController> {
           )
         ],
       ),
-      backgroundColor: AppColor.black,
+      backgroundColor: AppColor.primary,
       body: Stack(
         children: [
           Padding(

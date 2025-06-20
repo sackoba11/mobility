@@ -14,57 +14,45 @@ class ServiceScreen extends GetView<ServicesController> {
   const ServiceScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final typo = AppTypography();
-    Get.put(ServicesController());
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult:(didPop, result) => ServicesController.onWillPop(context),
-      child: Scaffold(
-        backgroundColor: AppColor.background,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const SizedBox(
-                height: 20,
+    return Scaffold(
+      backgroundColor: AppColor.background,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            AppTypography.regularBig(text: AppString.hey),
+            const SizedBox(
+              height: 15,
+            ),
+            AppTypography.lightSmall(text: AppString.descriptionService),
+            const SizedBox(
+              height: 115,
+            ),
+            TextButton(
+              onPressed: () => showGoogleLoginSHeet(context),
+              child: CustomButtonWithoutOnTap(
+                icon: Assets.passenger.svg(),
+                title: AppString.passenger,
+                subtitle: AppString.searchService,
               ),
-              typo.regularBig(text: AppString.hey),
-              const SizedBox(
-                height: 15,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            TextButton(
+              onPressed: () => showDriverLogin(context),
+              child: CustomButtonWithoutOnTap(
+                icon: Assets.driver.svg(),
+                title: AppString.driverBus,
+                subtitle: AppString.activateService,
               ),
-              typo.lightSmall(text: AppString.authSubTitle),
-              const SizedBox(
-                height: 15,
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-              TextButton(
-                onPressed: () => showGoogleLoginSHeet(context),
-                child: CustomButtonWithoutOnTap(
-                  icon: Assets.passenger.svg(),
-                  title: AppString.passenger,
-                  subtitle: AppString.trackyoucar,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextButton(
-                onPressed: () => showDriverLogin(context),
-                child: CustomButtonWithoutOnTap(
-                  icon: Assets.driver.svg(),
-                  title: AppString.driver,
-                  subtitle: AppString.shareyourposition,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              )
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 20,
+            )
+          ],
         ),
       ),
     );

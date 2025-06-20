@@ -136,7 +136,7 @@ class DriverScreen extends GetView<DriverController> {
                         height: 150,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColor.black),
+                          border: Border.all(color: AppColor.primary),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),

@@ -21,7 +21,7 @@ class LoginWithGoogleButton extends StatelessWidget {
           width: 372,
           height: 60,
           decoration: ShapeDecoration(
-            color: AppColor.black,
+            color: AppColor.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -52,7 +52,7 @@ class LoginWithGoogleButton extends StatelessWidget {
                         const SizedBox(
                           width: 20,
                         ),
-                        AppTypography().medium16(
+                        AppTypography.medium16(
                             text: "Se Connecter avec google",
                             color: AppColor.white),
                       ],

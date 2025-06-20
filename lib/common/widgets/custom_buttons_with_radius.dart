@@ -21,15 +21,13 @@ class CustomButtonWithRadius extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typo = AppTypography();
-
     return GestureDetector(
         onTap: () {
           Get.toNamed(onTap);
         },
         child: Container(
           decoration: BoxDecoration(
-              color: AppColor.black, borderRadius: BorderRadius.circular(15)),
+              color: AppColor.primary, borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 40, right: 40, top: 10, bottom: 20),
@@ -47,8 +45,10 @@ class CustomButtonWithRadius extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        typo.mediumDefault(text: title, color: AppColor.white),
-                        typo.lightSmall(text: subtitle, color: AppColor.white)
+                        AppTypography.mediumDefault(
+                            text: title, color: AppColor.white),
+                        AppTypography.lightSmall(
+                            text: subtitle, color: AppColor.white)
                       ],
                     ),
                   ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobility/common/widgets/widget.bottomSheet/dodge_keyboard.dart';
-import 'package:mobility/common/widgets/widget.bottomSheet/my_bottom_sheet_register.dart';
+import '../../routes/app_pages.dart';
 import '../assets/assets.gen.dart';
 import '../../utils/constants/app colors/app_colors.dart';
 import '../../utils/constants/app string/app_string.dart';
@@ -37,29 +37,6 @@ Future showDriverLogin(BuildContext context) {
   );
 }
 
-Future showDriverRegister(BuildContext context) {
-  return showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    useSafeArea: true,
-    builder: (context) {
-      return DodgeKeyboard(
-        child: DraggableScrollableSheet(
-          expand: false,
-          builder: (
-            BuildContext context,
-            ScrollController controller,
-          ) {
-            return MyBottomSheetRegister(
-              scrollController: controller,
-            );
-          },
-        ),
-      );
-    },
-  );
-}
-
 Future showGoogleLoginSHeet(BuildContext context) {
   return showModalBottomSheet(
     context: context,
@@ -67,15 +44,14 @@ Future showGoogleLoginSHeet(BuildContext context) {
       return Container(
           height: 200,
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          // color: AppColor.gray,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                AppTypography().regularDefault(
+                AppTypography.regularSmall(
                     text: "Connectez-vous avec votre compte Google",
-                    color: AppColor.black),
+                    color: AppColor.primary),
                 const SizedBox(
                   height: 20,
                 ),
@@ -258,7 +234,7 @@ Future<dynamic> secondBottomSheetUser() {
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
                                                 colors: [
-                                              AppColor.black,
+                                              AppColor.primary,
                                               Color(0xFFD2D3DA)
                                             ])),
                                       ),
@@ -341,7 +317,7 @@ Future<dynamic> secondBottomSheetUser() {
                       height: 184,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColor.black),
+                        border: Border.all(color: AppColor.primary),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
@@ -438,7 +414,7 @@ Future<dynamic> secondBottomSheetDriver() {
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
                                                 colors: [
-                                              AppColor.black,
+                                              AppColor.primary,
                                               Color(0xFFD2D3DA)
                                             ])),
                                       ),
@@ -521,7 +497,7 @@ Future<dynamic> secondBottomSheetDriver() {
                       height: 184,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColor.black),
+                        border: Border.all(color: AppColor.primary),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
@@ -577,7 +553,7 @@ Future<dynamic> popupLogout() {
       textConfirm: AppString.yes,
       content: Text(AppString.doyouwanttodisconnect),
       onConfirm: () {
-        Get.offAllNamed(AppString.home);
+        Get.offAllNamed(Paths.services);
       },
       onCancel: () {});
 }

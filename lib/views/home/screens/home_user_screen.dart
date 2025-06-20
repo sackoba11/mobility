@@ -7,8 +7,8 @@ import 'package:mobility/data/repositories/authRepositiry/auth_repository_impl.d
 
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/typography/typography.dart';
+import '../../../utils/helpers/helpers.dart';
 import '../../otherCar/screens/home_other_car_screen.dart';
-import '../../services/controllers/services_controller.dart';
 import '../../services/screens/services_screen.dart';
 import '../../../common/widgets/custom_button_without_ontap.dart';
 import '../controllers/home_user_controller.dart';
@@ -20,7 +20,7 @@ class HomeUserScreen extends GetView<HomeUserController> {
     Get.put(HomeUserController());
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult:(didPop, result) => ServicesController.onWillPop(context),
+      onPopInvokedWithResult: (didPop, result) => Helpers.onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -60,17 +60,17 @@ class HomeUserScreen extends GetView<HomeUserController> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppTypography().regularBig(
+                AppTypography.regularBig(
                     text:
                         "Bienvenue ${controller.currentUser!.displayName!.toUpperCase()} 👐",
-                    color: AppColor.black),
+                    color: AppColor.primary),
                 const SizedBox(
                   height: 20,
                 ),
-                AppTypography().regularDefault(
+                AppTypography.regularDefault(
                     text:
                         "Veuillez choisir le type  de transport pour votre voyage",
-                    color: AppColor.black),
+                    color: AppColor.primary),
                 const SizedBox(
                   height: 130,
                 ),

@@ -15,7 +15,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       unknownRoute: GetPage(
-        name: Routes.unknownRoute,
+        name: Paths.unknownRoute,
         page: () => const UnknownPage(),
       ),
       debugShowCheckedModeBanner: false,

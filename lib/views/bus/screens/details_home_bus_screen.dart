@@ -138,7 +138,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                                                       end: Alignment
                                                           .bottomCenter,
                                                       colors: [
-                                                    AppColor.black,
+                                                    AppColor.primary,
                                                     const Color(0xFFD2D3DA)
                                                   ])),
                                             ),
@@ -165,7 +165,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                             height: 160,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColor.black),
+                              border: Border.all(color: AppColor.primary),
                             ),
                             child: Padding(
                               padding:

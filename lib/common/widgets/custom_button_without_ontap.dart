@@ -17,13 +17,14 @@ class CustomButtonWithoutOnTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typo = AppTypography();
     return Container(
       decoration: BoxDecoration(
-          color: AppColor.black, borderRadius: BorderRadius.circular(15)),
+          color: AppColor.primary, borderRadius: BorderRadius.circular(15)),
       child: Padding(
-        padding:
-            const EdgeInsets.only(left: 20, right: 25, top: 10, bottom: 20),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 15,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -38,8 +39,10 @@ class CustomButtonWithoutOnTap extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    typo.mediumDefault(text: title, color: AppColor.white),
-                    typo.lightSmall(text: subtitle, color: AppColor.white)
+                    AppTypography.mediumDefault(
+                        text: title, color: AppColor.white),
+                    AppTypography.lightSmall(
+                        text: subtitle, color: AppColor.white)
                   ],
                 ),
               ],

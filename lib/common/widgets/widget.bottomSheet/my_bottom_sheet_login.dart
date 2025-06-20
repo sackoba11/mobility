@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/validators/validator.dart';
 import '../../../views/services/controllers/services_controller.dart';
 import '../custom_input.dart';
 import '../login_btn.dart';
@@ -33,7 +34,7 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
         return SingleChildScrollView(
           controller: widget.scrollController,
           child: SizedBox(
-            height: constaints.maxHeight,
+            height: constaints.minHeight,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(
@@ -50,8 +51,7 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
                           hint: "Email",
                           controller: controller.emailLogin,
                           keyboardType: TextInputType.emailAddress,
-                          textError: controller.emailLoginTextError,
-                          validator: validateEmail,
+                          validator: Validator.validateEmail,
                         ),
                         const SizedBox(
                           height: 10,
@@ -60,36 +60,15 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
                           hint: "Mot de passe",
                           controller: controller.passwordLogin,
                           keyboardType: TextInputType.visiblePassword,
-                          textError: controller.passwordLoginTextError,
-                          validator: passwordValid,
+                          validator: Validator.validatePassword,
                         ),
                         const SizedBox(
                           height: 15,
                         ),
                         LoginButton(
                           formKey: _formKey,
-                          login: true,
                           title: "Se connecter",
                         ),
-                        // const SizedBox(
-                        //   height: 15,
-                        // ),
-                        // TextButton(
-                        //     onPressed: () => showDriverRegister(context),
-                        //     child: const Center(
-                        //       child: Text(
-                        //         'Vous n’avez pas de compte?, S’inscrire',
-                        //         textAlign: TextAlign.center,
-                        //         style: TextStyle(
-                        //           color: Color(0xFF263238),
-                        //           fontSize: 14,
-                        //           fontFamily: 'Poppins',
-                        //           fontWeight: FontWeight.w400,
-                        //           decoration: TextDecoration.underline,
-                        //           height: 0,
-                        //         ),
-                        //       ),
-                        //     ))
                       ],
                     )),
                   ],
@@ -100,38 +79,5 @@ class _MyBottomSheetLoginState extends State<MyBottomSheetLogin> {
         );
       },
     );
-  }
-
-  String? validateEmail(String? value) {
-    if (value!.isEmpty) {
-      setState(() {
-        controller.emailLoginTextError = 'Saisissez votre email';
-      });
-      return controller.emailLoginTextError!;
-    } else if (!controller.isEmailValid(value)) {
-      setState(() {
-        controller.emailLoginTextError = 'Entrez un email valide';
-      });
-      return controller.emailLoginTextError!;
-    } else {
-      setState(() {
-        controller.emailLoginTextError = null;
-      });
-      return null;
-    }
-  }
-
-  String? passwordValid(String? value) {
-    if (value!.isEmpty || value.length < 8) {
-      setState(() {
-        controller.passwordLoginTextError = "Au moins 8 caractères";
-      });
-      return controller.passwordLoginTextError!;
-    } else {
-      setState(() {
-        controller.passwordLoginTextError = null;
-      });
-    }
-    return null;
   }
 }
