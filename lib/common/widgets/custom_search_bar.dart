@@ -7,7 +7,7 @@ class CustomSearchBar extends StatelessWidget {
   final TextEditingController textEditingController;
   final String hintText;
   final TextInputType keyBoardtype;
-  const CustomSearchBar(
+  const  CustomSearchBar(
       {super.key,
       required this.onChanged,
       required this.textEditingController,

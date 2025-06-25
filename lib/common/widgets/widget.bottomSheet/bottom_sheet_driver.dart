@@ -52,6 +52,8 @@ class BottomSheetDriver extends StatelessWidget {
                 if (formKey.currentState!.validate()) {
                   await Get.find<ServicesController>()
                       .loginWithEmail(loading: loading);
+                  controller.emailLogin.text = '';
+                  controller.passwordLogin.text = '';
                 } else {
                   HelpFunctions.customSnackbar(
                       title: "Echec",

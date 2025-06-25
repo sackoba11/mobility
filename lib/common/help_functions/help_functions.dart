@@ -16,6 +16,10 @@ class HelpFunctions {
   static final Connectivity _connectivity = Connectivity();
   List<ConnectivityResult> get connectionStatus => _connectionStatus;
 
+  static bool isDarkMode(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark;
+  }
+  
   static Future<bool> checkConnectivity() async {
     try {
       _connectionStatus = await (_connectivity.checkConnectivity());
