@@ -68,16 +68,19 @@ class BusController extends GetxController {
 
 // home Bus
   Future<void> getAllBus() async {
-    isLoading(true);
-    activeBusList =
-        (await busRepository.getActiveBus()).fold((l) => [], (r) => r);
+    isConnect.value = await HelpFunctions.checkConnectivity();
+    if (isConnect.value == true) {
+      isLoading(true);
+      activeBusList =
+          (await busRepository.getActiveBus()).fold((l) => [], (r) => r);
 
-    listAllBus = (await busRepository.getAllBus()).fold((l) => [], (r) => r);
+      listAllBus = (await busRepository.getAllBus()).fold((l) => [], (r) => r);
 
-    availableActiveBusList = activeBusList + listAllBus;
+      availableActiveBusList = activeBusList + listAllBus;
 
-    isLoading(false);
-    update();
+      isLoading(false);
+      update();
+    }
   }
 
   Future<void> getBusByNumber(int busNumber) async {

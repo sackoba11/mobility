@@ -47,22 +47,24 @@ class BodyScreen extends StatelessWidget {
                     child: Text("Aucun Bus trouvé"),
                   );
                 }
-                return ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: busController.availableActiveBusList
-                        .map(
-                          (e) => Column(
-                            children: [
-                              CustomListTitle(
-                                  bus: e, path: const SecondHomeBusScreen()),
-                              const SizedBox(
-                                height: 5,
-                              )
-                            ],
-                          ),
-                        )
-                        .toList());
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: CustomSizes.spaceBtwSections),
+                  child: Column(
+                      children: busController.availableActiveBusList
+                          .map(
+                            (e) => Column(
+                              children: [
+                                CustomListTitle(
+                                    bus: e, path: const SecondHomeBusScreen()),
+                                SizedBox(
+                                  height: CustomSizes.xs,
+                                )
+                              ],
+                            ),
+                          )
+                          .toList()),
+                );
               },
             );
           }),

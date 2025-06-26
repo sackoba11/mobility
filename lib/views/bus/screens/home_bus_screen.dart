@@ -31,12 +31,13 @@ class HomeBusScreen extends GetView<BusController> {
           ],
         ),
         body: NestedScrollView(
-          headerSliverBuilder: (_, innerBoxIsScrolled) {
-            return [
-              CustomSliverAppBar(),
-            ];
-          },
-          body: SingleChildScrollView(child: BodyScreen()),
-        ));
+            headerSliverBuilder: (_, innerBoxIsScrolled) {
+              return [
+                CustomSliverAppBar(),
+              ];
+            },
+            body: SingleChildScrollView(
+              child: BodyScreen(),
+            )));
   }
 }
