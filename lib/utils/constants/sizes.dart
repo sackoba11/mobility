@@ -37,14 +37,14 @@ class CustomSizes {
   // Border radius
   static const double borderRadiusSm = 4.0;
   static const double borderRadiusMd = 8.0;
-  static const double borderRadiusLg = 12.0;
+  static const double borderRadiusLg = 16.0;
 
   // Divider height
   static const double dividerHeight = 1.0;
 
   // Input field
   static const double inputFieldRadius = 12.0;
-  static const double   spaceBtwInputFields = 16.0;
+  static const double spaceBtwInputFields = 16.0;
 
   // Card sizes
   static const double cardRadiusLg = 16.0;
