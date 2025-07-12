@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
+import 'package:mobility/common/widgets/appbar/user_profile_tile.dart';
 import 'package:mobility/views/bus/screens/home_bus_screen.dart';
 import 'package:mobility/data/repositories/authRepositiry/auth_repository_impl.dart';
 
@@ -24,61 +25,28 @@ class HomeUserScreen extends GetView<HomeUserController> {
       onPopInvokedWithResult: (didPop, result) =>
           HelpFunctions.onWillPop(context),
       child: Scaffold(
-        appBar: AppBar(
-          leading: Container(
-              margin: const EdgeInsets.only(left: 8),
-              child: Obx(
-                () {
-                  return controller.isConnect.value == true
-                      ? controller.currentUser?.photoURL != null
-                          ? CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  controller.currentUser!.photoURL!),
-                            )
-                          : CircleAvatar(
-                              child: Text(
-                                controller.currentUser!.displayName![0]
-                                    .toString(),
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 25),
-                              ),
-                            )
-                      : CircleAvatar(
-                          child: Text(
-                            controller.currentUser!.displayName![0].toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 25),
-                          ),
-                        );
-                },
-              )),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  await AuthRepositoryImpl()
-                      .signOutFromGoogle()
-                      .whenComplete(() => Get.offAll(const ServiceScreen()));
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Colors.black,
-                  size: 30,
-                ))
-          ],
+        appBar: UserProfileTile(
+          controller: controller,
+          onPressed: () async {
+            await AuthRepositoryImpl()
+                .signOutFromGoogle()
+                .whenComplete(() => Get.offAll(const ServiceScreen()));
+          },
         ),
         body: BodyWrapper(
           children: [
-            AppTypography.regularBig(
-                text:
-                    "Bienvenue ${controller.currentUser!.displayName!.toUpperCase()}",
-                color: AppColor.primary),
+            Center(
+              child: AppTypography.regularBig(
+                  text:
+                      "Bienvenue ${controller.currentUser!.displayName!.capitalizeFirst!.split(' ').first}",
+                  color: AppColor.primary),
+            ),
             const SizedBox(height: 10),
-            AppTypography.lightSmall(
-                text:
-                    "Veuillez choisir le type  de transport pour votre voyage",
-                color: AppColor.primary),
+            Center(
+              child: AppTypography.lightSmall(
+                  text: "Veuillez choisir le Moyen de transport souhaité",
+                  color: AppColor.primary),
+            ),
             const SizedBox(
               height: 130,
             ),
@@ -87,7 +55,6 @@ class HomeUserScreen extends GetView<HomeUserController> {
               title: "Bus",
               subtitle: "Sotra",
               onPressed: () {
-                
                 Get.to(const HomeBusScreen());
               },
             ),

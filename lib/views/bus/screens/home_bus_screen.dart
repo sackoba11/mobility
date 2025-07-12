@@ -18,6 +18,7 @@ class HomeBusScreen extends GetView<BusController> {
         extendBodyBehindAppBar: true,
         appBar: CustomAppBar(
           showBackArrow: true,
+          backgroundColor: AppColor.transparent,
           actions: [
             IconButton(
               iconSize: 26,

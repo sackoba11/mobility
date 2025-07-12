@@ -30,19 +30,19 @@ class PrimaryHeaderContainer extends StatelessWidget {
             ),
           ),
           Column(
-        children: [
-          SizedBox(height: ZMDeviceUtils.getAppBarHeight() * 1.5),
-          Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CustomSizes.defaultSpace,
-              ),
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 30, color: AppColor.white),
-              )),
-          const SizedBox(height: CustomSizes.spaceBtwSections)
-        ],
-      ),
+            children: [
+              SizedBox(height: ZMDeviceUtils.getAppBarHeight() * 1.5),
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CustomSizes.defaultSpace,
+                  ),
+                  child: Text(
+                    title,
+                    style: TextStyle(fontSize: 30, color: AppColor.white),
+                  )),
+              const SizedBox(height: CustomSizes.spaceBtwSections)
+            ],
+          ),
         ],
       ),
     );

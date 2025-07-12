@@ -30,7 +30,7 @@ class CustomListTitle extends StatelessWidget {
             color: AppColor.white,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppColor.primary.withOpacity(.3),
+              color: AppColor.primary.withOpacity(.1),
             )),
         width: double.infinity,
         height: 70,
@@ -53,8 +53,8 @@ class CustomListTitle extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            AppTypography
-                .lightSmall(text: "${bus.source}  <->  ${bus.destination}"),
+            AppTypography.lightSmall(
+                text: "${bus.source}  <->  ${bus.destination}"),
           ],
         ),
       ),

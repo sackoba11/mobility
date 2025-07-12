@@ -49,6 +49,7 @@ class Assets {
   static const AssetGenImage stopDest = AssetGenImage('assets/stopDest.png');
   static const AssetGenImage stopRed = AssetGenImage('assets/stopRed.png');
   static const AssetGenImage stopStart = AssetGenImage('assets/stopStart.png');
+  static const AssetGenImage user = AssetGenImage('assets/user.png');
 
   /// List of all assets
   static List<dynamic> get values => [
@@ -84,6 +85,7 @@ class Assets {
     stopDest,
     stopRed,
     stopStart,
+    user,
   ];
 }
 

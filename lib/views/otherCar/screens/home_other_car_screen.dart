@@ -17,6 +17,7 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: CustomAppBar(
+          backgroundColor: AppColor.transparent,
           showBackArrow: true,
           actions: [
             IconButton(
