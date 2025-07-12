@@ -18,7 +18,10 @@ class ServiceScreen extends GetView<ServicesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: AppColor.background,
+      ),
       body: BodyWrapper(
         children: [
           AppTypography.regularBig(text: AppString.hey),

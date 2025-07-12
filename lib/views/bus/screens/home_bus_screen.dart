@@ -16,6 +16,7 @@ class HomeBusScreen extends GetView<BusController> {
     Get.put(BusController());
     return Scaffold(
         extendBodyBehindAppBar: true,
+        backgroundColor: AppColor.background,
         appBar: CustomAppBar(
           showBackArrow: true,
           backgroundColor: AppColor.transparent,
@@ -28,7 +29,7 @@ class HomeBusScreen extends GetView<BusController> {
               ),
               onPressed: () async {
                 await controller.getAllBus();
-              },
+              },  
             ),
           ],
         ),

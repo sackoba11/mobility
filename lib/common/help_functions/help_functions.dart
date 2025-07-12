@@ -19,7 +19,7 @@ class HelpFunctions {
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }
-  
+
   static Future<bool> checkConnectivity() async {
     try {
       _connectionStatus = await (_connectivity.checkConnectivity());
@@ -43,6 +43,7 @@ class HelpFunctions {
   static Future customModalSheet(
       {required BuildContext context, required Widget child}) {
     return showModalBottomSheet(
+      backgroundColor: AppColor.background,
       context: context,
       isScrollControlled: true,
       useSafeArea: true,

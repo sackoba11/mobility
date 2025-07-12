@@ -22,6 +22,7 @@ class UserProfileTile extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.symmetric(horizontal: CustomSizes.md),
       child: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: AppColor.background,
         leading: ZMCircularImage(
             isNetworkImage:
                 (controller.currentUser?.photoURL != null) ? true : false,

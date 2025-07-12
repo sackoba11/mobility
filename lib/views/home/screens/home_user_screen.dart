@@ -25,6 +25,7 @@ class HomeUserScreen extends GetView<HomeUserController> {
       onPopInvokedWithResult: (didPop, result) =>
           HelpFunctions.onWillPop(context),
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: UserProfileTile(
           controller: controller,
           onPressed: () async {

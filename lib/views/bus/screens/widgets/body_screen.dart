@@ -15,61 +15,58 @@ class BodyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(BusController());
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: CustomSizes.defaultSpace),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 10),
-          Obx(() {
-            if (controller.isConnect.value == false) {
-              return const Center(
-                child: Text("Vous n'êtes pas connecté à internet"),
-              );
-            }
-            if (controller.isLoading.value == true) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColor.primary,
-                ),
-              );
-            }
-            if (controller.availableActiveBusList.isEmpty) {
-              return const Center(
-                child: Text("Pas de bus disponibles"),
-              );
-            }
-            return GetBuilder<BusController>(
-              init: BusController(),
-              builder: (busController) {
-                if (busController.availableActiveBusList.isEmpty) {
-                  return const Center(
-                    child: Text("Aucun Bus trouvé"),
-                  );
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: CustomSizes.spaceBtwSections),
-                  child: Column(
-                      children: busController.availableActiveBusList
-                          .map(
-                            (e) => Column(
-                              children: [
-                                CustomListTitle(
-                                    bus: e, path: const SecondHomeBusScreen()),
-                                SizedBox(
-                                  height: CustomSizes.xs,
-                                )
-                              ],
-                            ),
-                          )
-                          .toList()),
-                );
-              },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 10),
+        Obx(() {
+          if (controller.isConnect.value == false) {
+            return const Center(
+              child: Text("Vous n'êtes pas connecté à internet"),
             );
-          }),
-        ],
-      ),
+          }
+          if (controller.isLoading.value == true) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColor.primary,
+              ),
+            );
+          }
+          if (controller.availableActiveBusList.isEmpty) {
+            return const Center(
+              child: Text("Pas de bus disponibles"),
+            );
+          }
+          return GetBuilder<BusController>(
+            init: BusController(),
+            builder: (busController) {
+              if (busController.availableActiveBusList.isEmpty) {
+                return const Center(
+                  child: Text("Aucun Bus trouvé"),
+                );
+              }
+              return Padding(
+                padding: const EdgeInsets.only(
+                    bottom: CustomSizes.spaceBtwSections),
+                child: Column(
+                    children: busController.availableActiveBusList
+                        .map(
+                          (e) => Column(
+                            children: [
+                              CustomListTitle(
+                                  bus: e, path: const SecondHomeBusScreen()),
+                              SizedBox(
+                                height: CustomSizes.xs,
+                              )
+                            ],
+                          ),
+                        )
+                        .toList()),
+              );
+            },
+          );
+        }),
+      ],
     );
   }
 }

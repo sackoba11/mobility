@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/constants/app colors/app_colors.dart';
+
 class BodyWrapper extends StatelessWidget {
   const BodyWrapper({
     super.key,
@@ -9,12 +11,15 @@ class BodyWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: children,
+    return Container(
+      color: AppColor.background,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: children,
+        ),
       ),
     );
   }

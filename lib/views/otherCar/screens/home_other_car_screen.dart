@@ -16,6 +16,7 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
     Get.put(OtherCarController());
     return Scaffold(
         extendBodyBehindAppBar: true,
+        backgroundColor: AppColor.background,
         appBar: CustomAppBar(
           backgroundColor: AppColor.transparent,
           showBackArrow: true,
@@ -129,6 +130,7 @@ class BodyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var controller = Get.put(OtherCarController());
     return Padding(
+      //TODO: extract BodyScreen to widget
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
