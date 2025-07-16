@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
 import '../../../common/help_functions/help_functions.dart';
-import '../../../common/widgets/body_wrapper.dart';
+import '../../../common/widgets/wrappers/body_wrapper.dart';
 import '../../../common/widgets/widget.bottomSheet/bottom_sheet_driver.dart';
 import '../../../common/widgets/widget.bottomSheet/bottom_sheet_user.dart';
 import '../../../utils/constants/app colors/app_colors.dart';

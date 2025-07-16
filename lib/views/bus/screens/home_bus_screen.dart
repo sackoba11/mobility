@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/widgets/appbar/appbar.dart';
+import '../../../common/widgets/item_bus.dart';
 import '../../../common/widgets/custom_search_bar.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
+import '../../../utils/constants/sizes.dart';
 import '../controllers/home_bus_controller.dart';
-import 'widgets/body_screen.dart';
+import 'second_home_bus_screen.dart';
+import '../../../common/widgets/wrappers/body_screen_wrapper.dart';
 import '../../../common/widgets/appbar/custom_sliver_appbar.dart';
 
 class HomeBusScreen extends GetView<BusController> {
@@ -29,7 +32,7 @@ class HomeBusScreen extends GetView<BusController> {
               ),
               onPressed: () async {
                 await controller.getAllBus();
-              },  
+              },
             ),
           ],
         ),
@@ -61,7 +64,45 @@ class HomeBusScreen extends GetView<BusController> {
               ];
             },
             body: SingleChildScrollView(
-              child: BodyScreen(),
+              child: BodyScreenWrapper(
+                children: [
+                  Obx(() {
+                    // if (controller.isConnect.value == false) {
+                    //   return const Center(
+                    //     child: Text("Vous n'êtes pas connecté à internet"),
+                    //   );
+                    // }
+                    if (controller.isLoading.value == true) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: AppColor.primary,
+                        ),
+                      );
+                    }
+                    if (controller.availableActiveBusList.isEmpty) {
+                      return const Center(
+                        child: Text("Pas de bus disponibles"),
+                      );
+                    }
+
+                    return Column(
+                        children: controller.availableActiveBusList
+                            .map(
+                              (e) => Column(
+                                children: [
+                                  ItemBus(
+                                      bus: e,
+                                      path: const SecondHomeBusScreen()),
+                                  SizedBox(
+                                    height: CustomSizes.xs,
+                                  )
+                                ],
+                              ),
+                            )
+                            .toList());
+                  }),
+                ],
+              ),
             )));
   }
 }

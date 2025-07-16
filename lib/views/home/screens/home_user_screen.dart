@@ -7,7 +7,7 @@ import 'package:mobility/views/bus/screens/home_bus_screen.dart';
 import 'package:mobility/data/repositories/authRepositiry/auth_repository_impl.dart';
 
 import '../../../common/help_functions/help_functions.dart';
-import '../../../common/widgets/body_wrapper.dart';
+import '../../../common/widgets/wrappers/body_wrapper.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/typography/typography.dart';
 import '../../otherCar/screens/home_other_car_screen.dart';

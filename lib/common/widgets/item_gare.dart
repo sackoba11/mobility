@@ -6,6 +6,7 @@ import '../../utils/constants/app colors/app_colors.dart';
 import '../../utils/constants/typography/typography.dart';
 import '../../models/gare/gare.dart';
 import '../../views/otherCar/screens/details_home_other_car_screen.dart';
+import 'custom_shapes/containers/item_card.dart';
 
 class ItemGare extends GetView<OtherCarController> {
   final Gare gare;
@@ -18,41 +19,46 @@ class ItemGare extends GetView<OtherCarController> {
   @override
   Widget build(BuildContext context) {
     Get.put(OtherCarController());
-    return GestureDetector(
+    return ItemCard(
       onTap: () async {
         controller.gare.value = gare;
         controller.routes.value =
             await controller.getRoutes(controller.gare.value.location);
         Get.to(const DetailsHomeOtherCarScreen());
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-            color: AppColor.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: AppColor.primary.withOpacity(.3),
-            )),
-        width: 392,
-        height: 69,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: AppTypography.medium16(text: gare.name),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppTypography.lightSmall(text: gare.type),
-                AppTypography.lightSmall(text: gare.commune),
-              ],
-            )
-          ],
-        ),
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: AppTypography.medium16(text: gare.name),
+      ),
+      subTitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppTypography.lightSmall(text: gare.type),
+          AppTypography.lightSmall(text: gare.commune),
+        ],
       ),
     );
+
+    // GestureDetector(
+      
+    //   child: Container(
+    //     padding: const EdgeInsets.symmetric(horizontal: 20),
+    //     decoration: BoxDecoration(
+    //         color: AppColor.white,
+    //         borderRadius: BorderRadius.circular(10),
+    //         border: Border.all(
+    //           color: AppColor.primary.withOpacity(.3),
+    //         )),
+    //     width: 392,
+    //     height: 69,
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: [
+
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

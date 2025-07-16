@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../custom_shapes/containers/header_bar.dart';
 import '../custom_shapes/containers/primary_header_container.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/sizes.dart';
@@ -37,17 +38,7 @@ class CustomSliverAppBar extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: CustomSizes.spaceBtwItems),
-                Container(
-                  width: 40,
-                  height: 5,
-                  decoration: ShapeDecoration(
-                    color: AppColor.darkGrey,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(color: AppColor.darkGrey),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                  ),
-                ),
+                HeaderBar(),
                 const SizedBox(height: CustomSizes.spaceBtwItems),
                 bottomWiget,
                 const SizedBox(height: CustomSizes.spaceBtwItems),

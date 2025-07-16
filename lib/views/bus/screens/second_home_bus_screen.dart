@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/views/bus/screens/details_home_bus_screen.dart';
 
 import '../../../utils/constants/app colors/app_colors.dart';
-import '../../../common/widgets/custom_list_title.dart';
+import '../../../common/widgets/item_bus.dart';
 import '../controllers/home_bus_controller.dart';
 
 class SecondHomeBusScreen extends GetView<BusController> {
@@ -107,7 +107,7 @@ class SecondHomeBusScreen extends GetView<BusController> {
                                               const SizedBox(
                                                 height: 10,
                                               ),
-                                              CustomListTitle(
+                                              ItemBus(
                                                 bus: e,
                                                 path:
                                                     const DetailsHomeBusScreen(),

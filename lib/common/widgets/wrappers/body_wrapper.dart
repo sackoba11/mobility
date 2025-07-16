@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/constants/app colors/app_colors.dart';
+import '../../../utils/constants/app colors/app_colors.dart';
 
 class BodyWrapper extends StatelessWidget {
   const BodyWrapper({

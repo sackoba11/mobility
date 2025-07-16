@@ -8,6 +8,8 @@ import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../common/widgets/custom_search_bar.dart';
 import '../../../common/widgets/item_itinerary.dart';
 import '../../../utils/constants/app string/app_string.dart';
+import '../../../common/widgets/wrappers/body_screen_wrapper.dart';
+import 'widgets/filter_widget.dart';
 
 class HomeOtherCarScreen extends GetView<OtherCarController> {
   const HomeOtherCarScreen({super.key});
@@ -74,131 +76,80 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
                 ),
               ];
             },
-            body: SingleChildScrollView(child: BodyScreen())));
+            body: SingleChildScrollView(
+                child: BodyScreenWrapper(
+              children: [
+                Obx(() {
+                  if (controller.isLoading.value == true) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: AppColor.primary,
+                      ),
+                    );
+                  }
+                  if (controller.availableItinerary.isEmpty &&
+                      controller.textEdittingSearch.text.isEmpty) {
+                    return Center(
+                      child: Text(AppString.noStationsAvailable),
+                    );
+                  }
+                  if (controller.textEdittingSearch.text.isNotEmpty &&
+                      controller.availableItinerary.isEmpty) {
+                    return Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Aucune gare trouvée pour ",
+                          ),
+                          Text(
+                            controller.textEdittingSearch.text,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+
+                  return Column(
+                    children: controller.availableItinerary
+                        .map((element) => Column(
+                              children: [
+                                if (controller.filterGbaka.value == true &&
+                                    controller.filterTaxi.value == false &&
+                                    element.type == "Gbaka")
+                                  ItemItinerary(
+                                    element: element,
+                                  )
+                                else if (controller.filterTaxi.value == true &&
+                                    controller.filterGbaka.value == false &&
+                                    element.type == "Taxi")
+                                  ItemItinerary(
+                                    element: element,
+                                  )
+                                else if (controller.filterTaxi.value == true &&
+                                        controller.filterGbaka.value == true ||
+                                    controller.filterTaxi.value == false &&
+                                        controller.filterGbaka.value == false)
+                                  ItemItinerary(
+                                    element: element,
+                                  ),
+                              ],
+                            ))
+                        .toList(),
+                  );
+                }),
+              ],
+            ))));
   }
 
   Future<void> filter() async {
     await Get.defaultDialog(
-        title: "",
+        title: "Types de Gares",
+        titleStyle: TextStyle(fontSize: 17),
         backgroundColor: AppColor.background,
         radius: 10,
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-        content: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Gbaka",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Obx(() => Checkbox(
-                    value: controller.filterGbaka.value,
-                    activeColor: AppColor.primary,
-                    onChanged: (value) {
-                      controller.filterGbaka.value =
-                          !controller.filterGbaka.value;
-                    })),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Taxi",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Obx(() => Checkbox(
-                    value: controller.filterTaxi.value,
-                    activeColor: AppColor.primary,
-                    onChanged: (value) {
-                      controller.filterTaxi.value =
-                          !controller.filterTaxi.value;
-                    })),
-              ],
-            )
-          ],
-        ));
-  }
-}
-
-class BodyScreen extends StatelessWidget {
-  const BodyScreen({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    var controller = Get.put(OtherCarController());
-    return Padding(
-      //TODO: extract BodyScreen to widget
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(height: 15),
-          Obx(() {
-            if (controller.isLoading.value == true) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColor.primary,
-                ),
-              );
-            }
-            if (controller.availableItinerary.isEmpty &&
-                controller.textEdittingSearch.text.isEmpty) {
-              return Center(
-                child: Text(AppString.noStationsAvailable),
-              );
-            }
-            if (controller.textEdittingSearch.text.isNotEmpty &&
-                controller.availableItinerary.isEmpty) {
-              return Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Aucune gare trouvée pour ",
-                    ),
-                    Text(
-                      controller.textEdittingSearch.text,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              );
-            }
-
-            return Column(
-              children: controller.availableItinerary
-                  .map((element) => Column(
-                        children: [
-                          if (controller.filterGbaka.value == true &&
-                              controller.filterTaxi.value == false &&
-                              element.type == "Gbaka")
-                            ItemItinerary(
-                              element: element,
-                            )
-                          else if (controller.filterTaxi.value == true &&
-                              controller.filterGbaka.value == false &&
-                              element.type == "Taxi")
-                            ItemItinerary(
-                              element: element,
-                            )
-                          else if (controller.filterTaxi.value == true &&
-                                  controller.filterGbaka.value == true ||
-                              controller.filterTaxi.value == false &&
-                                  controller.filterGbaka.value == false)
-                            ItemItinerary(
-                              element: element,
-                            ),
-                        ],
-                      ))
-                  .toList(),
-            );
-          }),
-        ],
-      ),
-    );
+        content: FilterWidget(controller: controller));
   }
 }
