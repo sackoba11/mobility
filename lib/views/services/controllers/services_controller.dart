@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../common/help_functions/help_functions.dart';
 import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
 import '../../../data/repositories/authRepositiry/i_auth_repository.dart';
+import '../../../utils/constants/app string/app_string.dart';
 import '../../home/screens/home_driver_screen.dart';
 import '../../home/screens/home_user_screen.dart';
 
@@ -36,13 +37,13 @@ class ServicesController extends GetxController {
         } else {
           loading.value = false;
           Get.snackbar(
-            "Erreur",
-            "Veuillez vérifier l'email ou le mot de passe",
+            AppString.error,
+            AppString.verifiedEmailAndPassword,
           );
         }
-      } 
+      }
     } catch (e) {
-      Get.snackbar("Erreur :", e.toString());
+      Get.snackbar(AppString.error, e.toString());
     }
   }
 
@@ -61,9 +62,9 @@ class ServicesController extends GetxController {
           loading.value = false;
           Get.back();
         }
-      } 
+      }
     } catch (e) {
-      Get.snackbar("Erreur :", e.toString());
+      Get.snackbar(AppString.error, e.toString());
     }
   }
 }

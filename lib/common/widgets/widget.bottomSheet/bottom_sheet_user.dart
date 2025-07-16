@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/constants/app colors/app_colors.dart';
+import '../../../utils/constants/app string/app_string.dart';
 import '../../../utils/constants/typography/typography.dart';
 import '../../../views/services/controllers/services_controller.dart';
 import '../../assets/assets.gen.dart';
@@ -24,13 +25,13 @@ class BottomSheetUser extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               AppTypography.regularSmall(
-                  text: "Connectez-vous avec votre compte Google",
+                  text: AppString.connectWithGoogleAccount,
                   color: AppColor.primary),
               const SizedBox(
                 height: 20,
               ),
               CustomButtonWithoutIcon(
-                title: "Se Connecter avec google",
+                title: AppString.connectWithGoogle,
                 icon: Assets.google.svg(),
                 loading: loading,
                 onPressed: () async {

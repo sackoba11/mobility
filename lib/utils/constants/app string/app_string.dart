@@ -7,41 +7,41 @@ abstract class AppString {
   static String apikey3 = "AIzaSyDDtB0Flxxax5RdGrQqhM1FpVkNhe0v90Q";
 
   // text
+  static String appTitle = "Mobility";
+  static String errorRouting="Erreur Route Inconnue";
   static String hey = "Hey 👋";
   static String descriptionService =
       "Cliquer sur Passager pour demander un service ou sur Conducteur pour offrir un service.";
 
+  //Bottomsheet User
+  static String connectWithGoogleAccount =
+      "Connectez-vous avec votre compte Google";
+  static String connectWithGoogle = "Se Connecter avec google";
+
+  //BottomSheet Driver
+  static String email = "Email";
+  static String password = "Mot de passe";
+  static String connect = "Se connecter";
+
+  //Other Car Screen
+  static String noStationsAvailable="Pas de Gares disponibles";
+
+  //Warning
+  static String echec = "Echec";
+  static String error="Erreur";
+  static String completeAllFields = 'Veuillez remplir tous les champs';
+  static String verifiedEmailAndPassword="Veuillez vérifier l'email ou le mot de passe";
+
   // Home Texts
-  static String welcome = "Welcome back!";
   static String loginWithGoogle = "Login with google";
 
-  // Services Texts
-  static String logout = "Logout";
+  // Services screen Texts
   static String passenger = "Passager";
   static String searchService = "Rechercher un service";
   static String driverBus = "Conducteur Bus";
   static String activateService = "Activer un service ";
 
-  // UserPage and DriverPage Texts
-  static String starttracking = "Commencer";
-  static String startDriving = "Commencer";
-  static String chooseCurrentLocation = "Choisir ma position actuelle";
-  static String destination = "Destination";
-  static String start = "Départ";
-  static String canceltracking = "Cancel tracking";
-  static String canceldriving = "Cancel driving";
-  static String typeofcar = "Type of car";
-  static String colorCar = "Color";
-  static String matriculationCar = "Matriculation";
-
-  // profile page texts
-  static String name = "Name :";
-  static String nameValue = "Name Value";
-  static String email = "Email :";
-  static String emailValue = "Email Value";
-  static String createdat = "Created at :";
-  static String createdatValue = "Created at Value";
-  static String anytrouble = "Any trouble ? let’s us know";
+  // Logout String
   static String areyousure = "Are you sure ?";
   static String yes = "Yes";
   static String doyouwanttodisconnect = "Do you want to disconnect ?";

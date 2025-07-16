@@ -7,6 +7,7 @@ import '../../../common/widgets/appbar/custom_sliver_appbar.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../common/widgets/custom_search_bar.dart';
 import '../../../common/widgets/item_itinerary.dart';
+import '../../../utils/constants/app string/app_string.dart';
 
 class HomeOtherCarScreen extends GetView<OtherCarController> {
   const HomeOtherCarScreen({super.key});
@@ -146,8 +147,8 @@ class BodyScreen extends StatelessWidget {
             }
             if (controller.availableItinerary.isEmpty &&
                 controller.textEdittingSearch.text.isEmpty) {
-              return const Center(
-                child: Text("Pas de Gares disponibles"),
+              return Center(
+                child: Text(AppString.noStationsAvailable),
               );
             }
             if (controller.textEdittingSearch.text.isNotEmpty &&

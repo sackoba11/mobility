@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mobility/views/unknown_page/unknown_page.dart';
 import 'package:mobility/firebase_options.dart';
 import 'routes/app_pages.dart';
+import 'utils/constants/app string/app_string.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ void main() async {
         page: () => const UnknownPage(),
       ),
       debugShowCheckedModeBanner: false,
-      title: "Mobility",
+      title: AppString.appTitle,
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
     ),

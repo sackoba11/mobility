@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/constants/app colors/app_colors.dart';
+import '../../../utils/constants/app string/app_string.dart';
 import '../../../utils/validators/validator.dart';
 import '../../../views/services/controllers/services_controller.dart';
 import '../../help_functions/help_functions.dart';
@@ -28,7 +29,7 @@ class BottomSheetDriver extends StatelessWidget {
               height: 10,
             ),
             CustomInput(
-              hint: "Email",
+              hint: AppString.email,
               controller: controller.emailLogin,
               keyboardType: TextInputType.emailAddress,
               validator: Validator.validateEmail,
@@ -37,7 +38,7 @@ class BottomSheetDriver extends StatelessWidget {
               height: 10,
             ),
             CustomInput(
-              hint: "Mot de passe",
+              hint: AppString.password,
               controller: controller.passwordLogin,
               keyboardType: TextInputType.visiblePassword,
               validator: Validator.validatePassword,
@@ -46,7 +47,7 @@ class BottomSheetDriver extends StatelessWidget {
               height: 15,
             ),
             CustomButtonWithoutIcon(
-              title: "Se connecter",
+              title: AppString.connect,
               loading: loading,
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
@@ -56,8 +57,8 @@ class BottomSheetDriver extends StatelessWidget {
                   controller.passwordLogin.text = '';
                 } else {
                   HelpFunctions.customSnackbar(
-                      title: "Echec",
-                      message: 'Veuillez remplir tous les champs',
+                      title: AppString.echec,
+                      message: AppString.completeAllFields,
                       colorText: AppColor.error.withOpacity(0.5),
                       icon: Icons.warning_amber_outlined);
                 }

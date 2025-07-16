@@ -14,8 +14,6 @@ import '../views/otherCar/controllers/other_car_controller.dart';
 import '../views/otherCar/screens/details_home_other_car_screen.dart';
 import '../views/otherCar/screens/home_other_car_screen.dart';
 import '../views/otherCar/screens/second_home_other_car_screen.dart';
-import '../views/profile/controllers/profile_controller.dart';
-import '../views/profile/screens/profile_screen.dart';
 import '../views/services/controllers/services_controller.dart';
 import '../views/services/screens/services_screen.dart';
 import '../views/splash_screen/controllers/splash_screen_controller.dart';
@@ -60,14 +58,6 @@ class AppPages {
       page: () => const ServiceScreen(),
       binding: BindingsBuilder(
           () => Get.lazyPut<ServicesController>(() => ServicesController())),
-    ),
-
-    //Profile Pages
-    GetPage(
-      name: Paths.profile,
-      page: () => const ProfileScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<ProfileController>(() => ProfileController())),
     ),
 
     // SplashScreen Pages
