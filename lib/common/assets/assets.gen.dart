@@ -15,76 +15,26 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class Assets {
   const Assets._();
 
-  static const AssetGenImage dots = AssetGenImage('assets/Dots.png');
-  static const AssetGenImage google = AssetGenImage('assets/Google.png');
-  static const SvgGenImage googoleIcon = SvgGenImage('assets/Googole icon.svg');
-  static const AssetGenImage icon = AssetGenImage('assets/Icon.png');
-  static const AssetGenImage map = AssetGenImage('assets/Map.png');
-  static const AssetGenImage map1 = AssetGenImage('assets/Map1.png');
-  static const AssetGenImage map2 = AssetGenImage('assets/Map2.png');
-  static const AssetGenImage map3 = AssetGenImage('assets/Map3.png');
   static const AssetGenImage oval = AssetGenImage('assets/Oval.png');
-  static const AssetGenImage oval1 = AssetGenImage('assets/Oval1.png');
-  static const AssetGenImage rectangle = AssetGenImage('assets/Rectangle.png');
-  static const AssetGenImage rectangle1 = AssetGenImage(
-    'assets/Rectangle1.png',
-  );
-  static const AssetGenImage vector1 = AssetGenImage('assets/Vector1.png');
-  static const AssetGenImage vector2 = AssetGenImage('assets/Vector2.png');
-  static const SvgGenImage vector2s = SvgGenImage('assets/Vector2s.svg');
-  static const AssetGenImage vector3 = AssetGenImage('assets/Vector3.png');
-  static const AssetGenImage vector4 = AssetGenImage('assets/Vector4.png');
   static const SvgGenImage bus = SvgGenImage('assets/bus.svg');
-  static const AssetGenImage bustop = AssetGenImage('assets/bustop.png');
-  static const SvgGenImage current = SvgGenImage('assets/current.svg');
   static const SvgGenImage driver = SvgGenImage('assets/driver.svg');
   static const AssetGenImage gbaka = AssetGenImage('assets/gbaka.png');
-  static const AssetGenImage location = AssetGenImage('assets/location.png');
+  static const SvgGenImage google = SvgGenImage('assets/google.svg');
   static const SvgGenImage next = SvgGenImage('assets/next.svg');
   static const SvgGenImage passenger = SvgGenImage('assets/passenger.svg');
   static const SvgGenImage road = SvgGenImage('assets/road.svg');
-  static const AssetGenImage robot = AssetGenImage('assets/robot.png');
-  static const AssetGenImage stop = AssetGenImage('assets/stop.png');
-  static const AssetGenImage stopBlack = AssetGenImage('assets/stopBlack.png');
-  static const AssetGenImage stopDest = AssetGenImage('assets/stopDest.png');
-  static const AssetGenImage stopRed = AssetGenImage('assets/stopRed.png');
-  static const AssetGenImage stopStart = AssetGenImage('assets/stopStart.png');
   static const AssetGenImage user = AssetGenImage('assets/user.png');
 
   /// List of all assets
   static List<dynamic> get values => [
-    dots,
-    google,
-    googoleIcon,
-    icon,
-    map,
-    map1,
-    map2,
-    map3,
     oval,
-    oval1,
-    rectangle,
-    rectangle1,
-    vector1,
-    vector2,
-    vector2s,
-    vector3,
-    vector4,
     bus,
-    bustop,
-    current,
     driver,
     gbaka,
-    location,
+    google,
     next,
     passenger,
     road,
-    robot,
-    stop,
-    stopBlack,
-    stopDest,
-    stopRed,
-    stopStart,
     user,
   ];
 }

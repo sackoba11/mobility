@@ -31,7 +31,7 @@ class BottomSheetUser extends StatelessWidget {
               ),
               CustomButtonWithoutIcon(
                 title: "Se Connecter avec google",
-                icon: Assets.googoleIcon.svg(),
+                icon: Assets.google.svg(),
                 loading: loading,
                 onPressed: () async {
                   await Get.find<ServicesController>()

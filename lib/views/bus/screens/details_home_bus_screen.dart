@@ -174,7 +174,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Illustrator(
-                                      illustrator: Assets.vector3.image(),
+                                      illustrator: Assets.bus.svg(),
                                       height: 35,
                                       width: 30),
                                   const SizedBox(

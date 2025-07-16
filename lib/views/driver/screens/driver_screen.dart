@@ -148,7 +148,7 @@ class DriverScreen extends GetView<DriverController> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Illustrator(
-                                      illustrator: Assets.vector3.image(),
+                                      illustrator: Assets.bus.svg(),
                                       height: 35,
                                       width: 30),
                                   Text(
