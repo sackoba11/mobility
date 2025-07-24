@@ -27,7 +27,7 @@ class OtherCarController extends GetxController {
   Rx<Gare> gare = Gare(commune: "", location: {}, name: "", type: "").obs;
   Rx<ItineraireGare> itinerary = ItineraireGare(
     source: {
-      "name": "Abobo Gare Mairie",
+      "name": "Abobo Gare ",
       "commune": "Abobo",
       "type": "Gbaka",
       "location": {
@@ -63,11 +63,9 @@ class OtherCarController extends GetxController {
   void onInit() async {
     super.onInit();
     getLocation();
-    availableGare.value = (await getGares()).fold((l) => [], (r) => r);
+    // availableGare.value = (await getGares()).fold((l) => [], (r) => r);
     availableItinerary.value = (await getItinerary()).fold((l) => [], (r) => r);
   }
-
- 
 
   late StreamSubscription<Position> streamSubscription;
   GoogleMapController? mapController;

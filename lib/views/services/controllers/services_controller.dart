@@ -20,7 +20,7 @@ class ServicesController extends GetxController {
   void onInit() async {
     super.onInit();
     isConnect.value = await HelpFunctions.checkConnectivity();
-    // OtherCarRepositoryImpl().addAllGares();
+    
   }
 
   Future<void> loginWithEmail({required ValueNotifier<bool> loading}) async {

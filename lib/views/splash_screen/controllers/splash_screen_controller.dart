@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+// import '../../../data/repositories/OtherCarRepository/other_car_repository_impl.dart';
 import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
 import '../../../data/repositories/authRepositiry/i_auth_repository.dart';
 import '../../../models/user/my_user.dart';
@@ -20,6 +21,7 @@ class SplashScreenController extends GetxController
     currentUser = FirebaseAuth.instance.currentUser;
     await animationInitilization();
     redirection();
+    // OtherCarRepositoryImpl().addAllGares();
   }
 
   redirection() async {
