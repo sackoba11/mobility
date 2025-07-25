@@ -39,7 +39,7 @@ class HomeBusScreen extends GetView<BusController> {
         body: NestedScrollView(
             headerSliverBuilder: (_, innerBoxIsScrolled) {
               return [
-                CustomSliverAppBar(
+                CustomSliverAppBarWithPrimaryheader(
                     title: "Entrer le numero du bus à rechercher.",
                     bottomWiget: GetBuilder<BusController>(
                       init: BusController(),
@@ -100,7 +100,7 @@ class HomeBusScreen extends GetView<BusController> {
                               ),
                             )
                             .toList());
-                  }), 
+                  }),
                 ],
               ),
             )));

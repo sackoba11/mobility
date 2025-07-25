@@ -39,7 +39,7 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
         body: NestedScrollView(
             headerSliverBuilder: (_, innerBoxIsScrolled) {
               return [
-                CustomSliverAppBar(
+                CustomSliverAppBarWithPrimaryheader(
                   title: "Retrouvez la gare la plus proche (Gbaka et Taxi)",
                   bottomWiget: GetBuilder<OtherCarController>(
                     init: OtherCarController(),

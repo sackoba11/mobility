@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InfosCar extends StatelessWidget {
   final String infos;
@@ -21,7 +22,7 @@ class InfosCar extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: size.width / 3.5,
+            width: size.width.w * 0.7,
             child: Text(
               infos,
               overflow: TextOverflow.ellipsis,

@@ -1,32 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../custom_shapes/containers/header_bar.dart';
-import '../custom_shapes/containers/primary_header_container.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/device/device_utility.dart';
+import '../custom_shapes/containers/header_bar.dart';
 
-class CustomSliverAppBarWithPrimaryheader extends StatelessWidget {
-  const CustomSliverAppBarWithPrimaryheader({
+class CustomSliverAppBarWithMap extends StatelessWidget {
+  const CustomSliverAppBarWithMap({
     super.key,
-    required this.bottomWiget,
-    required this.title,
+    required this.child,
+    this.expandedHeight,
   });
-  final String title;
-  final Widget bottomWiget;
+
+  final Widget child;
+  final double? expandedHeight;
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.sizeOf(context);
     return SliverAppBar(
       automaticallyImplyLeading: false,
       pinned: true,
       floating: true,
-      expandedHeight: 240,
-      flexibleSpace: PrimaryHeaderContainer(
-        title: title,
-      ),
+      expandedHeight: expandedHeight ?? size.height.h * 0.58,
+      flexibleSpace: Container(
+          color: AppColor.background,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 24.h,
+              bottom: 10.h,
+            ),
+            child: child,
+          )),
       bottom: PreferredSize(
-        preferredSize: Size.fromHeight(ZMDeviceUtils.getAppBarHeight() * 1.95),
+        preferredSize: Size.fromHeight(ZMDeviceUtils.getAppBarHeight()),
         child: Container(
+          width: double.infinity,
           decoration: BoxDecoration(
               color: AppColor.background,
               borderRadius: BorderRadius.only(
@@ -39,9 +49,6 @@ class CustomSliverAppBarWithPrimaryheader extends StatelessWidget {
               children: [
                 const SizedBox(height: CustomSizes.spaceBtwItems),
                 HeaderBar(),
-                const SizedBox(height: CustomSizes.spaceBtwItems),
-                bottomWiget,
-                const SizedBox(height: CustomSizes.spaceBtwItems),
               ],
             ),
           ),
