@@ -53,7 +53,7 @@ class HomeBusScreen extends GetView<BusController> {
                                   .textEditingController.text.isNotEmpty) {
                                 await busController.getBusByNumber(int.tryParse(
                                     busController.textEditingController.text)!);
-                                busController.availableActiveBusList =
+                                busController.availableBusList =
                                     busController.searchActiveBus;
                               } else {
                                 await busController.getAllBus();
@@ -79,14 +79,14 @@ class HomeBusScreen extends GetView<BusController> {
                         ),
                       );
                     }
-                    if (controller.availableActiveBusList.isEmpty) {
+                    if (controller.availableBusList.isEmpty) {
                       return const Center(
                         child: Text("Pas de bus disponibles"),
                       );
                     }
 
                     return Column(
-                        children: controller.availableActiveBusList
+                        children: controller.availableBusList
                             .map(
                               (e) => Column(
                                 children: [
@@ -100,7 +100,7 @@ class HomeBusScreen extends GetView<BusController> {
                               ),
                             )
                             .toList());
-                  }),
+                  }), 
                 ],
               ),
             )));

@@ -86,14 +86,14 @@ class SecondHomeBusScreen extends GetView<BusController> {
               child: GetBuilder<BusController>(
                   init: BusController(),
                   builder: (busController) {
-                    if (busController.availableActiveBusList.isEmpty) {
+                    if (busController.availableBusList.isEmpty) {
                       return Center(
                         child: Text(
                             "Aucun Bus de numéro ${busController.currentBus.value.number} n'est en cours"),
                       );
                     }
                     return Column(
-                        children: busController.availableActiveBusList
+                        children: busController.availableBusList
                             .map(
                               (e) => Column(
                                 children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,7 +7,6 @@ import 'package:mobility/common/widgets/custom_shapes/containers/header_bar.dart
 import 'package:mobility/common/widgets/wrappers/body_screen_wrapper.dart';
 import 'package:mobility/models/gare/gare.dart';
 
-import '../../../common/widgets/appbar/appbar.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../common/widgets/item_gare.dart';
 import '../../../utils/constants/sizes.dart';
@@ -21,21 +21,47 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
         backgroundColor: AppColor.background,
-        extendBodyBehindAppBar: true,
-        appBar: CustomAppBar(
-          color: AppColor.primary,
-          backgroundColor: AppColor.transparent,
-          showBackArrow: true,
-        ),
         body: NestedScrollView(
           floatHeaderSlivers: true,
+          physics: NeverScrollableScrollPhysics(),
           headerSliverBuilder: (_, innerBoxIsScrolled) {
             return [
               SliverAppBar(
                 automaticallyImplyLeading: false,
                 pinned: true,
                 floating: true,
-                expandedHeight: size.height * 0.6,
+                expandedHeight: size.height.h * 0.6,
+                flexibleSpace: Container(
+                  color: AppColor.background,
+                  child: Obx(() => Padding(
+                        padding: EdgeInsets.only(
+                          top: 24.h,
+                          bottom: innerBoxIsScrolled ? 0 : 10.h,
+                        ),
+                        child: GoogleMap(
+                          myLocationEnabled: true,
+                          zoomControlsEnabled: true,
+                          initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                  double.parse(controller.userLatitude.value),
+                                  double.parse(controller.userLongitude.value)),
+                              zoom: 15),
+                          markers: {
+                            Marker(
+                              infoWindow:
+                                  const InfoWindow(title: "Votre Position"),
+                              markerId: const MarkerId("UserPosition"),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                  BitmapDescriptor.hueAzure),
+                              position: LatLng(
+                                  double.parse(controller.userLatitude.value),
+                                  double.parse(controller.userLongitude.value)),
+                            ),
+                          },
+                          onMapCreated: controller.onMapCreated,
+                        ),
+                      )),
+                ),
                 bottom: PreferredSize(
                   preferredSize:
                       Size.fromHeight(ZMDeviceUtils.getAppBarHeight()),
@@ -59,31 +85,6 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
                       ),
                     ),
                   ),
-                ),
-                flexibleSpace: Container(
-                  color: AppColor.black,
-                  child: Obx(() => GoogleMap(
-                        myLocationEnabled: true,
-                        zoomControlsEnabled: true,
-                        initialCameraPosition: CameraPosition(
-                            target: LatLng(
-                                double.parse(controller.userLatitude.value),
-                                double.parse(controller.userLongitude.value)),
-                            zoom: 15),
-                        markers: {
-                          Marker(
-                            infoWindow:
-                                const InfoWindow(title: "Votre Position"),
-                            markerId: const MarkerId("UserPosition"),
-                            icon: BitmapDescriptor.defaultMarkerWithHue(
-                                BitmapDescriptor.hueAzure),
-                            position: LatLng(
-                                double.parse(controller.userLatitude.value),
-                                double.parse(controller.userLongitude.value)),
-                          ),
-                        },
-                        onMapCreated: controller.onMapCreated,
-                      )),
                 ),
               ),
             ];

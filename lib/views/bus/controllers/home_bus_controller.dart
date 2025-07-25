@@ -23,7 +23,7 @@ class BusController extends GetxController {
   RxBool isLoading = true.obs;
   late final RxBool isConnect = false.obs;
   List<BusFromDb> activeBusList = <BusFromDb>[].obs;
-  List<BusFromDb> availableActiveBusList = <BusFromDb>[].obs;
+  List<BusFromDb> availableBusList = <BusFromDb>[].obs;
   List<BusFromDb> searchActiveBus = <BusFromDb>[].obs;
   List<BusFromDb> listAllBus = <BusFromDb>[].obs;
   List<Bus> searchListAllBus = <Bus>[].obs;
@@ -45,8 +45,6 @@ class BusController extends GetxController {
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
-
-  // String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
 
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
   Rx<LatLng> busPosition = const LatLng(5.3502292, -3.9881887).obs;
@@ -76,7 +74,7 @@ class BusController extends GetxController {
 
       listAllBus = (await busRepository.getAllBus()).fold((l) => [], (r) => r);
 
-      availableActiveBusList = activeBusList + listAllBus;
+      availableBusList = activeBusList + listAllBus;
 
       isLoading(false);
       update();
@@ -87,7 +85,7 @@ class BusController extends GetxController {
     searchActiveBus = (activeBusList + listAllBus)
         .where((bus) => bus.number.toString().contains(busNumber.toString()))
         .toList();
-    availableActiveBusList = searchActiveBus;
+    availableBusList = searchActiveBus;
     update();
   }
 

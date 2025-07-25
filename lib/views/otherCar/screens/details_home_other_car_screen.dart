@@ -146,11 +146,11 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                     children: [
                       Expanded(
                           child: CustomButtonWithoutIcon(
-                          title: "Retour",
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )),
+                        title: "Retour",
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )),
                       const SizedBox(
                         height: 20,
                       )
