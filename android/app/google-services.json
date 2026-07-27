@@ -3,45 +3,9 @@
     "project_number": "714842411456",
     "firebase_url": "https://mobilityplus-74105-default-rtdb.firebaseio.com",
     "project_id": "mobilityplus-74105",
-    "storage_bucket": "mobilityplus-74105.appspot.com"
+    "storage_bucket": "mobilityplus-74105.firebasestorage.app"
   },
   "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:714842411456:android:6d87661b6f119b7f45f825",
-        "android_client_info": {
-          "package_name": "com.example.ir"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAvuZ47B67_Es0vDaakG_tooRyi2cFaU38"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "714842411456-2lortfhkvq38f8v2fjgaeu2vnpmofs5j.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.mobility.mobility"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:714842411456:android:ad14abc9158581b845f825",
@@ -51,11 +15,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "714842411456-j7971a8jculmpb9ujm4lmaslq37n8jpg.apps.googleusercontent.com",
+          "client_id": "714842411456-b5v6c315sgsmtr375rd1fsb95bbn1f1e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.mobility",
-            "certificate_hash": "f6f776fa67a1ad7948bb18dac0df2e582e85b134"
+            "certificate_hash": "d010801be8b665d1359f1a2792732d7e8320c231"
+          }
+        },
+        {
+          "client_id": "714842411456-ct17ddf9ua3bcflennrohf0f29f8hc7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobility",
+            "certificate_hash": "1cad8cf78c98cdff57ad179538efc8935f257ec0"
+          }
+        },
+        {
+          "client_id": "714842411456-lopmt9odpfutd4hcrln2pfkpiv1lchfl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobility",
+            "certificate_hash": "6f906da00896c607e62ae9392cc2d461836dbfc4"
           }
         },
         {
@@ -76,10 +56,10 @@
               "client_type": 3
             },
             {
-              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
+              "client_id": "714842411456-813nel2oujo2limgnn11pqbqgnghbo23.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.mobility.mobility"
+                "bundle_id": "com.example.mobilitydashboard"
               }
             }
           ]
@@ -88,28 +68,12 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:714842411456:android:a6a29653ef28f8fb45f825",
+        "mobilesdk_app_id": "1:714842411456:android:00654aeadabf40be45f825",
         "android_client_info": {
-          "package_name": "com.example.mobilityplus"
+          "package_name": "com.example.mobilitydashboard"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "714842411456-3gg9qpkma5vo3jifm2r200nad3k1bu78.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mobilityplus",
-            "certificate_hash": "9a8b34b3b2b00d5ca30fc70136503103116a5e2f"
-          }
-        },
-        {
-          "client_id": "714842411456-unm41bjoqq509ntn2t6k621gm7obpp0e.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mobilityplus",
-            "certificate_hash": "f6f776fa67a1ad7948bb18dac0df2e582e85b134"
-          }
-        },
         {
           "client_id": "714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com",
           "client_type": 3
@@ -128,10 +92,10 @@
               "client_type": 3
             },
             {
-              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
+              "client_id": "714842411456-813nel2oujo2limgnn11pqbqgnghbo23.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.mobility.mobility"
+                "bundle_id": "com.example.mobilitydashboard"
               }
             }
           ]
@@ -147,11 +111,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "714842411456-0th32q3jqooj8rv2rb5eq46geqsfgruo.apps.googleusercontent.com",
+          "client_id": "714842411456-0acfb6mokjsb9qhiqgsilfk199qljtf4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mobility.mobility",
-            "certificate_hash": "f6f776fa67a1ad7948bb18dac0df2e582e85b134"
+            "certificate_hash": "6f906da00896c607e62ae9392cc2d461836dbfc4"
+          }
+        },
+        {
+          "client_id": "714842411456-tv0gqfh4h54knr9fm9ec1556nq4mpet1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobility.mobility",
+            "certificate_hash": "1cad8cf78c98cdff57ad179538efc8935f257ec0"
           }
         },
         {
@@ -172,10 +144,10 @@
               "client_type": 3
             },
             {
-              "client_id": "714842411456-8tai06ha4jpmab72qgepgjh92ohitr9m.apps.googleusercontent.com",
+              "client_id": "714842411456-813nel2oujo2limgnn11pqbqgnghbo23.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.mobility.mobility"
+                "bundle_id": "com.example.mobilitydashboard"
               }
             }
           ]

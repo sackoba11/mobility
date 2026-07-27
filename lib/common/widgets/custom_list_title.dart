@@ -30,7 +30,7 @@ class CustomListTitle extends StatelessWidget {
             color: AppColor.white,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppColor.primary.withOpacity(.3),
+              color: AppColor.primary.withValues(alpha: .3),
             )),
         width: double.infinity,
         height: 70,

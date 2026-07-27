@@ -170,7 +170,7 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
                                                 BorderRadius.circular(10),
                                             border: Border.all(
                                               color: AppColor.primary
-                                                  .withOpacity(.3),
+                                                  .withValues(alpha: .3),
                                             )),
                                         width: double.infinity,
                                         height: 70,

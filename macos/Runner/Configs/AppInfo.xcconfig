@@ -8,7 +8,7 @@
 PRODUCT_NAME = mobility
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.mobility.mobility
+PRODUCT_BUNDLE_IDENTIFIER = com.example.mobility
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.mobility. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.

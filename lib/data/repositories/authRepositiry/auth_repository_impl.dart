@@ -13,14 +13,14 @@ import 'package:mobility/data/repositories/authRepositiry/i_auth_repository.dart
 @LazySingleton(as: IAuthRepository)
 class AuthRepositoryImpl implements IAuthRepository {
   final auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   late User currentUser;
 
-//Realtime Database
+  //Realtime Database
   static final entryPoint = FirebaseDatabase.instance.ref();
   static final driverEntry = entryPoint.child("drivers");
 
-// Firestore Database
+  // Firestore Database
   static final entryDB = FirebaseFirestore.instance;
   static final driversDB = entryDB.collection("driversInfos");
   static final usersDB = entryDB.collection("users");
@@ -31,8 +31,10 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<AppError, bool>> addDriverInfos(
-      {required String uid, required Map<String, dynamic> map}) async {
+  Future<Either<AppError, bool>> addDriverInfos({
+    required String uid,
+    required Map<String, dynamic> map,
+  }) async {
     try {
       await driversDB.doc(uid).set(map);
       return right(true);
@@ -83,43 +85,70 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<AppError, UserCredential>> signInWithGoogle(
-      {bool reauth = false}) async {
+  Future<Either<AppError, UserCredential>> signInWithGoogle({
+    bool reauth = false,
+  }) async {
     try {
+      if (!_googleSignIn.supportsAuthenticate()) {
+        return Left(
+          GenericAppError(
+            "Authentification non supportée sur cette plateforme",
+          ),
+        );
+      }
+
       User? previousUser;
       UserCredential userCreds;
-      await GoogleSignIn().signOut();
-      final googleUser = await GoogleSignIn().signIn();
 
-      if (googleUser == null) {
-        return Left(GenericAppError("Cancelled by User"));
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
+
+      // Synchrone désormais (plus de await)
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+      final String? idToken = googleAuth.idToken;
+
+      // L'accessToken se demande maintenant séparément pour les scopes voulus
+      String? accessToken;
+      try {
+        final authorization = await googleUser.authorizationClient
+            .authorizationForScopes(<String>['email', 'profile']);
+        accessToken = authorization?.accessToken;
+      } catch (_) {
+        accessToken = null;
       }
-      final googleAuthentication = await googleUser.authentication;
+
       if (reauth) {
         previousUser = (await getCurrentUser()).fold((l) => null, (r) => r);
         final relinkCred = GoogleAuthProvider.credential(
-            idToken: googleAuthentication.idToken,
-            accessToken: googleAuthentication.accessToken);
+          idToken: idToken,
+          accessToken: accessToken,
+        );
         userCreds = await previousUser!.linkWithCredential(relinkCred);
         return Right(userCreds);
       } else {
         final authCredential = GoogleAuthProvider.credential(
-            idToken: googleAuthentication.idToken,
-            accessToken: googleAuthentication.accessToken);
+          idToken: idToken,
+          accessToken: accessToken,
+        );
 
         userCreds = await auth.signInWithCredential(authCredential);
-        User currentUser = userCreds.user!;
+        final User currentUser = userCreds.user!;
 
-        String uid = currentUser.uid;
-        Map<String, dynamic> map = {
+        final String uid = currentUser.uid;
+        final Map<String, dynamic> map = {
           "uid": uid,
           "name": currentUser.displayName!,
           "email": currentUser.email,
-          "isDriver": false
+          "isDriver": false,
         };
         addUser(uid: uid, map: map);
         return Right(userCreds);
       }
+    } on GoogleSignInException catch (e) {
+      log(e.toString());
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        return Left(GenericAppError("Cancelled by User"));
+      }
+      return Left(GenericAppError("Erreur Google Sign-In: ${e.code.name}"));
     } on FirebaseAuthException catch (e) {
       log(e.toString());
       if (e.code == 'email-already-in-use') {
@@ -147,8 +176,10 @@ class AuthRepositoryImpl implements IAuthRepository {
     required String password,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       User currentUser = credential.user!;
       log("user : ${currentUser.email}");
       return Right(credential);
@@ -189,7 +220,9 @@ class AuthRepositoryImpl implements IAuthRepository {
         previousUser = (await getCurrentUser()) as User;
         // Get the credentials from the EmailAuthProvider
         final authCreds = EmailAuthProvider.credential(
-            email: userEmail, password: userPassword);
+          email: userEmail,
+          password: userPassword,
+        );
         // And link it to the current account
         userCreds = await previousUser.linkWithCredential(authCreds);
         return Right(userCreds);
@@ -205,7 +238,7 @@ class AuthRepositoryImpl implements IAuthRepository {
           "uid": uid,
           "name": userName!,
           "email": userEmail,
-          "isDriver": true
+          "isDriver": true,
         };
         addUser(uid: uid, map: map);
 
@@ -308,7 +341,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   //   }
   // }
 
-//Apple code iOS.
+  //Apple code iOS.
   //  Future<Either<AuthFailure, Unit>> signInWithApple({bool reauth = false}) async {
   //   try {
   //     auth.User previousUser;
