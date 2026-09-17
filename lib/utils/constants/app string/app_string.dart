@@ -1,10 +1,13 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 abstract class AppString {
-  // api keys
-  static String pkkeyMapBox =
-      "pk.eyJ1Ijoic2Fja29iYSIsImEiOiJjbHJjN2diZWgwc3lvMmlwaml6dnlhYjR6In0.r0ExoT7nKCOuFhCAIFEaPQ";
-  static String apikey1 = "AIzaSyAUp_msaHFwyDS3CGik0WCMvZcn5cwk8y8";
-  static String apikey2 = "AIzaSyADK8u_9dJ86WX2MAmJDJWU5uipKed3INc";
-  static String apikey3 = "AIzaSyDDtB0Flxxax5RdGrQqhM1FpVkNhe0v90Q";
+  // Token Mapbox lu depuis .env (voir .env.example). Vide si absent :
+  // les itinéraires sont alors indisponibles au lieu de crasher.
+  static String get pkkeyMapBox => dotenv.isInitialized
+      ? (dotenv.maybeGet('MAPBOX_PUBLIC_TOKEN') ?? '')
+      : '';
+
+  static bool get hasMapboxToken => pkkeyMapBox.isNotEmpty;
 
   // text
   static String hey = "Hey 👋";

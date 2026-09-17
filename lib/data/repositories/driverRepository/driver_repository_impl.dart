@@ -10,16 +10,27 @@ import 'i_driver_repository.dart';
 
 @LazySingleton(as: IDriverRepository)
 class DriverRepositoryImpl implements IDriverRepository {
+  // Legacy RTDB (à supprimer quand plus aucun bus actif RTDB).
   DatabaseReference ref = FirebaseDatabase.instance.ref().child("activeBus");
+
+  // Cible simplifiée 100% Firestore (Phase 2b).
+  CollectionReference get _activeBusFs =>
+      FirebaseFirestore.instance.collection('activeBus');
+
+  String _docId(int busNumber, String idBus) => "${busNumber}_$idBus";
 
   @override
   Future<Either<AppError, List<Bus>>> getAllBus() async {
-    final snapShotListBus =
-        await FirebaseFirestore.instance.collection('listBus').get();
-    final docsListBus = snapShotListBus.docs;
-    final buslistFirebse =
-        docsListBus.map((e) => Bus.fromJson(e.data())).toList();
-    return right(buslistFirebse);
+    try {
+      final snapShotListBus =
+          await FirebaseFirestore.instance.collection('listBus').get();
+      final docsListBus = snapShotListBus.docs;
+      final buslistFirebse =
+          docsListBus.map((e) => Bus.fromJson(e.data())).toList();
+      return right(buslistFirebse);
+    } catch (e) {
+      return left(GenericAppError("erreur listBus: ${e.toString()}"));
+    }
   }
 
   @override
@@ -31,7 +42,7 @@ class DriverRepositoryImpl implements IDriverRepository {
     Map activeBus = {
       "number": bus.number,
       "source": bus.source,
-      "startDate": DateTime.now().toString(),
+      "startDate": DateTime.now().toIso8601String(),
       "destination": bus.destination,
       "isActive": true,
       "position": {
@@ -42,7 +53,11 @@ class DriverRepositoryImpl implements IDriverRepository {
     };
     var dateTime = DateTime.now().millisecondsSinceEpoch.toString();
     try {
-      dbRef.child(dateTime).set(activeBus);
+      // Firestore (cible) + RTDB (legacy compat).
+      await _activeBusFs.doc(_docId(bus.number, dateTime)).set(activeBus);
+      try {
+        await dbRef.child(dateTime).set(activeBus);
+      } catch (_) {}
       return right(dateTime);
     } catch (e) {
       return left(GenericAppError(e.toString()));
@@ -52,9 +67,11 @@ class DriverRepositoryImpl implements IDriverRepository {
   @override
   Future<Either<AppError, bool>> deactivateBusService(
       {required int busNumber, required String idBus}) async {
-    var dBRefRemove = ref.child("$busNumber").child(idBus);
     try {
-      dBRefRemove.remove();
+      await _activeBusFs.doc(_docId(busNumber, idBus)).delete();
+      try {
+        await ref.child("$busNumber").child(idBus).remove();
+      } catch (_) {}
       return right(true);
     } catch (e) {
       return left(GenericAppError(e.toString()));
@@ -67,14 +84,21 @@ class DriverRepositoryImpl implements IDriverRepository {
       required String idBus,
       required double lat,
       required double long}) async {
-    var dBRefUpdate = ref.child("$busNumber").child(idBus);
     try {
-      dBRefUpdate.update({
+      await _activeBusFs.doc(_docId(busNumber, idBus)).update({
         "position": {
           "lat": lat,
           "long": long,
         },
       });
+      try {
+        await ref.child("$busNumber").child(idBus).update({
+          "position": {
+            "lat": lat,
+            "long": long,
+          },
+        });
+      } catch (_) {}
       return right(true);
     } catch (e) {
       return left(GenericAppError(e.toString()));

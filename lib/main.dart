@@ -1,24 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobility/views/unknown_page/unknown_page.dart';
 import 'package:mobility/firebase_options.dart';
 import 'routes/app_pages.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-  );
-  await GoogleSignIn.instance.initialize(
-    // clientId:
-    //     'mobilityplus-74105', // requis sur iOS/macOS/web si pas dans un fichier de conf
-    serverClientId:
-        '714842411456-5e2aknnofo1d8esftj3l7t3miplk3e0h.apps.googleusercontent.com', // requis si tu veux un idToken pour un backend
-  );
+  await dotenv.load(fileName: ".env");
+  await GetStorage.init();
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+    );
+  } catch (e) {
+    // Desktop (Windows/Linux) non configuré via FlutterFire : l'app démarre
+    // quand même pour le dev UI. TODO: lancer `flutterfire configure`.
+    debugPrint("Firebase init skipped: $e");
+  }
+  final serverClientId = dotenv.maybeGet('GOOGLE_SERVER_CLIENT_ID');
+  if (serverClientId != null && serverClientId.isNotEmpty) {
+    await GoogleSignIn.instance.initialize(serverClientId: serverClientId);
+  } else {
+    debugPrint("GOOGLE_SERVER_CLIENT_ID manquant dans .env");
+  }
   runApp(
     GetMaterialApp(
       unknownRoute: GetPage(

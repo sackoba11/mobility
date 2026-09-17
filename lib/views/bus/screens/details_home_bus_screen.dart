@@ -17,6 +17,20 @@ class DetailsHomeBusScreen extends GetView<BusController> {
 
   @override
   Widget build(BuildContext context) {
+    if (controller.routes.isEmpty) {
+      return Scaffold(
+        backgroundColor: AppColor.background,
+        appBar: AppBar(
+          title: const Text("Détail bus"),
+          backgroundColor: AppColor.background,
+        ),
+        body: const Center(
+          child: Text("Itinéraire indisponible pour ce bus."),
+        ),
+      );
+    }
+    final first = controller.routes.first;
+    final last = controller.routes.last;
     return Scaffold(
         backgroundColor: AppColor.background,
         body: Stack(children: [
@@ -31,8 +45,8 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                 zoomGesturesEnabled: true,
                 initialCameraPosition: CameraPosition(
                     target: LatLng(
-                      double.parse(controller.routes.first[1].toString()),
-                      double.parse(controller.routes.first[0].toString()),
+                      double.tryParse(first[1].toString()) ?? 5.3502292,
+                      double.tryParse(first[0].toString()) ?? -3.9881887,
                     ),
                     zoom: 13.5),
                 polylines: {
@@ -51,19 +65,37 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                     icon: BitmapDescriptor.defaultMarkerWithHue(
                         BitmapDescriptor.hueAzure),
                     position: LatLng(
-                        double.parse(controller.userLatitude.value),
-                        double.parse(controller.userLongitude.value)),
+                        double.tryParse(controller.userLatitude.value) ??
+                            5.3502292,
+                        double.tryParse(controller.userLongitude.value) ??
+                            -3.9881887),
                   ),
                   Marker(
                       icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueGreen),
                       markerId: const MarkerId("source"),
-                      position: LatLng(controller.routes.first[1],
-                          controller.routes.first[0])),
+                      position: LatLng(
+                        (first[1] is num)
+                            ? (first[1] as num).toDouble()
+                            : double.tryParse(first[1].toString()) ??
+                                5.3502292,
+                        (first[0] is num)
+                            ? (first[0] as num).toDouble()
+                            : double.tryParse(first[0].toString()) ??
+                                -3.9881887,
+                      )),
                   Marker(
                       markerId: const MarkerId("destination"),
-                      position: LatLng(controller.routes.last[1],
-                          controller.routes.last[0])),
+                      position: LatLng(
+                        (last[1] is num)
+                            ? (last[1] as num).toDouble()
+                            : double.tryParse(last[1].toString()) ??
+                                5.3502292,
+                        (last[0] is num)
+                            ? (last[0] as num).toDouble()
+                            : double.tryParse(last[0].toString()) ??
+                                -3.9881887,
+                      )),
                   for (var i in controller.currentBus.value.roadMap)
                     Marker(
                         markerId: const MarkerId("route"),
@@ -209,7 +241,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                             child: CustomButtonWithoutIcon(
                           title: "Retour",
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Get.back();
                           },
                         ))
                       ],

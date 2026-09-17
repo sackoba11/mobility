@@ -22,20 +22,14 @@ dependencies:
   flutter_screenutil: ^5.9.0
   injectable: ^3.0.0
   dartz: ^0.10.1
-  flutter_polyline_points:
-  google_places_flutter:
-  dio: ^5.11.0
   http: ^1.1.0
-  dropdown_button2: ^3.1.0
   firebase_database: ^12.4.6
   firebase_auth: ^6.5.6
   cloud_firestore: ^6.7.1
   firebase_storage: ^13.4.5
   google_sign_in: ^7.2.0
   connectivity_plus: ^7.3.1
-  url_launcher: ^6.3.1
-  flutter_steps: ^2.0.1
-  infinite_scroll_pagination: ^5.1.0
+  flutter_dotenv: ^5.2.1
   flutter_native_splash: ^2.4.8
   flutter_gen: ^5.10.0
   get_storage: ^2.1.1
@@ -67,6 +61,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - .env
 
 
 scripts:

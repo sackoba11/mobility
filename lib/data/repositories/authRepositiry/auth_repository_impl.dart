@@ -1,14 +1,11 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mobility/utils/error/app_error.dart';
-import 'package:mobility/models/user/my_user.dart';
 import 'package:mobility/data/repositories/authRepositiry/i_auth_repository.dart';
+import 'package:mobility/models/user/my_user.dart';
+import 'package:mobility/utils/error/app_error.dart';
 
 @LazySingleton(as: IAuthRepository)
 class AuthRepositoryImpl implements IAuthRepository {
@@ -16,18 +13,13 @@ class AuthRepositoryImpl implements IAuthRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   late User currentUser;
 
-  //Realtime Database
-  static final entryPoint = FirebaseDatabase.instance.ref();
-  static final driverEntry = entryPoint.child("drivers");
-
-  // Firestore Database
+  // Firestore Database (source unique — Phase 2b, RTDB legacy supprimée côté auth)
   static final entryDB = FirebaseFirestore.instance;
   static final driversDB = entryDB.collection("driversInfos");
   static final usersDB = entryDB.collection("users");
 
-  addUser({required String uid, required Map<String, dynamic> map}) async {
-    // driverEntry.child(uid).set(map);
-    await usersDB.doc(uid).set(map);
+  Future<void> addUser({required String uid, required Map<String, dynamic> map}) async {
+    await usersDB.doc(uid).set(map, SetOptions(merge: true));
   }
 
   @override
@@ -55,8 +47,11 @@ class AuthRepositoryImpl implements IAuthRepository {
   @override
   Future<Either<AppError, MyUser>> getUser(String uid) async {
     try {
-      var documentSnapshot = (await usersDB.doc(uid).get());
-      MyUser user = MyUser.fromJson(documentSnapshot.data()!);
+      final documentSnapshot = await usersDB.doc(uid).get();
+      if (!documentSnapshot.exists || documentSnapshot.data() == null) {
+        return left(NotFoundFailure("Utilisateur"));
+      }
+      final MyUser user = MyUser.fromJson(documentSnapshot.data()!);
       return right(user);
     } catch (e) {
       return left(GenericAppError("error to get User: $e"));
@@ -131,26 +126,33 @@ class AuthRepositoryImpl implements IAuthRepository {
         );
 
         userCreds = await auth.signInWithCredential(authCredential);
-        final User currentUser = userCreds.user!;
+        final User signedUser = userCreds.user!;
 
-        final String uid = currentUser.uid;
-        final Map<String, dynamic> map = {
-          "uid": uid,
-          "name": currentUser.displayName!,
-          "email": currentUser.email,
-          "isDriver": false,
-        };
-        addUser(uid: uid, map: map);
+        final String uid = signedUser.uid;
+        // Ne jamais écraser isDriver : crée seulement si le doc n'existe pas,
+        // sinon merge name/email en préservant le rôle.
+        final existing = await usersDB.doc(uid).get();
+        if (!existing.exists) {
+          await usersDB.doc(uid).set({
+            "uid": uid,
+            "name": signedUser.displayName ?? signedUser.email ?? "Passager",
+            "email": signedUser.email ?? "",
+            "isDriver": false,
+          });
+        } else {
+          await usersDB.doc(uid).set({
+            "name": signedUser.displayName ?? signedUser.email ?? "Passager",
+            "email": signedUser.email ?? "",
+          }, SetOptions(merge: true));
+        }
         return Right(userCreds);
       }
     } on GoogleSignInException catch (e) {
-      log(e.toString());
       if (e.code == GoogleSignInExceptionCode.canceled) {
         return Left(GenericAppError("Cancelled by User"));
       }
       return Left(GenericAppError("Erreur Google Sign-In: ${e.code.name}"));
     } on FirebaseAuthException catch (e) {
-      log(e.toString());
       if (e.code == 'email-already-in-use') {
         return Left(GenericAppError('email-already-in-use'));
       } else if (e.code == 'invalid-email') {
@@ -165,7 +167,6 @@ class AuthRepositoryImpl implements IAuthRepository {
         return Left(GenericAppError('Server error'));
       }
     } catch (e) {
-      log(e.toString());
       return Left(GenericAppError("cancel by user"));
     }
   }
@@ -180,8 +181,6 @@ class AuthRepositoryImpl implements IAuthRepository {
         email: email,
         password: password,
       );
-      User currentUser = credential.user!;
-      log("user : ${currentUser.email}");
       return Right(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -255,8 +254,6 @@ class AuthRepositoryImpl implements IAuthRepository {
         // if (!user.emailVerified) {
         //   await user.sendEmailVerification();
         // }
-        User currentUser = userCreds.user!;
-        log("user : ${currentUser.email}");
         return Right(userCreds);
       }
     } on FirebaseAuthException catch (e) {

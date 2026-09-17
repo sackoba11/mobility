@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobility/models/transport_type.dart';
 import 'package:mobility/views/otherCar/controllers/other_car_controller.dart';
 
 import '../../../utils/constants/app colors/app_colors.dart';
@@ -11,7 +12,6 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(OtherCarController());
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -61,7 +61,6 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
           ),
           const SizedBox(height: 20),
           GetBuilder<OtherCarController>(
-            init: OtherCarController(),
             builder: (otherController) {
               return Row(
                 children: [
@@ -146,13 +145,13 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
                           children: [
                             if (controller.filterGbaka.value == true &&
                                 controller.filterTaxi.value == false &&
-                                element.type == "Gbaka")
+                                element.type == TransportType.gbaka)
                               ItemItinerary(
                                 element: element,
                               )
                             else if (controller.filterTaxi.value == true &&
                                 controller.filterGbaka.value == false &&
-                                element.type == "Taxi")
+                                element.type == TransportType.taxi)
                               ItemItinerary(
                                 element: element,
                               )

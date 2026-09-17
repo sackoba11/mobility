@@ -78,43 +78,35 @@ class AppPages {
           Get.lazyPut<SplashScreenController>(() => SplashScreenController())),
     ),
 
-    // Bus Pages
+    // Bus Pages — UN seul BusController partagé sur tout le flow (fenix).
     GetPage(
       name: Paths.homeBus,
       page: () => const HomeBusScreen(),
       binding: BindingsBuilder(
-          () => Get.lazyPut<BusController>(() => BusController())),
+          () => Get.lazyPut<BusController>(() => BusController(), fenix: true)),
     ),
     GetPage(
       name: Paths.secondHomeBus,
       page: () => const SecondHomeBusScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<BusController>(() => BusController())),
     ),
     GetPage(
       name: Paths.detailHomeBus,
       page: () => const DetailsHomeBusScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<BusController>(() => BusController())),
     ),
-    // Other Car Pages
+    // Other Car Pages — UN seul OtherCarController partagé (fenix).
     GetPage(
       name: Paths.homeOtherCar,
       page: () => const HomeOtherCarScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<OtherCarController>(() => OtherCarController())),
+      binding: BindingsBuilder(() =>
+          Get.lazyPut<OtherCarController>(() => OtherCarController(), fenix: true)),
     ),
     GetPage(
       name: Paths.secondOtherCar,
       page: () => const SecondHomeOtherCarScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<OtherCarController>(() => OtherCarController())),
     ),
     GetPage(
       name: Paths.detailOtherCar,
       page: () => const DetailsHomeOtherCarScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<OtherCarController>(() => OtherCarController())),
     ),
   ];
 }

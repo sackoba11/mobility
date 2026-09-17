@@ -9,9 +9,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:mobility/utils/error/app_error.dart';
 import 'package:mobility/models/gare/gare.dart';
+import 'package:mobility/models/gare_location/gare_location.dart';
 import 'package:mobility/models/itineraire_gare/itineraire_gare.dart';
+import 'package:mobility/models/transport_type.dart';
 import '../../../utils/constants/app string/app_string.dart';
 import '../../../models/routes_model/data_model.dart';
+import '../../../common/help_functions/help_functions.dart';
 import '../../../data/repositories/OtherCarRepository/i_other_car_repository.dart';
 import '../../../data/repositories/OtherCarRepository/other_car_repository_impl.dart';
 
@@ -24,30 +27,35 @@ class OtherCarController extends GetxController {
   RxList<ItineraireGare> availableItinerary = <ItineraireGare>[].obs;
   RxList<ItineraireGare> itineraries = <ItineraireGare>[].obs;
   RxBool isLoading = true.obs;
-  Rx<Gare> gare = Gare(commune: "", location: {}, name: "", type: "").obs;
+  Rx<Gare> gare = Gare(
+          commune: "",
+          location: GareLocation(lat: 5.3502292, long: -3.9881887),
+          name: "",
+          type: TransportType.unknown)
+      .obs;
   Rx<ItineraireGare> itinerary = ItineraireGare(
-    source: {
-      "name": "Abobo Gare Mairie",
-      "commune": "Abobo",
-      "type": "Gbaka",
-      "location": {
-        "label": "teste",
-        "lat": 5.3502292,
-        "long": -3.9881887,
-      }
-    },
-    destination: {
-      "name": "Kennedy Marché",
-      "commune": "Abobo",
-      " type": "Gbaka",
-      "location": {
-        "label": "teste",
-        "lat": 5.3502292,
-        "long": -3.9881887,
-      },
-    },
-    commune: "Abbobo",
-    type: "Taxi",
+    source: Gare(
+      name: "Abobo Gare Mairie",
+      commune: "Abobo",
+      type: TransportType.gbaka,
+      location: GareLocation(
+        label: "teste",
+        lat: 5.3502292,
+        long: -3.9881887,
+      ),
+    ),
+    destination: Gare(
+      name: "Kennedy Marché",
+      commune: "Abobo",
+      type: TransportType.gbaka,
+      location: GareLocation(
+        label: "teste",
+        lat: 5.3502292,
+        long: -3.9881887,
+      ),
+    ),
+    commune: "Abobo",
+    type: TransportType.taxi,
   ).obs;
   TextEditingController textEdittingSearch = TextEditingController();
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
@@ -58,6 +66,7 @@ class OtherCarController extends GetxController {
   LatLng destinationLocaton = const LatLng(5.351888, -3.983774);
   LatLng sourceLocation = const LatLng(5.3502292, -3.9881887);
   RxList routes = [].obs;
+  final RxString errorMessage = "".obs;
 
   @override
   void onInit() async {
@@ -65,6 +74,16 @@ class OtherCarController extends GetxController {
     getLocation();
     availableGare.value = (await getGares()).fold((l) => [], (r) => r);
     availableItinerary.value = (await getItinerary()).fold((l) => [], (r) => r);
+  }
+
+  @override
+  void onClose() {
+    try {
+      streamSubscription.cancel();
+    } catch (_) {}
+    textEdittingSearch.dispose();
+    mapController?.dispose();
+    super.onClose();
   }
 
  
@@ -90,8 +109,21 @@ class OtherCarController extends GetxController {
   Future<Either<AppError, List<ItineraireGare>>> getItinerary() async {
     try {
       isLoading(true);
-      itineraries.value = (await otherCarRepositoryImpl.getAllItinerary())
-          .fold((l) => [], (r) => r);
+      errorMessage.value = "";
+      final result = await otherCarRepositoryImpl.getAllItinerary();
+      result.fold(
+        (l) {
+          errorMessage.value = l.userMessage;
+          itineraries.value = [];
+          HelpFunctions.customSnackbar(
+            title: 'Erreur',
+            message: l.userMessage,
+            colorText: Colors.red,
+            icon: Icons.error_outline,
+          );
+        },
+        (r) => itineraries.value = r,
+      );
       isLoading(false);
       return right(itineraries);
     } catch (e) {
@@ -100,11 +132,11 @@ class OtherCarController extends GetxController {
   }
 
   Future<List<ItineraireGare>> searchItinerary(String search) async {
+    final query = search.toLowerCase();
     var searchitinerary = itineraries
-        .where((itinerary) => itinerary.source["name"]
-            .toLowerCase()
-            .toString()
-            .contains(search.toLowerCase().toString()))
+        .where((itinerary) =>
+            itinerary.source.name.toLowerCase().contains(query) ||
+            itinerary.destination.name.toLowerCase().contains(query))
         .toList();
     return searchitinerary;
   }
@@ -135,28 +167,36 @@ class OtherCarController extends GetxController {
 
     streamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
-      userLatitude = RxString("${position.latitude}");
-      userLongitude = RxString("${position.longitude}");
+      userLatitude.value = "${position.latitude}";
+      userLongitude.value = "${position.longitude}";
     });
   }
 
-  Future<List<dynamic>> getRoutes(source) async {
-    Uri url = Uri.parse(
-      "https://api.mapbox.com/directions/v5/mapbox/driving/${userLongitude.value},${userLatitude.value};${source["long"]},${source["lat"]}?steps=true&geometries=geojson&access_token=${AppString.pkkeyMapBox}",
-    );
-    final response = await get(url);
-    final result = jsonDecode(response.body);
-    final routes = DataModel.fromJson(result);
-    // final distance =
-    //     routes.routes?.expand((route) => route.legs ?? []).toList() ?? [];
-    final formattedCoordinates = routes.routes
-            ?.expand((route) => route.geometry?.coordinates ?? [])
-            .toList() ??
-        [];
-    // print("la distance entre les deux points est : $distance");
-    // print("routes : $formattedCoordinates");
-    debugPrint(formattedCoordinates.toString());
-    return formattedCoordinates;
+  Future<List<dynamic>> getRoutes(GareLocation source) async {
+    try {
+      if (!AppString.hasMapboxToken) return [];
+      final srcLong = source.long;
+      final srcLat = source.lat;
+      Uri url = Uri.parse(
+        "https://api.mapbox.com/directions/v5/mapbox/driving/${userLongitude.value},${userLatitude.value};$srcLong,$srcLat?steps=true&geometries=geojson&access_token=${AppString.pkkeyMapBox}",
+      );
+      final response = await get(url);
+      if (response.statusCode != 200) return [];
+      final result = jsonDecode(response.body);
+      final routes = DataModel.fromJson(result);
+      // final distance =
+      //     routes.routes?.expand((route) => route.legs ?? []).toList() ?? [];
+      final formattedCoordinates = routes.routes
+              ?.expand((route) => route.geometry?.coordinates ?? [])
+              .toList() ??
+          [];
+      // print("la distance entre les deux points est : $distance");
+      // print("routes : $formattedCoordinates");
+      debugPrint(formattedCoordinates.toString());
+      return formattedCoordinates;
+    } catch (_) {
+      return [];
+    }
   }
 
   List<LatLng> polylineCoordinates = const [];

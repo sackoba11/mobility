@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobility/models/itineraire_gare/itineraire_gare.dart';
 
+import '../../models/transport_type.dart';
+import '../../routes/app_pages.dart';
 import '../../utils/constants/app colors/app_colors.dart';
 import '../../views/otherCar/controllers/other_car_controller.dart';
-import '../../views/otherCar/screens/second_home_other_car_screen.dart';
 
 class ItemItinerary extends GetView<OtherCarController> {
   final ItineraireGare element;
@@ -16,12 +17,14 @@ class ItemItinerary extends GetView<OtherCarController> {
 
   @override
   Widget build(BuildContext context) {
+    final sourceName = element.source.name;
+    final destName = element.destination.name;
     return Column(
       children: [
         GestureDetector(
           onTap: () {
             controller.itinerary.value = element;
-            Get.to(() => const SecondHomeOtherCarScreen());
+            Get.toNamed(Paths.secondOtherCar);
           },
           child: Container(
             decoration: BoxDecoration(
@@ -31,16 +34,12 @@ class ItemItinerary extends GetView<OtherCarController> {
               titleAlignment: ListTileTitleAlignment.bottom,
               title: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  "${element.source["name"]} <-> ${element.destination["name"]}",
-                ),
+                child: Text("$sourceName <-> $destName"),
               ),
               subtitle: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    element.type,
-                  ),
+                  Text(element.type.label),
                   Text(element.commune)
                 ],
               ),

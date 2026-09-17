@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
+import 'package:mobility/models/transport_type.dart';
 
 import '../../../common/widgets/custom_button_without_icon.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
@@ -11,10 +12,18 @@ import '../controllers/other_car_controller.dart';
 
 class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
   const DetailsHomeOtherCarScreen({super.key});
+
+  LatLng _latLng(dynamic lat, dynamic lng) {
+    double parseCoord(dynamic v, double fallback) {
+      if (v is num) return v.toDouble();
+      return double.tryParse(v.toString()) ?? fallback;
+    }
+
+    return LatLng(parseCoord(lat, 5.3502292), parseCoord(lng, -3.9881887));
+  }
+
   @override
   Widget build(BuildContext context) {
-    Get.put(OtherCarController());
-
     return Scaffold(
         backgroundColor: AppColor.background,
         body: Stack(children: [
@@ -28,9 +37,8 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                     scrollGesturesEnabled: true,
                     zoomGesturesEnabled: true,
                     initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                            double.parse(controller.userLatitude.value),
-                            double.parse(controller.userLongitude.value)),
+                        target: _latLng(controller.userLatitude.value,
+                            controller.userLongitude.value),
                         zoom: 15),
                     polylines: {
                       Polyline(
@@ -39,7 +47,10 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                             "route",
                           ),
                           points: controller.routes
-                              .map((element) => LatLng(element[1], element[0]))
+                              .where((element) =>
+                                  element is List && element.length >= 2)
+                              .map((element) => _latLng(
+                                  element[1], element[0]))
                               .toList())
                     },
                     markers: {
@@ -48,17 +59,15 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                           icon: BitmapDescriptor.defaultMarkerWithHue(
                               BitmapDescriptor.hueAzure),
                           markerId: const MarkerId("source"),
-                          position: LatLng(
-                            double.parse(controller.userLatitude.value),
-                            double.parse(controller.userLongitude.value),
-                          )),
+                          position: _latLng(controller.userLatitude.value,
+                              controller.userLongitude.value)),
                       Marker(
                           infoWindow: InfoWindow(
                               title: "Gare ${controller.gare.value.name}"),
                           markerId: const MarkerId("destination"),
-                          position: LatLng(
-                            controller.gare.value.location["lat"],
-                            controller.gare.value.location["long"],
+                          position: _latLng(
+                            controller.gare.value.location.lat,
+                            controller.gare.value.location.long,
                           )),
                     },
                     onMapCreated: controller.onMapCreated,
@@ -130,7 +139,9 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                                   height: 5,
                                 ),
                                 InfosCar(infos: controller.gare.value.name),
-                                InfosCar(infos: controller.gare.value.type),
+                                InfosCar(
+                                    infos:
+                                        controller.gare.value.type.label),
                                 InfosCar(infos: controller.gare.value.commune),
                               ],
                             ),
@@ -148,7 +159,7 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                           child: CustomButtonWithoutIcon(
                           title: "Retour",
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Get.back();
                           },
                         )),
                       const SizedBox(

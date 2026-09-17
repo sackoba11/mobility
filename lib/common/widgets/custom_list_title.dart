@@ -6,23 +6,28 @@ import 'package:mobility/views/bus/controllers/home_bus_controller.dart';
 import '../../utils/constants/app colors/app_colors.dart';
 import '../../utils/constants/typography/typography.dart';
 
+/// Item bus. Navigue via route nommée APRÈS avoir positionné l'état
+/// (currentBus + routes) pour éviter l'écran vide / race.
 class CustomListTitle extends StatelessWidget {
   final BusFromDb bus;
-  final dynamic path;
+  final String routeName;
   const CustomListTitle({
     super.key,
     required this.bus,
-    required this.path,
+    required this.routeName,
   });
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.find<BusController>();
     return GestureDetector(
       onTap: () async {
-        Get.to(path);
+        final controller = Get.find<BusController>();
         controller.currentBus.value = bus;
+        Get.toNamed(routeName);
+        // Chargement async après navigation pour une UI réactive ;
+        // DetailsHomeBusScreen gère routes.isEmpty avec un fallback.
         controller.routes = await controller.getRoutes(bus.roadMap);
+        controller.update();
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),

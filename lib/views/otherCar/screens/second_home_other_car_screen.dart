@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobility/models/gare/gare.dart';
 
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../common/widgets/item_gare.dart';
@@ -12,7 +11,6 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
   const SecondHomeOtherCarScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(OtherCarController());
     return Scaffold(
         backgroundColor: AppColor.background,
         body: Stack(children: [
@@ -27,8 +25,10 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
                     zoomGesturesEnabled: true,
                     initialCameraPosition: CameraPosition(
                         target: LatLng(
-                            double.parse(controller.userLatitude.value),
-                            double.parse(controller.userLongitude.value)),
+                            double.tryParse(controller.userLatitude.value) ??
+                                5.3502292,
+                            double.tryParse(controller.userLongitude.value) ??
+                                -3.9881887),
                         zoom: 15),
                     markers: {
                       Marker(
@@ -37,8 +37,10 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
                         icon: BitmapDescriptor.defaultMarkerWithHue(
                             BitmapDescriptor.hueAzure),
                         position: LatLng(
-                            double.parse(controller.userLatitude.value),
-                            double.parse(controller.userLongitude.value)),
+                            double.tryParse(controller.userLatitude.value) ??
+                                5.3502292,
+                            double.tryParse(controller.userLongitude.value) ??
+                                -3.9881887),
                       ),
                     },
                     onMapCreated: controller.onMapCreated,
@@ -86,13 +88,13 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
           Column(
             children: [
               ItemGare(
-                gare: Gare.fromJson(controller.itinerary.value.source),
+                gare: controller.itinerary.value.source,
               ),
               const SizedBox(
                 height: 5,
               ),
               ItemGare(
-                gare: Gare.fromJson(controller.itinerary.value.destination),
+                gare: controller.itinerary.value.destination,
               ),
             ],
           )

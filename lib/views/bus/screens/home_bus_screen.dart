@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../common/widgets/custom_list_title.dart';
 import '../../../common/widgets/custom_search_bar.dart';
 import '../controllers/home_bus_controller.dart';
-import 'second_home_bus_screen.dart';
 
 class HomeBusScreen extends GetView<BusController> {
   const HomeBusScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BusController());
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -20,7 +19,7 @@ class HomeBusScreen extends GetView<BusController> {
         elevation: 0,
         leading: IconButton(
             iconSize: 26,
-            icon: Icon(Icons.arrow_back_sharp),
+            icon: const Icon(Icons.arrow_back_sharp),
             color: AppColor.white,
             onPressed: () => Get.back()),
         actions: [
@@ -47,10 +46,10 @@ class HomeBusScreen extends GetView<BusController> {
               )),
           DraggableScrollableSheet(
             initialChildSize: 0.8,
-            builder: (context, controller) {
+            builder: (context, scrollController) {
               return Container(
                 color: AppColor.background,
-                child: BodyScreen(),
+                child: const BodyScreen(),
               );
             },
           )
@@ -60,14 +59,13 @@ class HomeBusScreen extends GetView<BusController> {
   }
 }
 
-class BodyScreen extends StatelessWidget {
+class BodyScreen extends GetView<BusController> {
   const BodyScreen({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(BusController());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -86,25 +84,26 @@ class BodyScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          GetBuilder<BusController>(
-            init: BusController(),
-            builder: (busController) {
-              return CustomSearchBar(
-                  hintText: "Bus Numéro ...",
-                  textEditingController: busController.textEditingController,
-                  onChanged: (value) async {
-                    if (busController.textEditingController.text.isNotEmpty) {
-                      await busController.getBusByNumber(int.tryParse(
-                          busController.textEditingController.text)!);
-                      busController.availableActiveBusList =
-                          busController.searchActiveBus;
-                    } else {
-                      await busController.getAllBus();
-                      // busController.availableActiveBusList = busController.activeBusList;
-                    }
-                  });
-            },
-          ),
+          CustomSearchBar(
+              hintText: "Bus Numéro ...",
+              textEditingController: controller.textEditingController,
+              onChanged: (value) async {
+                final text = controller.textEditingController.text.trim();
+                if (text.isNotEmpty) {
+                  final parsed = int.tryParse(text);
+                  if (parsed == null) {
+                    controller.searchActiveBus = [];
+                    controller.availableActiveBusList = [];
+                    controller.update();
+                    return;
+                  }
+                  await controller.getBusByNumber(parsed);
+                  controller.availableActiveBusList =
+                      controller.searchActiveBus;
+                } else {
+                  await controller.getAllBus();
+                }
+              }),
           const SizedBox(height: 15),
           Obx(() {
             if (controller.isLoading.value == true) {
@@ -120,35 +119,18 @@ class BodyScreen extends StatelessWidget {
               );
             }
             return Expanded(
-              child: GetBuilder<BusController>(
-                init: BusController(),
-                builder: (busController) {
-                  if (busController.availableActiveBusList.isEmpty) {
-                    return const Center(
-                      child: Text("Aucun Bus trouvé"),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: ((context, snapshot) {
-                      return Column(
-                          children: busController.availableActiveBusList
-                              .map(
-                                (e) => Column(
-                                  children: [
-                                    CustomListTitle(
-                                        bus: e,
-                                        path: const SecondHomeBusScreen()),
-                                    const SizedBox(
-                                      height: 5,
-                                    )
-                                  ],
-                                ),
-                              )
-                              .toList());
-                    }),
+              child: ListView.builder(
+                itemCount: controller.availableActiveBusList.length,
+                itemBuilder: ((context, index) {
+                  final e = controller.availableActiveBusList[index];
+                  return Column(
+                    children: [
+                      CustomListTitle(
+                          bus: e, routeName: Paths.secondHomeBus),
+                      const SizedBox(height: 5),
+                    ],
                   );
-                },
+                }),
               ),
             );
           }),

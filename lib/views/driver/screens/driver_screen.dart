@@ -53,7 +53,18 @@ class DriverScreen extends GetView<DriverController> {
       return false;
     }
 
-    Get.put(DriverController());
+    if (!Get.isRegistered<DriverController>()) {
+      Get.put(DriverController());
+    }
+    final args = Get.arguments;
+    final Bus? busFromArgs = args is Bus ? args : null;
+    final bus = busSelected ?? busFromArgs;
+    if (bus == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text("Chauffeur")),
+        body: const Center(child: Text("Aucun bus sélectionné.")),
+      );
+    }
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) =>
@@ -73,8 +84,10 @@ class DriverScreen extends GetView<DriverController> {
                       zoomGesturesEnabled: true,
                       initialCameraPosition: CameraPosition(
                           target: LatLng(
-                            double.parse(controller.userLatitude.value),
-                            double.parse(controller.userLongitude.value),
+                            double.tryParse(controller.userLatitude.value) ??
+                                5.3502292,
+                            double.tryParse(controller.userLongitude.value) ??
+                                -3.9881887,
                           ),
                           zoom: 15),
                       markers: {
@@ -83,8 +96,10 @@ class DriverScreen extends GetView<DriverController> {
                           icon: BitmapDescriptor.defaultMarkerWithHue(
                               BitmapDescriptor.hueAzure),
                           position: LatLng(
-                              double.parse(controller.userLatitude.value),
-                              double.parse(controller.userLongitude.value)),
+                              double.tryParse(controller.userLatitude.value) ??
+                                  5.3502292,
+                              double.tryParse(controller.userLongitude.value) ??
+                                  -3.9881887),
                         ),
                       },
                     ))),
@@ -95,10 +110,10 @@ class DriverScreen extends GetView<DriverController> {
               builder: (context, controller) {
                 return Container(
                   color: AppColor.background,
-                  child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      controller: controller,
-                      child: _buildColumn(context)),
+                      child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          controller: controller,
+                          child: _buildColumn(context, bus)),
                 );
               },
             )
@@ -106,7 +121,7 @@ class DriverScreen extends GetView<DriverController> {
     );
   }
 
-  Widget _buildColumn(BuildContext context) {
+  Widget _buildColumn(BuildContext context, Bus bus) {
     return Column(
       children: [
         Container(
@@ -152,7 +167,7 @@ class DriverScreen extends GetView<DriverController> {
                                       height: 35,
                                       width: 30),
                                   Text(
-                                    "${busSelected!.number}",
+                                    "${bus.number}",
                                     style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
@@ -168,8 +183,8 @@ class DriverScreen extends GetView<DriverController> {
                                 children: [
                                   Column(
                                     children: [
-                                      InfosCar(infos: busSelected!.source),
-                                      InfosCar(infos: busSelected!.destination),
+                                      InfosCar(infos: bus.source),
+                                      InfosCar(infos: bus.destination),
                                     ],
                                   ),
                                   Obx(() => Text(
@@ -208,27 +223,33 @@ class DriverScreen extends GetView<DriverController> {
                                   controller.isActive.value = true;
                                   controller.idBusController.value =
                                       await controller.activeBusService(
-                                          busSelected!,
+                                          bus,
                                           controller.positionBus.value);
 
-                                  Timer.periodic(const Duration(seconds: 15),
+                                  controller.serviceTimer?.cancel();
+                                  controller.serviceTimer = Timer.periodic(
+                                      const Duration(seconds: 15),
                                       (timer) async {
                                     if (controller.isActive.value) {
+                                      final lat = double.tryParse(controller
+                                          .userLatitude.value);
+                                      final lng = double.tryParse(controller
+                                          .userLongitude.value);
+                                      if (lat == null || lng == null) return;
                                       controller.updateBusService(
-                                          busSelected!.number,
+                                          bus.number,
                                           controller.idBusController.value,
-                                          double.parse(
-                                              controller.userLatitude.value),
-                                          double.parse(
-                                              controller.userLongitude.value));
+                                          lat,
+                                          lng);
                                     } else {
                                       timer.cancel();
                                     }
                                   });
                                 } else {
                                   controller.isActive.value = false;
+                                  controller.serviceTimer?.cancel();
                                   await controller.deactiveBusService(
-                                      busSelected!.number,
+                                      bus.number,
                                       controller.idBusController.value);
                                 }
                               },

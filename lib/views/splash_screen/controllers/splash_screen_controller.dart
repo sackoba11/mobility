@@ -22,23 +22,31 @@ class SplashScreenController extends GetxController
     redirection();
   }
 
-  redirection() async {
+  Future<void> redirection() async {
     // Check if the user is logged in
-    if (currentUser != null) {
-      String uid = currentUser!.uid;
-      MyUser user =
-          (await iAuthRepository.getUser(uid)).fold((l) => null, (r) => r)!;
-      if (user.isDriver) {
-        Get.offAllNamed(Paths.homeDriver);
+    try {
+      if (currentUser != null) {
+        String uid = currentUser!.uid;
+        final result = await iAuthRepository.getUser(uid);
+        final MyUser? user = result.fold((l) => null, (r) => r);
+        if (user == null) {
+          Get.offAllNamed(Paths.services);
+          return;
+        }
+        if (user.isDriver) {
+          Get.offAllNamed(Paths.homeDriver);
+        } else {
+          Get.offAllNamed(Paths.homeUser);
+        }
       } else {
-        Get.offAllNamed(Paths.homeUser);
+        Get.offAllNamed(Paths.services);
       }
-    } else {
+    } catch (_) {
       Get.offAllNamed(Paths.services);
     }
   }
 
-  animationInitilization() async {
+  Future<void> animationInitilization() async {
     animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
     animation =

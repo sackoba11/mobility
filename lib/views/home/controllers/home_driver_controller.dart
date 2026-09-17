@@ -24,7 +24,13 @@ class HomeDriverController extends GetxController {
     super.onInit();
     currentUser = FirebaseAuth.instance.currentUser;
     await getBus();
-    isLoading = RxBool(false);
+    isLoading.value = false;
+  }
+
+  @override
+  void onClose() {
+    textEditingController.dispose();
+    super.onClose();
   }
 
   // @override
@@ -46,7 +52,7 @@ class HomeDriverController extends GetxController {
     update();
   }
 
-  Future<void> getBusByNumber(RxInt busNumber) async {
+  Future<void> getBusByNumber(int busNumber) async {
     searchBus = busList
         .where((bus) => bus.number.toString().contains(busNumber.toString()))
         .toList();

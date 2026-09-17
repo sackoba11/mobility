@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobility/models/transport_type.dart';
 import 'package:mobility/views/otherCar/controllers/other_car_controller.dart';
 
+import '../../routes/app_pages.dart';
 import '../../utils/constants/app colors/app_colors.dart';
 import '../../utils/constants/typography/typography.dart';
 import '../../models/gare/gare.dart';
-import '../../views/otherCar/screens/details_home_other_car_screen.dart';
 
 class ItemGare extends GetView<OtherCarController> {
   final Gare gare;
@@ -17,13 +18,13 @@ class ItemGare extends GetView<OtherCarController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(OtherCarController());
     return GestureDetector(
       onTap: () async {
         controller.gare.value = gare;
+        Get.toNamed(Paths.detailOtherCar);
         controller.routes.value =
-            await controller.getRoutes(controller.gare.value.location);
-        Get.to(const DetailsHomeOtherCarScreen());
+            await controller.getRoutes(gare.location);
+        controller.update();
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -46,7 +47,7 @@ class ItemGare extends GetView<OtherCarController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTypography.lightSmall(text: gare.type),
+                AppTypography.lightSmall(text: gare.type.label),
                 AppTypography.lightSmall(text: gare.commune),
               ],
             )

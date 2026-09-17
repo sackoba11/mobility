@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/utils/error/app_error.dart';
-import 'package:mobility/data/mockData/mock_data.dart';
 import 'package:mobility/models/gare/gare.dart';
 import 'package:mobility/models/itineraire_gare/itineraire_gare.dart';
 
@@ -27,39 +26,6 @@ class OtherCarRepositoryImpl implements IOtherCarRepository {
       return right(buslistFirebase);
     } catch (e) {
       return left(GenericAppError("erreur: ${e.toString()}"));
-    }
-  }
-
-  @override
-  Future<Either<AppError, bool>> addAllGares() async {
-    List<Gare> garesGbaka = MockData.garesGbaka + MockData.garesTaxi;
-    // List<Gare> garestaxi = MockData.garesTaxi;
-    // List<ItineraireGare> itineraireGbaka = MockData.itineraireGbaka;
-    // List<ItineraireGare> itineraireTaxi = MockData.itineraireTaxi;
-    try {
-      for (var element in garesGbaka) {
-        await FirebaseFirestore.instance
-            .collection("Gares")
-            .add(element.toJson());
-      }
-      // for (var element in garestaxi) {
-      //   await FirebaseFirestore.instance
-      //       .collection("GaresTaxi")
-      //       .add(element.toJson());
-      // }
-      // for (var element in itineraireGbaka) {
-      //   await FirebaseFirestore.instance
-      //       .collection("ItinerairesGbaka")
-      //       .add(element.toJson());
-      // }
-      // for (var element in itineraireTaxi) {
-      //   await FirebaseFirestore.instance
-      //       .collection("ItinerairesTaxi")
-      //       .add(element.toJson());
-      // }
-      return right(true);
-    } catch (e) {
-      return left(GenericAppError("erreur : ${e.toString()}"));
     }
   }
 

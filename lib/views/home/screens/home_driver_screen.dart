@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/help_functions/help_functions.dart';
+import '../../../routes/app_pages.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/constants/typography/typography.dart';
 import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
-import '../../driver/screens/driver_screen.dart';
-import '../../services/screens/services_screen.dart';
 import '../../../common/widgets/custom_search_bar.dart';
 import '../controllers/home_driver_controller.dart';
 
@@ -13,7 +12,9 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
   const HomeDriverScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeDriverController());
+    if (!Get.isRegistered<HomeDriverController>()) {
+      Get.put(HomeDriverController());
+    }
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) =>
@@ -54,7 +55,7 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
         onPressed: () async {
           await AuthRepositoryImpl()
               .signOut()
-              .whenComplete(() => Get.offAll(const ServiceScreen()));
+              .whenComplete(() => Get.offAllNamed(Paths.services));
         },
         icon: Icon(
           Icons.logout,
@@ -64,16 +65,21 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
   }
 
   Container _customAvatar(BuildContext context) {
+    final photoUrl = controller.currentUser?.photoURL;
+    String initial = "?";
+    final email = controller.currentUser?.email?.trim();
+    if (email != null && email.isNotEmpty) {
+      initial = email[0].toUpperCase();
+    }
     return Container(
         margin: const EdgeInsets.only(left: 8),
-        child: controller.currentUser?.photoURL != null
+        child: photoUrl != null && photoUrl.isNotEmpty
             ? CircleAvatar(
-                backgroundImage:
-                    NetworkImage(controller.currentUser!.photoURL!),
+                backgroundImage: NetworkImage(photoUrl),
               )
             : CircleAvatar(
                 child: Text(
-                  controller.currentUser!.email![0].toString().toUpperCase(),
+                  initial,
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white, fontSize: 25),
                 ),
@@ -98,23 +104,27 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
           ),
           const SizedBox(height: 20),
           GetBuilder<HomeDriverController>(
-            init: HomeDriverController(),
             builder: (homeDriverController) {
               return CustomSearchBar(
                   hintText: "Numéro Bus",
                   textEditingController:
                       homeDriverController.textEditingController,
                   onChanged: (value) {
-                    if (homeDriverController
-                        .textEditingController.text.isNotEmpty) {
-                      homeDriverController.number = RxInt(int.tryParse(
-                          homeDriverController.textEditingController.text)!);
-                      if (homeDriverController.number != null) {
-                        homeDriverController
-                            .getBusByNumber(homeDriverController.number!);
-                        homeDriverController.availableBusList =
-                            homeDriverController.searchBus;
+                    final text =
+                        homeDriverController.textEditingController.text.trim();
+                    if (text.isNotEmpty) {
+                      final parsed = int.tryParse(text);
+                      if (parsed == null) {
+                        // Recherche textuelle tolérante : aucun numéro valide
+                        homeDriverController.searchBus = [];
+                        homeDriverController.availableBusList = [];
+                        homeDriverController.update();
+                        return;
                       }
+                      homeDriverController.number = RxInt(parsed);
+                      homeDriverController.getBusByNumber(parsed);
+                      homeDriverController.availableBusList =
+                          homeDriverController.searchBus;
                     } else {
                       homeDriverController.getBus();
                       homeDriverController.availableBusList =
@@ -139,28 +149,25 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
             }
             return Expanded(
               child: GetBuilder<HomeDriverController>(
-                init: HomeDriverController(),
                 builder: (homeDriverController) {
                   if (homeDriverController.availableBusList.isEmpty) {
                     return Center(
                       child: Text(
-                          "Aucun Bus de numéro ${homeDriverController.number}  disponibles"),
+                          "Aucun Bus de numéro ${homeDriverController.textEditingController.text} disponibles"),
                     );
                   }
                   return ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: ((context, snapshot) {
+                    itemCount:
+                        homeDriverController.availableBusList.length,
+                    itemBuilder: ((context, index) {
+                      final e =
+                          homeDriverController.availableBusList[index];
                       return Column(
-                          children: homeDriverController.availableBusList
-                              .map(
-                                (e) => Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(() => DriverScreen(
-                                              busSelected: e,
-                                            ));
-                                      },
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Paths.driver, arguments: e);
+                            },
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10),
@@ -208,15 +215,11 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 5,
-                                    )
-                                  ],
-                                ),
-                              )
-                              .toList());
-                    }),
-                  );
+                                    const SizedBox(height: 5),
+                          ],
+                        );
+                      }),
+                    );
                 },
               ),
             );

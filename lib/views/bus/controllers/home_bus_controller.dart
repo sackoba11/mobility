@@ -46,8 +46,6 @@ class BusController extends GetxController {
     mapController = controller;
   }
 
-  // String apikey = "AIzaSyDSBWmU7p_y7wPfvZI98S6hypnDXT5aF34";
-
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
   Rx<LatLng> busPosition = const LatLng(5.3502292, -3.9881887).obs;
 
@@ -66,18 +64,46 @@ class BusController extends GetxController {
     getLocation();
   }
 
+  @override
+  void onClose() {
+    try {
+      streamSubscription.cancel();
+    } catch (_) {}
+    textEditingController.dispose();
+    mapController?.dispose();
+    super.onClose();
+  }
+
 // home Bus
+  final RxString errorMessage = "".obs;
+
   Future<void> getAllBus() async {
     isLoading(true);
-    activeBusList =
-        (await busRepository.getActiveBus()).fold((l) => [], (r) => r);
+    errorMessage.value = "";
+    final activeResult = await busRepository.getActiveBus();
+    final allResult = await busRepository.getAllBus();
 
-    listAllBus = (await busRepository.getAllBus()).fold((l) => [], (r) => r);
+    activeResult.fold(
+      (l) => errorMessage.value = l.userMessage,
+      (r) => activeBusList = r,
+    );
+    allResult.fold(
+      (l) => errorMessage.value = l.userMessage,
+      (r) => listAllBus = r,
+    );
 
     availableActiveBusList = activeBusList + listAllBus;
 
     isLoading(false);
     update();
+    if (errorMessage.value.isNotEmpty) {
+      HelpFunctions.customSnackbar(
+        title: 'Erreur',
+        message: errorMessage.value,
+        colorText: Colors.red,
+        icon: Icons.error_outline,
+      );
+    }
   }
 
   Future<void> getBusByNumber(int busNumber) async {
@@ -114,29 +140,32 @@ class BusController extends GetxController {
 
     streamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
-      userLatitude = RxString("${position.latitude}");
-      userLongitude = RxString("${position.longitude}");
+      userLatitude.value = "${position.latitude}";
+      userLongitude.value = "${position.longitude}";
       // getAddressFromLatLang(position);
     });
   }
 
   Future<List<dynamic>> getRoutes(List<Stop> source) async {
-    Uri url = Uri.parse(
-      "https://api.mapbox.com/directions/v5/mapbox/driving/${(source.map(
-            (e) => "${e.long},${e.lat}",
-          ).join(";"))}?steps=true&geometries=geojson&access_token=${AppString.pkkeyMapBox}",
-    );
-    final response = await get(url);
-    final result = jsonDecode(response.body);
-    final routes = DataModel.fromJson(result);
-    final formattedCoordinates = routes.routes
-            ?.expand((route) => route.geometry?.coordinates ?? [])
-            .toList() ??
-        [];
+    try {
+      if (source.isEmpty || !AppString.hasMapboxToken) return [];
+      Uri url = Uri.parse(
+        "https://api.mapbox.com/directions/v5/mapbox/driving/${(source.map(
+              (e) => "${e.long},${e.lat}",
+            ).join(";"))}?steps=true&geometries=geojson&access_token=${AppString.pkkeyMapBox}",
+      );
+      final response = await get(url);
+      if (response.statusCode != 200) return [];
+      final result = jsonDecode(response.body);
+      final routes = DataModel.fromJson(result);
+      final formattedCoordinates = routes.routes
+              ?.expand((route) => route.geometry?.coordinates ?? [])
+              .toList() ??
+          [];
 
-    return formattedCoordinates;
+      return formattedCoordinates;
+    } catch (_) {
+      return [];
+    }
   }
-
-  // https://api.mapbox.com/geocoding/v5/mapbox.places/universit.json?country=ci&proximity=-73.990593%2C40.740121&language=fr&access_token=pk.eyJ1Ijoic2Fja29iYSIsImEiOiJjbG1jcGFycnkwZ2gzM2psa2RqYW54OTAxIn0.7A-Ln_rc9SjCsWKN20e9yQ
-  // https://api.mapbox.com/search/searchbox/v1/suggest?q=abidjan&language=fr&session_token=08b5f1a3-88f2-4291-88d7-f4e6a7c0f305&access_token=pk.eyJ1Ijoic2Fja29iYSIsImEiOiJjbHJjN2diZWgwc3lvMmlwaml6dnlhYjR6In0.r0ExoT7nKCOuFhCAIFEaPQ
 }

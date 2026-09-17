@@ -47,6 +47,18 @@ class DriverController extends GetxController {
     await getLocation();
   }
 
+  @override
+  void onClose() {
+    try {
+      streamSubscription.cancel();
+    } catch (_) {}
+    mapController?.dispose();
+    serviceTimer?.cancel();
+    super.onClose();
+  }
+
+  Timer? serviceTimer;
+
   
 
   Future<void> getLocation() async {
@@ -83,10 +95,11 @@ class DriverController extends GetxController {
 
   Future<String> activeBusService(Bus bus, Position positionBus) async {
     try {
-      var result = (await iDriverRepository.activateBusService(
+      final result = (await iDriverRepository.activateBusService(
               bus: bus, position: positionBus))
           .fold((l) => null, (r) => r);
-      return result!;
+      if (result == null || result.isEmpty) return "Echec";
+      return result;
     } catch (e) {
       return "Echec";
     }
