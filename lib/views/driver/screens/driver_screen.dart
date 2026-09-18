@@ -6,53 +6,19 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
-import '../../../common/widgets/custom_button_without_icon.dart';
-import '../../../utils/constants/app colors/app_colors.dart';
+import '../../../common/widgets/app_button.dart';
+import '../../../common/widgets/map_sheet.dart';
+import '../../../common/widgets/transport_cards.dart';
 import '../../../models/bus/bus_from_firestore/bus.dart';
-import '../../../common/widgets/illustrator.dart';
-import '../../../common/widgets/infos_car.dart';
 import '../controllers/driver_controller.dart';
 
+/// Mise en service d'un bus (Phase 4) : activation + diffusion position.
 class DriverScreen extends GetView<DriverController> {
   final Bus? busSelected;
   const DriverScreen({super.key, this.busSelected});
+
   @override
   Widget build(BuildContext context) {
-    Future<bool> onWillPop(context) async {
-      bool value = false;
-      await showDialog(
-          context: context,
-          builder: (BuildContext ctx) {
-            return AlertDialog(
-              content: const Text(
-                " Veuillez arrêter le service avant de revenir à la page précédente !",
-                textAlign: TextAlign.center,
-              ),
-              actions: <Widget>[
-                Center(
-                  child: TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: const Text(
-                        "OK",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold),
-                      )),
-                )
-              ],
-            );
-          });
-      return value;
-    }
-
-    Future<bool> back() async {
-      Get.back();
-      return false;
-    }
-
     if (!Get.isRegistered<DriverController>()) {
       Get.put(DriverController());
     }
@@ -68,199 +34,169 @@ class DriverScreen extends GetView<DriverController> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) =>
-          controller.isActive.value ? onWillPop(context) : back(),
+          _onWillPop(context, controller.isActive.value),
       child: Scaffold(
-          backgroundColor: AppColor.background,
-          body: Stack(children: [
-            Container(
-                color: AppColor.background,
-                child: Obx(() => GoogleMap(
-                      onMapCreated: controller.onMapCreated,
-                      myLocationButtonEnabled: true,
-                      myLocationEnabled: true,
-                      tiltGesturesEnabled: true,
-                      compassEnabled: false,
-                      scrollGesturesEnabled: true,
-                      zoomGesturesEnabled: true,
-                      initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            double.tryParse(controller.userLatitude.value) ??
-                                5.3502292,
-                            double.tryParse(controller.userLongitude.value) ??
-                                -3.9881887,
-                          ),
-                          zoom: 15),
-                      markers: {
-                        Marker(
-                          markerId: const MarkerId("UserPosition"),
-                          icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueAzure),
-                          position: LatLng(
-                              double.tryParse(controller.userLatitude.value) ??
-                                  5.3502292,
-                              double.tryParse(controller.userLongitude.value) ??
-                                  -3.9881887),
-                        ),
-                      },
-                    ))),
-            DraggableScrollableSheet(
-              minChildSize: .3,
-              maxChildSize: .6,
-              initialChildSize: .45,
-              builder: (context, controller) {
-                return Container(
-                  color: AppColor.background,
-                      child: SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          controller: controller,
-                          child: _buildColumn(context, bus)),
-                );
-              },
-            )
-          ])),
+        body: Stack(
+          children: [
+            Obx(() => GoogleMap(
+                  onMapCreated: controller.onMapCreated,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  tiltGesturesEnabled: true,
+                  compassEnabled: false,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        double.tryParse(
+                                controller.userLatitude.value) ??
+                            5.3502292,
+                        double.tryParse(
+                                controller.userLongitude.value) ??
+                            -3.9881887,
+                      ),
+                      zoom: 15),
+                  markers: {
+                    Marker(
+                      markerId: const MarkerId("UserPosition"),
+                      icon: BitmapDescriptor.defaultMarkerWithHue(
+                          BitmapDescriptor.hueAzure),
+                      position: LatLng(
+                          double.tryParse(
+                                  controller.userLatitude.value) ??
+                              5.3502292,
+                          double.tryParse(
+                                  controller.userLongitude.value) ??
+                              -3.9881887),
+                    ),
+                  },
+                )),
+            MapSheet(
+              initialSize: 0.42,
+              minSize: 0.3,
+              child: _ServicePanel(bus: bus),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildColumn(BuildContext context, Bus bus) {
-    return Column(
-      children: [
-        Container(
-          height: 350,
-          decoration: BoxDecoration(
-              color: AppColor.background,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(17), topRight: Radius.circular(17))),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Container(
-                    height: 5,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[400],
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColor.primary),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Illustrator(
-                                      illustrator: Assets.vector3.image(),
-                                      height: 35,
-                                      width: 30),
-                                  Text(
-                                    "${bus.number}",
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      InfosCar(infos: bus.source),
-                                      InfosCar(infos: bus.destination),
-                                    ],
-                                  ),
-                                  Obx(() => Text(
-                                        controller.isActive.value
-                                            ? "En ligne"
-                                            : "Pas en service",
-                                        style: controller.isActive.value
-                                            ? const TextStyle(
-                                                color: Colors.green,
-                                                fontWeight: FontWeight.bold)
-                                            : const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.red),
-                                      )),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Obx(() => CustomButtonWithoutIcon(
-                              title: controller.isActive.value
-                                  ? "Arrêter le service"
-                                  : "Mettre en Service",
-                              onPressed: () async {
-                                if (controller.isActive.value == false) {
-                                  controller.isActive.value = true;
-                                  controller.idBusController.value =
-                                      await controller.activeBusService(
-                                          bus,
-                                          controller.positionBus.value);
+  Future<void> _onWillPop(BuildContext context, bool isActive) async {
+    if (!isActive) {
+      Get.back();
+      return;
+    }
+    await Get.defaultDialog(
+      title: "Service en cours",
+      middleText:
+          "Veuillez arrêter le service avant de revenir en arrière.",
+      textConfirm: "Compris",
+      confirmTextColor: Colors.white,
+      buttonColor: Theme.of(context).colorScheme.primary,
+      onConfirm: () => Get.back(),
+    );
+  }
+}
 
-                                  controller.serviceTimer?.cancel();
-                                  controller.serviceTimer = Timer.periodic(
-                                      const Duration(seconds: 15),
-                                      (timer) async {
-                                    if (controller.isActive.value) {
-                                      final lat = double.tryParse(controller
-                                          .userLatitude.value);
-                                      final lng = double.tryParse(controller
-                                          .userLongitude.value);
-                                      if (lat == null || lng == null) return;
-                                      controller.updateBusService(
-                                          bus.number,
-                                          controller.idBusController.value,
-                                          lat,
-                                          lng);
-                                    } else {
-                                      timer.cancel();
-                                    }
-                                  });
-                                } else {
-                                  controller.isActive.value = false;
-                                  controller.serviceTimer?.cancel();
-                                  await controller.deactiveBusService(
-                                      bus.number,
-                                      controller.idBusController.value);
-                                }
-                              },
-                            )))
-                  ],
-                )
-              ],
+class _ServicePanel extends GetView<DriverController> {
+  final Bus bus;
+  const _ServicePanel({required this.bus});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: Assets.vector3.image(width: 56, height: 56),
             ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text("Bus ${bus.number}",
+                          style: theme.textTheme.titleLarge),
+                      const SizedBox(width: 8),
+                      Obx(() => controller.isActive.value
+                          ? StatusBadge.active(context,
+                              label: "En ligne")
+                          : StatusBadge.line(
+                              context, "Hors service")),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text("${bus.source} ↔ ${bus.destination}",
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                          color: scheme.onSurfaceVariant)),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: scheme.secondaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Text(
+            "Votre position est partagée avec les passagers toutes les 15 secondes pendant le service.",
+            style: theme.textTheme.bodySmall?.copyWith(
+                color: scheme.onSecondaryContainer),
           ),
         ),
+        const SizedBox(height: 16),
+        Obx(() => AppButton(
+              title: controller.isActive.value
+                  ? "Arrêter le service"
+                  : "Mettre en service",
+              variant: controller.isActive.value
+                  ? AppButtonVariant.danger
+                  : AppButtonVariant.primary,
+              onPressed: () => _toggleService(),
+            )),
       ],
     );
+  }
+
+  Future<void> _toggleService() async {
+    if (!controller.isActive.value) {
+      controller.isActive.value = true;
+      controller.idBusController.value =
+          await controller.activeBusService(
+              bus, controller.positionBus.value);
+
+      controller.serviceTimer?.cancel();
+      controller.serviceTimer =
+          Timer.periodic(const Duration(seconds: 15), (timer) async {
+        if (controller.isActive.value) {
+          final lat =
+              double.tryParse(controller.userLatitude.value);
+          final lng =
+              double.tryParse(controller.userLongitude.value);
+          if (lat == null || lng == null) return;
+          controller.updateBusService(bus.number,
+              controller.idBusController.value, lat, lng);
+        } else {
+          timer.cancel();
+        }
+      });
+    } else {
+      controller.isActive.value = false;
+      controller.serviceTimer?.cancel();
+      await controller.deactiveBusService(
+          bus.number, controller.idBusController.value);
+    }
   }
 }

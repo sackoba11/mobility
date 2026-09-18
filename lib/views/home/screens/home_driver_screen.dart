@@ -1,229 +1,233 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/help_functions/help_functions.dart';
-import '../../../routes/app_pages.dart';
-import '../../../utils/constants/app colors/app_colors.dart';
-import '../../../utils/constants/typography/typography.dart';
+import '../../../common/widgets/app_search_field.dart';
+import '../../../common/widgets/map_sheet.dart';
+import '../../../common/widgets/state_views.dart';
+import '../../../common/widgets/transport_cards.dart';
+import '../../../common/widgets/user_avatar.dart';
 import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
-import '../../../common/widgets/custom_search_bar.dart';
+import '../../../models/bus/bus_from_firestore/bus.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/home_driver_controller.dart';
 
+/// Accueil chauffeur (Phase 4) : choisir le bus à mettre en service.
 class HomeDriverScreen extends GetView<HomeDriverController> {
   const HomeDriverScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     if (!Get.isRegistered<HomeDriverController>()) {
       Get.put(HomeDriverController());
     }
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) =>
           HelpFunctions.onWillPop(context),
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppColor.primary,
-            elevation: 0,
-            leading: _customAvatar(context),
-            actions: [_logOut()],
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: _DriverAvatar(),
           ),
-          backgroundColor: AppColor.primary,
-          body: Stack(children: [
-            Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                child: Text(
-                  "Numero du bus à mettre en service.",
-                  style: TextStyle(fontSize: 30, color: AppColor.white),
-                )),
-            DraggableScrollableSheet(
-              minChildSize: .3,
-              maxChildSize: .7,
-              initialChildSize: .7,
-              builder: (context, controller) {
-                return Container(
-                  color: AppColor.background,
-                  child: _buildColumn(context),
-                );
+          title: const Text("Espace chauffeur"),
+          actions: [
+            IconButton(
+              tooltip: "Se déconnecter",
+              onPressed: () async {
+                await AuthRepositoryImpl()
+                    .signOut()
+                    .whenComplete(() => Get.offAllNamed(Paths.services));
               },
-            )
-          ])),
+              icon: const Icon(Icons.logout_outlined),
+            ),
+          ],
+        ),
+        body: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Text(
+                "Quel bus mettez-vous en service ?",
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            MapSheet(
+              initialSize: 0.68,
+              minSize: 0.5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppSearchField(
+                    controller: controller.textEditingController,
+                    hintText: "Numéro du bus (ex. 610)",
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      final text = value.trim();
+                      if (text.isNotEmpty) {
+                        final parsed = int.tryParse(text);
+                        if (parsed == null) {
+                          controller.searchBus = [];
+                          controller.availableBusList = [];
+                          controller.update();
+                          return;
+                        }
+                        controller.number = RxInt(parsed);
+                        controller.getBusByNumber(parsed);
+                        controller.availableBusList =
+                            controller.searchBus;
+                      } else {
+                        controller.getBus();
+                        controller.availableBusList =
+                            controller.busList;
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return const AppLoadingView(
+                          message: "Chargement des bus...");
+                    }
+                    if (controller.availableBusList.isEmpty) {
+                      final query = controller
+                          .textEditingController.text
+                          .trim();
+                      return AppEmptyView(
+                        icon: Icons.directions_bus_outlined,
+                        title: query.isEmpty
+                            ? "Pas de bus disponibles"
+                            : "Aucun bus n°$query",
+                        subtitle: query.isEmpty
+                            ? "Revenez plus tard."
+                            : "Vérifiez le numéro saisi.",
+                      );
+                    }
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          controller.availableBusList.length,
+                      separatorBuilder: (_, _) =>
+                          const SizedBox(height: 10),
+                      itemBuilder: (context, index) {
+                        final Bus e =
+                            controller.availableBusList[index];
+                        return _DriverBusCard(
+                          bus: e,
+                          onTap: () =>
+                              Get.toNamed(Paths.driver, arguments: e),
+                        );
+                      },
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: scheme.surface,
+      ),
     );
   }
+}
 
-  IconButton _logOut() {
-    return IconButton(
-        onPressed: () async {
-          await AuthRepositoryImpl()
-              .signOut()
-              .whenComplete(() => Get.offAllNamed(Paths.services));
-        },
-        icon: Icon(
-          Icons.logout,
-          color: AppColor.white,
-          size: 30,
-        ));
-  }
-
-  Container _customAvatar(BuildContext context) {
+class _DriverAvatar extends GetView<HomeDriverController> {
+  @override
+  Widget build(BuildContext context) {
     final photoUrl = controller.currentUser?.photoURL;
+    if (photoUrl != null && photoUrl.isNotEmpty) {
+      return UserAvatar(user: controller.currentUser, radius: 20);
+    }
     String initial = "?";
     final email = controller.currentUser?.email?.trim();
     if (email != null && email.isNotEmpty) {
       initial = email[0].toUpperCase();
     }
-    return Container(
-        margin: const EdgeInsets.only(left: 8),
-        child: photoUrl != null && photoUrl.isNotEmpty
-            ? CircleAvatar(
-                backgroundImage: NetworkImage(photoUrl),
-              )
-            : CircleAvatar(
-                child: Text(
-                  initial,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 25),
-                ),
-              ));
+    return CircleAvatar(
+      radius: 20,
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      child: Text(initial,
+          style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w700)),
+    );
   }
+}
 
-  Widget _buildColumn(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          const SizedBox(height: 10),
-          Container(
-            width: 40,
-            height: 5,
-            decoration: ShapeDecoration(
-              color: const Color(0xFFA7AEB1),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: Color(0xFFA7AEB1)),
-                borderRadius: BorderRadius.circular(7),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          GetBuilder<HomeDriverController>(
-            builder: (homeDriverController) {
-              return CustomSearchBar(
-                  hintText: "Numéro Bus",
-                  textEditingController:
-                      homeDriverController.textEditingController,
-                  onChanged: (value) {
-                    final text =
-                        homeDriverController.textEditingController.text.trim();
-                    if (text.isNotEmpty) {
-                      final parsed = int.tryParse(text);
-                      if (parsed == null) {
-                        // Recherche textuelle tolérante : aucun numéro valide
-                        homeDriverController.searchBus = [];
-                        homeDriverController.availableBusList = [];
-                        homeDriverController.update();
-                        return;
-                      }
-                      homeDriverController.number = RxInt(parsed);
-                      homeDriverController.getBusByNumber(parsed);
-                      homeDriverController.availableBusList =
-                          homeDriverController.searchBus;
-                    } else {
-                      homeDriverController.getBus();
-                      homeDriverController.availableBusList =
-                          homeDriverController.busList;
-                    }
-                  });
-            },
-          ),
-          const SizedBox(height: 15),
-          Obx(() {
-            if (controller.isLoading.value == true) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColor.primary,
+/// Carte bus version chauffeur (modèle Bus Firestore, pas BusFromDb).
+class _DriverBusCard extends StatelessWidget {
+  final Bus bus;
+  final VoidCallback onTap;
+
+  const _DriverBusCard({required this.bus, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  borderRadius: BorderRadius.circular(14),
                 ),
-              );
-            }
-            if (controller.availableBusList.isEmpty) {
-              return const Center(
-                child: Text("Pas de bus disponibles"),
-              );
-            }
-            return Expanded(
-              child: GetBuilder<HomeDriverController>(
-                builder: (homeDriverController) {
-                  if (homeDriverController.availableBusList.isEmpty) {
-                    return Center(
-                      child: Text(
-                          "Aucun Bus de numéro ${homeDriverController.textEditingController.text} disponibles"),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount:
-                        homeDriverController.availableBusList.length,
-                    itemBuilder: ((context, index) {
-                      final e =
-                          homeDriverController.availableBusList[index];
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Get.toNamed(Paths.driver, arguments: e);
-                            },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        decoration: BoxDecoration(
-                                            color: AppColor.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: AppColor.primary
-                                                  .withValues(alpha: .3),
-                                            )),
-                                        width: double.infinity,
-                                        height: 70,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                AppTypography.mediumDefault(
-                                                    text: e.number.toString()),
-                                                e.isActive == true
-                                                    ? const Text(
-                                                        "Actif",
-                                                        style: TextStyle(
-                                                            fontSize: 10,
-                                                            color:
-                                                                Colors.green),
-                                                      )
-                                                    : Container()
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            AppTypography.lightSmall(
-                                                text:
-                                                    "${e.source}  <->  ${e.destination}")
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                          ],
-                        );
-                      }),
-                    );
-                },
+                alignment: Alignment.center,
+                child: Text(
+                  bus.number.toString(),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800),
+                ),
               ),
-            );
-          }),
-        ]));
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(bus.source,
+                        style: theme.textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
+                    Text("↔ ${bus.destination}",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme
+                                .colorScheme.onSurfaceVariant),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (bus.isActive) StatusBadge.active(context),
+                  const SizedBox(height: 8),
+                  Icon(Icons.chevron_right,
+                      color: theme.colorScheme.onSurfaceVariant),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

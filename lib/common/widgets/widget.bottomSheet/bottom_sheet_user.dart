@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/constants/app colors/app_colors.dart';
-import '../../../utils/constants/typography/typography.dart';
 import '../../../views/services/controllers/services_controller.dart';
 import '../../assets/assets.gen.dart';
-import '../custom_button_without_icon.dart';
+import '../app_button.dart';
 
+/// Connexion passager via Google (Phase 4).
 class BottomSheetUser extends StatelessWidget {
   const BottomSheetUser({
     super.key,
@@ -14,32 +13,38 @@ class BottomSheetUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<bool> loading = ValueNotifier(false);
-    Get.put(ServicesController());
-    return SizedBox(
-        height: 140,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              AppTypography.regularSmall(
-                  text: "Connectez-vous avec votre compte Google",
-                  color: AppColor.primary),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomButtonWithoutIcon(
-                title: "Se Connecter avec google",
-                icon: Assets.googoleIcon.svg(),
-                loading: loading,
-                onPressed: () async {
-                  await Get.find<ServicesController>()
-                      .loginWithGoogle(loading: loading);
-                },
-              )
-            ],
+    final theme = Theme.of(context);
+    final loading = ValueNotifier(false);
+    if (!Get.isRegistered<ServicesController>()) {
+      Get.put(ServicesController());
+    }
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text("Bienvenue 👋",
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center),
+          const SizedBox(height: 8),
+          Text(
+            "Connectez-vous avec votre compte Google pour continuer.",
+            style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant),
+            textAlign: TextAlign.center,
           ),
-        ));
+          const SizedBox(height: 24),
+          AppButton(
+            title: "Se connecter avec Google",
+            icon: Assets.googoleIcon.svg(width: 24, height: 24),
+            loading: loading,
+            onPressed: () async {
+              await Get.find<ServicesController>()
+                  .loginWithGoogle(loading: loading);
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

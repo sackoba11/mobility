@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -54,10 +51,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAvuZ47B67_Es0vDaakG_tooRyi2cFaU38',
-    appId: '1:714842411456:android:95c9a6dfc770968345f825',
+    appId: '1:714842411456:android:ad14abc9158581b845f825',
     messagingSenderId: '714842411456',
     projectId: 'mobilityplus-74105',
     databaseURL: 'https://mobilityplus-74105-default-rtdb.firebaseio.com',
-    storageBucket: 'mobilityplus-74105.appspot.com',
+    storageBucket: 'mobilityplus-74105.firebasestorage.app',
+  );
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDI5fO6bUpaNX7grZox6SBAuLFhhhycB_k',
+    appId: '1:714842411456:ios:c5c7dd1d1b82a69d45f825',
+    messagingSenderId: '714842411456',
+    projectId: 'mobilityplus-74105',
+    databaseURL: 'https://mobilityplus-74105-default-rtdb.firebaseio.com',
+    storageBucket: 'mobilityplus-74105.firebasestorage.app',
+    androidClientId: '714842411456-0acfb6mokjsb9qhiqgsilfk199qljtf4.apps.googleusercontent.com',
+    iosClientId: '714842411456-b85sor9j93t5s4k5l5gbpm2i2rnpgsuu.apps.googleusercontent.com',
+    iosBundleId: 'com.example.mobility',
   );
 }

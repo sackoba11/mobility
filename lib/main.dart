@@ -5,8 +5,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mobility/views/unknown_page/unknown_page.dart';
+import 'package:mobility/common/theme/app_theme.dart';
 import 'package:mobility/firebase_options.dart';
+import 'package:mobility/views/unknown_page/unknown_page.dart';
+
 import 'routes/app_pages.dart';
 
 Future<void> main() async {
@@ -15,13 +17,12 @@ Future<void> main() async {
   await GetStorage.init();
   try {
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true,
     );
   } catch (e) {
-    // Desktop (Windows/Linux) non configuré via FlutterFire : l'app démarre
-    // quand même pour le dev UI. TODO: lancer `flutterfire configure`.
     debugPrint("Firebase init skipped: $e");
   }
   final serverClientId = dotenv.maybeGet('GOOGLE_SERVER_CLIENT_ID');
@@ -38,6 +39,9 @@ Future<void> main() async {
       ),
       debugShowCheckedModeBanner: false,
       title: "Mobility",
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
     ),

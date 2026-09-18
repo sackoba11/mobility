@@ -22,10 +22,11 @@ class HelpFunctions {
       if (_connectionStatus.contains(ConnectivityResult.none)) {
         // No available network types
         HelpFunctions.customSnackbar(
-            title: 'Aucun accès à internet',
-            message: 'Veuillez vous connecter à internet',
-            colorText: AppColor.error,
-            icon: Icons.wifi_tethering_error);
+          title: 'Aucun accès à internet',
+          message: 'Veuillez vous connecter à internet',
+          colorText: AppColor.error,
+          icon: Icons.wifi_tethering_error,
+        );
         return false;
       } else {
         return true;
@@ -36,95 +37,98 @@ class HelpFunctions {
     }
   }
 
-  static Future customModalSheet(
-      {required BuildContext context, required Widget child}) {
+  static Future customModalSheet({
+    required BuildContext context,
+    required Widget child,
+  }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
       builder: (BuildContext context) {
         return LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constaints) {
-          return DodgeKeyboard(
-            child: child,
-          );
-        });
+          builder: (BuildContext context, BoxConstraints constaints) {
+            return DodgeKeyboard(child: child);
+          },
+        );
       },
     );
   }
 
-  static SnackbarController customSnackbar(
-      {required String title,
-      required String message,
-      required Color colorText,
-      required IconData icon}) {
-    return Get.snackbar(title, '',
-        backgroundColor: AppColor.white,
-        colorText: colorText,
-        messageText: Text(
-          message,
-        ),
-        icon: Icon(
-          icon,
-          color: colorText,
-        ),
-        duration: Duration(seconds: 1),
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20));
+  static SnackbarController customSnackbar({
+    required String title,
+    required String message,
+    required Color colorText,
+    required IconData icon,
+  }) {
+    return Get.snackbar(
+      title,
+      '',
+      backgroundColor: AppColor.white,
+      colorText: colorText,
+      messageText: Text(message),
+      icon: Icon(icon, color: colorText),
+      duration: Duration(seconds: 1),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    );
   }
 
-  static Future<void> onWillPop(context) async {
+  static Future<void> onWillPop(BuildContext context) async {
     await showDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            title: const Text(
-              "Fermeture",
-              textAlign: TextAlign.center,
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          title: const Text("Fermeture", textAlign: TextAlign.center),
+          content: const Text(
+            "Voulez-vous quitter l'application ?",
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: (() {
+                exit(0);
+              }),
+              child: const Text(
+                "Oui",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            content: const Text(
-              "Voulez-vous quitter l'application ?",
-              textAlign: TextAlign.center,
+            TextButton(
+              onPressed: (() {
+                Navigator.of(context).pop();
+              }),
+              child: const Text(
+                "Non",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: (() {
-                    exit(0);
-                  }),
-                  child: const Text(
-                    "Oui",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
-                  )),
-              TextButton(
-                  onPressed: (() {
-                    Navigator.of(context).pop();
-                  }),
-                  child: const Text(
-                    "Non",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
-                  ))
-            ],
-          );
-        });
+          ],
+        );
+      },
+    );
   }
 
   static Future<dynamic> popupLogout() {
     return Get.defaultDialog(
-        confirmTextColor: Colors.white,
-        cancelTextColor: Colors.black,
-        backgroundColor: AppColor.background,
-        buttonColor: AppColor.error,
-        title: AppString.areyousure,
-        textConfirm: AppString.yes,
-        content: Text(AppString.doyouwanttodisconnect),
-        onConfirm: () {
-          Get.offAllNamed(Paths.services);
-        },
-        onCancel: () {});
+      confirmTextColor: Colors.white,
+      cancelTextColor: Colors.black,
+      backgroundColor: AppColor.background,
+      buttonColor: AppColor.error,
+      title: AppString.areyousure,
+      textConfirm: AppString.yes,
+      content: Text(AppString.doyouwanttodisconnect),
+      onConfirm: () {
+        Get.offAllNamed(Paths.services);
+      },
+      onCancel: () {},
+    );
   }
 }

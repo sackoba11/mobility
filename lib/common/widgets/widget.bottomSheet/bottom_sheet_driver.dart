@@ -5,9 +5,10 @@ import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../utils/validators/validator.dart';
 import '../../../views/services/controllers/services_controller.dart';
 import '../../help_functions/help_functions.dart';
+import '../app_button.dart';
 import '../custom_input.dart';
-import '../custom_button_without_icon.dart';
 
+/// Connexion chauffeur par email (Phase 4).
 class BottomSheetDriver extends StatelessWidget {
   const BottomSheetDriver({
     super.key,
@@ -15,37 +16,45 @@ class BottomSheetDriver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<bool> loading = ValueNotifier(false);
+    final theme = Theme.of(context);
+    final loading = ValueNotifier(false);
     final formKey = GlobalKey<FormState>();
-    var controller = Get.find<ServicesController>();
+    final controller = Get.find<ServicesController>();
 
-    return SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
       child: Form(
         key: formKey,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(
-              height: 10,
+            Text("Espace chauffeur",
+                style: theme.textTheme.titleLarge,
+                textAlign: TextAlign.center),
+            const SizedBox(height: 8),
+            Text(
+              "Connectez-vous avec votre compte chauffeur.",
+              style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 20),
             CustomInput(
               hint: "Email",
               controller: controller.emailLogin,
               keyboardType: TextInputType.emailAddress,
               validator: Validator.validateEmail,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 12),
             CustomInput(
               hint: "Mot de passe",
               controller: controller.passwordLogin,
               keyboardType: TextInputType.visiblePassword,
-              validator: Validator.validatePassword,
+              validator: (v) => Validator.validateRequired(
+                  v, "Le mot de passe est requis."),
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomButtonWithoutIcon(
+            const SizedBox(height: 20),
+            AppButton(
               title: "Se connecter",
               loading: loading,
               onPressed: () async {
@@ -54,9 +63,9 @@ class BottomSheetDriver extends StatelessWidget {
                       .loginWithEmail(loading: loading);
                 } else {
                   HelpFunctions.customSnackbar(
-                      title: "Echec",
-                      message: 'Veuillez remplir tous les champs',
-                      colorText: AppColor.error.withValues(alpha: 0.5),
+                      title: "Échec",
+                      message: 'Veuillez remplir correctement tous les champs',
+                      colorText: AppColor.error,
                       icon: Icons.warning_amber_outlined);
                 }
               },

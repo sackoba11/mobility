@@ -1,61 +1,81 @@
+/// Validateurs de formulaires (Phase 4) : messages en français,
+/// formats adaptés à la Côte d'Ivoire.
 class Validator {
+  static String? validateRequired(String? value, [String? message]) {
+    if (value == null || value.trim().isEmpty) {
+      return message ?? 'Ce champ est requis.';
+    }
+    return null;
+  }
+
   static String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email is required.';
+    if (value == null || value.trim().isEmpty) {
+      return 'L\'email est requis.';
     }
 
-    // Regular expression for email validation
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-    if (!emailRegExp.hasMatch(value)) {
-      return 'Invalid email address.';
+    if (!emailRegExp.hasMatch(value.trim())) {
+      return 'Adresse email invalide.';
     }
 
     return null;
   }
 
+  /// Mot de passe : 6 caractères min. (les règles strictes majuscule +
+  /// chiffre + caractère spécial restent dispo via [validateStrongPassword]
+  /// pour l'inscription si besoin).
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Password is required.';
+      return 'Le mot de passe est requis.';
     }
-
-    // Check for minimum password length
     if (value.length < 6) {
-      return 'Password must be at least 6 characters long.';
+      return 'Le mot de passe doit contenir au moins 6 caractères.';
     }
+    return null;
+  }
 
-    // Check for uppercase letters
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Password must contain at least one uppercase letter.';
+  static String? validateStrongPassword(String? value) {
+    final basic = validatePassword(value);
+    if (basic != null) return basic;
+    if (!value!.contains(RegExp(r'[A-Z]'))) {
+      return 'Le mot de passe doit contenir au moins une majuscule.';
     }
-
-    // Check for numbers
     if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Password must contain at least one number.';
+      return 'Le mot de passe doit contenir au moins un chiffre.';
     }
-
-    // Check for special characters
     if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return 'Password must contain at least one special character.';
+      return 'Le mot de passe doit contenir au moins un caractère spécial.';
     }
-
     return null;
   }
 
+  /// Numéro ivoirien : 8 ou 10 chiffres, espaces acceptés,
+  /// préfixe +225 / 00225 optionnel.
   static String? validatePhoneNumber(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Phone number is required.';
+    if (value == null || value.trim().isEmpty) {
+      return 'Le numéro de téléphone est requis.';
     }
 
-    // Regular expression for phone number validation (assuming a 10-digit US phone number format)
-    final phoneRegExp = RegExp(r'^\d{10}$');
+    var digits = value.replaceAll(RegExp(r'[\s\-\.]'), '');
+    if (digits.startsWith('+225')) digits = digits.substring(4);
+    if (digits.startsWith('00225')) digits = digits.substring(5);
+    if (digits.startsWith('+')) return 'Format de numéro invalide.';
 
-    if (!phoneRegExp.hasMatch(value)) {
-      return 'Invalid phone number format (10 digits required).';
+    if (!RegExp(r'^\d{8}$|^\d{10}$').hasMatch(digits)) {
+      return 'Numéro invalide (8 ou 10 chiffres attendus).';
     }
 
     return null;
   }
 
-  // Add more custom validators as needed for your specific requirements.
+  static String? validateBusNumber(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Le numéro du bus est requis.';
+    }
+    if (int.tryParse(value.trim()) == null) {
+      return 'Le numéro du bus doit être un nombre.';
+    }
+    return null;
+  }
 }
