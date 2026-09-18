@@ -6,4 +6,7 @@ import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 abstract class IBusRepository {
   Future<Either<AppError, List<BusFromDb>>> getAllBus();
   Future<Either<AppError, List<BusFromDb>>> getActiveBus();
+
+  /// Temps réel des bus en service (positions chauffeurs en direct).
+  Stream<List<BusFromDb>> watchActiveBus();
 }

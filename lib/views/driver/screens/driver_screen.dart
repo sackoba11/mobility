@@ -1,14 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
+import '../../../common/help_functions/help_functions.dart';
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../models/bus/bus_from_firestore/bus.dart';
 import '../controllers/driver_controller.dart';
 
@@ -33,8 +33,16 @@ class DriverScreen extends GetView<DriverController> {
     }
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) =>
-          _onWillPop(context, controller.isActive.value),
+      // Ne bloquer que si LE bus affiché est celui en service.
+      onPopInvokedWithResult: (didPop, result) {
+        final activeHere = controller.isActive.value &&
+            controller.activeBusNumber.value == bus.number;
+        if (activeHere) {
+          _onWillPop(context);
+        } else {
+          Get.back();
+        }
+      },
       child: Scaffold(
         body: Stack(
           children: [
@@ -82,11 +90,7 @@ class DriverScreen extends GetView<DriverController> {
     );
   }
 
-  Future<void> _onWillPop(BuildContext context, bool isActive) async {
-    if (!isActive) {
-      Get.back();
-      return;
-    }
+  Future<void> _onWillPop(BuildContext context) async {
     await Get.defaultDialog(
       title: "Service en cours",
       middleText:
@@ -103,6 +107,12 @@ class _ServicePanel extends GetView<DriverController> {
   final Bus bus;
   const _ServicePanel({required this.bus});
 
+  /// Vrai uniquement si LE bus affiché est celui en service
+  /// (et non un autre bus du même chauffeur).
+  bool _isActiveHere() =>
+      controller.isActive.value &&
+      controller.activeBusNumber.value == bus.number;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -110,6 +120,29 @@ class _ServicePanel extends GetView<DriverController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Obx(() {
+          final activeNumber = controller.activeBusNumber.value;
+          if (controller.isActive.value &&
+              activeNumber != -1 &&
+              activeNumber != bus.number) {
+            return Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: scheme.secondaryContainer,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                "Service en cours sur le bus $activeNumber. "
+                "Mettre ce bus en service clôturera l'autre.",
+                style: theme.textTheme.bodySmall?.copyWith(
+                    color: scheme.onSecondaryContainer),
+              ),
+            );
+          }
+          return const SizedBox.shrink();
+        }),
         Row(
           children: [
             ClipRRect(
@@ -126,7 +159,7 @@ class _ServicePanel extends GetView<DriverController> {
                       Text("Bus ${bus.number}",
                           style: theme.textTheme.titleLarge),
                       const SizedBox(width: 8),
-                      Obx(() => controller.isActive.value
+                      Obx(() => _isActiveHere()
                           ? StatusBadge.active(context,
                               label: "En ligne")
                           : StatusBadge.line(
@@ -157,46 +190,38 @@ class _ServicePanel extends GetView<DriverController> {
           ),
         ),
         const SizedBox(height: 16),
-        Obx(() => AppButton(
-              title: controller.isActive.value
-                  ? "Arrêter le service"
-                  : "Mettre en service",
-              variant: controller.isActive.value
-                  ? AppButtonVariant.danger
-                  : AppButtonVariant.primary,
-              onPressed: () => _toggleService(),
-            )),
+        Obx(() {
+          final activeHere = _isActiveHere();
+          return AppButton(
+            title: activeHere
+                ? "Arrêter le service"
+                : "Mettre en service",
+            variant: activeHere
+                ? AppButtonVariant.danger
+                : AppButtonVariant.primary,
+            onPressed: () => _toggleService(),
+          );
+        }),
       ],
     );
   }
 
   Future<void> _toggleService() async {
-    if (!controller.isActive.value) {
-      controller.isActive.value = true;
-      controller.idBusController.value =
-          await controller.activeBusService(
-              bus, controller.positionBus.value);
-
-      controller.serviceTimer?.cancel();
-      controller.serviceTimer =
-          Timer.periodic(const Duration(seconds: 15), (timer) async {
-        if (controller.isActive.value) {
-          final lat =
-              double.tryParse(controller.userLatitude.value);
-          final lng =
-              double.tryParse(controller.userLongitude.value);
-          if (lat == null || lng == null) return;
-          controller.updateBusService(bus.number,
-              controller.idBusController.value, lat, lng);
-        } else {
-          timer.cancel();
-        }
-      });
+    // Toujours décider par rapport AU bus affiché, pas à l'état global.
+    if (!_isActiveHere()) {
+      final id = await controller.startTracking(bus);
+      if (id == "Echec" || id.isEmpty) {
+        HelpFunctions.customSnackbar(
+          title: "Mise en service impossible",
+          message: controller.lastError.value.isNotEmpty
+              ? controller.lastError.value
+              : "Vérifiez votre connexion puis réessayez.",
+          colorText: AppColor.error,
+          icon: Icons.error_outline,
+        );
+      }
     } else {
-      controller.isActive.value = false;
-      controller.serviceTimer?.cancel();
-      await controller.deactiveBusService(
-          bus.number, controller.idBusController.value);
+      await controller.stopTracking();
     }
   }
 }

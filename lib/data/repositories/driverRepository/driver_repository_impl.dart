@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/utils/error/app_error.dart';
@@ -10,10 +9,7 @@ import 'i_driver_repository.dart';
 
 @LazySingleton(as: IDriverRepository)
 class DriverRepositoryImpl implements IDriverRepository {
-  // Legacy RTDB (à supprimer quand plus aucun bus actif RTDB).
-  DatabaseReference ref = FirebaseDatabase.instance.ref().child("activeBus");
-
-  // Cible simplifiée 100% Firestore (Phase 2b).
+  // Source unique : Firestore `activeBus` (RTDB supprimée, Phase 2b).
   CollectionReference get _activeBusFs =>
       FirebaseFirestore.instance.collection('activeBus');
 
@@ -35,16 +31,21 @@ class DriverRepositoryImpl implements IDriverRepository {
 
   @override
   Future<Either<AppError, String>> activateBusService(
-      {required Bus bus, required Position position}) async {
-    var dbRef = ref.child("${bus.number}");
+      {required Bus bus,
+      required Position position,
+      required String driverUid}) async {
     var map = bus.roadMap.map((e) => e.toJson()).toList();
 
-    Map activeBus = {
+    Map<String, dynamic> activeBus = {
       "number": bus.number,
       "source": bus.source,
       "startDate": DateTime.now().toIso8601String(),
       "destination": bus.destination,
       "isActive": true,
+      // Lien service <-> conducteur (immuable, vérifié par les règles).
+      "driverUid": driverUid,
+      // Heartbeat : rafraîchi à chaque position (serverTimestamp).
+      "lastSeen": FieldValue.serverTimestamp(),
       "position": {
         "lat": position.latitude,
         "long": position.longitude,
@@ -53,11 +54,7 @@ class DriverRepositoryImpl implements IDriverRepository {
     };
     var dateTime = DateTime.now().millisecondsSinceEpoch.toString();
     try {
-      // Firestore (cible) + RTDB (legacy compat).
       await _activeBusFs.doc(_docId(bus.number, dateTime)).set(activeBus);
-      try {
-        await dbRef.child(dateTime).set(activeBus);
-      } catch (_) {}
       return right(dateTime);
     } catch (e) {
       return left(GenericAppError(e.toString()));
@@ -69,9 +66,6 @@ class DriverRepositoryImpl implements IDriverRepository {
       {required int busNumber, required String idBus}) async {
     try {
       await _activeBusFs.doc(_docId(busNumber, idBus)).delete();
-      try {
-        await ref.child("$busNumber").child(idBus).remove();
-      } catch (_) {}
       return right(true);
     } catch (e) {
       return left(GenericAppError(e.toString()));
@@ -90,15 +84,8 @@ class DriverRepositoryImpl implements IDriverRepository {
           "lat": lat,
           "long": long,
         },
+        "lastSeen": FieldValue.serverTimestamp(),
       });
-      try {
-        await ref.child("$busNumber").child(idBus).update({
-          "position": {
-            "lat": lat,
-            "long": long,
-          },
-        });
-      } catch (_) {}
       return right(true);
     } catch (e) {
       return left(GenericAppError(e.toString()));

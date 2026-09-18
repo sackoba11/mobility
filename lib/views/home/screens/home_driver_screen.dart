@@ -9,6 +9,7 @@ import '../../../common/widgets/user_avatar.dart';
 import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
 import '../../../models/bus/bus_from_firestore/bus.dart';
 import '../../../routes/app_pages.dart';
+import '../../../services/driver_tracking/driver_session_store.dart';
 import '../controllers/home_driver_controller.dart';
 
 /// Accueil chauffeur (Phase 4) : choisir le bus à mettre en service.
@@ -172,6 +173,8 @@ class _DriverBusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final sessionBus = DriverSessionStore.read()?['busNumber'];
+    final bool mine = sessionBus is int && sessionBus == bus.number;
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -218,7 +221,10 @@ class _DriverBusCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  if (bus.isActive) StatusBadge.active(context),
+                  if (mine)
+                    StatusBadge.active(context, label: "En service")
+                  else if (bus.isActive)
+                    StatusBadge.active(context, label: "Actif"),
                   const SizedBox(height: 8),
                   Icon(Icons.chevron_right,
                       color: theme.colorScheme.onSurfaceVariant),

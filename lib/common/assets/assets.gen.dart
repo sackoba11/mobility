@@ -15,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
 abstract final class Assets {
+  static const String aEnv = '.env';
   static const AssetGenImage dots = AssetGenImage('assets/Dots.png');
   static const AssetGenImage google = AssetGenImage('assets/Google.png');
   static const SvgGenImage googoleIcon = SvgGenImage('assets/Googole icon.svg');
@@ -52,6 +53,7 @@ abstract final class Assets {
 
   /// List of all assets
   static List<dynamic> get values => [
+    aEnv,
     dots,
     google,
     googoleIcon,

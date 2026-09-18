@@ -36,11 +36,14 @@ class BusController extends GetxController {
           isActive: false,
           roadMap: [],
           position: Stop(lat: 0, long: 0),
-          startDate: DateTime.now())
+          startDate: DateTime.now(),
+          driverUid: null,
+          lastSeen: null)
       .obs;
 
   // second home Bus
   late StreamSubscription<Position> streamSubscription;
+  StreamSubscription<List<BusFromDb>>? _liveBusSubscription;
   GoogleMapController? mapController;
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -52,9 +55,18 @@ class BusController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // await busRepository.addRoadMap();
     isConnect.value = await HelpFunctions.checkConnectivity();
     await getAllBus();
+    // Temps réel Firestore : met à jour la liste à chaque position chauffeur.
+    // Les bus périmés (heartbeat trop vieux = app chauffeur tuée) sont exclus.
+    _liveBusSubscription = busRepository.watchActiveBus().listen(
+      (live) {
+        activeBusList = live.where((b) => b.isFresh()).toList();
+        availableActiveBusList = activeBusList + listAllBus;
+        update();
+      },
+      onError: (_) {},
+    );
     getLocation();
   }
 
@@ -68,6 +80,9 @@ class BusController extends GetxController {
   void onClose() {
     try {
       streamSubscription.cancel();
+    } catch (_) {}
+    try {
+      _liveBusSubscription?.cancel();
     } catch (_) {}
     textEditingController.dispose();
     mapController?.dispose();
@@ -85,7 +100,7 @@ class BusController extends GetxController {
 
     activeResult.fold(
       (l) => errorMessage.value = l.userMessage,
-      (r) => activeBusList = r,
+      (r) => activeBusList = r.where((b) => b.isFresh()).toList(),
     );
     allResult.fold(
       (l) => errorMessage.value = l.userMessage,

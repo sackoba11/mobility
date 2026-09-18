@@ -23,13 +23,13 @@ dependencies:
   injectable: ^3.0.0
   dartz: ^0.10.1
   http: ^1.1.0
-  firebase_database: ^12.4.6
   firebase_auth: ^6.5.6
   cloud_firestore: ^6.7.1
   firebase_storage: ^13.4.5
   google_sign_in: ^7.2.0
   connectivity_plus: ^7.3.1
   flutter_dotenv: ^5.2.1
+  flutter_foreground_task: ^11.0.3
   flutter_native_splash: ^2.4.8
   flutter_gen: ^5.10.0
   get_storage: ^2.1.1

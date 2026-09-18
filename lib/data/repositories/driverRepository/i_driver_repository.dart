@@ -7,7 +7,9 @@ import '../../../models/bus/bus_from_firestore/bus.dart';
 abstract class IDriverRepository {
   Future<Either<AppError, List<Bus>>> getAllBus();
   Future<Either<AppError, String>> activateBusService(
-      {required Bus bus, required Position position});
+      {required Bus bus,
+      required Position position,
+      required String driverUid});
   Future<Either<AppError, void>> updatePosition(
       {required int busNumber,
       required String idBus,

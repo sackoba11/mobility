@@ -1,0 +1,115 @@
+rules_version = '2';
+
+// Règles Firestore Mobility.
+// Déploiement : firebase deploy --only firestore:rules
+// Principe : lecture publique pour les données transport (listes, bus en
+// service, gares), écritures réservées aux propriétaires / chauffeurs.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- Helpers ----------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Rôle chauffeur lu depuis le profil (ne jamais faire confiance au client).
+    function isDriver() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isDriver == true;
+    }
+
+    // ---------- Référentiels publics (lecture seule côté client) ----------
+    // Référentiel bus, gares et itinéraires : affichés sans compte.
+    // Écriture uniquement via console / Admin SDK.
+    match /listBus/{doc} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    match /GaresGbaka/{doc} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    match /GaresTaxi/{doc} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    match /ItinerairesGbaka/{doc} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    match /ItinerairesTaxi/{doc} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    // ---------- Bus en service (live) ----------
+    // Lecture publique (suivi passagers), écriture chauffeurs uniquement.
+    // Le service est lié à son chauffeur via driverUid (immuable).
+    match /activeBus/{doc} {
+      allow get, list: if true;
+
+      allow create: if isDriver()
+        && request.resource.data.driverUid == request.auth.uid
+        && request.resource.data.number is int
+        && request.resource.data.isActive == true
+        && request.resource.data.position is map
+        && request.resource.data.position.lat is number
+        && request.resource.data.position.long is number
+        && request.resource.data.lastSeen is timestamp;
+
+      allow update: if isDriver()
+        && request.resource.data.driverUid == resource.data.driverUid
+        && request.resource.data.number == resource.data.number
+        && request.resource.data.position.lat is number
+        && request.resource.data.position.long is number;
+
+      allow delete: if isDriver()
+        && resource.data.driverUid == request.auth.uid;
+    }
+
+    // ---------- Profils utilisateurs ----------
+    // Chacun ne touche que son doc. Le rôle isDriver est immuable côté
+    // client (anti-escalade : un passager ne peut pas se déclarer chauffeur).
+    // NOTE : la création chauffeur (isDriver=true) se fait encore côté
+    // client (voir AuthRepository.signInWithEmailAndPassword). Durcir via
+    // Cloud Function + custom claims quand le back admin existera.
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+
+      allow create: if isOwner(userId)
+        && request.resource.data.uid == userId
+        && request.resource.data.name is string
+        && request.resource.data.email is string
+        && request.resource.data.isDriver is bool;
+
+      allow update: if isOwner(userId)
+        && request.resource.data.isDriver == resource.data.isDriver;
+
+      allow delete: if false;
+    }
+
+    // ---------- Infos chauffeurs (véhicule) ----------
+    match /driversInfos/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId)
+        && request.resource.data.uid == userId;
+      allow delete: if false;
+    }
+
+    // ---------- Par défaut : tout refuser ----------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -20,6 +20,8 @@ _BusFromDb _$BusFromDbFromJson(Map<String, dynamic> json) => _BusFromDb(
   startDate: json['startDate'] == null
       ? null
       : DateTime.parse(json['startDate'] as String),
+  driverUid: json['driverUid'] as String?,
+  lastSeen: const TimestampConverter().fromJson(json['lastSeen']),
 );
 
 Map<String, dynamic> _$BusFromDbToJson(_BusFromDb instance) =>
@@ -31,4 +33,6 @@ Map<String, dynamic> _$BusFromDbToJson(_BusFromDb instance) =>
       'roadMap': instance.roadMap,
       'position': instance.position,
       'startDate': instance.startDate?.toIso8601String(),
+      'driverUid': instance.driverUid,
+      'lastSeen': const TimestampConverter().toJson(instance.lastSeen),
     };

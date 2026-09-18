@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../utils/error/app_error.dart';
@@ -11,42 +8,37 @@ import 'i_bus_repository.dart';
 
 @LazySingleton(as: IBusRepository)
 class BusRepositoryImpl implements IBusRepository {
-  // Le référentiel vient de Firestore `listBus`, le live de Firestore
-  // `activeBus` (RTDB conservée en fallback legacy, à supprimer ensuite).
+  // Source unique : Firestore. `listBus` = référentiel statique,
+  // `activeBus` = bus en service (temps réel via snapshots).
+  CollectionReference get _activeBusFs =>
+      FirebaseFirestore.instance.collection('activeBus');
 
-  /// Live : Firestore d'abord, RTDB en fallback.
+  List<BusFromDb> _fromSnapshot(QuerySnapshot snap) {
+    return snap.docs
+        .map((e) => BusFromDb.fromJson(e.data() as Map<String, dynamic>))
+        .toList();
+  }
+
+  /// Lecture unique (pull-to-refresh, chargement initial).
   @override
   Future<Either<AppError, List<BusFromDb>>> getActiveBus() async {
     try {
-      final fsSnap = await FirebaseFirestore.instance
-          .collection('activeBus')
-          .where('isActive', isEqualTo: true)
-          .get();
-      if (fsSnap.docs.isNotEmpty) {
-        final buses = fsSnap.docs
-            .map((e) => BusFromDb.fromJson(e.data()))
-            .toList();
-        return right(buses);
-      }
-    } catch (_) {
-      // Fallback RTDB ci-dessous.
-    }
-    try {
-      DatabaseReference ref =
-          FirebaseDatabase.instance.ref().child("activeBus");
-
-      List<BusFromDb> dataBus = [];
-      final activeListBus = await ref.get();
-      for (final busGroup in activeListBus.children) {
-        for (final e in busGroup.children) {
-          dataBus.add(BusFromDb.fromJson(jsonDecode(jsonEncode(e.value))));
-        }
-      }
-
-      return right(dataBus);
+      final fsSnap =
+          await _activeBusFs.where('isActive', isEqualTo: true).get();
+      return right(_fromSnapshot(fsSnap));
     } catch (e) {
       return left(GenericAppError("erreur activeBus: ${e.toString()}"));
     }
+  }
+
+  /// Temps réel : notifie à chaque mise à jour de position des chauffeurs
+  /// (remplace l'ancien usage de RTDB).
+  @override
+  Stream<List<BusFromDb>> watchActiveBus() {
+    return _activeBusFs
+        .where('isActive', isEqualTo: true)
+        .snapshots()
+        .map(_fromSnapshot);
   }
 
   @override
