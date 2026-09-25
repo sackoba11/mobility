@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 import 'package:mobility/models/transport_type.dart';
 
+import '../../../common/map/fm_widgets.dart';
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../controllers/other_car_controller.dart';
 
-/// Détail d'une gare + trajet depuis votre position (Phase 4).
+/// Détail d'une gare + trajet depuis votre position (flutter_map).
 class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
   const DetailsHomeOtherCarScreen({super.key});
-
-  LatLng _latLng(dynamic lat, dynamic lng) {
-    double parseCoord(dynamic v, double fallback) {
-      if (v is num) return v.toDouble();
-      return double.tryParse(v.toString()) ?? fallback;
-    }
-
-    return LatLng(parseCoord(lat, 5.3502292), parseCoord(lng, -3.9881887));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,51 +24,64 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
     return Scaffold(
       body: Stack(
         children: [
-          Obx(() => GoogleMap(
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                tiltGesturesEnabled: true,
-                compassEnabled: false,
-                scrollGesturesEnabled: true,
-                zoomGesturesEnabled: true,
-                initialCameraPosition: CameraPosition(
-                    target: _latLng(controller.userLatitude.value,
-                        controller.userLongitude.value),
-                    zoom: 15),
-                polylines: {
-                  if (controller.routes.isNotEmpty)
-                    Polyline(
-                      width: 6,
-                      color: scheme.primary,
-                      polylineId: const PolylineId("route"),
-                      points: controller.routes
-                          .where((element) =>
-                              element is List && element.length >= 2)
-                          .map((element) =>
-                              _latLng(element[1], element[0]))
-                          .toList(),
-                    )
-                },
-                markers: {
-                  Marker(
-                      infoWindow:
-                          const InfoWindow(title: "Votre position"),
-                      icon: BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueAzure),
-                      markerId: const MarkerId("source"),
-                      position: _latLng(
-                          controller.userLatitude.value,
-                          controller.userLongitude.value)),
-                  Marker(
-                      infoWindow: InfoWindow(title: "Gare ${gare.name}"),
-                      markerId: const MarkerId("destination"),
-                      position: _latLng(
-                        gare.location.lat,
-                        gare.location.long,
-                      )),
-                },
-                onMapCreated: controller.onMapCreated,
-              )),
+          Obx(() {
+            final garePos = LatLng(
+              gare.location.lat,
+              gare.location.long,
+            );
+            final routePoints = controller.routes
+                .where((element) =>
+                    element is List && element.length >= 2)
+                .map((element) =>
+                    lngLatToLatLng(element, 5.3502292, -3.9881887))
+                .toList();
+            return FlutterMap(
+              mapController: controller.detailMapController,
+              options: MapOptions(
+                initialCenter: garePos,
+                initialZoom: 14,
+              ),
+              children: [
+                const AppTileLayer(),
+                if (routePoints.length >= 2)
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(
+                        points: routePoints,
+                        color: scheme.primary,
+                        strokeWidth: 6,
+                      ),
+                    ],
+                  ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: garePos,
+                      width: 48,
+                      height: 48,
+                      child: GestureDetector(
+                        onTap: () => Get.defaultDialog(
+                          title: 'Gare ${gare.name}',
+                          middleText:
+                              '${gare.type.label} • ${gare.commune}',
+                          textConfirm: 'OK',
+                          confirmTextColor: Colors.white,
+                          buttonColor: scheme.primary,
+                          onConfirm: () => Get.back(),
+                        ),
+                        child: Icon(Icons.location_on,
+                            color: scheme.error, size: 42),
+                      ),
+                    ),
+                  ],
+                ),
+                const CurrentLocationLayer(
+                  alignPositionOnUpdate: AlignOnUpdate.never,
+                ),
+                const MapCredits(),
+              ],
+            );
+          }),
           MapSheet(
             initialSize: 0.38,
             child: Column(

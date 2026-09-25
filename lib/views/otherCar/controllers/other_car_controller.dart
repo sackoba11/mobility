@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobility/utils/error/app_error.dart';
 import 'package:mobility/models/gare/gare.dart';
 import 'package:mobility/models/gare_location/gare_location.dart';
@@ -56,12 +56,6 @@ class OtherCarController extends GetxController {
   ).obs;
   TextEditingController textEdittingSearch = TextEditingController();
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
-  var originLatitude = "5.3502292".obs, originLongitude = "-3.9881887".obs;
-  var destLatitude = "5.3589712".obs, destLongitude = "-4.0272913".obs;
-  LatLng second = const LatLng(5.354784, -3.974198);
-  LatLng first = const LatLng(5.358065, -3.964597);
-  LatLng destinationLocaton = const LatLng(5.351888, -3.983774);
-  LatLng sourceLocation = const LatLng(5.3502292, -3.9881887);
   RxList routes = [].obs;
   final RxString errorMessage = "".obs;
 
@@ -79,17 +73,22 @@ class OtherCarController extends GetxController {
       streamSubscription.cancel();
     } catch (_) {}
     textEdittingSearch.dispose();
-    mapController?.dispose();
+    try {
+      secondMapController.dispose();
+    } catch (_) {}
+    try {
+      detailMapController.dispose();
+    } catch (_) {}
     super.onClose();
   }
 
  
 
   late StreamSubscription<Position> streamSubscription;
-  GoogleMapController? mapController;
-  void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+
+  /// Un MapController PAR carte (même raison que côté bus).
+  final MapController secondMapController = MapController();
+  final MapController detailMapController = MapController();
 
   Future<Either<AppError, List<Gare>>> getGares() async {
     try {
@@ -189,6 +188,4 @@ class OtherCarController extends GetxController {
       return [];
     }
   }
-
-  List<LatLng> polylineCoordinates = const [];
 }

@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobility/common/map/map_markers.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:mobility/data/repositories/driverRepository/driver_repository_impl.dart';
 import 'package:mobility/data/repositories/driverRepository/i_driver_repository.dart';
 import 'package:mobility/models/bus/bus_from_firestore/bus.dart';
@@ -30,15 +31,11 @@ class ServiceTabController extends GetxController {
   /// Heure du dernier fix GPS (témoin de fraîcheur affiché sous la carte).
   final RxString lastFixAt = ''.obs;
 
-  /// Badges-numéros par bus ( partagés via le cache MapMarkers).
-  final RxMap<int, BitmapDescriptor> busIcons =
-      <int, BitmapDescriptor>{}.obs;
-
   StreamSubscription<Position>? _posSub;
-  GoogleMapController? mapController;
-  void onMapCreated(GoogleMapController c) => mapController = c;
+  final MapController mapController = MapController();
 
   /// Suivi caméra (comme côté passager), avec zone morte anti-gestes.
+  /// Post-frame : interdit pendant un build.
   LatLng? lastFollowedPos;
 
   void followDriverPosition(LatLng target) {
@@ -49,9 +46,11 @@ class ServiceTabController extends GetxController {
       return;
     }
     lastFollowedPos = target;
-    try {
-      mapController?.animateCamera(CameraUpdate.newLatLng(target));
-    } catch (_) {}
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        mapController.move(target, mapController.camera.zoom);
+      } catch (_) {}
+    });
   }
 
   @override
@@ -65,7 +64,7 @@ class ServiceTabController extends GetxController {
     try {
       _posSub?.cancel();
     } catch (_) {}
-    mapController?.dispose();
+    mapController.dispose();
     super.onClose();
   }
 
@@ -136,12 +135,6 @@ class ServiceTabController extends GetxController {
     );
     if (bus.value != null) {
       await _trackPosition();
-      if (!busIcons.containsKey(number)) {
-        MapMarkers.loadBusIcon(number).then(
-          (icon) => busIcons[number] = icon,
-          onError: (_) {},
-        );
-      }
     }
     isLoading.value = false;
   }

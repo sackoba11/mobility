@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
+import '../../../common/map/fm_widgets.dart';
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/stops_timeline.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../models/stop/stop.dart';
 import '../controllers/home_bus_controller.dart';
 
 /// Détail itinéraire d'un bus (Phase 4) : tracé + arrêts + fiche.
@@ -15,11 +19,6 @@ class DetailsHomeBusScreen extends GetView<BusController> {
   const DetailsHomeBusScreen({
     super.key,
   });
-
-  double _coord(dynamic v, double fallback) {
-    if (v is num) return v.toDouble();
-    return double.tryParse(v.toString()) ?? fallback;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,97 +52,108 @@ class DetailsHomeBusScreen extends GetView<BusController> {
             final livePos = bus.position;
             final liveTarget = livePos != null
                 ? LatLng(livePos.lat, livePos.long)
-                : LatLng(
-                    _coord(first[1], 5.3502292),
-                    _coord(first[0], -3.9881887),
-                  );
+                : lngLatToLatLng(
+                    first, 5.3502292, -3.9881887);
             if (livePos != null) {
               controller.followBusPosition(liveTarget);
             }
-            return GoogleMap(
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            tiltGesturesEnabled: true,
-            compassEnabled: false,
-            scrollGesturesEnabled: true,
-            zoomGesturesEnabled: true,
-            initialCameraPosition: CameraPosition(
+            final routePoints = [
+              for (var i in controller.routes)
+                if (i is List && i.length >= 2)
+                  lngLatToLatLng(i, 5.3502292, -3.9881887)
+            ];
+            return FlutterMap(
+              mapController: controller.detailMapController,
+              options: MapOptions(
                 // Centré sur le bus en direct si connu, sinon départ ligne.
-                target: livePos != null
-                    ? LatLng(livePos.lat, livePos.long)
-                    : LatLng(
-                        _coord(first[1], 5.3502292),
-                        _coord(first[0], -3.9881887),
-                      ),
-                zoom: 13.5),
-            polylines: {
-              Polyline(
-                width: 6,
-                color: scheme.primary,
-                polylineId: const PolylineId("route"),
-                points: [
-                  for (var i in controller.routes)
-                    if (i is List && i.length >= 2)
-                      LatLng(_coord(i[1], 5.3502292),
-                          _coord(i[0], -3.9881887))
-                ],
-              )
-            },
-            markers: {
-              Marker(
-                markerId: const MarkerId("UserPosition"),
-                icon: BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueAzure),
-                position: LatLng(
-                    double.tryParse(controller.userLatitude.value) ??
-                        5.3502292,
-                    double.tryParse(controller.userLongitude.value) ??
-                        -3.9881887),
+                initialCenter: liveTarget,
+                initialZoom: 13.5,
               ),
-              Marker(
-                icon: BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueGreen),
-                infoWindow: InfoWindow(
-                    title: "Départ — ${bus.source}",
-                    snippet: "Début de la ligne"),
-                markerId: const MarkerId("source"),
-                position: LatLng(
-                    _coord(first[1], 5.3502292),
-                    _coord(first[0], -3.9881887)),
-              ),
-              Marker(
-                  infoWindow: InfoWindow(
-                      title: "Arrivée — ${bus.destination}",
-                      snippet: "Fin de la ligne"),
-                  markerId: const MarkerId("destination"),
-                position: LatLng(
-                    _coord(last[1], 5.3502292),
-                    _coord(last[0], -3.9881887)),
-              ),
-              for (var i in bus.roadMap)
-                Marker(
-                    infoWindow: InfoWindow(
-                        title: i.label ?? "Arrêt",
-                        snippet:
-                            "Bus ${bus.number} • ${bus.source} ↔ ${bus.destination}"),
-                    markerId: MarkerId("stop_${i.lat}_${i.long}"),
-                    position: LatLng(i.lat, i.long)),
-              // Position temps réel du chauffeur : badge avec le numéro
-              // du bus (chargé une fois, orange en attendant).
-              if (livePos != null)
-                Marker(
-                  infoWindow: InfoWindow(
-                      title: "Bus ${bus.number} • En direct",
-                      snippet: "Position temps réel du chauffeur"),
-                  icon: controller.busIcons[bus.number] ??
-                      BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueOrange),
-                  markerId: const MarkerId("BusLive"),
-                  position: LatLng(livePos.lat, livePos.long),
+              children: [
+                const AppTileLayer(),
+                PolylineLayer(
+                  polylines: [
+                    Polyline(
+                      points: routePoints,
+                      color: scheme.primary,
+                      strokeWidth: 6,
+                    ),
+                  ],
                 ),
-            },
-            onMapCreated: controller.onMapCreated,
-          );
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: lngLatToLatLng(
+                          first, 5.3502292, -3.9881887),
+                      width: 40,
+                      height: 40,
+                      child: GestureDetector(
+                        onTap: () => Get.defaultDialog(
+                          title: 'Départ — ${bus.source}',
+                          middleText: 'Début de la ligne.',
+                          textConfirm: 'OK',
+                          confirmTextColor: Colors.white,
+                          buttonColor: scheme.primary,
+                          onConfirm: () => Get.back(),
+                        ),
+                        child: Icon(Icons.trip_origin,
+                            color: scheme.primary, size: 32),
+                      ),
+                    ),
+                    Marker(
+                      point: lngLatToLatLng(
+                          last, 5.3502292, -3.9881887),
+                      width: 40,
+                      height: 40,
+                      child: GestureDetector(
+                        onTap: () => Get.defaultDialog(
+                          title: 'Arrivée — ${bus.destination}',
+                          middleText: 'Fin de la ligne.',
+                          textConfirm: 'OK',
+                          confirmTextColor: Colors.white,
+                          buttonColor: scheme.primary,
+                          onConfirm: () => Get.back(),
+                        ),
+                        child: Icon(Icons.location_on,
+                            color: scheme.error, size: 36),
+                      ),
+                    ),
+                    for (var i = 0; i < bus.roadMap.length; i++)
+                      Marker(
+                        point: stopToLatLng(bus.roadMap[i]),
+                        width: 30,
+                        height: 30,
+                        child: StopDot(
+                          onTap: () => Get.defaultDialog(
+                            title: bus.roadMap[i]
+                                .displayName(i),
+                            middleText:
+                                'Bus ${bus.number} • ${bus.source} ↔ ${bus.destination}',
+                            textConfirm: 'OK',
+                            confirmTextColor: Colors.white,
+                            buttonColor: scheme.primary,
+                            onConfirm: () => Get.back(),
+                          ),
+                        ),
+                      ),
+                    // Position temps réel du chauffeur : épingle numérotée.
+                    if (livePos != null)
+                      Marker(
+                        point: LatLng(livePos.lat, livePos.long),
+                        width: 56,
+                        height: 70,
+                        alignment: Alignment.topCenter,
+                        child: BusPin(
+                            label: bus.number.toString()),
+                      ),
+                  ],
+                ),
+                const CurrentLocationLayer(
+                  alignPositionOnUpdate: AlignOnUpdate.never,
+                ),
+                const MapCredits(),
+              ],
+            );
           }),
           MapSheet(
             initialSize: 0.42,

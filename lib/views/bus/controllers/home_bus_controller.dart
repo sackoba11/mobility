@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../common/help_functions/help_functions.dart';
-import '../../../common/map/map_markers.dart';
 import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/stop/stop.dart';
 import '../../../services/routing/route_provider.dart';
@@ -42,50 +42,49 @@ class BusController extends GetxController {
   // second home Bus
   late StreamSubscription<Position> streamSubscription;
   StreamSubscription<List<BusFromDb>>? _liveBusSubscription;
-  GoogleMapController? mapController;
-  void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+
+  /// Un MapController PAR carte : partager un seul controller entre deux
+  /// FlutterMap vivantes (SecondHome sous Détail) croise les notifications
+  /// pendant les builds (setState during build).
+  final MapController secondMapController = MapController();
+  final MapController detailMapController = MapController();
 
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
-  Rx<LatLng> busPosition = const LatLng(5.3502292, -3.9881887).obs;
 
-  /// Icônes badge-numérotées par bus (chargées une fois, cache inclus).
-  final RxMap<int, BitmapDescriptor> busIcons =
-      <int, BitmapDescriptor>{}.obs;
-
-  /// Dernière position suivie par la caméra (évite de recentrer à chaque
-  /// rebuild si le bus n'a pas bougé).
+  /// Dernière position suivie par chaque caméra (évite de recentrer si
+  /// le bus n'a pas bougé). Déplacements post-frame (interdits en build).
   LatLng? lastFollowedBusPos;
+  LatLng? lastFollowedSecondPos;
 
-  /// Centre la caméra sur le bus en direct (si assez déplacé depuis le
-  /// dernier suivi pour ne pas lutter contre les gestes de l'utilisateur).
-  void followBusPosition(LatLng target) {
-    final last = lastFollowedBusPos;
+  void _followOn(MapController ctrl, LatLng? last, LatLng target,
+      void Function(LatLng) save) {
     if (last != null &&
         (target.latitude - last.latitude).abs() < 0.0002 &&
         (target.longitude - last.longitude).abs() < 0.0002) {
       return;
     }
-    lastFollowedBusPos = target;
-    try {
-      mapController?.animateCamera(CameraUpdate.newLatLng(target));
-    } catch (_) {}
+    save(target);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        ctrl.move(target, ctrl.camera.zoom);
+      } catch (_) {}
+    });
   }
+
+  /// Centre la caméra du détail sur le bus en direct.
+  void followBusPosition(LatLng target) =>
+      _followOn(detailMapController, lastFollowedBusPos, target,
+          (p) => lastFollowedBusPos = p);
+
+  /// Centre la caméra de SecondHome sur le bus suivi.
+  void followSecondPosition(LatLng target) =>
+      _followOn(secondMapController, lastFollowedSecondPos, target,
+          (p) => lastFollowedSecondPos = p);
 
   @override
   void onInit() async {
     super.onInit();
     isConnect.value = await HelpFunctions.checkConnectivity();
-    // Précharge le badge du bus suivi dès qu'il change.
-    ever<BusFromDb>(currentBus, (bus) {
-      if (bus.number != 0 && !busIcons.containsKey(bus.number)) {
-        MapMarkers.loadBusIcon(bus.number).then(
-          (icon) => busIcons[bus.number] = icon,
-          onError: (_) {},
-        );
-      }
-    });
     await getAllBus();
     // Temps réel Firestore : met à jour la liste à chaque position chauffeur.
     // Les bus périmés (heartbeat trop vieux = app chauffeur tuée) sont exclus.
@@ -137,7 +136,12 @@ class BusController extends GetxController {
       _liveBusSubscription?.cancel();
     } catch (_) {}
     textEditingController.dispose();
-    mapController?.dispose();
+    try {
+      secondMapController.dispose();
+    } catch (_) {}
+    try {
+      detailMapController.dispose();
+    } catch (_) {}
     super.onClose();
   }
 

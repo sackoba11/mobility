@@ -1,4 +1,0 @@
-# Copier vers android/maps.properties (fichier ignoré par git) et remplir.
-# Clé Google Maps (console Google Cloud > APIs & Services > Identifiants).
-# Sans elle, le fond de carte Google reste vide et l'app crash sur les écrans carte.
-maps.api.key=VOTRE_CLE_GOOGLE_MAPS

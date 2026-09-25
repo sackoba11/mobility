@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../services/places/poi_controller.dart';
 import '../views/bus/controllers/home_bus_controller.dart';
 import '../views/driver/controllers/driver_controller.dart';
 import '../views/driver/controllers/service_tab_controller.dart';
@@ -27,6 +28,9 @@ abstract class AppBindings {
             fenix: true);
         if (!Get.isRegistered<ServiceTabController>()) {
           Get.put(ServiceTabController(), permanent: true);
+        }
+        if (!Get.isRegistered<PoiController>()) {
+          Get.put(PoiController(), permanent: true);
         }
         Get.lazyPut<ProfileController>(() => ProfileController(),
             fenix: true);

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
+import '../../../common/map/fm_widgets.dart';
+import '../../../common/map/poi_overlay.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../models/gare/gare.dart';
 import '../../../routes/app_pages.dart';
+import '../../../services/places/poi_controller.dart';
+import '../../../services/places/poi_service.dart';
 import '../controllers/other_car_controller.dart';
 
 /// Gares départ / arrivée d'un itinéraire (Phase 4).
@@ -19,40 +25,66 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
     return Scaffold(
       body: Stack(
         children: [
-          Obx(() => GoogleMap(
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                tiltGesturesEnabled: true,
-                compassEnabled: false,
-                scrollGesturesEnabled: true,
-                zoomGesturesEnabled: true,
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                        double.tryParse(
-                                controller.userLatitude.value) ??
-                            5.3502292,
-                        double.tryParse(
-                                controller.userLongitude.value) ??
-                            -3.9881887),
-                    zoom: 15),
-                markers: {
-                  Marker(
-                    infoWindow:
-                        const InfoWindow(title: "Votre position"),
-                    markerId: const MarkerId("UserPosition"),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
-                    position: LatLng(
-                        double.tryParse(
-                                controller.userLatitude.value) ??
-                            5.3502292,
-                        double.tryParse(
-                                controller.userLongitude.value) ??
-                            -3.9881887),
-                  ),
-                },
-                onMapCreated: controller.onMapCreated,
-              )),
+          Obx(() {
+            final List<PoiPlace> pois =
+                Get.isRegistered<PoiController>()
+                    ? Get.find<PoiController>().places
+                    : const <PoiPlace>[];
+            return FlutterMap(
+              mapController: controller.secondMapController,
+              options: MapOptions(
+                initialCenter: const LatLng(5.3502292, -3.9881887),
+                initialZoom: 12,
+              ),
+              children: [
+                const AppTileLayer(),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: LatLng(
+                        itinerary.source.location.lat,
+                        itinerary.source.location.long,
+                      ),
+                      width: 44,
+                      height: 44,
+                      child: GestureDetector(
+                        onTap: () => _openGare(itinerary.source),
+                        child: Icon(Icons.trip_origin,
+                            color:
+                                Theme.of(context).colorScheme.primary,
+                            size: 34),
+                      ),
+                    ),
+                    Marker(
+                      point: LatLng(
+                        itinerary.destination.location.lat,
+                        itinerary.destination.location.long,
+                      ),
+                      width: 44,
+                      height: 44,
+                      child: GestureDetector(
+                        onTap: () =>
+                            _openGare(itinerary.destination),
+                        child: Icon(Icons.location_on,
+                            color:
+                                Theme.of(context).colorScheme.error,
+                            size: 38),
+                      ),
+                    ),
+                    ...poiMarkers(pois, context),
+                  ],
+                ),
+                const CurrentLocationLayer(
+                  alignPositionOnUpdate: AlignOnUpdate.never,
+                ),
+                const MapCredits(),
+              ],
+            );
+          }),
+          PoiMapOverlay(
+            centerOf: () =>
+                controller.secondMapController.camera.center,
+          ),
           MapSheet(
             initialSize: 0.38,
             child: Column(

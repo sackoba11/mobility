@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
+import '../../../common/map/fm_widgets.dart';
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/stops_timeline.dart';
@@ -164,36 +167,47 @@ class _ServiceMap extends GetView<ServiceTabController> {
                 initial.longitude,
           );
           controller.followDriverPosition(driverPos);
-          return GoogleMap(
-            onMapCreated: controller.onMapCreated,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            tiltGesturesEnabled: false,
-            compassEnabled: false,
-            scrollGesturesEnabled: true,
-            zoomGesturesEnabled: true,
-            initialCameraPosition:
-                CameraPosition(target: initial, zoom: 13),
-            markers: {
-              Marker(
-                infoWindow: InfoWindow(
-                    title: 'Bus $busNumber • Vous',
-                    snippet: 'Position en direct'),
-                markerId: const MarkerId('DriverLive'),
-                icon: controller.busIcons[busNumber] ??
-                    BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
-                position: driverPos,
+          return FlutterMap(
+            mapController: controller.mapController,
+            options: MapOptions(
+              initialCenter: initial,
+              initialZoom: 13,
+            ),
+            children: [
+              const AppTileLayer(),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: driverPos,
+                    width: 56,
+                    height: 70,
+                    alignment: Alignment.topCenter,
+                    child: BusPin(label: '$busNumber'),
+                  ),
+                  for (final s in stops)
+                    Marker(
+                      point: LatLng(s.lat, s.long),
+                      width: 30,
+                      height: 30,
+                      child: StopDot(
+                        onTap: () => Get.defaultDialog(
+                          title: s.label ?? 'Arrêt',
+                          middleText: 'Bus $busNumber en service',
+                          textConfirm: 'OK',
+                          confirmTextColor: Colors.white,
+                          buttonColor:
+                              Theme.of(context).colorScheme.primary,
+                          onConfirm: () => Get.back(),
+                        ),
+                      ),
+                    ),
+                ],
               ),
-              for (final s in stops)
-                Marker(
-                  infoWindow:
-                      InfoWindow(title: s.label ?? 'Arrêt'),
-                  markerId:
-                      MarkerId('svc_stop_${s.lat}_${s.long}'),
-                  position: LatLng(s.lat, s.long),
-                ),
-            },
+              const CurrentLocationLayer(
+                alignPositionOnUpdate: AlignOnUpdate.never,
+              ),
+              const MapCredits(),
+            ],
           );
         }),
       ),

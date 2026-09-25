@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
+import '../../../common/map/fm_widgets.dart';
+import '../../../common/map/poi_overlay.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../routes/app_pages.dart';
+import '../../../services/places/poi_controller.dart';
+import '../../../services/places/poi_service.dart';
 import '../controllers/home_bus_controller.dart';
 
-/// Bus actifs du même numéro sur carte (Phase 4).
+/// Bus actifs du même numéro sur carte (flutter_map).
 class SecondHomeBusScreen extends GetView<BusController> {
   const SecondHomeBusScreen({
     super.key,
@@ -30,29 +36,43 @@ class SecondHomeBusScreen extends GetView<BusController> {
                     double.tryParse(controller.userLongitude.value) ??
                         -3.9881887,
                   );
-            return GoogleMap(
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              tiltGesturesEnabled: true,
-              compassEnabled: false,
-              scrollGesturesEnabled: true,
-              zoomGesturesEnabled: true,
-              initialCameraPosition:
-                  CameraPosition(target: target, zoom: 15),
-              markers: {
-                Marker(
-                  infoWindow: InfoWindow(
-                      title: "Bus ${followed.number} • En direct"),
-                  markerId: const MarkerId("BusPosition"),
-                  icon: controller.busIcons[followed.number] ??
-                      BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueAzure),
-                  position: target,
+            if (pos != null) controller.followSecondPosition(target);
+            final List<PoiPlace> pois =
+                Get.isRegistered<PoiController>()
+                    ? Get.find<PoiController>().places
+                    : const <PoiPlace>[];
+            return FlutterMap(
+              mapController: controller.secondMapController,
+              options: MapOptions(
+                initialCenter: target,
+                initialZoom: 15,
+              ),
+              children: [
+                const AppTileLayer(),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: target,
+                      width: 56,
+                      height: 70,
+                      alignment: Alignment.topCenter,
+                      child: BusPin(
+                          label: followed.number.toString()),
+                    ),
+                    ...poiMarkers(pois, context),
+                  ],
                 ),
-              },
-              onMapCreated: controller.onMapCreated,
+                const CurrentLocationLayer(
+                  alignPositionOnUpdate: AlignOnUpdate.never,
+                ),
+                const MapCredits(),
+              ],
             );
           }),
+          PoiMapOverlay(
+            centerOf: () =>
+                controller.secondMapController.camera.center,
+          ),
           MapSheet(
             initialSize: 0.35,
             child: Column(

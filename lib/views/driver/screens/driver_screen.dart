@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
+
+import '../../../common/map/fm_widgets.dart';
 
 import '../../../common/help_functions/help_functions.dart';
 import '../../../common/widgets/app_button.dart';
@@ -46,26 +50,20 @@ class DriverScreen extends GetView<DriverController> {
               );
               // Suivi caméra comme côté passager.
               controller.followDriverPosition(target);
-              return GoogleMap(
-                  onMapCreated: controller.onMapCreated,
-                  myLocationButtonEnabled: true,
-                  myLocationEnabled: true,
-                  tiltGesturesEnabled: true,
-                  compassEnabled: false,
-                  scrollGesturesEnabled: true,
-                  zoomGesturesEnabled: true,
-                  initialCameraPosition:
-                      CameraPosition(target: target, zoom: 15),
-                  markers: {
-                    Marker(
-                      infoWindow: const InfoWindow(title: 'Vous • En service'),
-                      markerId: const MarkerId("UserPosition"),
-                      icon: BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueAzure),
-                      position: target,
-                    ),
-                  },
-                );
+              return FlutterMap(
+                mapController: controller.mapController,
+                options: MapOptions(
+                  initialCenter: target,
+                  initialZoom: 15,
+                ),
+                children: const [
+                  AppTileLayer(),
+                  CurrentLocationLayer(
+                    alignPositionOnUpdate: AlignOnUpdate.never,
+                  ),
+                  MapCredits(),
+                ],
+              );
             }),
             MapSheet(
               initialSize: 0.42,

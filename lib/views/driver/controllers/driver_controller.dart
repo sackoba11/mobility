@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:mobility/data/repositories/driverRepository/driver_repository_impl.dart';
 import 'package:mobility/data/repositories/driverRepository/i_driver_repository.dart';
 import 'package:mobility/services/driver_tracking/driver_session_store.dart';
@@ -44,10 +46,7 @@ class DriverController extends GetxController {
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
 
   late StreamSubscription<Position> streamSubscription;
-  GoogleMapController? mapController;
-  Future<void> onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
-  }
+  final MapController mapController = MapController();
 
   @override
   void onInit() async {
@@ -68,7 +67,7 @@ class DriverController extends GetxController {
     try {
       streamSubscription.cancel();
     } catch (_) {}
-    mapController?.dispose();
+    mapController.dispose();
     serviceTimer?.cancel();
     FlutterForegroundTask.removeTaskDataCallback(_onTaskData);
     super.onClose();
@@ -80,7 +79,7 @@ class DriverController extends GetxController {
   LatLng? lastFollowedPos;
 
   /// Centre la caméra sur le chauffeur (= le bus), sans lutter contre
-  /// les gestes (zone morte ~20 m).
+  /// les gestes (zone morte ~20 m). Post-frame : interdit pendant un build.
   void followDriverPosition(LatLng target) {
     final last = lastFollowedPos;
     if (last != null &&
@@ -89,9 +88,11 @@ class DriverController extends GetxController {
       return;
     }
     lastFollowedPos = target;
-    try {
-      mapController?.animateCamera(CameraUpdate.newLatLng(target));
-    } catch (_) {}
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        mapController.move(target, mapController.camera.zoom);
+      } catch (_) {}
+    });
   }
 
   void _onTaskData(Object data) {
