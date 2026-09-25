@@ -36,8 +36,8 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
           MapSheet(
             initialSize: 0.68,
             minSize: 0.5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            header: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
@@ -75,7 +75,6 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
                 Obx(() {
                   final filters = <String>[];
                   if (controller.filterGbaka.value) filters.add("Gbaka");
@@ -100,7 +99,11 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
                     ),
                   );
                 }),
-                const SizedBox(height: 12),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Obx(() {
                   if (controller.isLoading.value) {
                     return const AppLoadingView(

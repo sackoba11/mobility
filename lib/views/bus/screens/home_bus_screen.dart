@@ -43,32 +43,28 @@ class HomeBusScreen extends GetView<BusController> {
           MapSheet(
             initialSize: 0.72,
             minSize: 0.5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppSearchField(
-                  controller: controller.textEditingController,
-                  hintText: "Numéro du bus (ex. 610)",
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) async {
-                    final text = value.trim();
+            header: AppSearchField(
+              controller: controller.textEditingController,
+              hintText: "Numéro du bus (ex. 610)",
+              keyboardType: TextInputType.number,
+              onChanged: (value) async {
+                final text = value.trim();
                     if (text.isNotEmpty) {
                       final parsed = int.tryParse(text);
                       if (parsed == null) {
-                        controller.searchActiveBus = [];
-                        controller.availableActiveBusList = [];
-                        controller.update();
+                        controller.searchActiveBus.clear();
+                        controller.availableActiveBusList.clear();
                         return;
                       }
                       await controller.getBusByNumber(parsed);
-                      controller.availableActiveBusList =
-                          controller.searchActiveBus;
                     } else {
                       await controller.getAllBus();
                     }
-                  },
-                ),
-                const SizedBox(height: 16),
+              },
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Obx(() {
                   if (controller.isLoading.value) {
                     return const AppLoadingView(

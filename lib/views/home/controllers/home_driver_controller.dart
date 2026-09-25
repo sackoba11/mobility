@@ -11,9 +11,9 @@ import '../../../data/repositories/driverRepository/i_driver_repository.dart';
 class HomeDriverController extends GetxController {
   IDriverRepository busRepository = DriverRepositoryImpl();
   RxBool isLoading = true.obs;
-  List<Bus> busList = <Bus>[].obs;
-  List<Bus> availableBusList = <Bus>[].obs;
-  List<Bus> searchBus = <Bus>[].obs;
+  RxList<Bus> busList = <Bus>[].obs;
+  RxList<Bus> availableBusList = <Bus>[].obs;
+  RxList<Bus> searchBus = <Bus>[].obs;
   RxInt? number = 0.obs;
 
   User? currentUser;
@@ -45,18 +45,21 @@ class HomeDriverController extends GetxController {
 
   Future<void> getBus() async {
     isLoading(true);
-    busList = (await busRepository.getAllBus()).fold((l) => [], (r) => r);
-    availableBusList = busList;
+    final result = await busRepository.getAllBus();
+    result.fold(
+      (l) => busList.clear(),
+      (r) => busList.assignAll(r),
+    );
+    availableBusList.assignAll(busList);
 
     isLoading(false);
     update();
   }
 
   Future<void> getBusByNumber(int busNumber) async {
-    searchBus = busList
-        .where((bus) => bus.number.toString().contains(busNumber.toString()))
-        .toList();
-    availableBusList = searchBus;
+    searchBus.assignAll(busList.where(
+        (bus) => bus.number.toString().contains(busNumber.toString())));
+    availableBusList.assignAll(searchBus);
     update();
   }
 }

@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
-import 'package:mobility/models/bus/bus_from_firestore/bus.dart';
 
 import '../../../common/help_functions/help_functions.dart';
 import '../../../utils/constants/app string/app_string.dart';
@@ -22,11 +21,11 @@ class BusController extends GetxController {
   BusRepositoryImpl busRepository = BusRepositoryImpl();
   RxBool isLoading = true.obs;
   late final RxBool isConnect = false.obs;
-  List<BusFromDb> activeBusList = <BusFromDb>[].obs;
-  List<BusFromDb> availableActiveBusList = <BusFromDb>[].obs;
-  List<BusFromDb> searchActiveBus = <BusFromDb>[].obs;
-  List<BusFromDb> listAllBus = <BusFromDb>[].obs;
-  List<Bus> searchListAllBus = <Bus>[].obs;
+  // RxList : toute mutation notifie les Obx (recherche, live, refresh).
+  RxList<BusFromDb> activeBusList = <BusFromDb>[].obs;
+  RxList<BusFromDb> availableActiveBusList = <BusFromDb>[].obs;
+  RxList<BusFromDb> searchActiveBus = <BusFromDb>[].obs;
+  RxList<BusFromDb> listAllBus = <BusFromDb>[].obs;
 
   List<dynamic> routes = <Stop>[].obs;
   Rx<BusFromDb> currentBus = BusFromDb(
@@ -61,8 +60,10 @@ class BusController extends GetxController {
     // Les bus périmés (heartbeat trop vieux = app chauffeur tuée) sont exclus.
     _liveBusSubscription = busRepository.watchActiveBus().listen(
       (live) {
-        activeBusList = live.where((b) => b.isFresh()).toList();
-        availableActiveBusList = activeBusList + listAllBus;
+        activeBusList
+            .assignAll(live.where((b) => b.isFresh()));
+        availableActiveBusList
+            .assignAll([...activeBusList, ...listAllBus]);
         update();
       },
       onError: (_) {},
@@ -100,14 +101,16 @@ class BusController extends GetxController {
 
     activeResult.fold(
       (l) => errorMessage.value = l.userMessage,
-      (r) => activeBusList = r.where((b) => b.isFresh()).toList(),
+      (r) => activeBusList
+          .assignAll(r.where((b) => b.isFresh())),
     );
     allResult.fold(
       (l) => errorMessage.value = l.userMessage,
-      (r) => listAllBus = r,
+      (r) => listAllBus.assignAll(r),
     );
 
-    availableActiveBusList = activeBusList + listAllBus;
+    availableActiveBusList
+        .assignAll([...activeBusList, ...listAllBus]);
 
     isLoading(false);
     update();
@@ -122,10 +125,9 @@ class BusController extends GetxController {
   }
 
   Future<void> getBusByNumber(int busNumber) async {
-    searchActiveBus = (activeBusList + listAllBus)
-        .where((bus) => bus.number.toString().contains(busNumber.toString()))
-        .toList();
-    availableActiveBusList = searchActiveBus;
+    searchActiveBus.assignAll((activeBusList + listAllBus)
+        .where((bus) => bus.number.toString().contains(busNumber.toString())));
+    availableActiveBusList.assignAll(searchActiveBus);
     update();
   }
 

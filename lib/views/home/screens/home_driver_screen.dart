@@ -47,35 +47,29 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
             MapSheet(
               initialSize: 0.68,
               minSize: 0.5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppSearchField(
-                    controller: controller.textEditingController,
-                    hintText: "Numéro du bus (ex. 610)",
-                    keyboardType: TextInputType.number,
+              header: AppSearchField(
+                controller: controller.textEditingController,
+                hintText: "Numéro du bus (ex. 610)",
+                keyboardType: TextInputType.number,
                     onChanged: (value) {
                       final text = value.trim();
                       if (text.isNotEmpty) {
                         final parsed = int.tryParse(text);
                         if (parsed == null) {
-                          controller.searchBus = [];
-                          controller.availableBusList = [];
-                          controller.update();
+                          controller.searchBus.clear();
+                          controller.availableBusList.clear();
                           return;
                         }
-                        controller.number = RxInt(parsed);
+                        controller.number?.value = parsed;
                         controller.getBusByNumber(parsed);
-                        controller.availableBusList =
-                            controller.searchBus;
                       } else {
                         controller.getBus();
-                        controller.availableBusList =
-                            controller.busList;
                       }
                     },
-                  ),
-                  const SizedBox(height: 16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Obx(() {
                     if (controller.isLoading.value) {
                       return const AppLoadingView(
