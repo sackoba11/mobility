@@ -1,0 +1,14 @@
+{
+  "name": "backfill-route-geometry",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Calcule une fois les tracés des lignes de bus (Mapbox) et les stocke dans Firestore.",
+  "type": "module",
+  "scripts": {
+    "backfill": "node backfill.mjs",
+    "backfill:force": "node backfill.mjs --force"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

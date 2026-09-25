@@ -1,17 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
 
 import '../../../common/help_functions/help_functions.dart';
-import '../../../utils/constants/app string/app_string.dart';
 import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
-import '../../../models/routes_model/data_model.dart';
 import '../../../models/stop/stop.dart';
+import '../../../services/routing/route_provider.dart';
 import '../../../data/repositories/BusRepository/bus_repository_impl.dart';
 
 class BusController extends GetxController {
@@ -37,7 +34,8 @@ class BusController extends GetxController {
           position: Stop(lat: 0, long: 0),
           startDate: DateTime.now(),
           driverUid: null,
-          lastSeen: null)
+          lastSeen: null,
+          routeGeometry: null)
       .obs;
 
   // second home Bus
@@ -58,12 +56,32 @@ class BusController extends GetxController {
     await getAllBus();
     // Temps réel Firestore : met à jour la liste à chaque position chauffeur.
     // Les bus périmés (heartbeat trop vieux = app chauffeur tuée) sont exclus.
+    // Le bus suivi (currentBus) est resynchronisé pour afficher la position
+    // temps réel sur la carte (même numéro, même chauffeur si connu).
     _liveBusSubscription = busRepository.watchActiveBus().listen(
       (live) {
-        activeBusList
-            .assignAll(live.where((b) => b.isFresh()));
+        final fresh =
+            live.where((b) => b.isFresh()).toList();
+        activeBusList.assignAll(fresh);
         availableActiveBusList
             .assignAll([...activeBusList, ...listAllBus]);
+        final cur = currentBus.value;
+        if (cur.number != 0) {
+          final sameNumber =
+              fresh.where((b) => b.number == cur.number).toList();
+          if (sameNumber.isNotEmpty) {
+            var pick = sameNumber.first;
+            if (cur.driverUid != null) {
+              for (final b in sameNumber) {
+                if (b.driverUid == cur.driverUid) {
+                  pick = b;
+                  break;
+                }
+              }
+            }
+            currentBus.value = pick;
+          }
+        }
         update();
       },
       onError: (_) {},
@@ -163,24 +181,19 @@ class BusController extends GetxController {
     });
   }
 
+  /// Tracé d'une ligne SANS appel Mapbox :
+  /// 1. géométrie précalculée du bus courant (backfill Firestore),
+  /// 2. OSRM gratuit sur les arrêts,
+  /// 3. ligne droite (fallback, jamais d'écran vide si roadMap connue).
   Future<List<dynamic>> getRoutes(List<Stop> source) async {
     try {
-      if (source.isEmpty || !AppString.hasMapboxToken) return [];
-      Uri url = Uri.parse(
-        "https://api.mapbox.com/directions/v5/mapbox/driving/${(source.map(
-              (e) => "${e.long},${e.lat}",
-            ).join(";"))}?steps=true&geometries=geojson&access_token=${AppString.pkkeyMapBox}",
-      );
-      final response = await get(url);
-      if (response.statusCode != 200) return [];
-      final result = jsonDecode(response.body);
-      final routes = DataModel.fromJson(result);
-      final formattedCoordinates = routes.routes
-              ?.expand((route) => route.geometry?.coordinates ?? [])
-              .toList() ??
-          [];
-
-      return formattedCoordinates;
+      final stored = currentBus.value.routeGeometry;
+      if (stored != null && stored.length >= 2) return stored;
+      if (source.isEmpty) return [];
+      final points = source.map((e) => [e.long, e.lat]).toList();
+      final osrm = await RouteProvider.osrmRoute(points);
+      if (osrm.length >= 2) return osrm;
+      return RouteProvider.straightThrough(source);
     } catch (_) {
       return [];
     }

@@ -48,3 +48,8 @@ app.*.map.json
 
 # Secrets locaux
 .env
+
+# Scripts : dépendances + clés de comptes de service (jamais committées)
+scripts/**/node_modules/
+**/*service-account*.json
+**/*service_account*.json

@@ -21,7 +21,11 @@ abstract class BusFromDb with _$BusFromDb {
       required String? driverUid,
       // Heartbeat : mis à jour à chaque position (serverTimestamp).
       // Null pour les docs historiques.
-      @TimestampConverter() required DateTime? lastSeen}) = _BusFromDb;
+      @TimestampConverter() required DateTime? lastSeen,
+      // Tracé précalculé de la ligne ([[lng, lat], ...], voir
+      // scripts/backfill-route-geometry). Évite tout appel routing
+      // au runtime. Null tant que le backfill n'est pas passé.
+      required List<List<double>>? routeGeometry}) = _BusFromDb;
   factory BusFromDb.fromJson(Map<String, dynamic> json) =>
       _$BusFromDbFromJson(json);
 }

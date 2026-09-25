@@ -1,19 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
 import 'package:mobility/utils/error/app_error.dart';
 import 'package:mobility/models/gare/gare.dart';
 import 'package:mobility/models/gare_location/gare_location.dart';
 import 'package:mobility/models/itineraire_gare/itineraire_gare.dart';
 import 'package:mobility/models/transport_type.dart';
-import '../../../utils/constants/app string/app_string.dart';
-import '../../../models/routes_model/data_model.dart';
+import '../../../services/routing/route_provider.dart';
 import '../../../common/help_functions/help_functions.dart';
 import '../../../data/repositories/OtherCarRepository/i_other_car_repository.dart';
 import '../../../data/repositories/OtherCarRepository/other_car_repository_impl.dart';
@@ -172,28 +169,22 @@ class OtherCarController extends GetxController {
     });
   }
 
+  /// Trajet position -> gare SANS Mapbox : OSRM gratuit, sinon ligne droite.
   Future<List<dynamic>> getRoutes(GareLocation source) async {
     try {
-      if (!AppString.hasMapboxToken) return [];
-      final srcLong = source.long;
-      final srcLat = source.lat;
-      Uri url = Uri.parse(
-        "https://api.mapbox.com/directions/v5/mapbox/driving/${userLongitude.value},${userLatitude.value};$srcLong,$srcLat?steps=true&geometries=geojson&access_token=${AppString.pkkeyMapBox}",
-      );
-      final response = await get(url);
-      if (response.statusCode != 200) return [];
-      final result = jsonDecode(response.body);
-      final routes = DataModel.fromJson(result);
-      // final distance =
-      //     routes.routes?.expand((route) => route.legs ?? []).toList() ?? [];
-      final formattedCoordinates = routes.routes
-              ?.expand((route) => route.geometry?.coordinates ?? [])
-              .toList() ??
-          [];
-      // print("la distance entre les deux points est : $distance");
-      // print("routes : $formattedCoordinates");
-      debugPrint(formattedCoordinates.toString());
-      return formattedCoordinates;
+      final userLng =
+          double.tryParse(userLongitude.value) ?? source.long;
+      final userLat =
+          double.tryParse(userLatitude.value) ?? source.lat;
+      final osrm = await RouteProvider.osrmRoute([
+        [userLng, userLat],
+        [source.long, source.lat],
+      ]);
+      if (osrm.length >= 2) return osrm;
+      return [
+        [userLng, userLat],
+        [source.long, source.lat],
+      ];
     } catch (_) {
       return [];
     }

@@ -7,6 +7,7 @@ import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../models/stop/stop.dart';
 import '../controllers/home_bus_controller.dart';
 
 /// Détail itinéraire d'un bus (Phase 4) : tracé + arrêts + fiche.
@@ -39,11 +40,17 @@ class DetailsHomeBusScreen extends GetView<BusController> {
     }
     final first = controller.routes.first;
     final last = controller.routes.last;
+    // Snapshot pour la fiche (roadMap stable) ; la carte utilise le live.
     final bus = controller.currentBus.value;
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
+          // Réactif : le marqueur du bus suit la position temps réel
+          // (currentBus resynchronisé par le stream Firestore).
+          Obx(() {
+            final bus = controller.currentBus.value;
+            final livePos = bus.position;
+            return GoogleMap(
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
             tiltGesturesEnabled: true,
@@ -96,11 +103,27 @@ class DetailsHomeBusScreen extends GetView<BusController> {
               ),
               for (var i in bus.roadMap)
                 Marker(
+                    infoWindow: InfoWindow(
+                        title: i.label ?? "Arrêt",
+                        snippet:
+                            "Bus ${bus.number} • ${bus.source} ↔ ${bus.destination}"),
                     markerId: MarkerId("stop_${i.lat}_${i.long}"),
-                    position: LatLng(i.lat, i.long))
+                    position: LatLng(i.lat, i.long)),
+              // Position temps réel du chauffeur (si connue).
+              if (livePos != null)
+                Marker(
+                  infoWindow: InfoWindow(
+                      title: "Bus ${bus.number}",
+                      snippet: "Position en direct"),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueOrange),
+                  markerId: const MarkerId("BusLive"),
+                  position: LatLng(livePos.lat, livePos.long),
+                ),
             },
             onMapCreated: controller.onMapCreated,
-          ),
+          );
+          }),
           MapSheet(
             initialSize: 0.42,
             child: Column(
@@ -182,7 +205,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
 
 /// Timeline verticale des arrêts.
 class _StopsTimeline extends StatelessWidget {
-  final List stops;
+  final List<Stop> stops;
   const _StopsTimeline({required this.stops});
 
   @override
@@ -230,7 +253,7 @@ class _StopsTimeline extends StatelessWidget {
                 child: Padding(
                   padding:
                       EdgeInsets.only(bottom: isLast ? 0 : 14),
-                  child: Text("Arrêt ${index + 1} — $stop",
+                  child: Text(stop.displayName(index),
                       style: theme.textTheme.bodyMedium),
                 ),
               ),

@@ -1,14 +1,4 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 abstract class AppString {
-  // Token Mapbox lu depuis .env (voir .env.example). Vide si absent :
-  // les itinéraires sont alors indisponibles au lieu de crasher.
-  static String get pkkeyMapBox => dotenv.isInitialized
-      ? (dotenv.maybeGet('MAPBOX_PUBLIC_TOKEN') ?? '')
-      : '';
-
-  static bool get hasMapboxToken => pkkeyMapBox.isNotEmpty;
-
   // text
   static String hey = "Hey 👋";
   static String descriptionService =

@@ -19,7 +19,10 @@ mixin _$BusFromDb {
 // Null pour les docs historiques (compat ascendante).
  String? get driverUid;// Heartbeat : mis à jour à chaque position (serverTimestamp).
 // Null pour les docs historiques.
-@TimestampConverter() DateTime? get lastSeen;
+@TimestampConverter() DateTime? get lastSeen;// Tracé précalculé de la ligne ([[lng, lat], ...], voir
+// scripts/backfill-route-geometry). Évite tout appel routing
+// au runtime. Null tant que le backfill n'est pas passé.
+ List<List<double>>? get routeGeometry;
 /// Create a copy of BusFromDb
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -32,16 +35,16 @@ $BusFromDbCopyWith<BusFromDb> get copyWith => _$BusFromDbCopyWithImpl<BusFromDb>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BusFromDb&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other.roadMap, roadMap)&&(identical(other.position, position) || other.position == position)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.driverUid, driverUid) || other.driverUid == driverUid)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BusFromDb&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other.roadMap, roadMap)&&(identical(other.position, position) || other.position == position)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.driverUid, driverUid) || other.driverUid == driverUid)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&const DeepCollectionEquality().equals(other.routeGeometry, routeGeometry));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(roadMap),position,startDate,driverUid,lastSeen);
+int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(roadMap),position,startDate,driverUid,lastSeen,const DeepCollectionEquality().hash(routeGeometry));
 
 @override
 String toString() {
-  return 'BusFromDb(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap, position: $position, startDate: $startDate, driverUid: $driverUid, lastSeen: $lastSeen)';
+  return 'BusFromDb(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap, position: $position, startDate: $startDate, driverUid: $driverUid, lastSeen: $lastSeen, routeGeometry: $routeGeometry)';
 }
 
 
@@ -52,7 +55,7 @@ abstract mixin class $BusFromDbCopyWith<$Res>  {
   factory $BusFromDbCopyWith(BusFromDb value, $Res Function(BusFromDb) _then) = _$BusFromDbCopyWithImpl;
 @useResult
 $Res call({
- int number, String source, String destination, bool isActive, List<Stop> roadMap, Stop? position, DateTime? startDate, String? driverUid,@TimestampConverter() DateTime? lastSeen
+ int number, String source, String destination, bool isActive, List<Stop> roadMap, Stop? position, DateTime? startDate, String? driverUid,@TimestampConverter() DateTime? lastSeen, List<List<double>>? routeGeometry
 });
 
 
@@ -69,7 +72,7 @@ class _$BusFromDbCopyWithImpl<$Res>
 
 /// Create a copy of BusFromDb
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,Object? position = freezed,Object? startDate = freezed,Object? driverUid = freezed,Object? lastSeen = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,Object? position = freezed,Object? startDate = freezed,Object? driverUid = freezed,Object? lastSeen = freezed,Object? routeGeometry = freezed,}) {
   return _then(_self.copyWith(
 number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
@@ -80,7 +83,8 @@ as List<Stop>,position: freezed == position ? _self.position : position // ignor
 as Stop?,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,driverUid: freezed == driverUid ? _self.driverUid : driverUid // ignore: cast_nullable_to_non_nullable
 as String?,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,routeGeometry: freezed == routeGeometry ? _self.routeGeometry : routeGeometry // ignore: cast_nullable_to_non_nullable
+as List<List<double>>?,
   ));
 }
 /// Create a copy of BusFromDb
@@ -177,10 +181,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  Stop? position,  DateTime? startDate,  String? driverUid, @TimestampConverter()  DateTime? lastSeen)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  Stop? position,  DateTime? startDate,  String? driverUid, @TimestampConverter()  DateTime? lastSeen,  List<List<double>>? routeGeometry)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BusFromDb() when $default != null:
-return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.position,_that.startDate,_that.driverUid,_that.lastSeen);case _:
+return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.position,_that.startDate,_that.driverUid,_that.lastSeen,_that.routeGeometry);case _:
   return orElse();
 
 }
@@ -198,10 +202,10 @@ return $default(_that.number,_that.source,_that.destination,_that.isActive,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  Stop? position,  DateTime? startDate,  String? driverUid, @TimestampConverter()  DateTime? lastSeen)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  Stop? position,  DateTime? startDate,  String? driverUid, @TimestampConverter()  DateTime? lastSeen,  List<List<double>>? routeGeometry)  $default,) {final _that = this;
 switch (_that) {
 case _BusFromDb():
-return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.position,_that.startDate,_that.driverUid,_that.lastSeen);case _:
+return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.position,_that.startDate,_that.driverUid,_that.lastSeen,_that.routeGeometry);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -218,10 +222,10 @@ return $default(_that.number,_that.source,_that.destination,_that.isActive,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  Stop? position,  DateTime? startDate,  String? driverUid, @TimestampConverter()  DateTime? lastSeen)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  Stop? position,  DateTime? startDate,  String? driverUid, @TimestampConverter()  DateTime? lastSeen,  List<List<double>>? routeGeometry)?  $default,) {final _that = this;
 switch (_that) {
 case _BusFromDb() when $default != null:
-return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.position,_that.startDate,_that.driverUid,_that.lastSeen);case _:
+return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.position,_that.startDate,_that.driverUid,_that.lastSeen,_that.routeGeometry);case _:
   return null;
 
 }
@@ -233,7 +237,7 @@ return $default(_that.number,_that.source,_that.destination,_that.isActive,_that
 @JsonSerializable()
 
 class _BusFromDb implements BusFromDb {
-   _BusFromDb({required this.number, required this.source, required this.destination, required this.isActive, required final  List<Stop> roadMap, required this.position, required this.startDate, required this.driverUid, @TimestampConverter() required this.lastSeen}): _roadMap = roadMap;
+   _BusFromDb({required this.number, required this.source, required this.destination, required this.isActive, required final  List<Stop> roadMap, required this.position, required this.startDate, required this.driverUid, @TimestampConverter() required this.lastSeen, required final  List<List<double>>? routeGeometry}): _roadMap = roadMap,_routeGeometry = routeGeometry;
   factory _BusFromDb.fromJson(Map<String, dynamic> json) => _$BusFromDbFromJson(json);
 
 @override final  int number;
@@ -255,6 +259,21 @@ class _BusFromDb implements BusFromDb {
 // Heartbeat : mis à jour à chaque position (serverTimestamp).
 // Null pour les docs historiques.
 @override@TimestampConverter() final  DateTime? lastSeen;
+// Tracé précalculé de la ligne ([[lng, lat], ...], voir
+// scripts/backfill-route-geometry). Évite tout appel routing
+// au runtime. Null tant que le backfill n'est pas passé.
+ final  List<List<double>>? _routeGeometry;
+// Tracé précalculé de la ligne ([[lng, lat], ...], voir
+// scripts/backfill-route-geometry). Évite tout appel routing
+// au runtime. Null tant que le backfill n'est pas passé.
+@override List<List<double>>? get routeGeometry {
+  final value = _routeGeometry;
+  if (value == null) return null;
+  if (_routeGeometry is EqualUnmodifiableListView) return _routeGeometry;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of BusFromDb
 /// with the given fields replaced by the non-null parameter values.
@@ -269,16 +288,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BusFromDb&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other._roadMap, _roadMap)&&(identical(other.position, position) || other.position == position)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.driverUid, driverUid) || other.driverUid == driverUid)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BusFromDb&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other._roadMap, _roadMap)&&(identical(other.position, position) || other.position == position)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.driverUid, driverUid) || other.driverUid == driverUid)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&const DeepCollectionEquality().equals(other._routeGeometry, _routeGeometry));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(_roadMap),position,startDate,driverUid,lastSeen);
+int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(_roadMap),position,startDate,driverUid,lastSeen,const DeepCollectionEquality().hash(_routeGeometry));
 
 @override
 String toString() {
-  return 'BusFromDb(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap, position: $position, startDate: $startDate, driverUid: $driverUid, lastSeen: $lastSeen)';
+  return 'BusFromDb(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap, position: $position, startDate: $startDate, driverUid: $driverUid, lastSeen: $lastSeen, routeGeometry: $routeGeometry)';
 }
 
 
@@ -289,7 +308,7 @@ abstract mixin class _$BusFromDbCopyWith<$Res> implements $BusFromDbCopyWith<$Re
   factory _$BusFromDbCopyWith(_BusFromDb value, $Res Function(_BusFromDb) _then) = __$BusFromDbCopyWithImpl;
 @override @useResult
 $Res call({
- int number, String source, String destination, bool isActive, List<Stop> roadMap, Stop? position, DateTime? startDate, String? driverUid,@TimestampConverter() DateTime? lastSeen
+ int number, String source, String destination, bool isActive, List<Stop> roadMap, Stop? position, DateTime? startDate, String? driverUid,@TimestampConverter() DateTime? lastSeen, List<List<double>>? routeGeometry
 });
 
 
@@ -306,7 +325,7 @@ class __$BusFromDbCopyWithImpl<$Res>
 
 /// Create a copy of BusFromDb
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,Object? position = freezed,Object? startDate = freezed,Object? driverUid = freezed,Object? lastSeen = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,Object? position = freezed,Object? startDate = freezed,Object? driverUid = freezed,Object? lastSeen = freezed,Object? routeGeometry = freezed,}) {
   return _then(_BusFromDb(
 number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
@@ -317,7 +336,8 @@ as List<Stop>,position: freezed == position ? _self.position : position // ignor
 as Stop?,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,driverUid: freezed == driverUid ? _self.driverUid : driverUid // ignore: cast_nullable_to_non_nullable
 as String?,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,routeGeometry: freezed == routeGeometry ? _self._routeGeometry : routeGeometry // ignore: cast_nullable_to_non_nullable
+as List<List<double>>?,
   ));
 }
 
