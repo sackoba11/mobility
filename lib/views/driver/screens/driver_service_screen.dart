@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/state_views.dart';
+import '../../../common/widgets/stops_timeline.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../routes/app_pages.dart';
 import '../../shell/controllers/shell_controller.dart';
@@ -59,6 +61,44 @@ class DriverServiceScreen extends GetView<ServiceTabController> {
                   style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant),
                 ),
+                if (bus != null) ...[
+                  const SizedBox(height: 16),
+                  _ServiceMap(busNumber: bus.number),
+                  const SizedBox(height: 8),
+                  // Témoin de fraîcheur GPS : l'heure défile <=> le flux vit.
+                  Obx(() {
+                    final fix = controller.lastFixAt.value;
+                    final live = fix.isNotEmpty;
+                    return Row(
+                      children: [
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: live
+                                ? Colors.green
+                                : theme.colorScheme.outline,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          live
+                              ? 'Position live • $fix'
+                              : 'En attente du signal GPS…',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme
+                                  .colorScheme.onSurfaceVariant),
+                        ),
+                      ],
+                    );
+                  }),
+                  const SizedBox(height: 16),
+                  Text('Arrêts (${bus.roadMap.length})',
+                      style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 8),
+                  StopsTimeline(stops: bus.roadMap),
+                ],
                 const SizedBox(height: 16),
                 if (bus != null)
                   AppButton(
@@ -95,6 +135,68 @@ class DriverServiceScreen extends GetView<ServiceTabController> {
         Get.back();
         await controller.stopService();
       },
+    );
+  }
+}
+
+/// Mini-carte du service : position live du chauffeur (badge numéroté)
+/// + arrêts de la ligne.
+class _ServiceMap extends GetView<ServiceTabController> {
+  final int busNumber;
+  const _ServiceMap({required this.busNumber});
+
+  @override
+  Widget build(BuildContext context) {
+    final stops = controller.bus.value?.roadMap ?? [];
+    final first = stops.isNotEmpty ? stops.first : null;
+    final initial = first != null
+        ? LatLng(first.lat, first.long)
+        : const LatLng(5.3502292, -3.9881887);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: SizedBox(
+        height: 240,
+        child: Obx(() {
+          final driverPos = LatLng(
+            double.tryParse(controller.userLat.value) ??
+                initial.latitude,
+            double.tryParse(controller.userLng.value) ??
+                initial.longitude,
+          );
+          controller.followDriverPosition(driverPos);
+          return GoogleMap(
+            onMapCreated: controller.onMapCreated,
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
+            tiltGesturesEnabled: false,
+            compassEnabled: false,
+            scrollGesturesEnabled: true,
+            zoomGesturesEnabled: true,
+            initialCameraPosition:
+                CameraPosition(target: initial, zoom: 13),
+            markers: {
+              Marker(
+                infoWindow: InfoWindow(
+                    title: 'Bus $busNumber • Vous',
+                    snippet: 'Position en direct'),
+                markerId: const MarkerId('DriverLive'),
+                icon: controller.busIcons[busNumber] ??
+                    BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueAzure),
+                position: driverPos,
+              ),
+              for (final s in stops)
+                Marker(
+                  infoWindow:
+                      InfoWindow(title: s.label ?? 'Arrêt'),
+                  markerId:
+                      MarkerId('svc_stop_${s.lat}_${s.long}'),
+                  position: LatLng(s.lat, s.long),
+                ),
+            },
+          );
+        }),
+      ),
     );
   }
 }

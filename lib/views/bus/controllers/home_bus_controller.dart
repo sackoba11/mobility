@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../common/help_functions/help_functions.dart';
+import '../../../common/map/map_markers.dart';
 import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/stop/stop.dart';
 import '../../../services/routing/route_provider.dart';
@@ -49,10 +50,42 @@ class BusController extends GetxController {
   var userLatitude = "5.3502292".obs, userLongitude = "-3.9881887".obs;
   Rx<LatLng> busPosition = const LatLng(5.3502292, -3.9881887).obs;
 
+  /// Icônes badge-numérotées par bus (chargées une fois, cache inclus).
+  final RxMap<int, BitmapDescriptor> busIcons =
+      <int, BitmapDescriptor>{}.obs;
+
+  /// Dernière position suivie par la caméra (évite de recentrer à chaque
+  /// rebuild si le bus n'a pas bougé).
+  LatLng? lastFollowedBusPos;
+
+  /// Centre la caméra sur le bus en direct (si assez déplacé depuis le
+  /// dernier suivi pour ne pas lutter contre les gestes de l'utilisateur).
+  void followBusPosition(LatLng target) {
+    final last = lastFollowedBusPos;
+    if (last != null &&
+        (target.latitude - last.latitude).abs() < 0.0002 &&
+        (target.longitude - last.longitude).abs() < 0.0002) {
+      return;
+    }
+    lastFollowedBusPos = target;
+    try {
+      mapController?.animateCamera(CameraUpdate.newLatLng(target));
+    } catch (_) {}
+  }
+
   @override
   void onInit() async {
     super.onInit();
     isConnect.value = await HelpFunctions.checkConnectivity();
+    // Précharge le badge du bus suivi dès qu'il change.
+    ever<BusFromDb>(currentBus, (bus) {
+      if (bus.number != 0 && !busIcons.containsKey(bus.number)) {
+        MapMarkers.loadBusIcon(bus.number).then(
+          (icon) => busIcons[bus.number] = icon,
+          onError: (_) {},
+        );
+      }
+    });
     await getAllBus();
     // Temps réel Firestore : met à jour la liste à chaque position chauffeur.
     // Les bus périmés (heartbeat trop vieux = app chauffeur tuée) sont exclus.

@@ -6,8 +6,8 @@ import 'package:mobility/common/assets/assets.gen.dart';
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
+import '../../../common/widgets/stops_timeline.dart';
 import '../../../common/widgets/transport_cards.dart';
-import '../../../models/stop/stop.dart';
 import '../controllers/home_bus_controller.dart';
 
 /// Détail itinéraire d'un bus (Phase 4) : tracé + arrêts + fiche.
@@ -46,10 +46,20 @@ class DetailsHomeBusScreen extends GetView<BusController> {
       body: Stack(
         children: [
           // Réactif : le marqueur du bus suit la position temps réel
-          // (currentBus resynchronisé par le stream Firestore).
+          // (currentBus resynchronisé par le stream Firestore) et la
+          // caméra reste centrée dessus.
           Obx(() {
             final bus = controller.currentBus.value;
             final livePos = bus.position;
+            final liveTarget = livePos != null
+                ? LatLng(livePos.lat, livePos.long)
+                : LatLng(
+                    _coord(first[1], 5.3502292),
+                    _coord(first[0], -3.9881887),
+                  );
+            if (livePos != null) {
+              controller.followBusPosition(liveTarget);
+            }
             return GoogleMap(
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
@@ -58,10 +68,13 @@ class DetailsHomeBusScreen extends GetView<BusController> {
             scrollGesturesEnabled: true,
             zoomGesturesEnabled: true,
             initialCameraPosition: CameraPosition(
-                target: LatLng(
-                  _coord(first[1], 5.3502292),
-                  _coord(first[0], -3.9881887),
-                ),
+                // Centré sur le bus en direct si connu, sinon départ ligne.
+                target: livePos != null
+                    ? LatLng(livePos.lat, livePos.long)
+                    : LatLng(
+                        _coord(first[1], 5.3502292),
+                        _coord(first[0], -3.9881887),
+                      ),
                 zoom: 13.5),
             polylines: {
               Polyline(
@@ -90,13 +103,19 @@ class DetailsHomeBusScreen extends GetView<BusController> {
               Marker(
                 icon: BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueGreen),
+                infoWindow: InfoWindow(
+                    title: "Départ — ${bus.source}",
+                    snippet: "Début de la ligne"),
                 markerId: const MarkerId("source"),
                 position: LatLng(
                     _coord(first[1], 5.3502292),
                     _coord(first[0], -3.9881887)),
               ),
               Marker(
-                markerId: const MarkerId("destination"),
+                  infoWindow: InfoWindow(
+                      title: "Arrivée — ${bus.destination}",
+                      snippet: "Fin de la ligne"),
+                  markerId: const MarkerId("destination"),
                 position: LatLng(
                     _coord(last[1], 5.3502292),
                     _coord(last[0], -3.9881887)),
@@ -109,14 +128,16 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                             "Bus ${bus.number} • ${bus.source} ↔ ${bus.destination}"),
                     markerId: MarkerId("stop_${i.lat}_${i.long}"),
                     position: LatLng(i.lat, i.long)),
-              // Position temps réel du chauffeur (si connue).
+              // Position temps réel du chauffeur : badge avec le numéro
+              // du bus (chargé une fois, orange en attendant).
               if (livePos != null)
                 Marker(
                   infoWindow: InfoWindow(
-                      title: "Bus ${bus.number}",
-                      snippet: "Position en direct"),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueOrange),
+                      title: "Bus ${bus.number} • En direct",
+                      snippet: "Position temps réel du chauffeur"),
+                  icon: controller.busIcons[bus.number] ??
+                      BitmapDescriptor.defaultMarkerWithHue(
+                          BitmapDescriptor.hueOrange),
                   markerId: const MarkerId("BusLive"),
                   position: LatLng(livePos.lat, livePos.long),
                 ),
@@ -170,7 +191,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                   subtitle: "Principaux points du trajet.",
                 ),
                 const SizedBox(height: 8),
-                _StopsTimeline(stops: bus.roadMap),
+                StopsTimeline(stops: bus.roadMap),
                 const SizedBox(height: 16),
                 Row(
                   children: [
@@ -199,68 +220,6 @@ class DetailsHomeBusScreen extends GetView<BusController> {
           ),
         ],
       ),
-    );
-  }
-}
-
-/// Timeline verticale des arrêts.
-class _StopsTimeline extends StatelessWidget {
-  final List<Stop> stops;
-  const _StopsTimeline({required this.stops});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-    if (stops.isEmpty) {
-      return Text("Aucun arrêt renseigné.",
-          style: theme.textTheme.bodyMedium
-              ?.copyWith(color: scheme.onSurfaceVariant));
-    }
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: stops.length,
-      itemBuilder: (context, index) {
-        final stop = stops[index];
-        final isLast = index == stops.length - 1;
-        return IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    width: 14,
-                    height: 14,
-                    decoration: BoxDecoration(
-                      color:
-                          index == 0 ? scheme.primary : scheme.surface,
-                      border: Border.all(
-                          color: scheme.primary, width: 2.5),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  if (!isLast)
-                    Expanded(
-                      child: Container(
-                          width: 2.5, color: scheme.primaryContainer),
-                    ),
-                ],
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(bottom: isLast ? 0 : 14),
-                  child: Text(stop.displayName(index),
-                      style: theme.textTheme.bodyMedium),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

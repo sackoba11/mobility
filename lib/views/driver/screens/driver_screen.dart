@@ -37,7 +37,16 @@ class DriverScreen extends GetView<DriverController> {
     return Scaffold(
         body: Stack(
           children: [
-            Obx(() => GoogleMap(
+            Obx(() {
+              final target = LatLng(
+                double.tryParse(controller.userLatitude.value) ??
+                    5.3502292,
+                double.tryParse(controller.userLongitude.value) ??
+                    -3.9881887,
+              );
+              // Suivi caméra comme côté passager.
+              controller.followDriverPosition(target);
+              return GoogleMap(
                   onMapCreated: controller.onMapCreated,
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
@@ -45,31 +54,19 @@ class DriverScreen extends GetView<DriverController> {
                   compassEnabled: false,
                   scrollGesturesEnabled: true,
                   zoomGesturesEnabled: true,
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        double.tryParse(
-                                controller.userLatitude.value) ??
-                            5.3502292,
-                        double.tryParse(
-                                controller.userLongitude.value) ??
-                            -3.9881887,
-                      ),
-                      zoom: 15),
+                  initialCameraPosition:
+                      CameraPosition(target: target, zoom: 15),
                   markers: {
                     Marker(
+                      infoWindow: const InfoWindow(title: 'Vous • En service'),
                       markerId: const MarkerId("UserPosition"),
                       icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueAzure),
-                      position: LatLng(
-                          double.tryParse(
-                                  controller.userLatitude.value) ??
-                              5.3502292,
-                          double.tryParse(
-                                  controller.userLongitude.value) ??
-                              -3.9881887),
+                      position: target,
                     ),
                   },
-                )),
+                );
+            }),
             MapSheet(
               initialSize: 0.42,
               minSize: 0.3,

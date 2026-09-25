@@ -38,8 +38,9 @@ class ShellController extends GetxController {
     tabIndex.value = index;
     // L'IndexedStack conserve l'état des onglets : rafraîchir les données
     // volatiles à la sélection (session lue après une activation ailleurs).
+    // Onglets chauffeur : 0 = Bus, 1 = Service, 2 = Profil.
     if (role == ShellRole.driver) {
-      if (index == 2 && Get.isRegistered<ServiceTabController>()) {
+      if (index == 1 && Get.isRegistered<ServiceTabController>()) {
         Get.find<ServiceTabController>().load();
       }
       if (index == 0 && Get.isRegistered<HomeDriverController>()) {

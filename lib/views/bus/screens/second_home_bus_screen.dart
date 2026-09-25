@@ -20,7 +20,8 @@ class SecondHomeBusScreen extends GetView<BusController> {
       body: Stack(
         children: [
           Obx(() {
-            final pos = controller.currentBus.value.position;
+            final followed = controller.currentBus.value;
+            final pos = followed.position;
             final target = pos != null
                 ? LatLng(pos.lat, pos.long)
                 : LatLng(
@@ -40,9 +41,12 @@ class SecondHomeBusScreen extends GetView<BusController> {
                   CameraPosition(target: target, zoom: 15),
               markers: {
                 Marker(
+                  infoWindow: InfoWindow(
+                      title: "Bus ${followed.number} • En direct"),
                   markerId: const MarkerId("BusPosition"),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueAzure),
+                  icon: controller.busIcons[followed.number] ??
+                      BitmapDescriptor.defaultMarkerWithHue(
+                          BitmapDescriptor.hueAzure),
                   position: target,
                 ),
               },

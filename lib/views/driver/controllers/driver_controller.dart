@@ -76,6 +76,24 @@ class DriverController extends GetxController {
 
   Timer? serviceTimer;
 
+  /// Dernière position suivie par la caméra (même logique que le passager).
+  LatLng? lastFollowedPos;
+
+  /// Centre la caméra sur le chauffeur (= le bus), sans lutter contre
+  /// les gestes (zone morte ~20 m).
+  void followDriverPosition(LatLng target) {
+    final last = lastFollowedPos;
+    if (last != null &&
+        (target.latitude - last.latitude).abs() < 0.0002 &&
+        (target.longitude - last.longitude).abs() < 0.0002) {
+      return;
+    }
+    lastFollowedPos = target;
+    try {
+      mapController?.animateCamera(CameraUpdate.newLatLng(target));
+    } catch (_) {}
+  }
+
   void _onTaskData(Object data) {
     // Bouton "Arrêter" de la notification du foreground service.
     if (data is Map && data['action'] == 'stop_service') {
