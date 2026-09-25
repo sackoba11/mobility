@@ -1,26 +1,18 @@
 import 'package:get/get.dart';
 
-import '../views/bus/controllers/home_bus_controller.dart';
 import '../views/bus/screens/details_home_bus_screen.dart';
 import '../views/bus/screens/home_bus_screen.dart';
 import '../views/bus/screens/second_home_bus_screen.dart';
-import '../views/driver/controllers/driver_controller.dart';
 import '../views/driver/screens/driver_screen.dart';
-import '../views/home/controllers/home_driver_controller.dart';
-import '../views/home/controllers/home_user_controller.dart';
-import '../views/home/screens/home_driver_screen.dart';
-import '../views/home/screens/home_user_screen.dart';
-import '../views/otherCar/controllers/other_car_controller.dart';
 import '../views/otherCar/screens/details_home_other_car_screen.dart';
 import '../views/otherCar/screens/home_other_car_screen.dart';
 import '../views/otherCar/screens/second_home_other_car_screen.dart';
-import '../views/profile/controllers/profile_controller.dart';
 import '../views/profile/screens/profile_screen.dart';
-import '../views/services/controllers/services_controller.dart';
 import '../views/services/screens/services_screen.dart';
-import '../views/splash_screen/controllers/splash_screen_controller.dart';
+import '../views/shell/screens/shell_screen.dart';
 import '../views/splash_screen/screens/splash_screen.dart';
 import '../views/unknown_page/unknown_page.dart';
+import 'app_bindings.dart';
 
 part 'app_routes.dart';
 
@@ -32,58 +24,47 @@ class AppPages {
   static final routes = [
     // unkownRoute
     GetPage(name: Paths.unknownRoute, page: () => const UnknownPage()),
-    //Home Pages
+    // Shell à onglets (passager / chauffeur selon arguments role).
+    // Tous les controllers des onglets via AppBindings.shell().
     GetPage(
-      name: Paths.homeUser,
-      page: () => const HomeUserScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<HomeUserController>(() => HomeUserController())),
-    ),
-    GetPage(
-      name: Paths.homeDriver,
-      page: () => const HomeDriverScreen(),
-      binding: BindingsBuilder(() =>
-          Get.lazyPut<HomeDriverController>(() => HomeDriverController())),
+      name: Paths.shell,
+      page: () => const ShellScreen(),
+      binding: AppBindings.shell(),
     ),
 
 // Driver Pages
     GetPage(
       name: Paths.driver,
       page: () => const DriverScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<DriverController>(() => DriverController())),
+      binding: AppBindings.driver(),
     ),
 
     // Services Pages
     GetPage(
       name: Paths.services,
       page: () => const ServiceScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<ServicesController>(() => ServicesController())),
+      binding: AppBindings.services(),
     ),
 
     //Profile Pages
     GetPage(
       name: Paths.profile,
       page: () => const ProfileScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<ProfileController>(() => ProfileController())),
+      binding: AppBindings.tabs(),
     ),
 
     // SplashScreen Pages
     GetPage(
       name: Paths.splashScreen,
       page: () => const SplashScreen(),
-      binding: BindingsBuilder(() =>
-          Get.lazyPut<SplashScreenController>(() => SplashScreenController())),
+      binding: AppBindings.splash(),
     ),
 
-    // Bus Pages — UN seul BusController partagé sur tout le flow (fenix).
+    // Bus Pages — même instance partagée que l'onglet (fenix).
     GetPage(
       name: Paths.homeBus,
       page: () => const HomeBusScreen(),
-      binding: BindingsBuilder(
-          () => Get.lazyPut<BusController>(() => BusController(), fenix: true)),
+      binding: AppBindings.tabs(),
     ),
     GetPage(
       name: Paths.secondHomeBus,
@@ -93,12 +74,11 @@ class AppPages {
       name: Paths.detailHomeBus,
       page: () => const DetailsHomeBusScreen(),
     ),
-    // Other Car Pages — UN seul OtherCarController partagé (fenix).
+    // Other Car Pages — même instance partagée que l'onglet (fenix).
     GetPage(
       name: Paths.homeOtherCar,
       page: () => const HomeOtherCarScreen(),
-      binding: BindingsBuilder(() =>
-          Get.lazyPut<OtherCarController>(() => OtherCarController(), fenix: true)),
+      binding: AppBindings.tabs(),
     ),
     GetPage(
       name: Paths.secondOtherCar,

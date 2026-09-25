@@ -11,6 +11,7 @@ import 'package:mobility/services/driver_tracking/driver_session_store.dart';
 import 'package:mobility/services/driver_tracking/driver_tracking_service.dart';
 
 import '../../../models/bus/bus_from_firestore/bus.dart';
+import 'service_tab_controller.dart';
 
 /// État de mise en service d'un bus (Phase robustesse) :
 /// - session persistée localement (survit à la fermeture de l'app),
@@ -82,6 +83,13 @@ class DriverController extends GetxController {
     }
   }
 
+  /// Notifie la source réactive unique (tous les écrans chauffeur).
+  void _syncServiceState() {
+    if (Get.isRegistered<ServiceTabController>()) {
+      Get.find<ServiceTabController>().syncFromSession();
+    }
+  }
+
   /// Restaure un service interrompu par la fermeture de l'app.
   /// Session périmée -> clôture distante (best-effort) + reset local.
   Future<void> restoreSession() async {
@@ -98,6 +106,7 @@ class DriverController extends GetxController {
           busNumber: number, idBus: idBus);
       await DriverSessionStore.clear();
       await DriverTrackingService.stop();
+      _syncServiceState();
       lastError.value =
           "Ancien service clôturé automatiquement (inactif depuis trop longtemps).";
       return;
@@ -107,6 +116,7 @@ class DriverController extends GetxController {
     activeBusLabel.value =
         "${session['busSource'] ?? ''} ↔ ${session['busDestination'] ?? ''}";
     isActive.value = true;
+    _syncServiceState();
     _startHeartbeat(number, idBus);
     _startForeground(number);
   }
@@ -162,11 +172,13 @@ class DriverController extends GetxController {
       (l) {
         lastError.value = l.userMessage;
         isActive.value = false;
+        _syncServiceState();
         return "Echec";
       },
       (idBus) async {
         if (idBus.isEmpty) {
           isActive.value = false;
+          _syncServiceState();
           return "Echec";
         }
         // Objet stable : notifie même quand isActive est déjà à true.
@@ -185,6 +197,7 @@ class DriverController extends GetxController {
           'idBus': idBus,
           'driverUid': _uid,
         });
+        _syncServiceState();
         _startHeartbeat(bus.number, idBus);
         await _startForeground(bus.number);
         return idBus;
@@ -217,6 +230,7 @@ class DriverController extends GetxController {
     await DriverTrackingService.stop();
     await DriverTrackingService.clearSession();
     await DriverSessionStore.clear();
+    _syncServiceState();
     if (number != -1 && idBus.isNotEmpty) {
       await iDriverRepository.deactivateBusService(
           busNumber: number, idBus: idBus);

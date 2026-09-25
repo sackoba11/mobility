@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../common/help_functions/help_functions.dart';
 import '../../../common/widgets/app_search_field.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../common/widgets/user_avatar.dart';
-import '../../../data/repositories/authRepositiry/auth_repository_impl.dart';
 import '../../../models/bus/bus_from_firestore/bus.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/driver_tracking/driver_session_store.dart';
+import '../../driver/controllers/service_tab_controller.dart';
 import '../controllers/home_driver_controller.dart';
 
-/// Accueil chauffeur (Phase 4) : choisir le bus à mettre en service.
+/// Onglet Bus chauffeur (Phase shell) : choisir le bus à mettre en service.
+/// Le logout vit dans l'onglet Profil, le retour système est géré par le shell.
 class HomeDriverScreen extends GetView<HomeDriverController> {
   const HomeDriverScreen({super.key});
 
@@ -23,28 +23,13 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
     }
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) =>
-          HelpFunctions.onWillPop(context),
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: Padding(
             padding: const EdgeInsets.only(left: 12),
             child: _DriverAvatar(),
           ),
           title: const Text("Espace chauffeur"),
-          actions: [
-            IconButton(
-              tooltip: "Se déconnecter",
-              onPressed: () async {
-                await AuthRepositoryImpl()
-                    .signOut()
-                    .whenComplete(() => Get.offAllNamed(Paths.services));
-              },
-              icon: const Icon(Icons.logout_outlined),
-            ),
-          ],
         ),
         body: Stack(
           children: [
@@ -134,8 +119,7 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
           ],
         ),
         backgroundColor: scheme.surface,
-      ),
-    );
+      );
   }
 }
 
@@ -173,8 +157,6 @@ class _DriverBusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final sessionBus = DriverSessionStore.read()?['busNumber'];
-    final bool mine = sessionBus is int && sessionBus == bus.number;
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -218,18 +200,33 @@ class _DriverBusCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  if (mine)
-                    StatusBadge.active(context, label: "En service")
-                  else if (bus.isActive)
-                    StatusBadge.active(context, label: "Actif"),
-                  const SizedBox(height: 8),
-                  Icon(Icons.chevron_right,
-                      color: theme.colorScheme.onSurfaceVariant),
-                ],
-              ),
+              Obx(() {
+                // Source réactive unique si dispo, sinon lecture du store.
+                int sessionBus;
+                if (Get.isRegistered<ServiceTabController>()) {
+                  sessionBus = Get.find<ServiceTabController>()
+                      .busNumber
+                      .value;
+                } else {
+                  final stored =
+                      DriverSessionStore.read()?['busNumber'];
+                  sessionBus = stored is int ? stored : -1;
+                }
+                final bool mine = sessionBus == bus.number;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (mine)
+                      StatusBadge.active(context,
+                          label: "En service")
+                    else if (bus.isActive)
+                      StatusBadge.active(context, label: "Actif"),
+                    const SizedBox(height: 8),
+                    Icon(Icons.chevron_right,
+                        color: theme.colorScheme.onSurfaceVariant),
+                  ],
+                );
+              }),
             ],
           ),
         ),

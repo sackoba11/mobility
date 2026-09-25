@@ -31,19 +31,10 @@ class DriverScreen extends GetView<DriverController> {
         body: const Center(child: Text("Aucun bus sélectionné.")),
       );
     }
-    return PopScope(
-      canPop: false,
-      // Ne bloquer que si LE bus affiché est celui en service.
-      onPopInvokedWithResult: (didPop, result) {
-        final activeHere = controller.isActive.value &&
-            controller.activeBusNumber.value == bus.number;
-        if (activeHere) {
-          _onWillPop(context);
-        } else {
-          Get.back();
-        }
-      },
-      child: Scaffold(
+    // Pas de blocage retour : le service reste visible et pilotable depuis
+    // l'onglet Service. L'unicité (un seul bus actif) est garantie par
+    // DriverController.startTracking (clôture du précédent).
+    return Scaffold(
         body: Stack(
           children: [
             Obx(() => GoogleMap(
@@ -86,20 +77,7 @@ class DriverScreen extends GetView<DriverController> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> _onWillPop(BuildContext context) async {
-    await Get.defaultDialog(
-      title: "Service en cours",
-      middleText:
-          "Veuillez arrêter le service avant de revenir en arrière.",
-      textConfirm: "Compris",
-      confirmTextColor: Colors.white,
-      buttonColor: Theme.of(context).colorScheme.primary,
-      onConfirm: () => Get.back(),
-    );
+      );
   }
 }
 

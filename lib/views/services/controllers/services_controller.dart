@@ -38,15 +38,15 @@ class ServicesController extends GetxController {
           );
           return;
         }
-        // Rôle depuis Firestore, jamais supposé : un passager qui se login
-        // en email va sur homeUser, un chauffeur sur homeDriver.
+        // Rôle depuis Firestore, jamais supposé : le shell adapte
+        // ses onglets (passager / chauffeur).
         final user = (await iAuthRepository.getUser(credential!.user!.uid))
             .fold((l) => null, (r) => r);
         loading.value = false;
         if (user != null && user.isDriver) {
-          Get.offAllNamed(Paths.homeDriver);
+          Get.offAllNamed(Paths.shell, arguments: {'role': 'driver'});
         } else {
-          Get.offAllNamed(Paths.homeUser);
+          Get.offAllNamed(Paths.shell, arguments: {'role': 'passenger'});
         }
       } else {
         HelpFunctions.customSnackbar(
@@ -70,7 +70,7 @@ class ServicesController extends GetxController {
 
         if (response != null) {
           loading.value = false;
-          Get.offAllNamed(Paths.homeUser);
+          Get.offAllNamed(Paths.shell, arguments: {'role': 'passenger'});
         } else {
           loading.value = false;
           Get.back();

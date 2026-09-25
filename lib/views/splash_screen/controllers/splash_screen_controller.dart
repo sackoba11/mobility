@@ -34,9 +34,9 @@ class SplashScreenController extends GetxController
           return;
         }
         if (user.isDriver) {
-          Get.offAllNamed(Paths.homeDriver);
+          Get.offAllNamed(Paths.shell, arguments: {'role': 'driver'});
         } else {
-          Get.offAllNamed(Paths.homeUser);
+          Get.offAllNamed(Paths.shell, arguments: {'role': 'passenger'});
         }
       } else {
         Get.offAllNamed(Paths.services);

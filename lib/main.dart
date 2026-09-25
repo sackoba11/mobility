@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobility/common/theme/app_theme.dart';
+import 'package:mobility/common/theme/theme_service.dart';
 import 'package:mobility/firebase_options.dart';
 import 'package:mobility/views/unknown_page/unknown_page.dart';
 
@@ -44,7 +45,7 @@ Future<void> main() async {
       title: "Mobility",
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeService.initial,
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
     ),

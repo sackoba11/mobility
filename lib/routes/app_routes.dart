@@ -4,9 +4,8 @@ abstract class Paths {
   Paths._();
 // UnknownRoute
   static const unknownRoute = "/unknownRoute";
-  // Home
-  static const homeUser = '/homeUser';
-  static const homeDriver = '/homeDriver';
+  // Shell à onglets (remplace homeUser/homeDriver plats)
+  static const shell = '/shell';
 
   //Driver home
   static const driver = '/driver';
