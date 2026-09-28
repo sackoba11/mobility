@@ -51,6 +51,13 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
+    // ---------- Catalogue arrêts/gares (lecture seule côté client) ----------
+    // Référentiel OSM importé (scripts/import-sotra-stops).
+    match /stops/{doc} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
     // ---------- Bus en service (live) ----------
     // Lecture publique (suivi passagers), écriture chauffeurs uniquement.
     // Le service est lié à son chauffeur via driverUid (immuable).

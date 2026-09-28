@@ -11,6 +11,7 @@ import '../views/profile/controllers/profile_controller.dart';
 import '../views/services/controllers/services_controller.dart';
 import '../views/shell/controllers/shell_controller.dart';
 import '../views/splash_screen/controllers/splash_screen_controller.dart';
+import '../views/stops/controllers/stops_controller.dart';
 
 /// Bindings centralisés (tous en lazyPut fenix : recréés à la demande,
 /// partagés entre onglets et sous-écrans).
@@ -24,6 +25,8 @@ abstract class AppBindings {
         Get.lazyPut<HomeDriverController>(() => HomeDriverController(),
             fenix: true);
         Get.lazyPut<BusController>(() => BusController(), fenix: true);
+        Get.lazyPut<StopsController>(() => StopsController(),
+            fenix: true);
         Get.lazyPut<OtherCarController>(() => OtherCarController(),
             fenix: true);
         if (!Get.isRegistered<ServiceTabController>()) {

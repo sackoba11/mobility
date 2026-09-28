@@ -17,7 +17,8 @@ mixin _$Stop {
 
  double get lat; double get long;// Nom lisible de l'arrêt ("Adjamé", "Gare Nord"...).
 // Null pour les roadMap historiques -> fallback "Arrêt N".
- String? get label;
+ String? get label;// Référence catalogue OSM ("node/123...", voir scripts/import-sotra-stops).
+ String? get osmId;
 /// Create a copy of Stop
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,16 +31,16 @@ $StopCopyWith<Stop> get copyWith => _$StopCopyWithImpl<Stop>(this as Stop, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Stop&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.long, long) || other.long == long)&&(identical(other.label, label) || other.label == label));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Stop&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.long, long) || other.long == long)&&(identical(other.label, label) || other.label == label)&&(identical(other.osmId, osmId) || other.osmId == osmId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,lat,long,label);
+int get hashCode => Object.hash(runtimeType,lat,long,label,osmId);
 
 @override
 String toString() {
-  return 'Stop(lat: $lat, long: $long, label: $label)';
+  return 'Stop(lat: $lat, long: $long, label: $label, osmId: $osmId)';
 }
 
 
@@ -50,7 +51,7 @@ abstract mixin class $StopCopyWith<$Res>  {
   factory $StopCopyWith(Stop value, $Res Function(Stop) _then) = _$StopCopyWithImpl;
 @useResult
 $Res call({
- double lat, double long, String? label
+ double lat, double long, String? label, String? osmId
 });
 
 
@@ -67,11 +68,12 @@ class _$StopCopyWithImpl<$Res>
 
 /// Create a copy of Stop
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? lat = null,Object? long = null,Object? label = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? lat = null,Object? long = null,Object? label = freezed,Object? osmId = freezed,}) {
   return _then(_self.copyWith(
 lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
 as double,long: null == long ? _self.long : long // ignore: cast_nullable_to_non_nullable
 as double,label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,osmId: freezed == osmId ? _self.osmId : osmId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -157,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double lat,  double long,  String? label)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double lat,  double long,  String? label,  String? osmId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Stop() when $default != null:
-return $default(_that.lat,_that.long,_that.label);case _:
+return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
   return orElse();
 
 }
@@ -178,10 +180,10 @@ return $default(_that.lat,_that.long,_that.label);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double lat,  double long,  String? label)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double lat,  double long,  String? label,  String? osmId)  $default,) {final _that = this;
 switch (_that) {
 case _Stop():
-return $default(_that.lat,_that.long,_that.label);case _:
+return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +200,10 @@ return $default(_that.lat,_that.long,_that.label);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double lat,  double long,  String? label)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double lat,  double long,  String? label,  String? osmId)?  $default,) {final _that = this;
 switch (_that) {
 case _Stop() when $default != null:
-return $default(_that.lat,_that.long,_that.label);case _:
+return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
   return null;
 
 }
@@ -213,7 +215,7 @@ return $default(_that.lat,_that.long,_that.label);case _:
 @JsonSerializable()
 
 class _Stop implements Stop {
-   _Stop({required this.lat, required this.long, this.label});
+   _Stop({required this.lat, required this.long, this.label, this.osmId});
   factory _Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
 
 @override final  double lat;
@@ -221,6 +223,8 @@ class _Stop implements Stop {
 // Nom lisible de l'arrêt ("Adjamé", "Gare Nord"...).
 // Null pour les roadMap historiques -> fallback "Arrêt N".
 @override final  String? label;
+// Référence catalogue OSM ("node/123...", voir scripts/import-sotra-stops).
+@override final  String? osmId;
 
 /// Create a copy of Stop
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Stop&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.long, long) || other.long == long)&&(identical(other.label, label) || other.label == label));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Stop&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.long, long) || other.long == long)&&(identical(other.label, label) || other.label == label)&&(identical(other.osmId, osmId) || other.osmId == osmId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,lat,long,label);
+int get hashCode => Object.hash(runtimeType,lat,long,label,osmId);
 
 @override
 String toString() {
-  return 'Stop(lat: $lat, long: $long, label: $label)';
+  return 'Stop(lat: $lat, long: $long, label: $label, osmId: $osmId)';
 }
 
 
@@ -255,7 +259,7 @@ abstract mixin class _$StopCopyWith<$Res> implements $StopCopyWith<$Res> {
   factory _$StopCopyWith(_Stop value, $Res Function(_Stop) _then) = __$StopCopyWithImpl;
 @override @useResult
 $Res call({
- double lat, double long, String? label
+ double lat, double long, String? label, String? osmId
 });
 
 
@@ -272,11 +276,12 @@ class __$StopCopyWithImpl<$Res>
 
 /// Create a copy of Stop
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? lat = null,Object? long = null,Object? label = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? lat = null,Object? long = null,Object? label = freezed,Object? osmId = freezed,}) {
   return _then(_Stop(
 lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
 as double,long: null == long ? _self.long : long // ignore: cast_nullable_to_non_nullable
 as double,label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,osmId: freezed == osmId ? _self.osmId : osmId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

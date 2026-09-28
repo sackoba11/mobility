@@ -27,6 +27,10 @@ abstract class Paths {
   static const secondHomeBus = "/bus/secondHomeBus";
   static const detailHomeBus = "/bus/secondHomeBus/detailHomeBus";
 
+  // Bus stops (catalogue arrêts/gares + bus par arrêt).
+  static const stops = '/bus/stops';
+  static const stopDetail = '/bus/stops/detail';
+
 //Other Car
   static const homeOtherCar = '/homeOtherCar';
   static const secondOtherCar = '/secondOtherCar';

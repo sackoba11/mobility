@@ -11,6 +11,8 @@ abstract class Stop with _$Stop {
     // Nom lisible de l'arrêt ("Adjamé", "Gare Nord"...).
     // Null pour les roadMap historiques -> fallback "Arrêt N".
     String? label,
+    // Référence catalogue OSM ("node/123...", voir scripts/import-sotra-stops).
+    String? osmId,
   }) = _Stop;
   factory Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
 }

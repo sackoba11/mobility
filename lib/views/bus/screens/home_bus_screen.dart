@@ -43,12 +43,15 @@ class HomeBusScreen extends GetView<BusController> {
           MapSheet(
             initialSize: 0.72,
             minSize: 0.5,
-            header: AppSearchField(
-              controller: controller.textEditingController,
-              hintText: "Numéro du bus (ex. 610)",
-              keyboardType: TextInputType.number,
-              onChanged: (value) async {
-                final text = value.trim();
+            header: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppSearchField(
+                  controller: controller.textEditingController,
+                  hintText: "Numéro du bus (ex. 610)",
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) async {
+                    final text = value.trim();
                     if (text.isNotEmpty) {
                       final parsed = int.tryParse(text);
                       if (parsed == null) {
@@ -60,7 +63,18 @@ class HomeBusScreen extends GetView<BusController> {
                     } else {
                       await controller.getAllBus();
                     }
-              },
+                  },
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () => Get.toNamed(Paths.stops),
+                    icon: const Icon(Icons.location_on_outlined),
+                    label: const Text('Arrêts et gares à proximité'),
+                  ),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

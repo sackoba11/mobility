@@ -1,0 +1,8 @@
+{
+  "_comment": "Une clé = numéro de bus (listBus.number), valeur = ids de docs `stops` DANS L'ORDRE de la ligne. Ids visibles dans la console Firestore (ex. node_8758117810). Après enrichissement, relancez le backfill des tracés.",
+  "610": ["node_8758117810", "node_8758117811", "node_8758117812", "node_8758117813"],
+  "21": [],
+  "15": [],
+  "85": [],
+  "49": []
+}

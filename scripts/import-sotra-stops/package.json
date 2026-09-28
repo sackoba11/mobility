@@ -1,0 +1,14 @@
+{
+  "name": "import-sotra-stops",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Importe le catalogue arrêts/gares SOTRA (OSM) vers Firestore + rattache les roadMap des lignes.",
+  "type": "module",
+  "scripts": {
+    "import": "node import.mjs",
+    "enrich": "node enrich-libus.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

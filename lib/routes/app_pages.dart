@@ -11,6 +11,8 @@ import '../views/profile/screens/profile_screen.dart';
 import '../views/services/screens/services_screen.dart';
 import '../views/shell/screens/shell_screen.dart';
 import '../views/splash_screen/screens/splash_screen.dart';
+import '../views/stops/screens/stop_detail_screen.dart';
+import '../views/stops/screens/stops_screen.dart';
 import '../views/unknown_page/unknown_page.dart';
 import 'app_bindings.dart';
 
@@ -73,6 +75,16 @@ class AppPages {
     GetPage(
       name: Paths.detailHomeBus,
       page: () => const DetailsHomeBusScreen(),
+    ),
+    // Bus stops : catalogue + bus par arrêt.
+    GetPage(
+      name: Paths.stops,
+      page: () => const StopsScreen(),
+      binding: AppBindings.tabs(),
+    ),
+    GetPage(
+      name: Paths.stopDetail,
+      page: () => const StopDetailScreen(),
     ),
     // Other Car Pages — même instance partagée que l'onglet (fenix).
     GetPage(
