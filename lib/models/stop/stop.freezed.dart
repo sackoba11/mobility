@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Stop {
 
- double get lat; double get long;// Nom lisible de l'arrêt ("Adjamé", "Gare Nord"...).
+ double get lat;@JsonKey(readValue: _readLong) double get long;// Nom lisible de l'arrêt ("Adjamé", "Gare Nord"...).
 // Null pour les roadMap historiques -> fallback "Arrêt N".
  String? get label;// Référence catalogue OSM ("node/123...", voir scripts/import-sotra-stops).
  String? get osmId;
@@ -51,7 +51,7 @@ abstract mixin class $StopCopyWith<$Res>  {
   factory $StopCopyWith(Stop value, $Res Function(Stop) _then) = _$StopCopyWithImpl;
 @useResult
 $Res call({
- double lat, double long, String? label, String? osmId
+ double lat,@JsonKey(readValue: _readLong) double long, String? label, String? osmId
 });
 
 
@@ -159,7 +159,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double lat,  double long,  String? label,  String? osmId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double lat, @JsonKey(readValue: _readLong)  double long,  String? label,  String? osmId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Stop() when $default != null:
 return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
@@ -180,7 +180,7 @@ return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double lat,  double long,  String? label,  String? osmId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double lat, @JsonKey(readValue: _readLong)  double long,  String? label,  String? osmId)  $default,) {final _that = this;
 switch (_that) {
 case _Stop():
 return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
@@ -200,7 +200,7 @@ return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double lat,  double long,  String? label,  String? osmId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double lat, @JsonKey(readValue: _readLong)  double long,  String? label,  String? osmId)?  $default,) {final _that = this;
 switch (_that) {
 case _Stop() when $default != null:
 return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
@@ -215,11 +215,11 @@ return $default(_that.lat,_that.long,_that.label,_that.osmId);case _:
 @JsonSerializable()
 
 class _Stop implements Stop {
-   _Stop({required this.lat, required this.long, this.label, this.osmId});
+   _Stop({required this.lat, @JsonKey(readValue: _readLong) required this.long, this.label, this.osmId});
   factory _Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
 
 @override final  double lat;
-@override final  double long;
+@override@JsonKey(readValue: _readLong) final  double long;
 // Nom lisible de l'arrêt ("Adjamé", "Gare Nord"...).
 // Null pour les roadMap historiques -> fallback "Arrêt N".
 @override final  String? label;
@@ -259,7 +259,7 @@ abstract mixin class _$StopCopyWith<$Res> implements $StopCopyWith<$Res> {
   factory _$StopCopyWith(_Stop value, $Res Function(_Stop) _then) = __$StopCopyWithImpl;
 @override @useResult
 $Res call({
- double lat, double long, String? label, String? osmId
+ double lat,@JsonKey(readValue: _readLong) double long, String? label, String? osmId
 });
 
 

@@ -115,8 +115,10 @@ class StopsController extends GetxController {
 
   void onSearchChanged(String _) => applyFilters();
 
-  /// Bus desservant [stop] : match osmId, sinon proximité <= 100 m
-  /// (utile avant enrichissement complet des roadMap).
+  /// Bus desservant [stop] :
+  /// 1. `stopIds` (rattachement exact, scripts/import-bus/enrich),
+  /// 2. match osmId dans la roadMap (docs enrichis sans stopIds),
+  /// 3. proximité <= 100 m (utile avant enrichissement complet).
   List<BusFromDb> busesThrough(TransitStop stop) {
     if (!Get.isRegistered<BusController>()) return [];
     final bus = Get.find<BusController>();
@@ -124,12 +126,20 @@ class StopsController extends GetxController {
     final seen = <String>{};
     final result = <BusFromDb>[];
     for (final b in all) {
-      final key = '${b.number}_${b.driverUid}';
+      // Variante incluse : deux variantes d'une même ligne ne se
+      // dédupliquent pas entre elles.
+      final key =
+          '${b.number}_${b.direction}_${b.variantIndex}_${b.driverUid}';
       if (!seen.add(key)) continue;
-      var matches = b.roadMap.any((s) =>
-          s.osmId != null &&
-          (s.osmId == stop.osmId ||
-              s.osmId?.replaceAll('/', '_') == stop.osmId));
+      // 1. Rattachement exact (stopIds enrichis).
+      var matches = b.stopIds.contains(stop.osmId);
+      // 2. Match osmId dans la roadMap (anciens docs enrichis).
+      matches = matches ||
+          b.roadMap.any((s) =>
+              s.osmId != null &&
+              (s.osmId == stop.osmId ||
+                  s.osmId?.replaceAll('/', '_') == stop.osmId));
+      // 3. Proximité (avant enrichissement).
       matches = matches ||
           b.roadMap.any((s) =>
               Geolocator.distanceBetween(
@@ -137,7 +147,13 @@ class StopsController extends GetxController {
               _matchRadiusMeters);
       if (matches) result.add(b);
     }
-    result.sort((a, b) => a.number.compareTo(b.number));
+    result.sort((a, b) {
+      final byNumber = a.number.compareTo(b.number);
+      if (byNumber != 0) return byNumber;
+      final byDir = a.direction.compareTo(b.direction);
+      if (byDir != 0) return byDir;
+      return a.variantIndex.compareTo(b.variantIndex);
+    });
     return result;
   }
 }

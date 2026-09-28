@@ -18,14 +18,14 @@ class DriverRepositoryImpl implements IDriverRepository {
   @override
   Future<Either<AppError, List<Bus>>> getAllBus() async {
     try {
-      final snapShotListBus =
-          await FirebaseFirestore.instance.collection('listBus').get();
-      final docsListBus = snapShotListBus.docs;
+      final snapShotBus =
+          await FirebaseFirestore.instance.collection('bus').get();
+      final docsBus = snapShotBus.docs;
       final buslistFirebse =
-          docsListBus.map((e) => Bus.fromJson(e.data())).toList();
+          docsBus.map((e) => Bus.fromJson(e.data())).toList();
       return right(buslistFirebse);
     } catch (e) {
-      return left(GenericAppError("erreur listBus: ${e.toString()}"));
+      return left(GenericAppError("erreur bus: ${e.toString()}"));
     }
   }
 
@@ -38,6 +38,11 @@ class DriverRepositoryImpl implements IDriverRepository {
 
     Map<String, dynamic> activeBus = {
       "number": bus.number,
+      "lineLabel": bus.lineLabel,
+      "category": bus.category,
+      "direction": bus.direction,
+      "variantIndex": bus.variantIndex,
+      "stopIds": bus.stopIds,
       "source": bus.source,
       "startDate": DateTime.now().toIso8601String(),
       "destination": bus.destination,

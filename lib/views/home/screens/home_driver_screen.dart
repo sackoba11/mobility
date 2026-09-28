@@ -163,7 +163,7 @@ class _DriverBusCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  bus.number.toString(),
+                  bus.displayNumber,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -185,6 +185,13 @@ class _DriverBusCard extends StatelessWidget {
                                 .colorScheme.onSurfaceVariant),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis),
+                    if (bus.variantLabel.isNotEmpty)
+                      Text(bus.variantLabel,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme
+                                  .colorScheme.onSurfaceVariant),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis),
                   ],
                 ),
               ),

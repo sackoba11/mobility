@@ -24,9 +24,10 @@ service cloud.firestore {
     }
 
     // ---------- Référentiels publics (lecture seule côté client) ----------
-    // Référentiel bus, gares et itinéraires : affichés sans compte.
+    // Référentiel bus (1 doc par variante, scripts/import-bus), gares et
+    // itinéraires : affichés sans compte.
     // Écriture uniquement via console / Admin SDK.
-    match /listBus/{doc} {
+    match /bus/{doc} {
       allow get, list: if true;
       allow create, update, delete: if false;
     }

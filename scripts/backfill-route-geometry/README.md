@@ -1,6 +1,6 @@
 # Backfill des tracés de lignes (une seule fois)
 
-Calcule le tracé routier de chaque bus `listBus` via Mapbox et le stocke
+Calcule le tracé routier de chaque variante `bus` via Mapbox et le stocke
 dans `routeGeometry`. Après ça, **l'app n'appelle plus Mapbox au runtime**
 (quelques dizaines de requêtes au total, dans le palier gratuit).
 
@@ -31,7 +31,7 @@ npm run backfill
 
 ## Vérification
 
-Console Firestore > `listBus` > un doc : champ `routeGeometry`
+Console Firestore > `bus` > un doc : champ `routeGeometry`
 (tableau de `[lng, lat]`) + `routedAt` renseignés. Puis dans l'app :
 ouvrir le détail d'un bus **sans connexion Mapbox possible** (ou avec un
 token invalide) → le tracé s'affiche quand même.

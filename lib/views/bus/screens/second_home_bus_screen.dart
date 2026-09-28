@@ -8,6 +8,7 @@ import '../../../common/map/fm_widgets.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_bus_controller.dart';
 
@@ -61,7 +62,7 @@ class SecondHomeBusScreen extends GetView<BusController> {
                         height: 70,
                         alignment: Alignment.topCenter,
                         child: BusPin(
-                            label: followed.number.toString()),
+                            label: followed.displayNumber),
                       ),
                   ],
                 ),
@@ -98,7 +99,7 @@ class SecondHomeBusScreen extends GetView<BusController> {
               children: [
                 SheetTitle(
                   title:
-                      "Bus ${controller.currentBus.value.number} en service",
+                      "Bus ${controller.currentBus.value.displayNumber} en service",
                   subtitle: controller.currentBus.value.isActive
                       ? "Suivez un bus actif pour voir son itinéraire."
                       : "Aucun bus actif — ligne de référence.",

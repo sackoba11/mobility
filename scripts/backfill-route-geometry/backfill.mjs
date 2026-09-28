@@ -8,7 +8,7 @@
 //   3. MAPBOX_TOKEN=<token> GOOGLE_APPLICATION_CREDENTIALS=/chemin/cle.json \
 //        npm run backfill [-- --force]
 //
-// Comportement : pour chaque doc `listBus` sans `routeGeometry` (ou tous
+// Comportement : pour chaque doc `bus` sans `routeGeometry` (ou tous
 // avec --force), appelle Mapbox Directions sur les arrêts `roadMap` puis
 // écrit `routeGeometry: [[lng,lat],...]` + `routedAt`. Après ça, l'app
 // n'appelle plus jamais Mapbox au runtime.
@@ -32,13 +32,9 @@ admin.initializeApp({
 const db = admin.firestore();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function fetchGeometry(stops) {
-  const coords = stops
-    .filter((s) => typeof s.lat === 'number' && typeof s.long === 'number')
-    .map((s) => `${s.long},${s.lat}`)
-    .join(';');
+async function fetchChunk(coords) {
   const url =
-    `https://api.mapbox.com/directions/v5/mapbox/driving/${coords}` +
+    `https://api.mapbox.com/directions/v5/mapbox/driving/${coords.join(';')}` +
     `?steps=false&geometries=geojson&overview=full&access_token=${MAPBOX_TOKEN}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Mapbox ${res.status}`);
@@ -50,8 +46,35 @@ async function fetchGeometry(stops) {
   return coordinates;
 }
 
-const snap = await db.collection('listBus').get();
-console.log(`${snap.size} docs listBus, mode=${FORCE ? 'force' : 'manquants'}`);
+async function fetchGeometry(stops) {
+  // roadMap : clé `lng` (enrich-bus, convention GeoJSON) avec repli
+  // sur `long` (anciens docs / copies chauffeur).
+  const lngOf = (s) => (typeof s.lng === 'number' ? s.lng : s.long);
+  const pts = stops
+    .filter((s) => typeof s.lat === 'number' && typeof lngOf(s) === 'number')
+    .map((s) => `${lngOf(s)},${s.lat}`);
+  // Mapbox : 25 coordonnées max par requête -> découpe avec recouvrement.
+  const MAX = 25;
+  const chunks = [];
+  for (let i = 0; i < pts.length - 1; i += MAX - 1) {
+    chunks.push(pts.slice(i, i + MAX));
+  }
+  const merged = [];
+  for (const chunk of chunks) {
+    const coords = await fetchChunk(chunk);
+    // Retire le point de jonction dupliqué entre tronçons.
+    if (merged.length > 0) coords.shift();
+    merged.push(...coords);
+  }
+  // Firestore refuse les tableaux imbriqués : objets {lng, lat}
+  // (lus par RouteGeometryConverter côté app).
+  return merged
+    .filter((c) => Array.isArray(c) && c.length >= 2)
+    .map(([lng, lat]) => ({ lng, lat }));
+}
+
+const snap = await db.collection('bus').get();
+console.log(`${snap.size} docs bus, mode=${FORCE ? 'force' : 'manquants'}`);
 
 let ok = 0, skipped = 0, failed = 0;
 for (const doc of snap.docs) {
@@ -68,6 +91,7 @@ for (const doc of snap.docs) {
   }
   try {
     const geometry = await fetchGeometry(stops);
+    if (geometry.length < 2) throw new Error('géométrie vide');
     await doc.ref.update({
       routeGeometry: geometry,
       routedAt: admin.firestore.FieldValue.serverTimestamp(),

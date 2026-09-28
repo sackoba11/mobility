@@ -3,11 +3,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'stop.freezed.dart';
 part 'stop.g.dart';
 
+/// Lit la longitude : clé `long` (modèle historique) avec repli sur `lng`
+/// (roadMap écrites par scripts/import-bus, convention GeoJSON).
+Object? _readLong(Map json, String key) => json['long'] ?? json['lng'];
+
 @freezed
 abstract class Stop with _$Stop {
   factory Stop({
     required double lat,
-    required double long,
+    @JsonKey(readValue: _readLong) required double long,
     // Nom lisible de l'arrêt ("Adjamé", "Gare Nord"...).
     // Null pour les roadMap historiques -> fallback "Arrêt N".
     String? label,

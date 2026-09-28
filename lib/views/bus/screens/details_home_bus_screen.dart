@@ -11,6 +11,7 @@ import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/stops_timeline.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/stop/stop.dart';
 import '../controllers/home_bus_controller.dart';
 
@@ -85,7 +86,7 @@ class DetailsHomeBusScreen extends GetView<BusController> {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        bus.number.toString(),
+                        bus.displayNumber,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -250,7 +251,7 @@ class _DetailMap extends GetView<BusController> {
                     onTap: () => Get.defaultDialog(
                       title: bus.roadMap[i].displayName(i),
                       middleText:
-                          'Bus ${bus.number} • ${bus.source} ↔ ${bus.destination}',
+                          'Bus ${bus.displayNumber} • ${bus.source} ↔ ${bus.destination}',
                       textConfirm: 'OK',
                       confirmTextColor: Colors.white,
                       buttonColor: scheme.primary,
@@ -266,7 +267,7 @@ class _DetailMap extends GetView<BusController> {
                   height: 70,
                   alignment: Alignment.topCenter,
                   child:
-                      BusPin(label: bus.number.toString()),
+                      BusPin(label: bus.displayNumber),
                 ),
             ],
           ),

@@ -1,0 +1,4 @@
+{
+  "201_aller_1": ["node_EXEMPLE_1", "node_EXEMPLE_2"],
+  "201_retour_1": ["node_EXEMPLE_2", "node_EXEMPLE_1"]
+}

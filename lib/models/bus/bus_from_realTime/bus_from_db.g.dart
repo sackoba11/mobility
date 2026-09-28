@@ -22,11 +22,14 @@ _BusFromDb _$BusFromDbFromJson(Map<String, dynamic> json) => _BusFromDb(
       : DateTime.parse(json['startDate'] as String),
   driverUid: json['driverUid'] as String?,
   lastSeen: const TimestampConverter().fromJson(json['lastSeen']),
-  routeGeometry: (json['routeGeometry'] as List<dynamic>?)
-      ?.map(
-        (e) => (e as List<dynamic>).map((e) => (e as num).toDouble()).toList(),
-      )
-      .toList(),
+  routeGeometry: const RouteGeometryConverter().fromJson(json['routeGeometry']),
+  lineLabel: json['lineLabel'] as String? ?? '',
+  category: json['category'] as String? ?? '',
+  direction: json['direction'] as String? ?? '',
+  variantIndex: (json['variantIndex'] as num?)?.toInt() ?? 1,
+  stopIds:
+      (json['stopIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$BusFromDbToJson(_BusFromDb instance) =>
@@ -40,5 +43,12 @@ Map<String, dynamic> _$BusFromDbToJson(_BusFromDb instance) =>
       'startDate': instance.startDate?.toIso8601String(),
       'driverUid': instance.driverUid,
       'lastSeen': const TimestampConverter().toJson(instance.lastSeen),
-      'routeGeometry': instance.routeGeometry,
+      'routeGeometry': const RouteGeometryConverter().toJson(
+        instance.routeGeometry,
+      ),
+      'lineLabel': instance.lineLabel,
+      'category': instance.category,
+      'direction': instance.direction,
+      'variantIndex': instance.variantIndex,
+      'stopIds': instance.stopIds,
     };

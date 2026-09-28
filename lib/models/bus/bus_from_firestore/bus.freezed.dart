@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Bus {
 
- int get number; String get source; String get destination; bool get isActive; List<Stop> get roadMap;
+ int get number; String get source; String get destination; bool get isActive; List<Stop> get roadMap;// Référentiel `bus` (scripts/import-bus) : voir BusFromDb.
+ String get lineLabel; String get category; String get direction; int get variantIndex; List<String> get stopIds;
 /// Create a copy of Bus
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $BusCopyWith<Bus> get copyWith => _$BusCopyWithImpl<Bus>(this as Bus, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Bus&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other.roadMap, roadMap));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Bus&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other.roadMap, roadMap)&&(identical(other.lineLabel, lineLabel) || other.lineLabel == lineLabel)&&(identical(other.category, category) || other.category == category)&&(identical(other.direction, direction) || other.direction == direction)&&(identical(other.variantIndex, variantIndex) || other.variantIndex == variantIndex)&&const DeepCollectionEquality().equals(other.stopIds, stopIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(roadMap));
+int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(roadMap),lineLabel,category,direction,variantIndex,const DeepCollectionEquality().hash(stopIds));
 
 @override
 String toString() {
-  return 'Bus(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap)';
+  return 'Bus(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap, lineLabel: $lineLabel, category: $category, direction: $direction, variantIndex: $variantIndex, stopIds: $stopIds)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $BusCopyWith<$Res>  {
   factory $BusCopyWith(Bus value, $Res Function(Bus) _then) = _$BusCopyWithImpl;
 @useResult
 $Res call({
- int number, String source, String destination, bool isActive, List<Stop> roadMap
+ int number, String source, String destination, bool isActive, List<Stop> roadMap, String lineLabel, String category, String direction, int variantIndex, List<String> stopIds
 });
 
 
@@ -65,14 +66,19 @@ class _$BusCopyWithImpl<$Res>
 
 /// Create a copy of Bus
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,Object? lineLabel = null,Object? category = null,Object? direction = null,Object? variantIndex = null,Object? stopIds = null,}) {
   return _then(_self.copyWith(
 number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,destination: null == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
 as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,roadMap: null == roadMap ? _self.roadMap : roadMap // ignore: cast_nullable_to_non_nullable
-as List<Stop>,
+as List<Stop>,lineLabel: null == lineLabel ? _self.lineLabel : lineLabel // ignore: cast_nullable_to_non_nullable
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as String,direction: null == direction ? _self.direction : direction // ignore: cast_nullable_to_non_nullable
+as String,variantIndex: null == variantIndex ? _self.variantIndex : variantIndex // ignore: cast_nullable_to_non_nullable
+as int,stopIds: null == stopIds ? _self.stopIds : stopIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -157,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  String lineLabel,  String category,  String direction,  int variantIndex,  List<String> stopIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Bus() when $default != null:
-return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap);case _:
+return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.lineLabel,_that.category,_that.direction,_that.variantIndex,_that.stopIds);case _:
   return orElse();
 
 }
@@ -178,10 +184,10 @@ return $default(_that.number,_that.source,_that.destination,_that.isActive,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  String lineLabel,  String category,  String direction,  int variantIndex,  List<String> stopIds)  $default,) {final _that = this;
 switch (_that) {
 case _Bus():
-return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap);case _:
+return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.lineLabel,_that.category,_that.direction,_that.variantIndex,_that.stopIds);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +204,10 @@ return $default(_that.number,_that.source,_that.destination,_that.isActive,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int number,  String source,  String destination,  bool isActive,  List<Stop> roadMap,  String lineLabel,  String category,  String direction,  int variantIndex,  List<String> stopIds)?  $default,) {final _that = this;
 switch (_that) {
 case _Bus() when $default != null:
-return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap);case _:
+return $default(_that.number,_that.source,_that.destination,_that.isActive,_that.roadMap,_that.lineLabel,_that.category,_that.direction,_that.variantIndex,_that.stopIds);case _:
   return null;
 
 }
@@ -213,7 +219,7 @@ return $default(_that.number,_that.source,_that.destination,_that.isActive,_that
 @JsonSerializable()
 
 class _Bus implements Bus {
-   _Bus({required this.number, required this.source, required this.destination, required this.isActive, required final  List<Stop> roadMap}): _roadMap = roadMap;
+   _Bus({required this.number, required this.source, required this.destination, required this.isActive, required final  List<Stop> roadMap, this.lineLabel = '', this.category = '', this.direction = '', this.variantIndex = 1, final  List<String> stopIds = const []}): _roadMap = roadMap,_stopIds = stopIds;
   factory _Bus.fromJson(Map<String, dynamic> json) => _$BusFromJson(json);
 
 @override final  int number;
@@ -225,6 +231,18 @@ class _Bus implements Bus {
   if (_roadMap is EqualUnmodifiableListView) return _roadMap;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_roadMap);
+}
+
+// Référentiel `bus` (scripts/import-bus) : voir BusFromDb.
+@override@JsonKey() final  String lineLabel;
+@override@JsonKey() final  String category;
+@override@JsonKey() final  String direction;
+@override@JsonKey() final  int variantIndex;
+ final  List<String> _stopIds;
+@override@JsonKey() List<String> get stopIds {
+  if (_stopIds is EqualUnmodifiableListView) return _stopIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_stopIds);
 }
 
 
@@ -241,16 +259,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Bus&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other._roadMap, _roadMap));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Bus&&(identical(other.number, number) || other.number == number)&&(identical(other.source, source) || other.source == source)&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&const DeepCollectionEquality().equals(other._roadMap, _roadMap)&&(identical(other.lineLabel, lineLabel) || other.lineLabel == lineLabel)&&(identical(other.category, category) || other.category == category)&&(identical(other.direction, direction) || other.direction == direction)&&(identical(other.variantIndex, variantIndex) || other.variantIndex == variantIndex)&&const DeepCollectionEquality().equals(other._stopIds, _stopIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(_roadMap));
+int get hashCode => Object.hash(runtimeType,number,source,destination,isActive,const DeepCollectionEquality().hash(_roadMap),lineLabel,category,direction,variantIndex,const DeepCollectionEquality().hash(_stopIds));
 
 @override
 String toString() {
-  return 'Bus(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap)';
+  return 'Bus(number: $number, source: $source, destination: $destination, isActive: $isActive, roadMap: $roadMap, lineLabel: $lineLabel, category: $category, direction: $direction, variantIndex: $variantIndex, stopIds: $stopIds)';
 }
 
 
@@ -261,7 +279,7 @@ abstract mixin class _$BusCopyWith<$Res> implements $BusCopyWith<$Res> {
   factory _$BusCopyWith(_Bus value, $Res Function(_Bus) _then) = __$BusCopyWithImpl;
 @override @useResult
 $Res call({
- int number, String source, String destination, bool isActive, List<Stop> roadMap
+ int number, String source, String destination, bool isActive, List<Stop> roadMap, String lineLabel, String category, String direction, int variantIndex, List<String> stopIds
 });
 
 
@@ -278,14 +296,19 @@ class __$BusCopyWithImpl<$Res>
 
 /// Create a copy of Bus
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? number = null,Object? source = null,Object? destination = null,Object? isActive = null,Object? roadMap = null,Object? lineLabel = null,Object? category = null,Object? direction = null,Object? variantIndex = null,Object? stopIds = null,}) {
   return _then(_Bus(
 number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,destination: null == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
 as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,roadMap: null == roadMap ? _self._roadMap : roadMap // ignore: cast_nullable_to_non_nullable
-as List<Stop>,
+as List<Stop>,lineLabel: null == lineLabel ? _self.lineLabel : lineLabel // ignore: cast_nullable_to_non_nullable
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as String,direction: null == direction ? _self.direction : direction // ignore: cast_nullable_to_non_nullable
+as String,variantIndex: null == variantIndex ? _self.variantIndex : variantIndex // ignore: cast_nullable_to_non_nullable
+as int,stopIds: null == stopIds ? _self._stopIds : stopIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

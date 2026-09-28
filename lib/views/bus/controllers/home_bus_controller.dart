@@ -162,8 +162,7 @@ class BusController extends GetxController {
         final fresh =
             live.where((b) => b.isFresh()).toList();
         activeBusList.assignAll(fresh);
-        availableActiveBusList
-            .assignAll([...activeBusList, ...listAllBus]);
+        availableActiveBusList.assignAll(_mergedAvailable());
         final cur = currentBus.value;
         if (cur.number != 0) {
           final sameNumber =
@@ -215,6 +214,36 @@ class BusController extends GetxController {
 // home Bus
   final RxString errorMessage = "".obs;
 
+  // --- Mini-dashboard lignes ---
+  // Filtre d'affichage : 'all' (toutes les variantes) | 'active' (service).
+  final RxString lineFilter = 'all'.obs;
+
+  /// Nombre de bus en service (temps réel).
+  int get activeCount => activeBusList.length;
+
+  /// Nombre de lignes distinctes au référentiel.
+  int get lineCount {
+    final nums = <int>{};
+    for (final b in listAllBus) {
+      nums.add(b.number);
+    }
+    return nums.length;
+  }
+
+  /// Liste affichée par le dashboard (recherche + filtre).
+  List<BusFromDb> get dashboardBuses {
+    final base = availableActiveBusList.toList();
+    if (lineFilter.value == 'active') {
+      return base.where((b) => b.isActive).toList();
+    }
+    return base;
+  }
+
+  void setLineFilter(String f) {
+    lineFilter.value = f;
+    update();
+  }
+
   Future<void> getAllBus() async {
     isLoading(true);
     errorMessage.value = "";
@@ -231,8 +260,7 @@ class BusController extends GetxController {
       (r) => listAllBus.assignAll(r),
     );
 
-    availableActiveBusList
-        .assignAll([...activeBusList, ...listAllBus]);
+    availableActiveBusList.assignAll(_mergedAvailable());
 
     isLoading(false);
     update();
@@ -246,9 +274,27 @@ class BusController extends GetxController {
     }
   }
 
-  Future<void> getBusByNumber(int busNumber) async {
-    searchActiveBus.assignAll((activeBusList + listAllBus)
-        .where((bus) => bus.number.toString().contains(busNumber.toString())));
+  /// Clé d'une variante (numéro + sens + index) : une variante en
+  /// service et sa fiche statique partagent la même clé.
+  static String _variantKey(BusFromDb b) =>
+      '${b.number}_${b.direction}_${b.variantIndex}';
+
+  /// Live + référentiel sans doublons : la version en service prime sur
+  /// la fiche statique de la même variante (sinon chaque bus en service
+  /// apparaît 2 fois dans la liste et dans la recherche).
+  List<BusFromDb> _mergedAvailable() {
+    final seen = <String>{};
+    final merged = <BusFromDb>[];
+    for (final b in [...activeBusList, ...listAllBus]) {
+      if (seen.add(_variantKey(b))) merged.add(b);
+    }
+    return merged;
+  }
+
+  Future<void> getBusByNumber(int busNumber) async {    final query = busNumber.toString();
+    searchActiveBus.assignAll(_mergedAvailable().where((bus) =>
+        bus.number.toString().contains(query) ||
+        bus.lineLabel.contains(query)));
     availableActiveBusList.assignAll(searchActiveBus);
     update();
   }

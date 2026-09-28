@@ -57,8 +57,10 @@ class HomeDriverController extends GetxController {
   }
 
   Future<void> getBusByNumber(int busNumber) async {
-    searchBus.assignAll(busList.where(
-        (bus) => bus.number.toString().contains(busNumber.toString())));
+    final query = busNumber.toString();
+    searchBus.assignAll(busList.where((bus) =>
+        bus.number.toString().contains(query) ||
+        bus.lineLabel.contains(query)));
     availableBusList.assignAll(searchBus);
     update();
   }

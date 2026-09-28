@@ -1,0 +1,14 @@
+{
+  "name": "import-bus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Importe la liste officielle des lignes SOTRA (bus.json) vers la collection Firestore `bus`.",
+  "type": "module",
+  "scripts": {
+    "import": "node import.mjs",
+    "enrich": "node enrich-bus.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

@@ -8,7 +8,7 @@ part of 'stop.dart';
 
 _Stop _$StopFromJson(Map<String, dynamic> json) => _Stop(
   lat: (json['lat'] as num).toDouble(),
-  long: (json['long'] as num).toDouble(),
+  long: (_readLong(json, 'long') as num).toDouble(),
   label: json['label'] as String?,
   osmId: json['osmId'] as String?,
 );

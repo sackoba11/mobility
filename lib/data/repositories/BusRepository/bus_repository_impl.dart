@@ -8,7 +8,8 @@ import 'i_bus_repository.dart';
 
 @LazySingleton(as: IBusRepository)
 class BusRepositoryImpl implements IBusRepository {
-  // Source unique : Firestore. `listBus` = référentiel statique,
+  // Source unique : Firestore. `bus` = référentiel statique
+  // (scripts/import-bus, 1 doc par variante aller/retour),
   // `activeBus` = bus en service (temps réel via snapshots).
   CollectionReference get _activeBusFs =>
       FirebaseFirestore.instance.collection('activeBus');
@@ -44,14 +45,14 @@ class BusRepositoryImpl implements IBusRepository {
   @override
   Future<Either<AppError, List<BusFromDb>>> getAllBus() async {
     try {
-      final snapShotListBus =
-          await FirebaseFirestore.instance.collection('listBus').get();
-      final docsListBus = snapShotListBus.docs;
+      final snapShotBus =
+          await FirebaseFirestore.instance.collection('bus').get();
+      final docsBus = snapShotBus.docs;
       final buslistFirebse =
-          docsListBus.map((e) => BusFromDb.fromJson(e.data())).toList();
+          docsBus.map((e) => BusFromDb.fromJson(e.data())).toList();
       return right(buslistFirebse);
     } catch (e) {
-      return left(GenericAppError("erreur listBus: ${e.toString()}"));
+      return left(GenericAppError("erreur bus: ${e.toString()}"));
     }
   }
 }

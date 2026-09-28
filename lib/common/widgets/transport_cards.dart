@@ -82,7 +82,7 @@ class BusCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  bus.number.toString(),
+                  bus.displayNumber,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -116,6 +116,14 @@ class BusCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if (bus.variantLabel.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(bus.variantLabel,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis),
+                    ],
                   ],
                 ),
               ),

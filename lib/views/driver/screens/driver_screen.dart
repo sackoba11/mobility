@@ -142,7 +142,7 @@ class _ServicePanel extends GetView<DriverController> {
                 children: [
                   Row(
                     children: [
-                      Text("Bus ${bus.number}",
+                      Text("Bus ${bus.displayNumber}",
                           style: theme.textTheme.titleLarge),
                       const SizedBox(width: 8),
                       Obx(() => _isActiveHere()
