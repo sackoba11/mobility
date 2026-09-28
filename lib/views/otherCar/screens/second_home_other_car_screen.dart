@@ -19,63 +19,87 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
   @override
   Widget build(BuildContext context) {
     final itinerary = controller.itinerary.value;
+    final sourcePos = LatLng(
+      itinerary.source.location.lat,
+      itinerary.source.location.long,
+    );
+    final destPos = LatLng(
+      itinerary.destination.location.lat,
+      itinerary.destination.location.long,
+    );
     return Scaffold(
       body: Stack(
         children: [
-          FlutterMap(
-            mapController: controller.secondMapController,
-            options: MapOptions(
-              initialCenter: const LatLng(5.3502292, -3.9881887),
-              initialZoom: 12,
-              minZoom: 3,
-              maxZoom: 18,
-            ),
-            children: [
-              const AppTileLayer(),
-              MarkerLayer(
-                markers: [
-                  Marker(
-                    point: LatLng(
-                      itinerary.source.location.lat,
-                      itinerary.source.location.long,
-                    ),
-                    width: 44,
-                    height: 44,
-                    child: GestureDetector(
-                      onTap: () => _openGare(itinerary.source),
-                      child: Icon(Icons.trip_origin,
-                          color:
-                              Theme.of(context).colorScheme.primary,
-                          size: 34),
-                    ),
-                  ),
-                  Marker(
-                    point: LatLng(
-                      itinerary.destination.location.lat,
-                      itinerary.destination.location.long,
-                    ),
-                    width: 44,
-                    height: 44,
-                    child: GestureDetector(
-                      onTap: () =>
-                          _openGare(itinerary.destination),
-                      child: Icon(Icons.location_on,
-                          color:
-                              Theme.of(context).colorScheme.error,
-                          size: 38),
-                    ),
-                  ),
-                ],
+          Obx(() {
+            final userPos = controller.userLatLng;
+            // Départ + arrivée + utilisateur toujours visibles.
+            controller.fitSecondOnPoints([sourcePos, destPos, userPos]);
+            return FlutterMap(
+              mapController: controller.secondMapController,
+              options: MapOptions(
+                // Vue initiale = départ niveau rue (tuiles garanties) ;
+                // le fit départ + arrivée + utilisateur suit post-frame.
+                initialCenter: sourcePos,
+                initialZoom: 13,
+                minZoom: 3,
+                maxZoom: 18,
               ),
-              const CurrentLocationLayer(
-                alignPositionOnUpdate: AlignOnUpdate.never,
-              ),
-              const MapCredits(),
-            ],
-          ),
+              children: [
+                const AppTileLayer(),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: sourcePos,
+                      width: 44,
+                      height: 44,
+                      child: GestureDetector(
+                        onTap: () => _openGare(itinerary.source),
+                        child: Icon(Icons.trip_origin,
+                            color:
+                                Theme.of(context).colorScheme.primary,
+                            size: 34),
+                      ),
+                    ),
+                    Marker(
+                      point: destPos,
+                      width: 44,
+                      height: 44,
+                      child: GestureDetector(
+                        onTap: () =>
+                            _openGare(itinerary.destination),
+                        child: Icon(Icons.location_on,
+                            color:
+                                Theme.of(context).colorScheme.error,
+                            size: 38),
+                      ),
+                    ),
+                  ],
+                ),
+                // never : le recentrage auto sur l'utilisateur masquerait
+                // les gares recherchées quand elles sont loin.
+                const CurrentLocationLayer(
+                  alignPositionOnUpdate: AlignOnUpdate.never,
+                ),
+                const MapCredits(),
+              ],
+            );
+          }),
           CenterOnMeButton(
             mapController: controller.secondMapController,
             heroTag: 'locate_second_gares',
+          ),
+          FitPointsButton(
+            mapController: controller.secondMapController,
+            heroTag: 'fit_second_gares',
+            pointsOf: () {
+              final it = controller.itinerary.value;
+              return [
+                LatLng(it.source.location.lat, it.source.location.long),
+                LatLng(it.destination.location.lat,
+                    it.destination.location.long),
+                controller.userLatLng,
+              ];
+            },
           ),
           MapSheet(
             initialSize: 0.38,
@@ -110,6 +134,7 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
 
   Future<void> _openGare(Gare gare) async {
     controller.gare.value = gare;
+    controller.resetFits();
     Get.toNamed(Paths.detailOtherCar);
     controller.routes.value =
         await controller.getRoutes(gare.location);

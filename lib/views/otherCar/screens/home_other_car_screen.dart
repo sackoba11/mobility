@@ -157,6 +157,7 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
                       itinerary: element,
                       onTap: () {
                         controller.itinerary.value = element;
+                        controller.resetFits();
                         Get.toNamed(Paths.secondOtherCar);
                       },
                     );

@@ -108,6 +108,8 @@ class HomeBusScreen extends GetView<BusController> {
                       bus: bus,
                       onTap: () {
                         controller.currentBus.value = bus;
+                        controller.resetSecondFit();
+                        controller.resetDetailFit();
                         Get.toNamed(Paths.secondHomeBus);
                         controller
                             .getRoutes(bus.roadMap)

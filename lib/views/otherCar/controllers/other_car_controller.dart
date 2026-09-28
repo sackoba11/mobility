@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:mobility/utils/error/app_error.dart';
 import 'package:mobility/models/gare/gare.dart';
 import 'package:mobility/models/gare_location/gare_location.dart';
@@ -12,6 +13,7 @@ import 'package:mobility/models/itineraire_gare/itineraire_gare.dart';
 import 'package:mobility/models/transport_type.dart';
 import '../../../services/routing/route_provider.dart';
 import '../../../common/help_functions/help_functions.dart';
+import '../../../common/map/fm_widgets.dart';
 import '../../../data/repositories/OtherCarRepository/i_other_car_repository.dart';
 import '../../../data/repositories/OtherCarRepository/other_car_repository_impl.dart';
 
@@ -89,6 +91,56 @@ class OtherCarController extends GetxController {
   /// Un MapController PAR carte (même raison que côté bus).
   final MapController secondMapController = MapController();
   final MapController detailMapController = MapController();
+
+  /// Dernier cadrage par carte : évite de rejouer un fit à chaque rebuild
+  /// et de casser le zoom manuel de l'utilisateur.
+  List<LatLng>? _lastFitSecond;
+  List<LatLng>? _lastFitDetail;
+
+  static bool _sameFit(List<LatLng>? prev, List<LatLng> next) {
+    if (prev == null || prev.length != next.length) return false;
+    for (var i = 0; i < next.length; i++) {
+      if ((next[i].latitude - prev[i].latitude).abs() > 0.0027 ||
+          (next[i].longitude - prev[i].longitude).abs() > 0.0027) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  void _fitOn(MapController ctrl, List<LatLng> points, List<LatLng>? last,
+      void Function() save) {
+    if (_sameFit(last, points)) return;
+    save();
+    fitWhenReady(ctrl, points);
+  }
+
+  /// Cadre SecondHome (départ + arrivée + utilisateur).
+  void fitSecondOnPoints(List<LatLng> points) => _fitOn(
+        secondMapController,
+        points,
+        _lastFitSecond,
+        () => _lastFitSecond = List.of(points),
+      );
+
+  /// Cadre le détail (gare + utilisateur + tracé éventuel).
+  void fitDetailOnPoints(List<LatLng> points) => _fitOn(
+        detailMapController,
+        points,
+        _lastFitDetail,
+        () => _lastFitDetail = List.of(points),
+      );
+
+  /// Force le recadrage au prochain appel (nouvelle gare recherchée).
+  void resetFits() {
+    _lastFitSecond = null;
+    _lastFitDetail = null;
+  }
+
+  LatLng get userLatLng => LatLng(
+        double.tryParse(userLatitude.value) ?? 5.3502292,
+        double.tryParse(userLongitude.value) ?? -3.9881887,
+      );
 
   Future<Either<AppError, List<Gare>>> getGares() async {
     try {

@@ -210,7 +210,7 @@ class _ServiceMap extends GetView<ServiceTabController> {
                       ],
                     ),
                     const CurrentLocationLayer(
-                      alignPositionOnUpdate: AlignOnUpdate.never,
+                      alignPositionOnUpdate: AlignOnUpdate.once,
                     ),
                     const MapCredits(),
                   ],

@@ -25,20 +25,23 @@ class SecondHomeBusScreen extends GetView<BusController> {
           Obx(() {
             final followed = controller.currentBus.value;
             final pos = followed.position;
+            final userPos = LatLng(
+              double.tryParse(controller.userLatitude.value) ?? 5.3502292,
+              double.tryParse(controller.userLongitude.value) ?? -3.9881887,
+            );
             final target = pos != null
                 ? LatLng(pos.lat, pos.long)
-                : LatLng(
-                    double.tryParse(controller.userLatitude.value) ??
-                        5.3502292,
-                    double.tryParse(controller.userLongitude.value) ??
-                        -3.9881887,
-                  );
+                : userPos;
             if (pos != null) {
-              controller.followSecondPosition(target);
+              // Recadre bus + utilisateur (une fois par déplacement réel) :
+              // les deux restent visibles, zoom manuel préservé ensuite.
+              controller.fitSecondOnBoth(target, userPos);
             }
             return FlutterMap(
               mapController: controller.secondMapController,
               options: MapOptions(
+                // Vue initiale = point recherché niveau rue (tuiles
+                // garanties) ; le fit bus + utilisateur suit post-frame.
                 initialCenter: target,
                 initialZoom: 15,
                 minZoom: 3,
@@ -48,16 +51,22 @@ class SecondHomeBusScreen extends GetView<BusController> {
                 const AppTileLayer(),
                 MarkerLayer(
                   markers: [
-                    Marker(
-                      point: target,
-                      width: 56,
-                      height: 70,
-                      alignment: Alignment.topCenter,
-                      child: BusPin(
-                          label: followed.number.toString()),
-                    ),
+                    // Épingle bus UNIQUEMENT si position live connue :
+                    // sinon elle se poserait sur l'utilisateur (point bleu
+                    // seul dans ce cas).
+                    if (pos != null)
+                      Marker(
+                        point: target,
+                        width: 56,
+                        height: 70,
+                        alignment: Alignment.topCenter,
+                        child: BusPin(
+                            label: followed.number.toString()),
+                      ),
                   ],
                 ),
+                // never : le recentrage auto sur l'utilisateur masquerait
+                // le bus recherché quand il est loin.
                 const CurrentLocationLayer(
                   alignPositionOnUpdate: AlignOnUpdate.never,
                 ),
@@ -68,6 +77,19 @@ class SecondHomeBusScreen extends GetView<BusController> {
           CenterOnMeButton(
             mapController: controller.secondMapController,
             heroTag: 'locate_second_bus',
+          ),
+          FitPointsButton(
+            mapController: controller.secondMapController,
+            heroTag: 'fit_second_bus',
+            pointsOf: () {
+              final pos = controller.currentBus.value.position;
+              final user = LatLng(
+                double.tryParse(controller.userLatitude.value) ?? 5.3502292,
+                double.tryParse(controller.userLongitude.value) ?? -3.9881887,
+              );
+              if (pos == null) return [user];
+              return [LatLng(pos.lat, pos.long), user];
+            },
           ),
           MapSheet(
             initialSize: 0.35,
@@ -113,6 +135,7 @@ class SecondHomeBusScreen extends GetView<BusController> {
                         bus: bus,
                         onTap: () {
                           busController.currentBus.value = bus;
+                          busController.resetDetailFit();
                           Get.toNamed(Paths.detailHomeBus);
                           busController
                               .getRoutes(bus.roadMap)

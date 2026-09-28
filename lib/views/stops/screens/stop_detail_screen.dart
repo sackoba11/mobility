@@ -36,6 +36,23 @@ class StopDetailScreen extends GetView<StopsController> {
       );
     }
     final stopPos = LatLng(stop.lat, stop.lng);
+    // Position passager si connue (via le controller bus partagé).
+    LatLng? userPos;
+    if (Get.isRegistered<BusController>()) {
+      final busCtrl = Get.find<BusController>();
+      final lat = double.tryParse(busCtrl.userLatitude.value);
+      final lng = double.tryParse(busCtrl.userLongitude.value);
+      if (lat != null && lng != null) userPos = LatLng(lat, lng);
+    }
+    final both = userPos != null ? [stopPos, userPos] : [stopPos];
+    // Cadrage arrêt + utilisateur (une fois par arrêt : les rebuilds
+    // suivants préservent le zoom manuel). Vue initiale = arrêt niveau
+    // rue, donc jamais de fond gris même si le fit échoue.
+    final fitKey = '${stop.lat},${stop.lng}';
+    if (controller.lastFittedStopKey != fitKey) {
+      controller.lastFittedStopKey = fitKey;
+      fitWhenReady(mapController, both);
+    }
     return Scaffold(
       body: Stack(
         children: [
@@ -61,6 +78,8 @@ class StopDetailScreen extends GetView<StopsController> {
                   ),
                 ],
               ),
+              // never : le recentrage auto sur l'utilisateur masquerait
+              // l'arrêt recherché quand il est loin.
               const CurrentLocationLayer(
                 alignPositionOnUpdate: AlignOnUpdate.never,
               ),
@@ -70,6 +89,20 @@ class StopDetailScreen extends GetView<StopsController> {
           CenterOnMeButton(
             mapController: mapController,
             heroTag: 'locate_stop_detail',
+          ),
+          FitPointsButton(
+            mapController: mapController,
+            heroTag: 'fit_stop_detail',
+            pointsOf: () {
+              LatLng? u;
+              if (Get.isRegistered<BusController>()) {
+                final busCtrl = Get.find<BusController>();
+                final lat = double.tryParse(busCtrl.userLatitude.value);
+                final lng = double.tryParse(busCtrl.userLongitude.value);
+                if (lat != null && lng != null) u = LatLng(lat, lng);
+              }
+              return u != null ? [stopPos, u] : [stopPos];
+            },
           ),
           MapSheet(
             initialSize: 0.45,
@@ -150,6 +183,8 @@ class StopDetailScreen extends GetView<StopsController> {
                                   Get.find<BusController>();
                               busController.currentBus.value =
                                   bus;
+                              busController.resetSecondFit();
+                              busController.resetDetailFit();
                               Get.toNamed(Paths.secondHomeBus);
                               busController
                                   .getRoutes(bus.roadMap)

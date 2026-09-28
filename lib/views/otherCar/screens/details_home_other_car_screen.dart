@@ -32,6 +32,23 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
             mapController: controller.detailMapController,
             heroTag: 'locate_detail_gare',
           ),
+          FitPointsButton(
+            mapController: controller.detailMapController,
+            heroTag: 'fit_detail_gare',
+            pointsOf: () {
+              final g = controller.gare.value;
+              final pts = <LatLng>[
+                LatLng(g.location.lat, g.location.long),
+                controller.userLatLng,
+              ];
+              for (final e in controller.routes) {
+                if (e is List && e.length >= 2) {
+                  pts.add(lngLatToLatLng(e, 5.3502292, -3.9881887));
+                }
+              }
+              return pts;
+            },
+          ),
           MapSheet(
             initialSize: 0.38,
             child: Column(
@@ -110,15 +127,20 @@ class _GareMap extends GetView<OtherCarController> {
         gare.location.lat,
         gare.location.long,
       );
+      final userPos = controller.userLatLng;
       final routePoints = controller.routes
           .where((element) =>
               element is List && element.length >= 2)
           .map((element) =>
               lngLatToLatLng(element, 5.3502292, -3.9881887))
           .toList();
+      // Gare + utilisateur (+ tracé) toujours visibles.
+      controller.fitDetailOnPoints([garePos, userPos, ...routePoints]);
       return FlutterMap(
         mapController: controller.detailMapController,
         options: MapOptions(
+          // Vue initiale = gare niveau rue (tuiles garanties) ; le fit
+          // gare + utilisateur suit post-frame.
           initialCenter: garePos,
           initialZoom: 14,
           minZoom: 3,
@@ -158,6 +180,8 @@ class _GareMap extends GetView<OtherCarController> {
               ),
             ],
           ),
+          // never : le recentrage auto sur l'utilisateur masquerait
+          // la gare recherchée quand elle est loin.
           const CurrentLocationLayer(
             alignPositionOnUpdate: AlignOnUpdate.never,
           ),

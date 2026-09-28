@@ -80,7 +80,7 @@ class _DriverMap extends GetView<DriverController> {
         children: const [
           AppTileLayer(),
           CurrentLocationLayer(
-            alignPositionOnUpdate: AlignOnUpdate.never,
+            alignPositionOnUpdate: AlignOnUpdate.once,
           ),
           MapCredits(),
         ],

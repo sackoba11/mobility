@@ -55,6 +55,20 @@ class DetailsHomeBusScreen extends GetView<BusController> {
             mapController: controller.detailMapController,
             heroTag: 'locate_detail_bus',
           ),
+          FitPointsButton(
+            mapController: controller.detailMapController,
+            heroTag: 'fit_detail_bus',
+            pointsOf: () {
+              final busPos = controller.currentBus.value.position;
+              final user = LatLng(
+                double.tryParse(controller.userLatitude.value) ?? 5.3502292,
+                double.tryParse(controller.userLongitude.value) ?? -3.9881887,
+              );
+              final pts = <LatLng>[user];
+              if (busPos != null) pts.add(LatLng(busPos.lat, busPos.long));
+              return pts;
+            },
+          ),
           MapSheet(
             initialSize: 0.42,
             child: Column(
@@ -154,11 +168,16 @@ class _DetailMap extends GetView<BusController> {
     return Obx(() {
       final bus = controller.currentBus.value;
       final livePos = bus.position;
+      final userPos = LatLng(
+        double.tryParse(controller.userLatitude.value) ?? 5.3502292,
+        double.tryParse(controller.userLongitude.value) ?? -3.9881887,
+      );
       final liveTarget = livePos != null
           ? LatLng(livePos.lat, livePos.long)
           : lngLatToLatLng(first, 5.3502292, -3.9881887);
       if (livePos != null) {
-        controller.followBusPosition(liveTarget);
+        // Recadre bus + utilisateur (une fois par déplacement réel).
+        controller.fitDetailOnBoth(liveTarget, userPos);
       }
       final routePoints = [
         for (var i in controller.routes)
@@ -168,6 +187,8 @@ class _DetailMap extends GetView<BusController> {
       return FlutterMap(
         mapController: controller.detailMapController,
         options: MapOptions(
+          // Vue initiale = bus niveau rue (tuiles garanties) ; le fit
+          // bus + utilisateur suit post-frame.
           initialCenter: liveTarget,
           initialZoom: 13.5,
           minZoom: 3,
@@ -249,6 +270,8 @@ class _DetailMap extends GetView<BusController> {
                 ),
             ],
           ),
+          // never : le recentrage auto sur l'utilisateur masquerait
+          // le bus recherché quand il est loin.
           const CurrentLocationLayer(
             alignPositionOnUpdate: AlignOnUpdate.never,
           ),

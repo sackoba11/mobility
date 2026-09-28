@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../common/help_functions/help_functions.dart';
+import '../../../common/map/fm_widgets.dart';
 import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/stop/stop.dart';
 import '../../../services/routing/route_provider.dart';
@@ -55,6 +56,72 @@ class BusController extends GetxController {
   /// le bus n'a pas bougé). Déplacements post-frame (interdits en build).
   LatLng? lastFollowedBusPos;
   LatLng? lastFollowedSecondPos;
+
+  /// Dernier couple (bus, user) déjà cadré par carte : évite de rejouer
+  /// un fit à chaque tick GPS et de casser le zoom manuel de l'utilisateur.
+  /// Le recadrage ne rejoue que si le bus OU l'utilisateur a vraiment bougé
+  /// (~300 m) ou si la cible suivie a changé (nouvelle recherche).
+  LatLng? _lastFitSecondBus;
+  LatLng? _lastFitSecondUser;
+  LatLng? _lastFitDetailBus;
+  LatLng? _lastFitDetailUser;
+
+  static bool _movedEnough(LatLng? prev, LatLng next) {
+    if (prev == null) return true;
+    return (next.latitude - prev.latitude).abs() > 0.0027 ||
+        (next.longitude - prev.longitude).abs() > 0.0027;
+  }
+
+  void _fitBothOn(
+    MapController ctrl,
+    LatLng bus,
+    LatLng user,
+    LatLng? lastBus,
+    LatLng? lastUser,
+    void Function() save,
+  ) {
+    if (!_movedEnough(lastBus, bus) && !_movedEnough(lastUser, user)) return;
+    save();
+    fitWhenReady(ctrl, [bus, user]);
+  }
+
+  /// Cadre SecondHome sur bus + utilisateur (toujours les deux visibles).
+  void fitSecondOnBoth(LatLng bus, LatLng user) => _fitBothOn(
+        secondMapController,
+        bus,
+        user,
+        _lastFitSecondBus,
+        _lastFitSecondUser,
+        () {
+          _lastFitSecondBus = bus;
+          _lastFitSecondUser = user;
+        },
+      );
+
+  /// Cadre le détail sur bus + utilisateur (toujours les deux visibles).
+  void fitDetailOnBoth(LatLng bus, LatLng user) => _fitBothOn(
+        detailMapController,
+        bus,
+        user,
+        _lastFitDetailBus,
+        _lastFitDetailUser,
+        () {
+          _lastFitDetailBus = bus;
+          _lastFitDetailUser = user;
+        },
+      );
+
+  /// Force le recadrage au prochain appel (changement de bus recherché).
+  void resetSecondFit() {
+    _lastFitSecondBus = null;
+    _lastFitSecondUser = null;
+  }
+
+  /// Force le recadrage au prochain appel (changement de bus recherché).
+  void resetDetailFit() {
+    _lastFitDetailBus = null;
+    _lastFitDetailUser = null;
+  }
 
   void _followOn(MapController ctrl, LatLng? last, LatLng target,
       void Function(LatLng) save) {
