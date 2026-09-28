@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../views/bus/screens/details_home_bus_screen.dart';
 import '../views/bus/screens/home_bus_screen.dart';
+import '../views/bus/screens/line_detail_screen.dart';
 import '../views/bus/screens/second_home_bus_screen.dart';
 import '../views/driver/screens/driver_screen.dart';
 import '../views/otherCar/screens/details_home_other_car_screen.dart';
@@ -67,6 +68,11 @@ class AppPages {
       name: Paths.homeBus,
       page: () => const HomeBusScreen(),
       binding: AppBindings.tabs(),
+    ),
+    // Détail d'une ligne : onglets Aller / Retour + timeline.
+    GetPage(
+      name: Paths.lineDetail,
+      page: () => const LineDetailScreen(),
     ),
     GetPage(
       name: Paths.secondHomeBus,

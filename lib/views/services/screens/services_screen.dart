@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
@@ -58,13 +57,13 @@ class ServiceScreen extends GetView<ServicesController> {
                 ),
               ),
               const SizedBox(height: 32),
-              Text("Qui êtes-vous ?",
-                  style: theme.textTheme.titleLarge),
+              Text("Qui êtes-vous ?", style: theme.textTheme.titleLarge),
               const SizedBox(height: 4),
               Text(
                 "Choisissez votre profil pour continuer.",
                 style: theme.textTheme.bodyMedium?.copyWith(
-                    color: scheme.onSurfaceVariant),
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 16),
               _RoleCard(
@@ -72,7 +71,9 @@ class ServiceScreen extends GetView<ServicesController> {
                 title: AppString.passenger,
                 subtitle: AppString.searchService,
                 onTap: () => HelpFunctions.customModalSheet(
-                    context: context, child: const BottomSheetUser()),
+                  context: context,
+                  child: const BottomSheetUser(),
+                ),
               ),
               const SizedBox(height: 12),
               _RoleCard(
@@ -80,7 +81,9 @@ class ServiceScreen extends GetView<ServicesController> {
                 title: AppString.driverBus,
                 subtitle: AppString.activateService,
                 onTap: () => HelpFunctions.customModalSheet(
-                    context: context, child: const BottomSheetDriver()),
+                  context: context,
+                  child: const BottomSheetDriver(),
+                ),
               ),
             ],
           ),
@@ -132,9 +135,12 @@ class _RoleCard extends StatelessWidget {
                   children: [
                     Text(title, style: theme.textTheme.titleMedium),
                     const SizedBox(height: 4),
-                    Text(subtitle,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            color: scheme.onSurfaceVariant)),
+                    Text(
+                      subtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
                   ],
                 ),
               ),

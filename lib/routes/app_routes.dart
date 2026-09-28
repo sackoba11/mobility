@@ -24,6 +24,7 @@ abstract class Paths {
 
   // Bus Home
   static const homeBus = '/bus';
+  static const lineDetail = '/bus/lineDetail';
   static const secondHomeBus = "/bus/secondHomeBus";
   static const detailHomeBus = "/bus/secondHomeBus/detailHomeBus";
 

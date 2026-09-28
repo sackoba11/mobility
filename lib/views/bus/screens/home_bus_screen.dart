@@ -23,7 +23,7 @@ class HomeBusScreen extends GetView<BusController> {
             tooltip: "Actualiser",
             icon: const Icon(Icons.refresh),
             onPressed: () async => controller.getAllBus(),
-          )
+          ),
         ],
       ),
       body: Column(
@@ -67,49 +67,49 @@ class HomeBusScreen extends GetView<BusController> {
           // --- Raccourcis dashboard ---
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: Obx(() => Row(
-                  children: [
-                    Expanded(
-                      child: _DashCard(
-                        icon: Icons.directions_bus_filled,
-                        value: '${controller.activeCount}',
-                        label: 'En service',
-                        color: Colors.green,
-                        selected:
-                            controller.lineFilter.value == 'active',
-                        onTap: () => _applyFilter('active'),
-                      ),
+            child: Obx(
+              () => Row(
+                children: [
+                  Expanded(
+                    child: _DashCard(
+                      icon: Icons.route_outlined,
+                      value: '${controller.lineCount}',
+                      label: 'Lignes',
+                      color: theme.colorScheme.primary,
+                      selected: controller.lineFilter.value == 'all',
+                      onTap: () => _applyFilter('all'),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: _DashCard(
-                        icon: Icons.route_outlined,
-                        value: '${controller.lineCount}',
-                        label: 'Lignes',
-                        color: theme.colorScheme.primary,
-                        selected:
-                            controller.lineFilter.value == 'all',
-                        onTap: () => _applyFilter('all'),
-                      ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _DashCard(
+                      icon: Icons.directions_bus_filled,
+                      value: '${controller.activeCount}',
+                      label: 'En service',
+                      color: Colors.green,
+                      selected: controller.lineFilter.value == 'active',
+                      onTap: () => _applyFilter('active'),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: _DashCard(
-                        icon: Icons.location_on_outlined,
-                        value: '',
-                        label: 'Arrêts',
-                        color: theme.colorScheme.secondary,
-                        onTap: () => Get.toNamed(Paths.stops),
-                      ),
+                  ),
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: _DashCard(
+                      icon: Icons.location_on_outlined,
+                      value: '',
+                      label: 'Arrêts',
+                      color: theme.colorScheme.secondary,
+                      onTap: () => Get.toNamed(Paths.stops),
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
             child: Obx(() {
-              final active =
-                  controller.lineFilter.value == 'active';
+              final active = controller.lineFilter.value == 'active';
               final n = controller.dashboardBuses.length;
               return Text(
                 active ? 'Bus en service ($n)' : 'Lignes de bus ($n)',
@@ -123,8 +123,7 @@ class HomeBusScreen extends GetView<BusController> {
           Expanded(
             child: Obx(() {
               if (controller.isLoading.value) {
-                return const AppLoadingView(
-                    message: "Recherche des bus...");
+                return const AppLoadingView(message: "Recherche des bus...");
               }
               if (controller.errorMessage.value.isNotEmpty &&
                   controller.availableActiveBusList.isEmpty) {
@@ -135,10 +134,8 @@ class HomeBusScreen extends GetView<BusController> {
               }
               final buses = controller.dashboardBuses;
               if (buses.isEmpty) {
-                final query =
-                    controller.textEditingController.text.trim();
-                final activeOnly =
-                    controller.lineFilter.value == 'active';
+                final query = controller.textEditingController.text.trim();
+                final activeOnly = controller.lineFilter.value == 'active';
                 return AppEmptyView(
                   icon: activeOnly
                       ? Icons.directions_bus_outlined
@@ -149,8 +146,9 @@ class HomeBusScreen extends GetView<BusController> {
                   subtitle: activeOnly && query.isEmpty
                       ? "Revenez plus tard ou explorez les lignes."
                       : "Essayez un autre numéro ou actualisez la liste.",
-                  actionLabel:
-                      activeOnly && query.isEmpty ? "Voir les lignes" : null,
+                  actionLabel: activeOnly && query.isEmpty
+                      ? "Voir les lignes"
+                      : null,
                   onAction: activeOnly && query.isEmpty
                       ? () => controller.setLineFilter('all')
                       : null,
@@ -161,23 +159,16 @@ class HomeBusScreen extends GetView<BusController> {
                 child: ListView.separated(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
                   itemCount: buses.length,
-                  separatorBuilder: (_, _) =>
-                      const SizedBox(height: 10),
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, index) {
                     final bus = buses[index];
                     return BusCard(
                       bus: bus,
                       onTap: () {
+                        // Fiche ligne (onglets Aller / Retour) : le suivi
+                        // live part de là via "Suivre en direct".
                         controller.currentBus.value = bus;
-                        controller.resetSecondFit();
-                        controller.resetDetailFit();
-                        Get.toNamed(Paths.secondHomeBus);
-                        controller
-                            .getRoutes(bus.roadMap)
-                            .then((r) {
-                          controller.routes = r;
-                          controller.update();
-                        });
+                        Get.toNamed(Paths.lineDetail);
                       },
                     );
                   },
@@ -242,17 +233,22 @@ class _DashCard extends StatelessWidget {
             children: [
               Icon(icon, color: color, size: 24),
               const SizedBox(height: 4),
-              if (value.isNotEmpty)
-                Text(value,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: color,
-                    )),
-              Text(label,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: scheme.onSurfaceVariant,
-                  )),
+              // Ligne valeur toujours rendue (insécable si vide)
+              // pour des cartes strictement de même hauteur.
+              Text(
+                value.isNotEmpty ? value : ' ',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: color,
+                ),
+              ),
+              Text(
+                label,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
             ],
           ),
         ),

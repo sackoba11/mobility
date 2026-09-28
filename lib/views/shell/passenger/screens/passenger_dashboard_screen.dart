@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobility/common/assets/assets.gen.dart';
 
-import '../../controllers/shell_controller.dart';
 import '../../../home/controllers/home_user_controller.dart';
+import '../../controllers/shell_controller.dart';
 
 /// Accueil passager (Phase shell) : salut + accès directs aux transports.
 /// Remplace l'ancienne page plate à 2 gros boutons.
@@ -42,23 +41,22 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
               Text(
                 'Où allez-vous aujourd\'hui ?',
                 style: theme.textTheme.bodyLarge?.copyWith(
-                    color: scheme.onSurfaceVariant),
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 20),
               _ShortcutCard(
-                icon: Assets.bus.svg(width: 44, height: 44),
+                icon: Icons.directions_bus_outlined,
                 title: 'Bus Sotra',
                 subtitle: 'Lignes et bus en direct',
-                onTap: () =>
-                    Get.find<ShellController>().setTab(1),
+                onTap: () => Get.find<ShellController>().setTab(1),
               ),
               const SizedBox(height: 12),
               _ShortcutCard(
-                icon: Assets.bus.svg(width: 44, height: 44),
+                icon: Icons.local_taxi_outlined,
                 title: 'Gbaka • Taxi',
                 subtitle: 'Gares les plus proches',
-                onTap: () =>
-                    Get.find<ShellController>().setTab(2),
+                onTap: () => Get.find<ShellController>().setTab(2),
               ),
               const SizedBox(height: 20),
               Container(
@@ -70,14 +68,14 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline,
-                        color: scheme.onPrimaryContainer),
+                    Icon(Icons.info_outline, color: scheme.onPrimaryContainer),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'Les positions des bus sont partagées en direct par les chauffeurs en service.',
                         style: theme.textTheme.bodySmall?.copyWith(
-                            color: scheme.onPrimaryContainer),
+                          color: scheme.onPrimaryContainer,
+                        ),
                       ),
                     ),
                   ],
@@ -92,7 +90,7 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
 }
 
 class _ShortcutCard extends StatelessWidget {
-  final Widget icon;
+  final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -124,24 +122,30 @@ class _ShortcutCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 alignment: Alignment.center,
-                child: icon,
+                child: Icon(
+                  icon,
+                  size: 35,
+                  color: theme.colorScheme.onPrimary,
+                  weight: 5,
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: theme.textTheme.titleMedium),
+                    Text(title, style: theme.textTheme.titleMedium),
                     const SizedBox(height: 2),
-                    Text(subtitle,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            color: scheme.onSurfaceVariant)),
+                    Text(
+                      subtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right,
-                  color: scheme.onSurfaceVariant),
+              Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
             ],
           ),
         ),

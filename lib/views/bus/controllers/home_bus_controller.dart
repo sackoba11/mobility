@@ -231,17 +231,48 @@ class BusController extends GetxController {
   }
 
   /// Liste affichée par le dashboard (recherche + filtre).
+  /// Mode 'all' : une ligne par variante, sens aller uniquement.
+  /// Mode 'active' : bus en service (tous sens, temps réel).
   List<BusFromDb> get dashboardBuses {
     final base = availableActiveBusList.toList();
     if (lineFilter.value == 'active') {
       return base.where((b) => b.isActive).toList();
     }
-    return base;
+    return base.where((b) => !isRetour(b)).toList();
   }
 
   void setLineFilter(String f) {
     lineFilter.value = f;
     update();
+  }
+
+  /// Vrai pour les variantes retour (exclues de la liste des lignes).
+  /// Les docs historiques sans sens restent visibles (compat).
+  static bool isRetour(BusFromDb b) =>
+      b.direction.trim().toLowerCase() == 'retour';
+
+  /// Toutes les variantes d'une ligne (live prioritaire), aller d'abord.
+  List<BusFromDb> variantsOf(int number) {
+    final list = _mergedAvailable()
+        .where((b) => b.number == number)
+        .toList();
+    list.sort((a, b) {
+      final dir = _directionRank(a).compareTo(_directionRank(b));
+      if (dir != 0) return dir;
+      return a.variantIndex.compareTo(b.variantIndex);
+    });
+    return list;
+  }
+
+  static int _directionRank(BusFromDb b) =>
+      isRetour(b) ? 1 : 0;
+
+  /// Distance utilisateur -> arrêt (mètres), null si GPS inconnu.
+  double? distanceToStop(Stop s) {
+    final lat = double.tryParse(userLatitude.value);
+    final lng = double.tryParse(userLongitude.value);
+    if (lat == null || lng == null) return null;
+    return Geolocator.distanceBetween(lat, lng, s.lat, s.long);
   }
 
   Future<void> getAllBus() async {
