@@ -7,7 +7,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobility/common/assets/assets.gen.dart';
 
 import '../../../common/map/fm_widgets.dart';
-
 import '../../../common/help_functions/help_functions.dart';
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
@@ -39,40 +38,54 @@ class DriverScreen extends GetView<DriverController> {
     // l'onglet Service. L'unicité (un seul bus actif) est garantie par
     // DriverController.startTracking (clôture du précédent).
     return Scaffold(
-        body: Stack(
-          children: [
-            Obx(() {
-              final target = LatLng(
-                double.tryParse(controller.userLatitude.value) ??
-                    5.3502292,
-                double.tryParse(controller.userLongitude.value) ??
-                    -3.9881887,
-              );
-              // Suivi caméra comme côté passager.
-              controller.followDriverPosition(target);
-              return FlutterMap(
-                mapController: controller.mapController,
-                options: MapOptions(
-                  initialCenter: target,
-                  initialZoom: 15,
-                ),
-                children: const [
-                  AppTileLayer(),
-                  CurrentLocationLayer(
-                    alignPositionOnUpdate: AlignOnUpdate.never,
-                  ),
-                  MapCredits(),
-                ],
-              );
-            }),
-            MapSheet(
-              initialSize: 0.42,
-              minSize: 0.3,
-              child: _ServicePanel(bus: bus),
-            ),
-          ],
-        ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: _DriverMap(),
+          ),
+          CenterOnMeButton(
+            mapController: controller.mapController,
+            heroTag: 'locate_driver',
+          ),
+          MapSheet(
+            initialSize: 0.42,
+            minSize: 0.3,
+            child: _ServicePanel(bus: bus),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Carte de la fiche chauffeur (extrait pour lisibilité).
+class _DriverMap extends GetView<DriverController> {
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      final target = LatLng(
+        double.tryParse(controller.userLatitude.value) ?? 5.3502292,
+        double.tryParse(controller.userLongitude.value) ?? -3.9881887,
       );
+      // Suivi caméra comme côté passager.
+      controller.followDriverPosition(target);
+      return FlutterMap(
+        mapController: controller.mapController,
+              options: MapOptions(
+                initialCenter: target,
+                initialZoom: 15,
+                minZoom: 3,
+                maxZoom: 18,
+              ),
+        children: const [
+          AppTileLayer(),
+          CurrentLocationLayer(
+            alignPositionOnUpdate: AlignOnUpdate.never,
+          ),
+          MapCredits(),
+        ],
+      );
+    });
   }
 }
 

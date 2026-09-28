@@ -1,0 +1,14 @@
+{
+  "name": "verify-osm-stops",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Compare les arrêts OSM (Overpass) au catalogue Firestore et propose les manquants.",
+  "type": "module",
+  "scripts": {
+    "verify": "node verify.mjs",
+    "apply": "node verify.mjs --apply"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

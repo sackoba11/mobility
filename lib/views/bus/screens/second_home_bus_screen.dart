@@ -5,16 +5,13 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../common/map/fm_widgets.dart';
-import '../../../common/map/poi_overlay.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../routes/app_pages.dart';
-import '../../../services/places/poi_controller.dart';
-import '../../../services/places/poi_service.dart';
 import '../controllers/home_bus_controller.dart';
 
-/// Bus actifs du même numéro sur carte (flutter_map).
+/// Bus actifs du même numéro : carte + bottom-sheet moderne.
 class SecondHomeBusScreen extends GetView<BusController> {
   const SecondHomeBusScreen({
     super.key,
@@ -36,16 +33,16 @@ class SecondHomeBusScreen extends GetView<BusController> {
                     double.tryParse(controller.userLongitude.value) ??
                         -3.9881887,
                   );
-            if (pos != null) controller.followSecondPosition(target);
-            final List<PoiPlace> pois =
-                Get.isRegistered<PoiController>()
-                    ? Get.find<PoiController>().places
-                    : const <PoiPlace>[];
+            if (pos != null) {
+              controller.followSecondPosition(target);
+            }
             return FlutterMap(
               mapController: controller.secondMapController,
               options: MapOptions(
                 initialCenter: target,
                 initialZoom: 15,
+                minZoom: 3,
+                maxZoom: 18,
               ),
               children: [
                 const AppTileLayer(),
@@ -59,7 +56,6 @@ class SecondHomeBusScreen extends GetView<BusController> {
                       child: BusPin(
                           label: followed.number.toString()),
                     ),
-                    ...poiMarkers(pois, context),
                   ],
                 ),
                 const CurrentLocationLayer(
@@ -69,9 +65,9 @@ class SecondHomeBusScreen extends GetView<BusController> {
               ],
             );
           }),
-          PoiMapOverlay(
-            centerOf: () =>
-                controller.secondMapController.camera.center,
+          CenterOnMeButton(
+            mapController: controller.secondMapController,
+            heroTag: 'locate_second_bus',
           ),
           MapSheet(
             initialSize: 0.35,
@@ -86,10 +82,13 @@ class SecondHomeBusScreen extends GetView<BusController> {
                       : "Aucun bus actif — ligne de référence.",
                 ),
                 const SizedBox(height: 12),
-                GetBuilder<BusController>(builder: (busController) {
-                  final currentNumber =
-                      busController.currentBus.value.number.toString();
-                  final actives = busController.availableActiveBusList
+                GetBuilder<BusController>(
+                    builder: (busController) {
+                  final currentNumber = busController
+                      .currentBus.value.number
+                      .toString();
+                  final actives = busController
+                      .availableActiveBusList
                       .where((e) =>
                           e.isActive == true &&
                           e.number.toString() == currentNumber)

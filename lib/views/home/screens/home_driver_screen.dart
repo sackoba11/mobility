@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/widgets/app_search_field.dart';
-import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../common/widgets/user_avatar.dart';
@@ -22,98 +21,94 @@ class HomeDriverScreen extends GetView<HomeDriverController> {
       Get.put(HomeDriverController());
     }
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
     return Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 12),
-            child: _DriverAvatar(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: _DriverAvatar(),
+        ),
+        title: const Text("Espace chauffeur"),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+            child: Text(
+              "Quel bus mettez-vous en service ?",
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
-          title: const Text("Espace chauffeur"),
-        ),
-        body: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              child: Text(
-                "Quel bus mettez-vous en service ?",
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+            child: AppSearchField(
+              controller: controller.textEditingController,
+              hintText: "Numéro du bus (ex. 610)",
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                final text = value.trim();
+                if (text.isNotEmpty) {
+                  final parsed = int.tryParse(text);
+                  if (parsed == null) {
+                    controller.searchBus.clear();
+                    controller.availableBusList.clear();
+                    return;
+                  }
+                  controller.number?.value = parsed;
+                  controller.getBusByNumber(parsed);
+                } else {
+                  controller.getBus();
+                }
+              },
             ),
-            MapSheet(
-              initialSize: 0.68,
-              minSize: 0.5,
-              header: AppSearchField(
-                controller: controller.textEditingController,
-                hintText: "Numéro du bus (ex. 610)",
-                keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      final text = value.trim();
-                      if (text.isNotEmpty) {
-                        final parsed = int.tryParse(text);
-                        if (parsed == null) {
-                          controller.searchBus.clear();
-                          controller.availableBusList.clear();
-                          return;
-                        }
-                        controller.number?.value = parsed;
-                        controller.getBusByNumber(parsed);
-                      } else {
-                        controller.getBus();
-                      }
-                    },
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(() {
-                    if (controller.isLoading.value) {
-                      return const AppLoadingView(
-                          message: "Chargement des bus...");
-                    }
-                    if (controller.availableBusList.isEmpty) {
-                      final query = controller
-                          .textEditingController.text
-                          .trim();
-                      return AppEmptyView(
-                        icon: Icons.directions_bus_outlined,
-                        title: query.isEmpty
-                            ? "Pas de bus disponibles"
-                            : "Aucun bus n°$query",
-                        subtitle: query.isEmpty
-                            ? "Revenez plus tard."
-                            : "Vérifiez le numéro saisi.",
-                      );
-                    }
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount:
-                          controller.availableBusList.length,
-                      separatorBuilder: (_, _) =>
-                          const SizedBox(height: 10),
-                      itemBuilder: (context, index) {
-                        final Bus e =
-                            controller.availableBusList[index];
-                        return _DriverBusCard(
-                          bus: e,
-                          onTap: () =>
-                              Get.toNamed(Paths.driver, arguments: e),
-                        );
-                      },
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: Obx(() {
+              if (controller.isLoading.value) {
+                return const AppLoadingView(
+                    message: "Chargement des bus...");
+              }
+              if (controller.availableBusList.isEmpty) {
+                final query = controller
+                    .textEditingController.text
+                    .trim();
+                return AppEmptyView(
+                  icon: Icons.directions_bus_outlined,
+                  title: query.isEmpty
+                      ? "Pas de bus disponibles"
+                      : "Aucun bus n°$query",
+                  subtitle: query.isEmpty
+                      ? "Revenez plus tard."
+                      : "Vérifiez le numéro saisi.",
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: controller.getBus,
+                child: ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+                  itemCount:
+                      controller.availableBusList.length,
+                  separatorBuilder: (_, _) =>
+                      const SizedBox(height: 10),
+                  itemBuilder: (context, index) {
+                    final Bus e =
+                        controller.availableBusList[index];
+                    return _DriverBusCard(
+                      bus: e,
+                      onTap: () =>
+                          Get.toNamed(Paths.driver, arguments: e),
                     );
-                  }),
-                ],
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: scheme.surface,
-      );
+                  },
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
   }
 }
 

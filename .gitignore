@@ -51,5 +51,6 @@ app.*.map.json
 
 # Scripts : dépendances + clés de comptes de service (jamais committées)
 scripts/**/node_modules/
+scripts/**/rapport-osm.json
 **/*service-account*.json
 **/*service_account*.json

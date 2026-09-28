@@ -1,41 +1,133 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobility/models/stop/stop.dart';
 
-/// Fond de carte sans clé ni abonnement :
-/// - primaire : OpenStreetMap standard (gratuit, attribution requise),
-/// - secours automatique : Esri Grey Canvas si OSM ne répond pas.
-/// (CARTO exige désormais une clé même gratuite + filigrane sinon.)
-class AppTileLayer extends StatelessWidget {
-  const AppTileLayer({super.key});
+/// Bouton "ma position" à poser dans le Stack d'une carte (haut-droite).
+/// Centre la caméra sur le GPS (heroTag unique obligatoire : plusieurs
+/// cartes coexistent dans l'arbre).
+class CenterOnMeButton extends StatelessWidget {
+  final MapController mapController;
+  final String heroTag;
+
+  const CenterOnMeButton({
+    super.key,
+    required this.mapController,
+    required this.heroTag,
+  });
+
+  Future<void> _center() async {
+    try {
+      if (!await Geolocator.isLocationServiceEnabled()) {
+        await Geolocator.openLocationSettings();
+        return;
+      }
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        return;
+      }
+      final pos = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 10),
+        ),
+      );
+      mapController.move(
+          LatLng(pos.latitude, pos.longitude), 16);
+    } catch (_) {
+      Get.snackbar(
+        'Localisation indisponible',
+        'Vérifiez le GPS et la permission de localisation.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TileLayer(
-      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-      userAgentPackageName: 'com.example.mobility',
-      maxZoom: 19,
-      maxNativeZoom: 19,
-      // Ordre Esri : {z}/{y}/{x}.
-      fallbackUrl:
-          'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    final scheme = Theme.of(context).colorScheme;
+    return Positioned(
+      // Sous la zone système (cartes plein écran sans SafeArea haute).
+      top: 16 + MediaQuery.of(context).padding.top,
+      right: 12,
+      child: FloatingActionButton.small(
+        heroTag: heroTag,
+        tooltip: 'Ma position',
+        backgroundColor: scheme.surface,
+        foregroundColor: scheme.primary,
+        onPressed: _center,
+        child: const Icon(Icons.my_location),
+      ),
     );
   }
 }
 
-/// Attribution OSM/Esri (licence des tuiles).
+/// Clé Stadia (gratuite, sans CB : stadiamaps.com > propriété > clé API).
+/// Absente = fond Esri sans clé (volontairement minimaliste).
+String get _stadiaKey => dotenv.isInitialized
+    ? (dotenv.maybeGet('STADIA_API_KEY') ?? '')
+    : '';
+
+bool get _hasStadiaKey => _stadiaKey.isNotEmpty;
+
+/// Fond de carte :
+/// - avec clé Stadia gratuite : style Google (Alidade Smooth) ;
+/// - sans clé : OSM standard détaillé (nos POI et nos arrêts par-dessus).
+/// Secours automatique : Esri Grey si le primaire ne répond pas.
+class AppTileLayer extends StatelessWidget {
+  const AppTileLayer({super.key});
+
+  static const _osmFallback =
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  // Ordre Esri : {z}/{y}/{x}. Niveaux 0-16 (upscale au-delà, jamais blanc).
+  static const _esriFallback =
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+
+  @override
+  Widget build(BuildContext context) {
+    if (_hasStadiaKey) {
+      return TileLayer(
+        urlTemplate:
+            'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png?api_key=$_stadiaKey',
+        userAgentPackageName: 'com.example.mobility',
+        maxZoom: 20,
+        maxNativeZoom: 20,
+        fallbackUrl: _osmFallback,
+      );
+    }
+    return TileLayer(
+      urlTemplate: _osmFallback,
+      userAgentPackageName: 'com.example.mobility',
+      maxZoom: 19,
+      maxNativeZoom: 19,
+      fallbackUrl: _esriFallback,
+    );
+  }
+}
+
+/// Attribution selon le fond actif (licence des tuiles).
 class MapCredits extends StatelessWidget {
   const MapCredits({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const RichAttributionWidget(
+    return RichAttributionWidget(
       attributions: [
-        TextSourceAttribution('© OpenStreetMap contributors'),
-        TextSourceAttribution('© Esri'),
+        if (_hasStadiaKey) ...[
+          const TextSourceAttribution('© Stadia Maps'),
+          const TextSourceAttribution('© OpenMapTiles'),
+        ] else
+          const TextSourceAttribution('© Esri'),
+        const TextSourceAttribution('© OpenStreetMap contributors'),
       ],
     );
   }

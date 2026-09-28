@@ -155,62 +155,75 @@ class _ServiceMap extends GetView<ServiceTabController> {
     final initial = first != null
         ? LatLng(first.lat, first.long)
         : const LatLng(5.3502292, -3.9881887);
+    final scheme = Theme.of(context).colorScheme;
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
         height: 240,
-        child: Obx(() {
-          final driverPos = LatLng(
-            double.tryParse(controller.userLat.value) ??
-                initial.latitude,
-            double.tryParse(controller.userLng.value) ??
-                initial.longitude,
-          );
-          controller.followDriverPosition(driverPos);
-          return FlutterMap(
-            mapController: controller.mapController,
-            options: MapOptions(
-              initialCenter: initial,
-              initialZoom: 13,
-            ),
-            children: [
-              const AppTileLayer(),
-              MarkerLayer(
-                markers: [
-                  Marker(
-                    point: driverPos,
-                    width: 56,
-                    height: 70,
-                    alignment: Alignment.topCenter,
-                    child: BusPin(label: '$busNumber'),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Obx(() {
+                final driverPos = LatLng(
+                  double.tryParse(controller.userLat.value) ??
+                      initial.latitude,
+                  double.tryParse(controller.userLng.value) ??
+                      initial.longitude,
+                );
+                controller.followDriverPosition(driverPos);
+                return FlutterMap(
+                  mapController: controller.mapController,
+                  options: MapOptions(
+                    initialCenter: initial,
+                    initialZoom: 13,
+                    minZoom: 3,
+                    maxZoom: 18,
                   ),
-                  for (final s in stops)
-                    Marker(
-                      point: LatLng(s.lat, s.long),
-                      width: 30,
-                      height: 30,
-                      child: StopDot(
-                        onTap: () => Get.defaultDialog(
-                          title: s.label ?? 'Arrêt',
-                          middleText: 'Bus $busNumber en service',
-                          textConfirm: 'OK',
-                          confirmTextColor: Colors.white,
-                          buttonColor:
-                              Theme.of(context).colorScheme.primary,
-                          onConfirm: () => Get.back(),
+                  children: [
+                    const AppTileLayer(),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          point: driverPos,
+                          width: 56,
+                          height: 70,
+                          alignment: Alignment.topCenter,
+                          child: BusPin(label: '$busNumber'),
                         ),
-                      ),
+                        for (final s in stops)
+                          Marker(
+                            point: LatLng(s.lat, s.long),
+                            width: 30,
+                            height: 30,
+                            child: StopDot(
+                              onTap: () => Get.defaultDialog(
+                                title: s.label ?? 'Arrêt',
+                                middleText:
+                                    'Bus $busNumber en service',
+                                textConfirm: 'OK',
+                                confirmTextColor: Colors.white,
+                                buttonColor: scheme.primary,
+                                onConfirm: () => Get.back(),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                ],
-              ),
-              const CurrentLocationLayer(
-                alignPositionOnUpdate: AlignOnUpdate.never,
-              ),
-              const MapCredits(),
-            ],
-          );
-        }),
+                    const CurrentLocationLayer(
+                      alignPositionOnUpdate: AlignOnUpdate.never,
+                    ),
+                    const MapCredits(),
+                  ],
+                );
+              }),
+            ),
+          CenterOnMeButton(
+            mapController: controller.mapController,
+            heroTag: 'locate_service',
+          ),
+        ],
       ),
-    );
+    ));
   }
 }
+

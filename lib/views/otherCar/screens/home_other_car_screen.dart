@@ -4,12 +4,12 @@ import 'package:mobility/models/transport_type.dart';
 import 'package:mobility/views/otherCar/controllers/other_car_controller.dart';
 
 import '../../../common/widgets/app_search_field.dart';
-import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../routes/app_pages.dart';
 
-/// Recherche de gares Gbaka / Taxi (Phase 4).
+/// Recherche de gares Gbaka / Taxi : layout fixe moderne
+/// (recherche + filtres épinglés, sans bottom-sheet).
 class HomeOtherCarScreen extends GetView<OtherCarController> {
   const HomeOtherCarScreen({super.key});
 
@@ -18,155 +18,152 @@ class HomeOtherCarScreen extends GetView<OtherCarController> {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     return Scaffold(
-      extendBody: true,
       appBar: AppBar(title: const Text("Gares Gbaka & Taxi")),
-      body: Stack(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
             child: Text(
               "Retrouvez la gare la plus proche.",
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w800,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
-          MapSheet(
-            initialSize: 0.68,
-            minSize: 0.5,
-            header: Column(
-              mainAxisSize: MainAxisSize.min,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppSearchField(
-                        controller: controller.textEdittingSearch,
-                        hintText: "Rechercher une gare...",
-                        onChanged: (value) async {
-                          final text = value.trim();
-                          if (text.isNotEmpty) {
-                            controller.availableItinerary.value =
-                                await controller.searchItinerary(text);
-                          } else {
-                            controller.availableItinerary.value =
-                                (await controller.getItinerary())
-                                    .fold((l) => [], (r) => r);
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      height: 56,
-                      width: 56,
-                      decoration: BoxDecoration(
-                        color: scheme.primaryContainer,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: IconButton(
-                        tooltip: "Filtrer",
-                        onPressed: () => _showFilter(context),
-                        icon: Icon(Icons.filter_list,
-                            color: scheme.onPrimaryContainer),
-                      ),
-                    ),
-                  ],
-                ),
-                Obx(() {
-                  final filters = <String>[];
-                  if (controller.filterGbaka.value) filters.add("Gbaka");
-                  if (controller.filterTaxi.value) filters.add("Taxi");
-                  if (filters.isEmpty) return const SizedBox.shrink();
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Wrap(
-                      spacing: 8,
-                      children: filters
-                          .map((f) => Chip(
-                                label: Text(f),
-                                onDeleted: () {
-                                  if (f == "Gbaka") {
-                                    controller.filterGbaka.value = false;
-                                  } else {
-                                    controller.filterTaxi.value = false;
-                                  }
-                                },
-                              ))
-                          .toList(),
-                    ),
-                  );
-                }),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(() {
-                  if (controller.isLoading.value) {
-                    return const AppLoadingView(
-                        message: "Chargement des gares...");
-                  }
-                  if (controller.errorMessage.value.isNotEmpty &&
-                      controller.availableItinerary.isEmpty) {
-                    return AppErrorView(
-                      message: controller.errorMessage.value,
-                      onRetry: () => controller.getItinerary(),
-                    );
-                  }
-                  if (controller.availableItinerary.isEmpty) {
-                    final query =
-                        controller.textEdittingSearch.text.trim();
-                    return AppEmptyView(
-                      icon: Icons.location_off_outlined,
-                      title: query.isEmpty
-                          ? "Pas de gares disponibles"
-                          : "Aucune gare trouvée",
-                      subtitle: query.isEmpty
-                          ? "Revenez plus tard."
-                          : 'Pour "$query".',
-                    );
-                  }
-                  final showGbaka = controller.filterGbaka.value;
-                  final showTaxi = controller.filterTaxi.value;
-                  final filtered = controller.availableItinerary.where((e) {
-                    if (showGbaka && !showTaxi) {
-                      return e.type == TransportType.gbaka;
-                    }
-                    if (showTaxi && !showGbaka) {
-                      return e.type == TransportType.taxi;
-                    }
-                    return true;
-                  }).toList();
-                  if (filtered.isEmpty) {
-                    return const AppEmptyView(
-                      icon: Icons.filter_list_off_outlined,
-                      title: "Aucun résultat pour ce filtre",
-                      subtitle: "Modifiez les filtres pour voir plus de gares.",
-                    );
-                  }
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: filtered.length,
-                    separatorBuilder: (_, _) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (context, index) {
-                      final element = filtered[index];
-                      return ItineraryCard(
-                        itinerary: element,
-                        onTap: () {
-                          controller.itinerary.value = element;
-                          Get.toNamed(Paths.secondOtherCar);
-                        },
-                      );
+                Expanded(
+                  child: AppSearchField(
+                    controller: controller.textEdittingSearch,
+                    hintText: "Rechercher une gare...",
+                    onChanged: (value) async {
+                      final text = value.trim();
+                      if (text.isNotEmpty) {
+                        controller.availableItinerary.value =
+                            await controller.searchItinerary(text);
+                      } else {
+                        controller.availableItinerary.value =
+                            (await controller.getItinerary())
+                                .fold((l) => [], (r) => r);
+                      }
                     },
-                  );
-                }),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  height: 56,
+                  width: 56,
+                  decoration: BoxDecoration(
+                    color: scheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: IconButton(
+                    tooltip: "Filtrer",
+                    onPressed: () => _showFilter(context),
+                    icon: Icon(Icons.filter_list,
+                        color: scheme.onPrimaryContainer),
+                  ),
+                ),
               ],
             ),
+          ),
+          Obx(() {
+            final filters = <String>[];
+            if (controller.filterGbaka.value) filters.add("Gbaka");
+            if (controller.filterTaxi.value) filters.add("Taxi");
+            if (filters.isEmpty) return const SizedBox.shrink();
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+              child: Wrap(
+                spacing: 8,
+                children: filters
+                    .map((f) => Chip(
+                          label: Text(f),
+                          onDeleted: () {
+                            if (f == "Gbaka") {
+                              controller.filterGbaka.value = false;
+                            } else {
+                              controller.filterTaxi.value = false;
+                            }
+                          },
+                        ))
+                    .toList(),
+              ),
+            );
+          }),
+          const SizedBox(height: 8),
+          Expanded(
+            child: Obx(() {
+              if (controller.isLoading.value) {
+                return const AppLoadingView(
+                    message: "Chargement des gares...");
+              }
+              if (controller.errorMessage.value.isNotEmpty &&
+                  controller.availableItinerary.isEmpty) {
+                return AppErrorView(
+                  message: controller.errorMessage.value,
+                  onRetry: () => controller.getItinerary(),
+                );
+              }
+              if (controller.availableItinerary.isEmpty) {
+                final query =
+                    controller.textEdittingSearch.text.trim();
+                return AppEmptyView(
+                  icon: Icons.location_off_outlined,
+                  title: query.isEmpty
+                      ? "Pas de gares disponibles"
+                      : "Aucune gare trouvée",
+                  subtitle: query.isEmpty
+                      ? "Revenez plus tard."
+                      : 'Pour "$query".',
+                );
+              }
+              final showGbaka = controller.filterGbaka.value;
+              final showTaxi = controller.filterTaxi.value;
+              final filtered = controller.availableItinerary.where((e) {
+                if (showGbaka && !showTaxi) {
+                  return e.type == TransportType.gbaka;
+                }
+                if (showTaxi && !showGbaka) {
+                  return e.type == TransportType.taxi;
+                }
+                return true;
+              }).toList();
+              if (filtered.isEmpty) {
+                return const AppEmptyView(
+                  icon: Icons.filter_list_off_outlined,
+                  title: "Aucun résultat pour ce filtre",
+                  subtitle:
+                      "Modifiez les filtres pour voir plus de gares.",
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: () async {
+                  controller.availableItinerary.value =
+                      (await controller.getItinerary())
+                          .fold((l) => [], (r) => r);
+                },
+                child: ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+                  itemCount: filtered.length,
+                  separatorBuilder: (_, _) =>
+                      const SizedBox(height: 10),
+                  itemBuilder: (context, index) {
+                    final element = filtered[index];
+                    return ItineraryCard(
+                      itinerary: element,
+                      onTap: () {
+                        controller.itinerary.value = element;
+                        Get.toNamed(Paths.secondOtherCar);
+                      },
+                    );
+                  },
+                ),
+              );
+            }),
           ),
         ],
       ),

@@ -84,7 +84,7 @@ class AppPages {
     ),
     GetPage(
       name: Paths.stopDetail,
-      page: () => const StopDetailScreen(),
+      page: () => StopDetailScreen(),
     ),
     // Other Car Pages — même instance partagée que l'onglet (fenix).
     GetPage(

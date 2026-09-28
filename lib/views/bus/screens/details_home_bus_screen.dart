@@ -44,117 +44,17 @@ class DetailsHomeBusScreen extends GetView<BusController> {
     return Scaffold(
       body: Stack(
         children: [
-          // Réactif : le marqueur du bus suit la position temps réel
-          // (currentBus resynchronisé par le stream Firestore) et la
-          // caméra reste centrée dessus.
-          Obx(() {
-            final bus = controller.currentBus.value;
-            final livePos = bus.position;
-            final liveTarget = livePos != null
-                ? LatLng(livePos.lat, livePos.long)
-                : lngLatToLatLng(
-                    first, 5.3502292, -3.9881887);
-            if (livePos != null) {
-              controller.followBusPosition(liveTarget);
-            }
-            final routePoints = [
-              for (var i in controller.routes)
-                if (i is List && i.length >= 2)
-                  lngLatToLatLng(i, 5.3502292, -3.9881887)
-            ];
-            return FlutterMap(
-              mapController: controller.detailMapController,
-              options: MapOptions(
-                // Centré sur le bus en direct si connu, sinon départ ligne.
-                initialCenter: liveTarget,
-                initialZoom: 13.5,
-              ),
-              children: [
-                const AppTileLayer(),
-                PolylineLayer(
-                  polylines: [
-                    Polyline(
-                      points: routePoints,
-                      color: scheme.primary,
-                      strokeWidth: 6,
-                    ),
-                  ],
-                ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: lngLatToLatLng(
-                          first, 5.3502292, -3.9881887),
-                      width: 40,
-                      height: 40,
-                      child: GestureDetector(
-                        onTap: () => Get.defaultDialog(
-                          title: 'Départ — ${bus.source}',
-                          middleText: 'Début de la ligne.',
-                          textConfirm: 'OK',
-                          confirmTextColor: Colors.white,
-                          buttonColor: scheme.primary,
-                          onConfirm: () => Get.back(),
-                        ),
-                        child: Icon(Icons.trip_origin,
-                            color: scheme.primary, size: 32),
-                      ),
-                    ),
-                    Marker(
-                      point: lngLatToLatLng(
-                          last, 5.3502292, -3.9881887),
-                      width: 40,
-                      height: 40,
-                      child: GestureDetector(
-                        onTap: () => Get.defaultDialog(
-                          title: 'Arrivée — ${bus.destination}',
-                          middleText: 'Fin de la ligne.',
-                          textConfirm: 'OK',
-                          confirmTextColor: Colors.white,
-                          buttonColor: scheme.primary,
-                          onConfirm: () => Get.back(),
-                        ),
-                        child: Icon(Icons.location_on,
-                            color: scheme.error, size: 36),
-                      ),
-                    ),
-                    for (var i = 0; i < bus.roadMap.length; i++)
-                      Marker(
-                        point: stopToLatLng(bus.roadMap[i]),
-                        width: 30,
-                        height: 30,
-                        child: StopDot(
-                          onTap: () => Get.defaultDialog(
-                            title: bus.roadMap[i]
-                                .displayName(i),
-                            middleText:
-                                'Bus ${bus.number} • ${bus.source} ↔ ${bus.destination}',
-                            textConfirm: 'OK',
-                            confirmTextColor: Colors.white,
-                            buttonColor: scheme.primary,
-                            onConfirm: () => Get.back(),
-                          ),
-                        ),
-                      ),
-                    // Position temps réel du chauffeur : épingle numérotée.
-                    if (livePos != null)
-                      Marker(
-                        point: LatLng(livePos.lat, livePos.long),
-                        width: 56,
-                        height: 70,
-                        alignment: Alignment.topCenter,
-                        child: BusPin(
-                            label: bus.number.toString()),
-                      ),
-                  ],
-                ),
-                const CurrentLocationLayer(
-                  alignPositionOnUpdate: AlignOnUpdate.never,
-                ),
-                const MapCredits(),
-              ],
-            );
-          }),
+          Positioned.fill(
+            child: _DetailMap(
+              first: first,
+              last: last,
+              scheme: scheme,
+            ),
+          ),
+          CenterOnMeButton(
+            mapController: controller.detailMapController,
+            heroTag: 'locate_detail_bus',
+          ),
           MapSheet(
             initialSize: 0.42,
             child: Column(
@@ -231,5 +131,130 @@ class DetailsHomeBusScreen extends GetView<BusController> {
         ],
       ),
     );
+  }
+}
+
+/// Carte du détail (extrait pour lisibilité) : tracé + arrêts + bus live.
+class _DetailMap extends GetView<BusController> {
+  final dynamic first;
+  final dynamic last;
+  final ColorScheme scheme;
+
+  const _DetailMap({
+    required this.first,
+    required this.last,
+    required this.scheme,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Réactif : le marqueur du bus suit la position temps réel
+    // (currentBus resynchronisé par le stream Firestore) et la
+    // caméra reste centrée dessus.
+    return Obx(() {
+      final bus = controller.currentBus.value;
+      final livePos = bus.position;
+      final liveTarget = livePos != null
+          ? LatLng(livePos.lat, livePos.long)
+          : lngLatToLatLng(first, 5.3502292, -3.9881887);
+      if (livePos != null) {
+        controller.followBusPosition(liveTarget);
+      }
+      final routePoints = [
+        for (var i in controller.routes)
+          if (i is List && i.length >= 2)
+            lngLatToLatLng(i, 5.3502292, -3.9881887)
+      ];
+      return FlutterMap(
+        mapController: controller.detailMapController,
+        options: MapOptions(
+          initialCenter: liveTarget,
+          initialZoom: 13.5,
+          minZoom: 3,
+          maxZoom: 18,
+        ),
+        children: [
+          const AppTileLayer(),
+          PolylineLayer(
+            polylines: [
+              Polyline(
+                points: routePoints,
+                color: scheme.primary,
+                strokeWidth: 6,
+              ),
+            ],
+          ),
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: lngLatToLatLng(first, 5.3502292, -3.9881887),
+                width: 40,
+                height: 40,
+                child: GestureDetector(
+                  onTap: () => Get.defaultDialog(
+                    title: 'Départ — ${bus.source}',
+                    middleText: 'Début de la ligne.',
+                    textConfirm: 'OK',
+                    confirmTextColor: Colors.white,
+                    buttonColor: scheme.primary,
+                    onConfirm: () => Get.back(),
+                  ),
+                  child: Icon(Icons.trip_origin,
+                      color: scheme.primary, size: 32),
+                ),
+              ),
+              Marker(
+                point: lngLatToLatLng(last, 5.3502292, -3.9881887),
+                width: 40,
+                height: 40,
+                child: GestureDetector(
+                  onTap: () => Get.defaultDialog(
+                    title: 'Arrivée — ${bus.destination}',
+                    middleText: 'Fin de la ligne.',
+                    textConfirm: 'OK',
+                    confirmTextColor: Colors.white,
+                    buttonColor: scheme.primary,
+                    onConfirm: () => Get.back(),
+                  ),
+                  child: Icon(Icons.location_on,
+                      color: scheme.error, size: 36),
+                ),
+              ),
+              for (var i = 0; i < bus.roadMap.length; i++)
+                Marker(
+                  point: stopToLatLng(bus.roadMap[i]),
+                  width: 30,
+                  height: 30,
+                  child: StopDot(
+                    onTap: () => Get.defaultDialog(
+                      title: bus.roadMap[i].displayName(i),
+                      middleText:
+                          'Bus ${bus.number} • ${bus.source} ↔ ${bus.destination}',
+                      textConfirm: 'OK',
+                      confirmTextColor: Colors.white,
+                      buttonColor: scheme.primary,
+                      onConfirm: () => Get.back(),
+                    ),
+                  ),
+                ),
+              // Position temps réel du chauffeur : épingle numérotée.
+              if (livePos != null)
+                Marker(
+                  point: LatLng(livePos.lat, livePos.long),
+                  width: 56,
+                  height: 70,
+                  alignment: Alignment.topCenter,
+                  child:
+                      BusPin(label: bus.number.toString()),
+                ),
+            ],
+          ),
+          const CurrentLocationLayer(
+            alignPositionOnUpdate: AlignOnUpdate.never,
+          ),
+          const MapCredits(),
+        ],
+      );
+    });
   }
 }

@@ -16,7 +16,10 @@ import '../controllers/stops_controller.dart';
 /// Détail d'un arrêt : carte + bus qui y passent.
 /// Un bus tapé rejoint le flow existant (SecondHome).
 class StopDetailScreen extends GetView<StopsController> {
-  const StopDetailScreen({super.key});
+  StopDetailScreen({super.key});
+
+  /// Controller local (écran sans controller dédié).
+  final MapController mapController = MapController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +40,12 @@ class StopDetailScreen extends GetView<StopsController> {
       body: Stack(
         children: [
           FlutterMap(
+            mapController: mapController,
             options: MapOptions(
               initialCenter: stopPos,
               initialZoom: 15,
+              minZoom: 3,
+              maxZoom: 18,
             ),
             children: [
               const AppTileLayer(),
@@ -61,6 +67,10 @@ class StopDetailScreen extends GetView<StopsController> {
               const MapCredits(),
             ],
           ),
+          CenterOnMeButton(
+            mapController: mapController,
+            heroTag: 'locate_stop_detail',
+          ),
           MapSheet(
             initialSize: 0.45,
             child: Column(
@@ -70,87 +80,93 @@ class StopDetailScreen extends GetView<StopsController> {
                   title: stop.name,
                   subtitle: stop.kindLabel,
                 ),
-                const SizedBox(height: 4),
-                Builder(builder: (context) {
-                  final dist = controller.distanceTo(stop);
-                  if (dist == null) {
-                    return const SizedBox.shrink();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      children: [
-                        Icon(Icons.near_me_outlined,
-                            size: 16,
-                            color: theme
-                                .colorScheme.onSurfaceVariant),
-                        const SizedBox(width: 6),
-                        Text(
-                          StopsController.formatDistance(dist),
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(
-                                  color: theme.colorScheme
-                                      .onSurfaceVariant),
+                    const SizedBox(height: 4),
+                    Builder(builder: (context) {
+                      final dist = controller.distanceTo(stop);
+                      if (dist == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: [
+                            Icon(Icons.near_me_outlined,
+                                size: 16,
+                                color: theme.colorScheme
+                                    .onSurfaceVariant),
+                            const SizedBox(width: 6),
+                            Text(
+                              StopsController.formatDistance(
+                                  dist),
+                              style: theme.textTheme.bodyMedium
+                                  ?.copyWith(
+                                      color: theme.colorScheme
+                                          .onSurfaceVariant),
+                            ),
+                          ],
                         ),
-                      ],
+                      );
+                    }),
+                    SheetTitle(
+                      title:
+                          'Bus par ici (${controller.busesThrough(stop).length})',
+                      subtitle:
+                          'Tapez un bus pour suivre son itinéraire.',
                     ),
-                  );
-                }),
-                SheetTitle(
-                  title:
-                      'Bus par ici (${controller.busesThrough(stop).length})',
-                  subtitle:
-                      'Tapez un bus pour suivre son itinéraire.',
-                ),
-                const SizedBox(height: 8),
-                Builder(builder: (context) {
-                  final buses = controller.busesThrough(stop);
-                  if (buses.isEmpty) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: AppEmptyView(
-                        icon: Icons.directions_bus_outlined,
-                        title: 'Aucun bus connu ici',
-                        subtitle:
-                            'Les lignes sont en cours de rattachement aux arrêts.',
-                      ),
-                    );
-                  }
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: buses.length,
-                    separatorBuilder: (_, _) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (context, index) {
-                      final bus = buses[index];
-                      return BusCard(
-                        bus: bus,
-                        onTap: () {
-                          if (!Get.isRegistered<
-                              BusController>()) {
-                            return;
-                          }
-                          final busController =
-                              Get.find<BusController>();
-                          busController.currentBus.value = bus;
-                          Get.toNamed(Paths.secondHomeBus);
-                          busController
-                              .getRoutes(bus.roadMap)
-                              .then((r) {
-                            busController.routes = r;
-                            busController.update();
-                          });
+                    const SizedBox(height: 8),
+                    Builder(builder: (context) {
+                      final buses =
+                          controller.busesThrough(stop);
+                      if (buses.isEmpty) {
+                        return const Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 16),
+                          child: AppEmptyView(
+                            icon: Icons.directions_bus_outlined,
+                            title: 'Aucun bus connu ici',
+                            subtitle:
+                                'Les lignes sont en cours de rattachement aux arrêts.',
+                          ),
+                        );
+                      }
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics:
+                            const NeverScrollableScrollPhysics(),
+                        itemCount: buses.length,
+                        separatorBuilder: (_, _) =>
+                            const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          final bus = buses[index];
+                          return BusCard(
+                            bus: bus,
+                            onTap: () {
+                              if (!Get.isRegistered<
+                                  BusController>()) {
+                                return;
+                              }
+                              final busController =
+                                  Get.find<BusController>();
+                              busController.currentBus.value =
+                                  bus;
+                              Get.toNamed(Paths.secondHomeBus);
+                              busController
+                                  .getRoutes(bus.roadMap)
+                                  .then((r) {
+                                busController.routes = r;
+                                busController.update();
+                              });
+                            },
+                          );
                         },
                       );
-                    },
-                  );
-                }),
-              ],
-            ),
+                    }),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-}
+        );
+      }
+    }

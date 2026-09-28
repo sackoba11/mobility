@@ -6,16 +6,13 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../common/map/fm_widgets.dart';
-import '../../../common/map/poi_overlay.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../models/gare/gare.dart';
 import '../../../routes/app_pages.dart';
-import '../../../services/places/poi_controller.dart';
-import '../../../services/places/poi_service.dart';
 import '../controllers/other_car_controller.dart';
 
-/// Gares départ / arrivée d'un itinéraire (Phase 4).
+/// Gares départ / arrivée : carte + bottom-sheet moderne.
 class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
   const SecondHomeOtherCarScreen({super.key});
 
@@ -25,65 +22,60 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
     return Scaffold(
       body: Stack(
         children: [
-          Obx(() {
-            final List<PoiPlace> pois =
-                Get.isRegistered<PoiController>()
-                    ? Get.find<PoiController>().places
-                    : const <PoiPlace>[];
-            return FlutterMap(
-              mapController: controller.secondMapController,
-              options: MapOptions(
-                initialCenter: const LatLng(5.3502292, -3.9881887),
-                initialZoom: 12,
+          FlutterMap(
+            mapController: controller.secondMapController,
+            options: MapOptions(
+              initialCenter: const LatLng(5.3502292, -3.9881887),
+              initialZoom: 12,
+              minZoom: 3,
+              maxZoom: 18,
+            ),
+            children: [
+              const AppTileLayer(),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: LatLng(
+                      itinerary.source.location.lat,
+                      itinerary.source.location.long,
+                    ),
+                    width: 44,
+                    height: 44,
+                    child: GestureDetector(
+                      onTap: () => _openGare(itinerary.source),
+                      child: Icon(Icons.trip_origin,
+                          color:
+                              Theme.of(context).colorScheme.primary,
+                          size: 34),
+                    ),
+                  ),
+                  Marker(
+                    point: LatLng(
+                      itinerary.destination.location.lat,
+                      itinerary.destination.location.long,
+                    ),
+                    width: 44,
+                    height: 44,
+                    child: GestureDetector(
+                      onTap: () =>
+                          _openGare(itinerary.destination),
+                      child: Icon(Icons.location_on,
+                          color:
+                              Theme.of(context).colorScheme.error,
+                          size: 38),
+                    ),
+                  ),
+                ],
               ),
-              children: [
-                const AppTileLayer(),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: LatLng(
-                        itinerary.source.location.lat,
-                        itinerary.source.location.long,
-                      ),
-                      width: 44,
-                      height: 44,
-                      child: GestureDetector(
-                        onTap: () => _openGare(itinerary.source),
-                        child: Icon(Icons.trip_origin,
-                            color:
-                                Theme.of(context).colorScheme.primary,
-                            size: 34),
-                      ),
-                    ),
-                    Marker(
-                      point: LatLng(
-                        itinerary.destination.location.lat,
-                        itinerary.destination.location.long,
-                      ),
-                      width: 44,
-                      height: 44,
-                      child: GestureDetector(
-                        onTap: () =>
-                            _openGare(itinerary.destination),
-                        child: Icon(Icons.location_on,
-                            color:
-                                Theme.of(context).colorScheme.error,
-                            size: 38),
-                      ),
-                    ),
-                    ...poiMarkers(pois, context),
-                  ],
-                ),
-                const CurrentLocationLayer(
-                  alignPositionOnUpdate: AlignOnUpdate.never,
-                ),
-                const MapCredits(),
-              ],
-            );
-          }),
-          PoiMapOverlay(
-            centerOf: () =>
-                controller.secondMapController.camera.center,
+              const CurrentLocationLayer(
+                alignPositionOnUpdate: AlignOnUpdate.never,
+              ),
+              const MapCredits(),
+            ],
+          ),
+          CenterOnMeButton(
+            mapController: controller.secondMapController,
+            heroTag: 'locate_second_gares',
           ),
           MapSheet(
             initialSize: 0.38,
@@ -105,7 +97,8 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
                 const _StepDot(label: "Arrivée"),
                 GareCard(
                   gare: itinerary.destination,
-                  onTap: () => _openGare(itinerary.destination),
+                  onTap: () =>
+                      _openGare(itinerary.destination),
                 ),
               ],
             ),

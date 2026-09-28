@@ -10,9 +10,10 @@ import '../../../common/map/fm_widgets.dart';
 import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../models/gare/gare.dart';
 import '../controllers/other_car_controller.dart';
 
-/// Détail d'une gare + trajet depuis votre position (flutter_map).
+/// Détail d'une gare + trajet : carte + bottom-sheet moderne.
 class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
   const DetailsHomeOtherCarScreen({super.key});
 
@@ -24,64 +25,13 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
     return Scaffold(
       body: Stack(
         children: [
-          Obx(() {
-            final garePos = LatLng(
-              gare.location.lat,
-              gare.location.long,
-            );
-            final routePoints = controller.routes
-                .where((element) =>
-                    element is List && element.length >= 2)
-                .map((element) =>
-                    lngLatToLatLng(element, 5.3502292, -3.9881887))
-                .toList();
-            return FlutterMap(
-              mapController: controller.detailMapController,
-              options: MapOptions(
-                initialCenter: garePos,
-                initialZoom: 14,
-              ),
-              children: [
-                const AppTileLayer(),
-                if (routePoints.length >= 2)
-                  PolylineLayer(
-                    polylines: [
-                      Polyline(
-                        points: routePoints,
-                        color: scheme.primary,
-                        strokeWidth: 6,
-                      ),
-                    ],
-                  ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: garePos,
-                      width: 48,
-                      height: 48,
-                      child: GestureDetector(
-                        onTap: () => Get.defaultDialog(
-                          title: 'Gare ${gare.name}',
-                          middleText:
-                              '${gare.type.label} • ${gare.commune}',
-                          textConfirm: 'OK',
-                          confirmTextColor: Colors.white,
-                          buttonColor: scheme.primary,
-                          onConfirm: () => Get.back(),
-                        ),
-                        child: Icon(Icons.location_on,
-                            color: scheme.error, size: 42),
-                      ),
-                    ),
-                  ],
-                ),
-                const CurrentLocationLayer(
-                  alignPositionOnUpdate: AlignOnUpdate.never,
-                ),
-                const MapCredits(),
-              ],
-            );
-          }),
+          Positioned.fill(
+            child: _GareMap(gare: gare, scheme: scheme),
+          ),
+          CenterOnMeButton(
+            mapController: controller.detailMapController,
+            heroTag: 'locate_detail_gare',
+          ),
           MapSheet(
             initialSize: 0.38,
             child: Column(
@@ -101,7 +51,8 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                           Text(gare.name,
                               style: theme.textTheme.titleLarge),
                           const SizedBox(height: 4),
-                          Text("${gare.commune} • ${gare.location.label ?? 'Gare'}",
+                          Text(
+                              "${gare.commune} • ${gare.location.label ?? 'Gare'}",
                               style: theme.textTheme.bodyMedium
                                   ?.copyWith(
                                       color: scheme.onSurfaceVariant)),
@@ -117,7 +68,8 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                   Row(
                     children: [
                       Icon(Icons.info_outline,
-                          size: 18, color: scheme.onSurfaceVariant),
+                          size: 18,
+                          color: scheme.onSurfaceVariant),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -141,5 +93,77 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
         ],
       ),
     );
+  }
+}
+
+/// Carte du détail gare (extrait pour lisibilité).
+class _GareMap extends GetView<OtherCarController> {
+  final Gare gare;
+  final ColorScheme scheme;
+
+  const _GareMap({required this.gare, required this.scheme});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      final garePos = LatLng(
+        gare.location.lat,
+        gare.location.long,
+      );
+      final routePoints = controller.routes
+          .where((element) =>
+              element is List && element.length >= 2)
+          .map((element) =>
+              lngLatToLatLng(element, 5.3502292, -3.9881887))
+          .toList();
+      return FlutterMap(
+        mapController: controller.detailMapController,
+        options: MapOptions(
+          initialCenter: garePos,
+          initialZoom: 14,
+          minZoom: 3,
+          maxZoom: 18,
+        ),
+        children: [
+          const AppTileLayer(),
+          if (routePoints.length >= 2)
+            PolylineLayer(
+              polylines: [
+                Polyline(
+                  points: routePoints,
+                  color: scheme.primary,
+                  strokeWidth: 6,
+                ),
+              ],
+            ),
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: garePos,
+                width: 48,
+                height: 48,
+                child: GestureDetector(
+                  onTap: () => Get.defaultDialog(
+                    title: 'Gare ${gare.name}',
+                    middleText:
+                        '${gare.type.label} • ${gare.commune}',
+                    textConfirm: 'OK',
+                    confirmTextColor: Colors.white,
+                    buttonColor: scheme.primary,
+                    onConfirm: () => Get.back(),
+                  ),
+                  child: Icon(Icons.location_on,
+                      color: scheme.error, size: 42),
+                ),
+              ),
+            ],
+          ),
+          const CurrentLocationLayer(
+            alignPositionOnUpdate: AlignOnUpdate.never,
+          ),
+          const MapCredits(),
+        ],
+      );
+    });
   }
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Bottom-sheet carte unifié (Phase 4) : poignée + coins arrondis.
-/// Remplace le pattern Stack + DraggableScrollableSheet dupliqué partout.
-/// [header] reste figé (recherche, filtres) pendant que [child] scrolle.
+/// Bottom-sheet carte : poignée + coins arrondis (style moderne des
+/// écrans carte). Les pages de listes pures utilisent un layout fixe.
 class MapSheet extends StatelessWidget {
   final Widget child;
-  final Widget? header;
   final double initialSize;
   final double minSize;
   final double maxSize;
@@ -14,7 +12,6 @@ class MapSheet extends StatelessWidget {
   const MapSheet({
     super.key,
     required this.child,
-    this.header,
     this.initialSize = 0.35,
     this.minSize = 0.25,
     this.maxSize = 0.75,
@@ -54,14 +51,6 @@ class MapSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              if (header != null) ...[
-                const SizedBox(height: 8),
-                Padding(
-                  padding:
-                      const EdgeInsets.fromLTRB(20, 4, 20, 0),
-                  child: header!,
-                ),
-              ],
               const SizedBox(height: 8),
               Expanded(
                 child: scrollable
