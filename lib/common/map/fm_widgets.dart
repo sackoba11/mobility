@@ -262,6 +262,62 @@ class StopDot extends StatelessWidget {
   }
 }
 
+/// Pastille d'arrêt fine pour les cartes d'itinéraire (passager comme
+/// chauffeur) : point localisé (cœur + anneau blanc + pastille centrale),
+/// vert pour le départ, rouge pour l'arrivée, primaire sinon.
+class RouteStopPin extends StatelessWidget {
+  final bool isStart;
+  final bool isEnd;
+  final VoidCallback onTap;
+  final double size;
+
+  const RouteStopPin({
+    super.key,
+    required this.isStart,
+    required this.onTap,
+    this.isEnd = false,
+    this.size = 22,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final color = isStart
+        ? Colors.green
+        : (isEnd ? scheme.error : scheme.primary);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 3),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.3),
+              blurRadius: 4,
+            ),
+          ],
+        ),
+        child: Center(
+          child: SizedBox(
+            width: size * 0.23,
+            height: size * 0.23,
+            child: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ---------- Conversions ----------
 
 LatLng stopToLatLng(Stop s) => LatLng(s.lat, s.long);

@@ -13,6 +13,7 @@ import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../models/bus/bus_from_firestore/bus.dart';
+import '../../../models/stop/stop.dart';
 import '../controllers/driver_controller.dart';
 
 /// Mise en service d'un bus (Phase 4) : activation + diffusion position.
@@ -41,7 +42,7 @@ class DriverScreen extends GetView<DriverController> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: _DriverMap(),
+            child: _DriverMap(bus: bus),
           ),
           CenterOnMeButton(
             mapController: controller.mapController,
@@ -58,10 +59,48 @@ class DriverScreen extends GetView<DriverController> {
   }
 }
 
-/// Carte de la fiche chauffeur (extrait pour lisibilité).
-class _DriverMap extends GetView<DriverController> {
+/// Carte de la fiche chauffeur : itinéraire à mettre en service +
+/// arrêts (même style que côté passager) + position du chauffeur.
+class _DriverMap extends StatefulWidget {
+  final Bus bus;
+  const _DriverMap({required this.bus});
+
+  @override
+  State<_DriverMap> createState() => _DriverMapState();
+}
+
+class _DriverMapState extends State<_DriverMap> {
+  /// Cadrage auto une seule fois (le suivi GPS reprend ensuite).
+  bool _fittedOnce = false;
+
+  void _showStop(BuildContext context, int i) {
+    final scheme = Theme.of(context).colorScheme;
+    Get.defaultDialog(
+      title: widget.bus.roadMap[i].displayName(i),
+      middleText:
+          'Bus ${widget.bus.displayNumber} • ${widget.bus.source} ↔ ${widget.bus.destination}',
+      textConfirm: 'OK',
+      confirmTextColor: Colors.white,
+      buttonColor: scheme.primary,
+      onConfirm: () => Get.back(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<DriverController>();
+    final scheme = Theme.of(context).colorScheme;
+    final stored = widget.bus.routeGeometry;
+    final routePoints = (stored != null && stored.length >= 2)
+        ? [
+            for (final p in stored)
+              if (p.length >= 2)
+                lngLatToLatLng(p, 5.3502292, -3.9881887),
+          ]
+        : [
+            for (final s in widget.bus.roadMap)
+              LatLng(s.lat, s.long),
+          ];
     return Obx(() {
       final target = LatLng(
         double.tryParse(controller.userLatitude.value) ?? 5.3502292,
@@ -69,20 +108,65 @@ class _DriverMap extends GetView<DriverController> {
       );
       // Suivi caméra comme côté passager.
       controller.followDriverPosition(target);
+      if (!_fittedOnce && routePoints.isNotEmpty) {
+        _fittedOnce = true;
+        // Vue initiale serrée sur l'itinéraire (arrêts distinguables).
+        fitWhenReady(
+          controller.mapController,
+          [
+            ...routePoints,
+            for (final s in widget.bus.roadMap)
+              LatLng(s.lat, s.long),
+          ],
+          maxZoom: 14,
+        );
+      }
+      final center = routePoints.isNotEmpty
+          ? routePoints.first
+          : target;
       return FlutterMap(
         mapController: controller.mapController,
-              options: MapOptions(
-                initialCenter: target,
-                initialZoom: 15,
-                minZoom: 3,
-                maxZoom: 18,
-              ),
-        children: const [
-          AppTileLayer(),
-          CurrentLocationLayer(
-            alignPositionOnUpdate: AlignOnUpdate.once,
+        options: MapOptions(
+          initialCenter: center,
+          initialZoom: 14,
+          minZoom: 3,
+          maxZoom: 18,
+        ),
+        children: [
+          const AppTileLayer(),
+          if (routePoints.length >= 2)
+            PolylineLayer(
+              polylines: [
+                Polyline(
+                  points: routePoints,
+                  color: scheme.primary,
+                  strokeWidth: 6,
+                ),
+              ],
+            ),
+          MarkerLayer(
+            markers: [
+              for (var i = 0;
+                  i < widget.bus.roadMap.length;
+                  i++)
+                Marker(
+                  point: LatLng(widget.bus.roadMap[i].lat,
+                      widget.bus.roadMap[i].long),
+                  width: 22,
+                  height: 22,
+                  child: RouteStopPin(
+                    isStart: i == 0,
+                    isEnd:
+                        i == widget.bus.roadMap.length - 1,
+                    onTap: () => _showStop(context, i),
+                  ),
+                ),
+            ],
           ),
-          MapCredits(),
+          const CurrentLocationLayer(
+            alignPositionOnUpdate: AlignOnUpdate.never,
+          ),
+          const MapCredits(),
         ],
       );
     });

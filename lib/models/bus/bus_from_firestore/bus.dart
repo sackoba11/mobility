@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../firestore_converters.dart';
 import '../../stop/stop.dart';
 
 part 'bus.freezed.dart';
@@ -19,6 +20,9 @@ abstract class Bus with _$Bus {
     @Default('') String direction,
     @Default(1) int variantIndex,
     @Default([]) List<String> stopIds,
+    // Tracé précalculé ([[lng, lat], ...] en mémoire, objets {lng, lat}
+    // en Firestore). Null tant que le backfill n'est pas passé.
+    @RouteGeometryConverter() required List<List<double>>? routeGeometry,
   }) = _Bus;
   factory Bus.fromJson(Map<String, dynamic> json) => _$BusFromJson(json);
 }

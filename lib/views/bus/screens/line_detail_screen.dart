@@ -684,7 +684,7 @@ class _ItineraryMapScreenState extends State<_ItineraryMapScreen> {
                             widget.variant.roadMap[i].long),
                         width: 22,
                         height: 22,
-                        child: _StopPin(
+                        child: RouteStopPin(
                           isStart: i == 0,
                           isEnd: i ==
                               widget.variant.roadMap.length - 1,
@@ -804,58 +804,6 @@ class _ItineraryMapScreenState extends State<_ItineraryMapScreen> {
           ],
         );
       }),
-    );
-  }
-}
-
-/// Pastille d'arrêt fine : point localisé (cœur + anneau blanc),
-/// vert pour le départ, rouge pour l'arrivée.
-class _StopPin extends StatelessWidget {
-  final bool isStart;
-  final bool isEnd;
-  final VoidCallback onTap;
-
-  const _StopPin({
-    required this.isStart,
-    required this.onTap,
-    this.isEnd = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final color = isStart
-        ? Colors.green
-        : (isEnd ? scheme.error : scheme.primary);
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 22,
-        height: 22,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 3),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
-              blurRadius: 4,
-            ),
-          ],
-        ),
-        child: const Center(
-          child: SizedBox(
-            width: 5,
-            height: 5,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

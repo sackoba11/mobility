@@ -21,6 +21,7 @@ _Bus _$BusFromJson(Map<String, dynamic> json) => _Bus(
   stopIds:
       (json['stopIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],
+  routeGeometry: const RouteGeometryConverter().fromJson(json['routeGeometry']),
 );
 
 Map<String, dynamic> _$BusToJson(_Bus instance) => <String, dynamic>{
@@ -34,4 +35,7 @@ Map<String, dynamic> _$BusToJson(_Bus instance) => <String, dynamic>{
   'direction': instance.direction,
   'variantIndex': instance.variantIndex,
   'stopIds': instance.stopIds,
+  'routeGeometry': const RouteGeometryConverter().toJson(
+    instance.routeGeometry,
+  ),
 };

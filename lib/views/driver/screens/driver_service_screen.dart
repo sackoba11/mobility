@@ -9,6 +9,7 @@ import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/stops_timeline.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../models/stop/stop.dart';
 import '../../../routes/app_pages.dart';
 import '../../shell/controllers/shell_controller.dart';
 import '../controllers/service_tab_controller.dart';
@@ -142,15 +143,35 @@ class DriverServiceScreen extends GetView<ServiceTabController> {
   }
 }
 
-/// Mini-carte du service : position live du chauffeur (badge numéroté)
-/// + arrêts de la ligne.
-class _ServiceMap extends GetView<ServiceTabController> {
+/// Mini-carte du service : itinéraire + arrêts (même style que côté
+/// passager) + position live du chauffeur (badge numéroté).
+class _ServiceMap extends StatefulWidget {
   final int busNumber;
   const _ServiceMap({required this.busNumber});
 
   @override
+  State<_ServiceMap> createState() => _ServiceMapState();
+}
+
+class _ServiceMapState extends State<_ServiceMap> {
+  /// Cadrage auto une seule fois (le suivi GPS reprend ensuite).
+  bool _fittedOnce = false;
+
+  @override
   Widget build(BuildContext context) {
-    final stops = controller.bus.value?.roadMap ?? [];
+    final controller = Get.find<ServiceTabController>();
+    final bus = controller.bus.value;
+    final stops = bus?.roadMap ?? [];
+    final stored = bus?.routeGeometry;
+    final routePoints = (stored != null && stored.length >= 2)
+        ? [
+            for (final p in stored)
+              if (p.length >= 2)
+                lngLatToLatLng(p, 5.3502292, -3.9881887),
+          ]
+        : [
+            for (final s in stops) LatLng(s.lat, s.long),
+          ];
     final first = stops.isNotEmpty ? stops.first : null;
     final initial = first != null
         ? LatLng(first.lat, first.long)
@@ -171,6 +192,18 @@ class _ServiceMap extends GetView<ServiceTabController> {
                       initial.longitude,
                 );
                 controller.followDriverPosition(driverPos);
+                if (!_fittedOnce && routePoints.isNotEmpty) {
+                  _fittedOnce = true;
+                  fitWhenReady(
+                    controller.mapController,
+                    [
+                      ...routePoints,
+                      for (final s in stops)
+                        LatLng(s.lat, s.long),
+                    ],
+                    maxZoom: 14,
+                  );
+                }
                 return FlutterMap(
                   mapController: controller.mapController,
                   options: MapOptions(
@@ -181,6 +214,16 @@ class _ServiceMap extends GetView<ServiceTabController> {
                   ),
                   children: [
                     const AppTileLayer(),
+                    if (routePoints.length >= 2)
+                      PolylineLayer(
+                        polylines: [
+                          Polyline(
+                            points: routePoints,
+                            color: scheme.primary,
+                            strokeWidth: 5,
+                          ),
+                        ],
+                      ),
                     MarkerLayer(
                       markers: [
                         Marker(
@@ -188,18 +231,21 @@ class _ServiceMap extends GetView<ServiceTabController> {
                           width: 56,
                           height: 70,
                           alignment: Alignment.topCenter,
-                          child: BusPin(label: '$busNumber'),
+                          child: BusPin(label: '${widget.busNumber}'),
                         ),
-                        for (final s in stops)
+                        for (var i = 0; i < stops.length; i++)
                           Marker(
-                            point: LatLng(s.lat, s.long),
-                            width: 30,
-                            height: 30,
-                            child: StopDot(
+                            point: LatLng(
+                                stops[i].lat, stops[i].long),
+                            width: 22,
+                            height: 22,
+                            child: RouteStopPin(
+                              isStart: i == 0,
+                              isEnd: i == stops.length - 1,
                               onTap: () => Get.defaultDialog(
-                                title: s.label ?? 'Arrêt',
+                                title: stops[i].displayName(i),
                                 middleText:
-                                    'Bus $busNumber en service',
+                                    'Bus ${widget.busNumber} en service',
                                 textConfirm: 'OK',
                                 confirmTextColor: Colors.white,
                                 buttonColor: scheme.primary,
@@ -210,20 +256,21 @@ class _ServiceMap extends GetView<ServiceTabController> {
                       ],
                     ),
                     const CurrentLocationLayer(
-                      alignPositionOnUpdate: AlignOnUpdate.once,
+                      alignPositionOnUpdate: AlignOnUpdate.never,
                     ),
                     const MapCredits(),
                   ],
                 );
               }),
             ),
-          CenterOnMeButton(
-            mapController: controller.mapController,
-            heroTag: 'locate_service',
-          ),
-        ],
+            CenterOnMeButton(
+              mapController: controller.mapController,
+              heroTag: 'locate_service',
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
