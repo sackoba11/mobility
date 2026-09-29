@@ -1,0 +1,14 @@
+{
+  "name": "import-stations",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Importe les trajets Gbaka/Taxi (gbaka_taxi.json) vers la collection Firestore `station`.",
+  "type": "module",
+  "scripts": {
+    "import": "node import.mjs",
+    "geocode": "node geocode-stations.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

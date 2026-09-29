@@ -142,6 +142,71 @@ class OtherCarController extends GetxController {
         double.tryParse(userLongitude.value) ?? -3.9881887,
       );
 
+  /// Position GPS (null si inconnue).
+  (double, double)? get userPos {
+    final lat = double.tryParse(userLatitude.value);
+    final lng = double.tryParse(userLongitude.value);
+    if (lat == null || lng == null) return null;
+    return (lat, lng);
+  }
+
+  // --- Mini-dashboard gares ---
+
+  /// Nombre de gares distinctes (compteur).
+  int get garesCount => gares.length;
+
+  /// Nombre de trajets (compteur).
+  int get trajetsCount => itineraries.length;
+
+  /// Distance utilisateur -> gare (mètres), null si inconnue/non géocodée.
+  double? gareDistance(Gare gare) {
+    final pos = userPos;
+    final loc = gare.location;
+    if (pos == null || loc == null) return null;
+    return Geolocator.distanceBetween(pos.$1, pos.$2, loc.lat, loc.long);
+  }
+
+  /// Distance min utilisateur -> trajet (départ ou arrivée).
+  double? trajetDistance(ItineraireGare t) {
+    final a = gareDistance(t.source);
+    final b = gareDistance(t.destination);
+    if (a == null) return b;
+    if (b == null) return a;
+    return a < b ? a : b;
+  }
+
+  /// Gares les plus proches (géocodées d'abord, sans GPS : alphabétique).
+  List<Gare> nearestGares({int limit = 5}) {
+    final list = gares.toList();
+    list.sort((a, b) {
+      final da = gareDistance(a);
+      final db = gareDistance(b);
+      if (da == null && db == null) {
+        return a.name.compareTo(b.name);
+      }
+      if (da == null) return 1;
+      if (db == null) return -1;
+      return da.compareTo(db);
+    });
+    return list.take(limit).toList();
+  }
+
+  /// Trajets les plus proches (même logique).
+  List<ItineraireGare> nearestTrajets({int limit = 5}) {
+    final list = itineraries.toList();
+    list.sort((a, b) {
+      final da = trajetDistance(a);
+      final db = trajetDistance(b);
+      if (da == null && db == null) {
+        return a.source.name.compareTo(b.source.name);
+      }
+      if (da == null) return 1;
+      if (db == null) return -1;
+      return da.compareTo(db);
+    });
+    return list.take(limit).toList();
+  }
+
   Future<Either<AppError, List<Gare>>> getGares() async {
     try {
       isLoading(true);
@@ -221,7 +286,9 @@ class OtherCarController extends GetxController {
   }
 
   /// Trajet position -> gare SANS Mapbox : OSRM gratuit, sinon ligne droite.
-  Future<List<dynamic>> getRoutes(GareLocation source) async {
+  /// Position inconnue -> pas de tracé (jamais de coords inventées).
+  Future<List<dynamic>> getRoutes(GareLocation? source) async {
+    if (source == null) return [];
     try {
       final userLng =
           double.tryParse(userLongitude.value) ?? source.long;

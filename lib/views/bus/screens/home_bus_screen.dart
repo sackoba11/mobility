@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common/widgets/app_search_field.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../models/transit_stop/transit_stop.dart';
 import '../../../routes/app_pages.dart';
+import '../../stops/controllers/stops_controller.dart';
 import '../controllers/home_bus_controller.dart';
 
-/// Mini-dashboard Bus SOTRA : accès rapide aux fonctionnalités
-/// (bus en service, lignes, arrêts) + recherche par numéro.
+/// Mini-dashboard Bus : compteurs + aperçus (5 plus proches) vers les
+/// pages dédiées (lignes, en service, arrêts).
 class HomeBusScreen extends GetView<BusController> {
   const HomeBusScreen({super.key});
 
@@ -26,138 +27,81 @@ class HomeBusScreen extends GetView<BusController> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: Text(
-              "Retrouvez votre bus en temps réel.",
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: AppSearchField(
-              controller: controller.textEditingController,
-              hintText: "Numéro du bus (ex. 610)",
-              keyboardType: TextInputType.number,
-              onChanged: (value) async {
-                final text = value.trim();
-                // Une nouvelle recherche repart de toutes les lignes.
-                if (controller.lineFilter.value != 'all') {
-                  controller.setLineFilter('all');
-                }
-                if (text.isNotEmpty) {
-                  final parsed = int.tryParse(text);
-                  if (parsed == null) {
-                    controller.searchActiveBus.clear();
-                    controller.availableActiveBusList.clear();
-                    return;
-                  }
-                  await controller.getBusByNumber(parsed);
-                } else {
-                  await controller.getAllBus();
-                }
-              },
-            ),
-          ),
-          // --- Raccourcis dashboard ---
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-            child: Obx(
-              () => Row(
-                children: [
-                  Expanded(
-                    child: _DashCard(
-                      icon: Icons.route_outlined,
-                      value: '${controller.lineCount}',
-                      label: 'Lignes',
-                      color: theme.colorScheme.primary,
-                      selected: controller.lineFilter.value == 'all',
-                      onTap: () => _applyFilter('all'),
-                    ),
+      body: RefreshIndicator(
+        onRefresh: controller.getAllBus,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                child: Text(
+                  "Retrouvez votre bus en temps réel.",
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _DashCard(
-                      icon: Icons.directions_bus_filled,
-                      value: '${controller.activeCount}',
-                      label: 'En service',
-                      color: Colors.green,
-                      selected: controller.lineFilter.value == 'active',
-                      onTap: () => _applyFilter('active'),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: _DashCard(
-                      icon: Icons.location_on_outlined,
-                      value: '',
-                      label: 'Arrêts',
-                      color: theme.colorScheme.secondary,
-                      onTap: () => Get.toNamed(Paths.stops),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-            child: Obx(() {
-              final active = controller.lineFilter.value == 'active';
-              final n = controller.dashboardBuses.length;
-              return Text(
-                active ? 'Bus en service ($n)' : 'Lignes de bus ($n)',
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: theme.colorScheme.onSurfaceVariant,
                 ),
-              );
-            }),
-          ),
-          Expanded(
-            child: Obx(() {
-              if (controller.isLoading.value) {
-                return const AppLoadingView(message: "Recherche des bus...");
-              }
-              if (controller.errorMessage.value.isNotEmpty &&
-                  controller.availableActiveBusList.isEmpty) {
-                return AppErrorView(
-                  message: controller.errorMessage.value,
-                  onRetry: () => controller.getAllBus(),
-                );
-              }
-              final buses = controller.dashboardBuses;
-              if (buses.isEmpty) {
-                final query = controller.textEditingController.text.trim();
-                final activeOnly = controller.lineFilter.value == 'active';
-                return AppEmptyView(
-                  icon: activeOnly
-                      ? Icons.directions_bus_outlined
-                      : Icons.search_off_outlined,
-                  title: activeOnly && query.isEmpty
-                      ? "Aucun bus en service"
-                      : "Aucun bus disponible",
-                  subtitle: activeOnly && query.isEmpty
-                      ? "Revenez plus tard ou explorez les lignes."
-                      : "Essayez un autre numéro ou actualisez la liste.",
-                  actionLabel: activeOnly && query.isEmpty
-                      ? "Voir les lignes"
-                      : null,
-                  onAction: activeOnly && query.isEmpty
-                      ? () => controller.setLineFilter('all')
-                      : null,
-                );
-              }
-              return RefreshIndicator(
-                onRefresh: controller.getAllBus,
-                child: ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+              ),
+              // --- Compteurs ---
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Obx(
+                        () => _DashCard(
+                          icon: Icons.directions_bus_filled,
+                          value: '${controller.activeCount}',
+                          label: 'En service',
+                          color: Colors.green,
+                          onTap: () => Get.toNamed(Paths.activeBuses),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Obx(
+                        () => _DashCard(
+                          icon: Icons.route_outlined,
+                          value: '${controller.lineCount}',
+                          label: 'Lignes',
+                          color: theme.colorScheme.primary,
+                          onTap: () => Get.toNamed(Paths.busLines),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Obx(
+                        () => _DashCard(
+                          icon: Icons.location_on_outlined,
+                          value: '${Get.find<StopsController>().stopsCount}',
+                          label: 'Arrêts',
+                          color: theme.colorScheme.secondary,
+                          onTap: () => Get.toNamed(Paths.stops),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // --- En service près de vous ---
+              _SectionHeader(
+                title: 'En service près de vous',
+                onMore: () => Get.toNamed(Paths.activeBuses),
+              ),
+              Obx(() {
+                final buses = controller.nearestActive();
+                if (buses.isEmpty) {
+                  return const _SectionHint(
+                    text: 'Aucun bus en service pour le moment.',
+                  );
+                }
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   itemCount: buses.length,
                   separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, index) {
@@ -165,37 +109,110 @@ class HomeBusScreen extends GetView<BusController> {
                     return BusCard(
                       bus: bus,
                       onTap: () {
-                        // Fiche ligne (onglets Aller / Retour) : le suivi
-                        // live part de là via "Suivre en direct".
+                        controller.currentBus.value = bus;
+                        controller.resetSecondFit();
+                        controller.resetDetailFit();
+                        Get.toNamed(Paths.secondHomeBus);
+                        controller.getRoutes(bus.roadMap).then((r) {
+                          controller.routes = r;
+                          controller.update();
+                        });
+                      },
+                    );
+                  },
+                );
+              }),
+              // --- Lignes proches ---
+              _SectionHeader(
+                title: 'Lignes proches',
+                onMore: () => Get.toNamed(Paths.busLines),
+              ),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: AppLoadingView(message: 'Recherche des lignes...'),
+                  );
+                }
+                final buses = controller.nearestLines();
+                if (buses.isEmpty) {
+                  return const _SectionHint(
+                    text: 'Aucune ligne pour le moment.',
+                  );
+                }
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  itemCount: buses.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
+                  itemBuilder: (context, index) {
+                    final bus = buses[index];
+                    return BusCard(
+                      bus: bus,
+                      onTap: () {
                         controller.currentBus.value = bus;
                         Get.toNamed(Paths.lineDetail);
                       },
                     );
                   },
-                ),
-              );
-            }),
+                );
+              }),
+
+              // --- Arrêts proches ---
+              _SectionHeader(
+                title: 'Arrêts proches',
+                onMore: () => Get.toNamed(Paths.stops),
+              ),
+              Obx(() {
+                final stopsCtrl = Get.find<StopsController>();
+                if (stopsCtrl.isLoading.value && stopsCtrl.stops.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: AppLoadingView(message: 'Recherche des arrêts...'),
+                  );
+                }
+                final stops = stopsCtrl.nearestStops();
+                if (stops.isEmpty) {
+                  return const _SectionHint(
+                    text: 'Aucun arrêt pour le moment.',
+                  );
+                }
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                  itemCount: stops.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
+                  itemBuilder: (context, index) {
+                    final stop = stops[index];
+                    final dist = stopsCtrl.distanceTo(stop);
+                    return _NearbyStopTile(
+                      stop: stop,
+                      distance: dist,
+                      onTap: () {
+                        stopsCtrl.selected.value = stop;
+                        Get.toNamed(Paths.stopDetail);
+                      },
+                    );
+                  },
+                );
+              }),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
-
-  /// Applique un filtre du dashboard (réinitialise la recherche).
-  Future<void> _applyFilter(String filter) async {
-    controller.textEditingController.clear();
-    controller.setLineFilter(filter);
-    await controller.getAllBus();
-  }
 }
 
-/// Carte de raccourci du dashboard (valeur + libellé + icône).
+/// Carte compteur du dashboard (hauteurs égales via ligne valeur
+/// toujours rendue).
 class _DashCard extends StatelessWidget {
   final IconData icon;
   final String value;
   final String label;
   final Color color;
-  final bool selected;
   final VoidCallback onTap;
 
   const _DashCard({
@@ -203,7 +220,6 @@ class _DashCard extends StatelessWidget {
     required this.value,
     required this.label,
     required this.color,
-    this.selected = false,
     required this.onTap,
   });
 
@@ -212,29 +228,18 @@ class _DashCard extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     return Material(
-      color: selected
-          ? color.withValues(alpha: 0.16)
-          : scheme.surfaceContainerHighest.withValues(alpha: 0.6),
+      color: scheme.surfaceContainerHighest.withValues(alpha: 0.6),
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: selected ? color : Colors.transparent,
-              width: 1.5,
-            ),
-          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, color: color, size: 24),
               const SizedBox(height: 4),
-              // Ligne valeur toujours rendue (insécable si vide)
-              // pour des cartes strictement de même hauteur.
               Text(
                 value.isNotEmpty ? value : ' ',
                 style: theme.textTheme.titleLarge?.copyWith(
@@ -249,6 +254,127 @@ class _DashCard extends StatelessWidget {
                   color: scheme.onSurfaceVariant,
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Titre de section + bouton "Voir plus" à droite.
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  final VoidCallback onMore;
+
+  const _SectionHeader({required this.title, required this.onMore});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 8, 8),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const Spacer(),
+          TextButton.icon(
+            onPressed: onMore,
+            iconAlignment: IconAlignment.end,
+            icon: const Icon(Icons.chevron_right, size: 18),
+            label: const Text('Voir plus'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Texte discret quand une section est vide.
+class _SectionHint extends StatelessWidget {
+  final String text;
+  const _SectionHint({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Text(
+        text,
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+    );
+  }
+}
+
+/// Tuile d'arrêt proche (nom + distance).
+class _NearbyStopTile extends StatelessWidget {
+  final TransitStop stop;
+  final double? distance;
+  final VoidCallback onTap;
+
+  const _NearbyStopTile({
+    required this.stop,
+    required this.distance,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final icon = switch (stop.kind) {
+      'gare' => Icons.train_outlined,
+      'boat' => Icons.directions_boat_outlined,
+      _ => Icons.directions_bus_outlined,
+    };
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: scheme.onPrimaryContainer),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      stop.name,
+                      style: theme.textTheme.titleMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      '${stop.kindLabel}${distance == null ? '' : ' • ${StopsController.formatDistance(distance!)}'}',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
             ],
           ),
         ),

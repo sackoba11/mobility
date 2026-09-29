@@ -10,7 +10,9 @@ _Gare _$GareFromJson(Map<String, dynamic> json) => _Gare(
   name: json['name'] as String,
   commune: json['commune'] as String,
   type: const TransportTypeConverter().fromJson(json['type'] as String),
-  location: GareLocation.fromJson(json['location'] as Map<String, dynamic>),
+  location: json['location'] == null
+      ? null
+      : GareLocation.fromJson(json['location'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$GareToJson(_Gare instance) => <String, dynamic>{

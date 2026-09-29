@@ -1,13 +1,17 @@
 import 'package:get/get.dart';
 
+import '../views/bus/screens/active_buses_screen.dart';
 import '../views/bus/screens/details_home_bus_screen.dart';
 import '../views/bus/screens/home_bus_screen.dart';
 import '../views/bus/screens/line_detail_screen.dart';
+import '../views/bus/screens/lines_screen.dart';
 import '../views/bus/screens/second_home_bus_screen.dart';
 import '../views/driver/screens/driver_screen.dart';
 import '../views/otherCar/screens/details_home_other_car_screen.dart';
 import '../views/otherCar/screens/home_other_car_screen.dart';
 import '../views/otherCar/screens/second_home_other_car_screen.dart';
+import '../views/otherCar/screens/stations_screen.dart';
+import '../views/otherCar/screens/trajets_screen.dart';
 import '../views/profile/screens/profile_screen.dart';
 import '../views/services/screens/services_screen.dart';
 import '../views/shell/screens/shell_screen.dart';
@@ -74,6 +78,15 @@ class AppPages {
       name: Paths.lineDetail,
       page: () => const LineDetailScreen(),
     ),
+    // Pages dédiées du dashboard bus.
+    GetPage(
+      name: Paths.busLines,
+      page: () => const LinesScreen(),
+    ),
+    GetPage(
+      name: Paths.activeBuses,
+      page: () => const ActiveBusesScreen(),
+    ),
     GetPage(
       name: Paths.secondHomeBus,
       page: () => const SecondHomeBusScreen(),
@@ -97,6 +110,15 @@ class AppPages {
       name: Paths.homeOtherCar,
       page: () => const HomeOtherCarScreen(),
       binding: AppBindings.tabs(),
+    ),
+    // Pages dédiées du dashboard gares.
+    GetPage(
+      name: Paths.stations,
+      page: () => const StationsScreen(),
+    ),
+    GetPage(
+      name: Paths.trajets,
+      page: () => const TrajetsScreen(),
     ),
     GetPage(
       name: Paths.secondOtherCar,

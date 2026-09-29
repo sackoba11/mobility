@@ -12,11 +12,17 @@ abstract class Gare with _$Gare {
       {required String name,
       required String commune,
       @TransportTypeConverter() required TransportType type,
-      required GareLocation location}) = _Gare;
+      // Null tant que la gare n'est pas géocodée
+      // (scripts/import-stations/geocode). Lue avec prudence côté UI.
+      GareLocation? location}) = _Gare;
   factory Gare.fromJson(Map<String, dynamic> json) => _$GareFromJson(json);
 }
 
 extension GareX on Gare {
   /// Ancien accès `gare.type` String pour compat UI.
   String get typeLabel => type.label;
+
+  /// Vrai si la gare est positionnée (affichable sur carte).
+  bool get hasLocation =>
+      location != null;
 }

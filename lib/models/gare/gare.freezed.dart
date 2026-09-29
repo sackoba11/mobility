@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Gare {
 
- String get name; String get commune;@TransportTypeConverter() TransportType get type; GareLocation get location;
+ String get name; String get commune;@TransportTypeConverter() TransportType get type;// Null tant que la gare n'est pas géocodée
+// (scripts/import-stations/geocode). Lue avec prudence côté UI.
+ GareLocation? get location;
 /// Create a copy of Gare
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,11 +50,11 @@ abstract mixin class $GareCopyWith<$Res>  {
   factory $GareCopyWith(Gare value, $Res Function(Gare) _then) = _$GareCopyWithImpl;
 @useResult
 $Res call({
- String name, String commune,@TransportTypeConverter() TransportType type, GareLocation location
+ String name, String commune,@TransportTypeConverter() TransportType type, GareLocation? location
 });
 
 
-$GareLocationCopyWith<$Res> get location;
+$GareLocationCopyWith<$Res>? get location;
 
 }
 /// @nodoc
@@ -65,22 +67,25 @@ class _$GareCopyWithImpl<$Res>
 
 /// Create a copy of Gare
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? commune = null,Object? type = null,Object? location = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? commune = null,Object? type = null,Object? location = freezed,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,commune: null == commune ? _self.commune : commune // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TransportType,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as GareLocation,
+as TransportType,location: freezed == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as GareLocation?,
   ));
 }
 /// Create a copy of Gare
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$GareLocationCopyWith<$Res> get location {
-  
-  return $GareLocationCopyWith<$Res>(_self.location, (value) {
+$GareLocationCopyWith<$Res>? get location {
+    if (_self.location == null) {
+    return null;
+  }
+
+  return $GareLocationCopyWith<$Res>(_self.location!, (value) {
     return _then(_self.copyWith(location: value));
   });
 }
@@ -165,7 +170,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String commune, @TransportTypeConverter()  TransportType type,  GareLocation location)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String commune, @TransportTypeConverter()  TransportType type,  GareLocation? location)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Gare() when $default != null:
 return $default(_that.name,_that.commune,_that.type,_that.location);case _:
@@ -186,7 +191,7 @@ return $default(_that.name,_that.commune,_that.type,_that.location);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String commune, @TransportTypeConverter()  TransportType type,  GareLocation location)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String commune, @TransportTypeConverter()  TransportType type,  GareLocation? location)  $default,) {final _that = this;
 switch (_that) {
 case _Gare():
 return $default(_that.name,_that.commune,_that.type,_that.location);case _:
@@ -206,7 +211,7 @@ return $default(_that.name,_that.commune,_that.type,_that.location);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String commune, @TransportTypeConverter()  TransportType type,  GareLocation location)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String commune, @TransportTypeConverter()  TransportType type,  GareLocation? location)?  $default,) {final _that = this;
 switch (_that) {
 case _Gare() when $default != null:
 return $default(_that.name,_that.commune,_that.type,_that.location);case _:
@@ -221,13 +226,15 @@ return $default(_that.name,_that.commune,_that.type,_that.location);case _:
 @JsonSerializable()
 
 class _Gare implements Gare {
-   _Gare({required this.name, required this.commune, @TransportTypeConverter() required this.type, required this.location});
+   _Gare({required this.name, required this.commune, @TransportTypeConverter() required this.type, this.location});
   factory _Gare.fromJson(Map<String, dynamic> json) => _$GareFromJson(json);
 
 @override final  String name;
 @override final  String commune;
 @override@TransportTypeConverter() final  TransportType type;
-@override final  GareLocation location;
+// Null tant que la gare n'est pas géocodée
+// (scripts/import-stations/geocode). Lue avec prudence côté UI.
+@override final  GareLocation? location;
 
 /// Create a copy of Gare
 /// with the given fields replaced by the non-null parameter values.
@@ -262,11 +269,11 @@ abstract mixin class _$GareCopyWith<$Res> implements $GareCopyWith<$Res> {
   factory _$GareCopyWith(_Gare value, $Res Function(_Gare) _then) = __$GareCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String commune,@TransportTypeConverter() TransportType type, GareLocation location
+ String name, String commune,@TransportTypeConverter() TransportType type, GareLocation? location
 });
 
 
-@override $GareLocationCopyWith<$Res> get location;
+@override $GareLocationCopyWith<$Res>? get location;
 
 }
 /// @nodoc
@@ -279,13 +286,13 @@ class __$GareCopyWithImpl<$Res>
 
 /// Create a copy of Gare
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? commune = null,Object? type = null,Object? location = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? commune = null,Object? type = null,Object? location = freezed,}) {
   return _then(_Gare(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,commune: null == commune ? _self.commune : commune // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TransportType,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as GareLocation,
+as TransportType,location: freezed == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as GareLocation?,
   ));
 }
 
@@ -293,9 +300,12 @@ as GareLocation,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$GareLocationCopyWith<$Res> get location {
-  
-  return $GareLocationCopyWith<$Res>(_self.location, (value) {
+$GareLocationCopyWith<$Res>? get location {
+    if (_self.location == null) {
+    return null;
+  }
+
+  return $GareLocationCopyWith<$Res>(_self.location!, (value) {
     return _then(_self.copyWith(location: value));
   });
 }

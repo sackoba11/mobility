@@ -214,10 +214,7 @@ class BusController extends GetxController {
 // home Bus
   final RxString errorMessage = "".obs;
 
-  // --- Mini-dashboard lignes ---
-  // Filtre d'affichage : 'all' (toutes les variantes) | 'active' (service).
-  final RxString lineFilter = 'all'.obs;
-
+  // --- Compteurs du mini-dashboard lignes ---
   /// Nombre de bus en service (temps réel).
   int get activeCount => activeBusList.length;
 
@@ -228,22 +225,6 @@ class BusController extends GetxController {
       nums.add(b.number);
     }
     return nums.length;
-  }
-
-  /// Liste affichée par le dashboard (recherche + filtre).
-  /// Mode 'all' : une ligne par variante, sens aller uniquement.
-  /// Mode 'active' : bus en service (tous sens, temps réel).
-  List<BusFromDb> get dashboardBuses {
-    final base = availableActiveBusList.toList();
-    if (lineFilter.value == 'active') {
-      return base.where((b) => b.isActive).toList();
-    }
-    return base.where((b) => !isRetour(b)).toList();
-  }
-
-  void setLineFilter(String f) {
-    lineFilter.value = f;
-    update();
   }
 
   /// Vrai pour les variantes retour (exclues de la liste des lignes).
@@ -267,13 +248,87 @@ class BusController extends GetxController {
   static int _directionRank(BusFromDb b) =>
       isRetour(b) ? 1 : 0;
 
-  /// Distance utilisateur -> arrêt (mètres), null si GPS inconnu.
-  double? distanceToStop(Stop s) {
+  /// Position GPS (null si inconnue).
+  (double, double)? get userPos {
     final lat = double.tryParse(userLatitude.value);
     final lng = double.tryParse(userLongitude.value);
     if (lat == null || lng == null) return null;
-    return Geolocator.distanceBetween(lat, lng, s.lat, s.long);
+    return (lat, lng);
   }
+
+  /// Distance min utilisateur -> itinéraire (arrêts), null si inconnue.
+  double? minStopDistance(BusFromDb b) {
+    final pos = userPos;
+    if (pos == null || b.roadMap.isEmpty) return null;
+    var best = double.infinity;
+    for (final s in b.roadMap) {
+      final d =
+          Geolocator.distanceBetween(pos.$1, pos.$2, s.lat, s.long);
+      if (d < best) best = d;
+    }
+    return best;
+  }
+
+  /// Distance utilisateur -> position live, null si inconnue.
+  double? liveDistance(BusFromDb b) {
+    final pos = userPos;
+    final p = b.position;
+    if (pos == null || p == null) return null;
+    return Geolocator.distanceBetween(pos.$1, pos.$2, p.lat, p.long);
+  }
+
+  int _compareNearest(BusFromDb a, BusFromDb b) {
+    final da = minStopDistance(a);
+    final db = minStopDistance(b);
+    if (da == null && db == null) {
+      return a.number.compareTo(b.number);
+    }
+    if (da == null) return 1;
+    if (db == null) return -1;
+    final c = da.compareTo(db);
+    return c != 0 ? c : a.number.compareTo(b.number);
+  }
+
+  /// Variantes aller triées par proximité (sans GPS : par numéro).
+  List<BusFromDb> nearestLines({int limit = 5}) {
+    final list =
+        _mergedAvailable().where((b) => !isRetour(b)).toList();
+    list.sort(_compareNearest);
+    return list.take(limit).toList();
+  }
+
+  /// Toutes les variantes aller, triées par numéro (page Lignes).
+  List<BusFromDb> get allerLines {
+    final list =
+        _mergedAvailable().where((b) => !isRetour(b)).toList();
+    list.sort((a, b) {
+      final n = a.number.compareTo(b.number);
+      if (n != 0) return n;
+      return a.variantIndex.compareTo(b.variantIndex);
+    });
+    return list;
+  }
+
+  /// Bus en service triés par proximité (position live, repli arrêts).
+  List<BusFromDb> get activeSorted {
+    final list = activeBusList.toList();
+    list.sort((a, b) {
+      final da = liveDistance(a) ?? minStopDistance(a);
+      final db = liveDistance(b) ?? minStopDistance(b);
+      if (da == null && db == null) {
+        return a.number.compareTo(b.number);
+      }
+      if (da == null) return 1;
+      if (db == null) return -1;
+      final c = da.compareTo(db);
+      return c != 0 ? c : a.number.compareTo(b.number);
+    });
+    return list;
+  }
+
+  /// Bus en service les plus proches (aperçu dashboard).
+  List<BusFromDb> nearestActive({int limit = 5}) =>
+      activeSorted.take(limit).toList();
 
   Future<void> getAllBus() async {
     isLoading(true);

@@ -79,6 +79,25 @@ class StopsController extends GetxController {
     return Geolocator.distanceBetween(pos.$1, pos.$2, stop.lat, stop.lng);
   }
 
+  /// Nombre d'arrêts au catalogue (compteur dashboard).
+  int get stopsCount => stops.length;
+
+  /// Arrêts les plus proches (aperçu dashboard, nulls en dernier).
+  List<TransitStop> nearestStops({int limit = 5}) {
+    final list = stops.toList();
+    list.sort((a, b) {
+      final da = distanceTo(a);
+      final db = distanceTo(b);
+      if (da == null && db == null) {
+        return a.name.compareTo(b.name);
+      }
+      if (da == null) return 1;
+      if (db == null) return -1;
+      return da.compareTo(db);
+    });
+    return list.take(limit).toList();
+  }
+
   static String formatDistance(double meters) {
     if (meters < 1000) return 'à ${meters.round()} m';
     return 'à ${(meters / 1000).toStringAsFixed(1)} km';

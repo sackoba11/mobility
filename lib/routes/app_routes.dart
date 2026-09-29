@@ -24,6 +24,8 @@ abstract class Paths {
 
   // Bus Home
   static const homeBus = '/bus';
+  static const busLines = '/bus/lines';
+  static const activeBuses = '/bus/actives';
   static const lineDetail = '/bus/lineDetail';
   static const secondHomeBus = "/bus/secondHomeBus";
   static const detailHomeBus = "/bus/secondHomeBus/detailHomeBus";
@@ -34,6 +36,8 @@ abstract class Paths {
 
 //Other Car
   static const homeOtherCar = '/homeOtherCar';
+  static const stations = '/stations';
+  static const trajets = '/trajets';
   static const secondOtherCar = '/secondOtherCar';
   static const detailOtherCar = '/detailOtherCar';
 }

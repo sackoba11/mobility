@@ -37,8 +37,9 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
             heroTag: 'fit_detail_gare',
             pointsOf: () {
               final g = controller.gare.value;
+              final loc = g.location;
               final pts = <LatLng>[
-                LatLng(g.location.lat, g.location.long),
+                if (loc != null) LatLng(loc.lat, loc.long),
                 controller.userLatLng,
               ];
               for (final e in controller.routes) {
@@ -69,7 +70,7 @@ class DetailsHomeOtherCarScreen extends GetView<OtherCarController> {
                               style: theme.textTheme.titleLarge),
                           const SizedBox(height: 4),
                           Text(
-                              "${gare.commune} • ${gare.location.label ?? 'Gare'}",
+                              "${gare.commune} • ${gare.location?.label ?? 'Gare'}",
                               style: theme.textTheme.bodyMedium
                                   ?.copyWith(
                                       color: scheme.onSurfaceVariant)),
@@ -123,10 +124,10 @@ class _GareMap extends GetView<OtherCarController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final garePos = LatLng(
-        gare.location.lat,
-        gare.location.long,
-      );
+      final loc = gare.location;
+      final garePos = loc != null
+          ? LatLng(loc.lat, loc.long)
+          : controller.userLatLng;
       final userPos = controller.userLatLng;
       final routePoints = controller.routes
           .where((element) =>
@@ -134,8 +135,9 @@ class _GareMap extends GetView<OtherCarController> {
           .map((element) =>
               lngLatToLatLng(element, 5.3502292, -3.9881887))
           .toList();
-      // Gare + utilisateur (+ tracé) toujours visibles.
-      controller.fitDetailOnPoints([garePos, userPos, ...routePoints]);
+      // Gare (si connue) + utilisateur (+ tracé) toujours visibles.
+      controller.fitDetailOnPoints(
+          [if (loc != null) garePos, userPos, ...routePoints]);
       return FlutterMap(
         mapController: controller.detailMapController,
         options: MapOptions(
@@ -160,24 +162,25 @@ class _GareMap extends GetView<OtherCarController> {
             ),
           MarkerLayer(
             markers: [
-              Marker(
-                point: garePos,
-                width: 48,
-                height: 48,
-                child: GestureDetector(
-                  onTap: () => Get.defaultDialog(
-                    title: 'Gare ${gare.name}',
-                    middleText:
-                        '${gare.type.label} • ${gare.commune}',
-                    textConfirm: 'OK',
-                    confirmTextColor: Colors.white,
-                    buttonColor: scheme.primary,
-                    onConfirm: () => Get.back(),
+              if (loc != null)
+                Marker(
+                  point: garePos,
+                  width: 48,
+                  height: 48,
+                  child: GestureDetector(
+                    onTap: () => Get.defaultDialog(
+                      title: 'Gare ${gare.name}',
+                      middleText:
+                          '${gare.type.label} • ${gare.commune}',
+                      textConfirm: 'OK',
+                      confirmTextColor: Colors.white,
+                      buttonColor: scheme.primary,
+                      onConfirm: () => Get.back(),
+                    ),
+                    child: Icon(Icons.location_on,
+                        color: scheme.error, size: 42),
                   ),
-                  child: Icon(Icons.location_on,
-                      color: scheme.error, size: 42),
                 ),
-              ),
             ],
           ),
           // never : le recentrage auto sur l'utilisateur masquerait
