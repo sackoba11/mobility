@@ -146,7 +146,7 @@ class StopDetailScreen extends GetView<StopsController> {
                 SheetTitle(
                   title:
                       'Bus en approche (${controller.approachingBuses(stop).length})',
-                  subtitle: 'Bus en service en direction de cet arrêt.',
+                  // subtitle: 'Bus en service en direction de cet arrêt.',
                   compact: true,
                 ),
                 const SizedBox(height: 8),

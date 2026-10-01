@@ -72,9 +72,9 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
                   final car = Get.find<OtherCarController>();
                   final stops = Get.find<StopsController>();
                   // Lit les RxList pour suivre les chargements.
-                  final active = bus.activeBusList.length;
                   final lines = bus.lineCount;
-                  final gares = car.gares.length + car.itineraries.length;
+                  final gares = car.gares.length;
+                  final trajets = car.itineraries.length;
                   final stopsCount = stops.stops.length;
                   return GridView.count(
                     crossAxisCount: 4,
@@ -85,18 +85,11 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
                     childAspectRatio: 0.78,
                     children: [
                       _StatCard(
-                        icon: Icons.directions_bus_filled,
-                        value: '$active',
-                        label: 'En service',
-                        color: Colors.green,
-                        onTap: () => Get.find<ShellController>().setTab(1),
-                      ),
-                      _StatCard(
                         icon: Icons.route_outlined,
                         value: '$lines',
                         label: 'Lignes',
                         color: scheme.primary,
-                        onTap: () => Get.find<ShellController>().setTab(1),
+                        onTap: () => Get.toNamed(Paths.busLines),
                       ),
                       _StatCard(
                         icon: Icons.directions_bus_outlined,
@@ -110,7 +103,14 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
                         value: '$gares',
                         label: 'Gares',
                         color: scheme.secondary,
-                        onTap: () => Get.find<ShellController>().setTab(2),
+                        onTap: () => Get.toNamed(Paths.stations),
+                      ),
+                      _StatCard(
+                        icon: Icons.alt_route_outlined,
+                        value: '$trajets',
+                        label: 'Trajets',
+                        color: Colors.green,
+                        onTap: () => Get.toNamed(Paths.trajets),
                       ),
                     ],
                   );
