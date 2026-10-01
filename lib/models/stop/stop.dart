@@ -17,6 +17,9 @@ abstract class Stop with _$Stop {
     String? label,
     // Référence catalogue OSM ("node/123...", voir scripts/import-sotra-stops).
     String? osmId,
+    // Sens de la variante qui dessert cet arrêt ("aller"/"retour",
+    // écrit par scripts/import-bus/enrich). Vide si inconnu.
+    @Default('') String direction,
   }) = _Stop;
   factory Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
 }
@@ -28,4 +31,11 @@ extension StopX on Stop {
     if (l != null && l.isNotEmpty) return l;
     return "Arrêt ${index + 1}";
   }
+
+  /// Sens lisible ("Aller", "Retour", "" si inconnu).
+  String get directionLabel => switch (direction.trim().toLowerCase()) {
+        'aller' => 'Aller',
+        'retour' => 'Retour',
+        _ => '',
+      };
 }

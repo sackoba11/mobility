@@ -177,8 +177,11 @@ class _GareMap extends GetView<OtherCarController> {
                       buttonColor: scheme.primary,
                       onConfirm: () => Get.back(),
                     ),
+                  child: ZoomScaled.square(
+                    baseSize: 42,
                     child: Icon(Icons.location_on,
                         color: scheme.error, size: 42),
+                  ),
                   ),
                 ),
             ],

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobility/data/repositories/authRepositiry/i_auth_repository.dart';
@@ -95,6 +96,15 @@ class AuthRepositoryImpl implements IAuthRepository {
       User? previousUser;
       UserCredential userCreds;
 
+      if (!reauth) {
+        // Purge le compte en cache (consentement périmé), sinon
+        // Play Services échoue avec "[16] Account reauth failed"
+        // au lieu d'ouvrir un flux interactif propre.
+        try {
+          await _googleSignIn.signOut();
+        } catch (_) {}
+      }
+
       final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
       // Synchrone désormais (plus de await)
@@ -148,10 +158,25 @@ class AuthRepositoryImpl implements IAuthRepository {
         return Right(userCreds);
       }
     } on GoogleSignInException catch (e) {
+      // Ne jamais masquer le vrai code : une erreur de config (ex.
+      // ApiException 10 = SHA-1 non enregistré) ressemble sinon à une
+      // simple annulation (HiddenActivity fermée sans choix).
+      debugPrint('GoogleSignInException: ${e.code} ${e.description}');
       if (e.code == GoogleSignInExceptionCode.canceled) {
+        // "Account reauth failed" = Play Services n'arrive pas à
+        // ré-authentifier le compte sur l'appareil (pas une annulation
+        // volontaire) : message actionnable plutôt que "cancel by user".
+        if ((e.description ?? '').contains('reauth')) {
+          return Left(GenericAppError(
+              "Connexion Google impossible : mettez à jour Google Play Services, "
+              "vérifiez votre compte Google sur l'appareil, puis réessayez."));
+        }
         return Left(GenericAppError("Cancelled by User"));
       }
-      return Left(GenericAppError("Erreur Google Sign-In: ${e.code.name}"));
+      final details =
+          e.description?.isNotEmpty == true ? ' — ${e.description}' : '';
+      return Left(
+          GenericAppError("Erreur Google Sign-In: ${e.code.name}$details"));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return Left(GenericAppError('email-already-in-use'));
@@ -167,6 +192,7 @@ class AuthRepositoryImpl implements IAuthRepository {
         return Left(GenericAppError('Server error'));
       }
     } catch (e) {
+      debugPrint('signInWithGoogle inattendu: $e');
       return Left(GenericAppError("cancel by user"));
     }
   }

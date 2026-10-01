@@ -8,7 +8,7 @@ import '../../../common/map/fm_widgets.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
-import '../../../models/transit_stop/transit_stop.dart';
+import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../routes/app_pages.dart';
 import '../../bus/controllers/home_bus_controller.dart';
 import '../controllers/stops_controller.dart';
@@ -36,22 +36,12 @@ class StopDetailScreen extends GetView<StopsController> {
       );
     }
     final stopPos = LatLng(stop.lat, stop.lng);
-    // Position passager si connue (via le controller bus partagé).
-    LatLng? userPos;
-    if (Get.isRegistered<BusController>()) {
-      final busCtrl = Get.find<BusController>();
-      final lat = double.tryParse(busCtrl.userLatitude.value);
-      final lng = double.tryParse(busCtrl.userLongitude.value);
-      if (lat != null && lng != null) userPos = LatLng(lat, lng);
-    }
-    final both = userPos != null ? [stopPos, userPos] : [stopPos];
-    // Cadrage arrêt + utilisateur (une fois par arrêt : les rebuilds
-    // suivants préservent le zoom manuel). Vue initiale = arrêt niveau
-    // rue, donc jamais de fond gris même si le fit échoue.
+    // Zoom serré sur l'arrêt (bien visible d'emblée). Le bouton
+    // "voir les deux" élargit à ma position si besoin.
     final fitKey = '${stop.lat},${stop.lng}';
     if (controller.lastFittedStopKey != fitKey) {
       controller.lastFittedStopKey = fitKey;
-      fitWhenReady(mapController, both);
+      fitWhenReady(mapController, [stopPos], closeZoom: 16);
     }
     return Scaffold(
       body: Stack(
@@ -60,9 +50,9 @@ class StopDetailScreen extends GetView<StopsController> {
             mapController: mapController,
             options: MapOptions(
               initialCenter: stopPos,
-              initialZoom: 15,
+              initialZoom: 18,
               minZoom: 3,
-              maxZoom: 18,
+              maxZoom: 19,
             ),
             children: [
               const AppTileLayer(),
@@ -72,9 +62,14 @@ class StopDetailScreen extends GetView<StopsController> {
                     point: stopPos,
                     width: 48,
                     height: 48,
-                    child: Icon(Icons.location_on,
+                    child: ZoomScaled.square(
+                      baseSize: 44,
+                      child: Icon(
+                        Icons.location_on_rounded,
                         color: theme.colorScheme.primary,
-                        size: 44),
+                        size: 44,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -109,99 +104,150 @@ class StopDetailScreen extends GetView<StopsController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SheetTitle(
-                  title: stop.name,
-                  subtitle: stop.kindLabel,
-                ),
-                    const SizedBox(height: 4),
-                    Builder(builder: (context) {
-                      final dist = controller.distanceTo(stop);
-                      if (dist == null) {
-                        return const SizedBox.shrink();
-                      }
-                      return Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          children: [
-                            Icon(Icons.near_me_outlined,
-                                size: 16,
-                                color: theme.colorScheme
-                                    .onSurfaceVariant),
-                            const SizedBox(width: 6),
-                            Text(
-                              StopsController.formatDistance(
-                                  dist),
-                              style: theme.textTheme.bodyMedium
-                                  ?.copyWith(
-                                      color: theme.colorScheme
-                                          .onSurfaceVariant),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                    SheetTitle(
-                      title:
-                          'Bus par ici (${controller.busesThrough(stop).length})',
-                      subtitle:
-                          'Tapez un bus pour suivre son itinéraire.',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: SheetTitle(title: stop.name, compact: true),
                     ),
-                    const SizedBox(height: 8),
-                    Builder(builder: (context) {
-                      final buses =
-                          controller.busesThrough(stop);
-                      if (buses.isEmpty) {
-                        return const Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 16),
-                          child: AppEmptyView(
-                            icon: Icons.directions_bus_outlined,
-                            title: 'Aucun bus connu ici',
-                            subtitle:
-                                'Les lignes sont en cours de rattachement aux arrêts.',
-                          ),
-                        );
-                      }
-                      return ListView.separated(
-                        shrinkWrap: true,
-                        physics:
-                            const NeverScrollableScrollPhysics(),
-                        itemCount: buses.length,
-                        separatorBuilder: (_, _) =>
-                            const SizedBox(height: 10),
-                        itemBuilder: (context, index) {
-                          final bus = buses[index];
-                          return BusCard(
-                            bus: bus,
-                            onTap: () {
-                              if (!Get.isRegistered<
-                                  BusController>()) {
-                                return;
-                              }
-                              final busController =
-                                  Get.find<BusController>();
-                              busController.currentBus.value =
-                                  bus;
-                              busController.resetSecondFit();
-                              busController.resetDetailFit();
-                              Get.toNamed(Paths.secondHomeBus);
-                              busController
-                                  .getRoutes(bus.roadMap)
-                                  .then((r) {
-                                busController.routes = r;
-                                busController.update();
-                              });
-                            },
+                    Expanded(
+                      flex: 2,
+                      child: Builder(
+                        builder: (context) {
+                          final dist = controller.distanceTo(stop);
+                          if (dist == null) {
+                            return const SizedBox.shrink();
+                          }
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                Icons.near_me_rounded,
+                                size: 16,
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                              const SizedBox(width: 6),
+
+                              Text(
+                                StopsController.formatDistance(dist),
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
                           );
                         },
-                      );
-                    }),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 4),
+                SheetTitle(
+                  title:
+                      'Bus en approche (${controller.approachingBuses(stop).length})',
+                  subtitle: 'Bus en service en direction de cet arrêt.',
+                  compact: true,
+                ),
+                const SizedBox(height: 8),
+                Builder(
+                  builder: (context) {
+                    final buses = controller.approachingBuses(stop);
+                    if (buses.isEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          'Aucun bus en approche pour le moment.',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: buses.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 10),
+                      itemBuilder: (context, index) {
+                        final bus = buses[index];
+                        return BusCard(
+                          bus: bus,
+                          compact: true,
+                          onTap: () => _followBus(context, bus),
+                        );
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                Builder(
+                  builder: (context) {
+                    final lines = controller.servingLines(stop);
+                    return SheetTitle(
+                      title: 'Lignes de desserte (${lines.length})',
+                      compact: true,
+                      // subtitle: 'Toutes les lignes passant par ici.',
+                    );
+                  },
+                ),
+                // const SizedBox(height: 8),
+                Builder(
+                  builder: (context) {
+                    final lines = controller.servingLines(stop);
+                    if (lines.isEmpty) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: AppEmptyView(
+                          icon: Icons.directions_bus_outlined,
+                          title: 'Aucune ligne connue ici',
+                          subtitle:
+                              'Les lignes sont en cours de rattachement aux arrêts.',
+                        ),
+                      );
+                    }
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: lines.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 10),
+                      itemBuilder: (context, index) {
+                        final bus = lines[index];
+                        return BusCard(
+                          bus: bus,
+                          compact: true,
+                          onTap: () {
+                            if (!Get.isRegistered<BusController>()) {
+                              return;
+                            }
+                            final busController = Get.find<BusController>();
+                            busController.currentBus.value = bus;
+                            Get.toNamed(Paths.lineDetail);
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        );
-      }
-    }
+        ],
+      ),
+    );
+  }
+
+  /// Suit un bus en service sur la carte live.
+  void _followBus(BuildContext context, BusFromDb bus) {
+    if (!Get.isRegistered<BusController>()) return;
+    final busController = Get.find<BusController>();
+    busController.currentBus.value = bus;
+    busController.resetSecondFit();
+    busController.resetDetailFit();
+    Get.toNamed(Paths.secondHomeBus);
+    busController.getRoutes(bus.roadMap).then((r) {
+      busController.routes = r;
+      busController.update();
+    });
+  }
+}

@@ -347,18 +347,19 @@ class _AroundMeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest
-            .withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          if (stopName != null)
-            ListTile(
+    // Chaque ListTile a son propre Material (fond arrondi) : un
+    // Container coloré intermédiaire masquerait les effets d'encre
+    // (erreur framework "ink splashes may be invisible").
+    final bg =
+        scheme.surfaceContainerHighest.withValues(alpha: 0.6);
+    const radius = BorderRadius.all(Radius.circular(12));
+    return Column(
+      children: [
+        if (stopName != null)
+          Material(
+            color: bg,
+            borderRadius: radius,
+            child: ListTile(
               leading: Container(
                 width: 44,
                 height: 44,
@@ -381,11 +382,17 @@ class _AroundMeCard extends StatelessWidget {
               trailing: Icon(Icons.chevron_right,
                   color: scheme.onSurfaceVariant),
               onTap: onStopTap,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: radius),
             ),
-          if (busLabel != null)
-            ListTile(
+          ),
+        if (stopName != null && busLabel != null)
+          const SizedBox(height: 6),
+        if (busLabel != null)
+          Material(
+            color: bg,
+            borderRadius: radius,
+            child: ListTile(
               leading: Container(
                 width: 44,
                 height: 44,
@@ -408,11 +415,11 @@ class _AroundMeCard extends StatelessWidget {
               trailing: Icon(Icons.chevron_right,
                   color: scheme.onSurfaceVariant),
               onTap: onBusTap,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: radius),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }

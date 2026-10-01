@@ -59,11 +59,14 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
                         height: 44,
                         child: GestureDetector(
                           onTap: () => _openGare(itinerary.source),
-                          child: Icon(Icons.trip_origin,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary,
-                              size: 34),
+                          child: ZoomScaled.square(
+                            baseSize: 34,
+                            child: Icon(Icons.trip_origin,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary,
+                                size: 34),
+                          ),
                         ),
                       ),
                     if (destPos != null)
@@ -74,11 +77,14 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
                         child: GestureDetector(
                           onTap: () => _openGare(
                               itinerary.destination),
-                          child: Icon(Icons.location_on,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .error,
-                              size: 38),
+                          child: ZoomScaled.square(
+                            baseSize: 38,
+                            child: Icon(Icons.location_on,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .error,
+                                size: 38),
+                          ),
                         ),
                       ),
                   ],

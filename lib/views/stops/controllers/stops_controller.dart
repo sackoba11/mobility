@@ -175,4 +175,29 @@ class StopsController extends GetxController {
     });
     return result;
   }
+
+  /// Bus en service passant par [stop] ("Bus en approche").
+  List<BusFromDb> approachingBuses(TransitStop stop) =>
+      busesThrough(stop).where((b) => b.isActive).toList();
+
+  /// Variantes de lignes desservant [stop] (live ou non, dédupliquées),
+  /// triées par numéro, sens puis variante ("Lignes de desserte (N)").
+  List<BusFromDb> servingLines(TransitStop stop) {
+    final seen = <String>{};
+    final lines = <BusFromDb>[];
+    for (final b in busesThrough(stop)) {
+      if (seen.add(
+          '${b.number}_${b.direction}_${b.variantIndex}')) {
+        lines.add(b);
+      }
+    }
+    lines.sort((a, b) {
+      final n = a.number.compareTo(b.number);
+      if (n != 0) return n;
+      final d = a.direction.compareTo(b.direction);
+      if (d != 0) return d;
+      return a.variantIndex.compareTo(b.variantIndex);
+    });
+    return lines;
+  }
 }

@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -181,19 +182,23 @@ class BusPin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = height * 0.78;
-    return SizedBox(
-      width: width,
-      height: height,
-      child: CustomPaint(
-        painter: _PinPainter(background),
-        child: Align(
-          alignment: const Alignment(0, -0.42),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: label.length <= 2 ? height * 0.26 : height * 0.21,
-              fontWeight: FontWeight.w800,
+    return ZoomScaled(
+      baseWidth: width,
+      baseHeight: height,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: CustomPaint(
+          painter: _PinPainter(background),
+          child: Align(
+            alignment: const Alignment(0, -0.42),
+            child: Text(
+              label,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: label.length <= 2 ? height * 0.26 : height * 0.21,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
         ),
@@ -237,6 +242,63 @@ class _PinPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
+/// Mise à l'échelle auto d'une épingle selon le zoom (comme le point
+/// "ma position") : taille réelle à [refZoom], rétrécie en dézoomant
+/// (jamais sous [minScale]). L'ancrage est préservé (mise à l'échelle
+/// centrée dans une boîte de taille fixe).
+/// Les enfants de Marker se reconstruisent à chaque mouvement de carte,
+/// donc le zoom lu ici est toujours frais.
+class ZoomScaled extends StatelessWidget {
+  final double baseWidth;
+  final double baseHeight;
+  final Widget child;
+  final double refZoom;
+  final double minScale;
+
+  const ZoomScaled({
+    super.key,
+    required this.baseWidth,
+    required this.baseHeight,
+    required this.child,
+    this.refZoom = 15,
+    this.minScale = 0.35,
+  });
+
+  /// Variante carrée.
+  const ZoomScaled.square({
+    super.key,
+    required double baseSize,
+    required this.child,
+    this.refZoom = 15,
+    this.minScale = 0.35,
+  })  : baseWidth = baseSize,
+        baseHeight = baseSize;
+
+  @override
+  Widget build(BuildContext context) {
+    double zoom;
+    try {
+      zoom = MapCamera.of(context).zoom;
+    } catch (_) {
+      zoom = refZoom;
+    }
+    final s = math.pow(2.0, zoom - refZoom)
+        .clamp(minScale, 1.0)
+        .toDouble();
+    return SizedBox(
+      width: baseWidth,
+      height: baseHeight,
+      child: Center(
+        child: Transform.scale(
+          scale: s,
+          alignment: Alignment.center,
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
 /// Pastille d'arrêt (tap ->Callback, ex. dialogue avec le nom).
 class StopDot extends StatelessWidget {
   final VoidCallback? onTap;
@@ -247,15 +309,18 @@ class StopDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 18,
-        height: 18,
-        decoration: BoxDecoration(
-          color: color ?? scheme.surface,
-          border: Border.all(color: scheme.primary, width: 4),
-          shape: BoxShape.circle,
+    return ZoomScaled.square(
+      baseSize: 18,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 18,
+          height: 18,
+          decoration: BoxDecoration(
+            color: color ?? scheme.surface,
+            border: Border.all(color: scheme.primary, width: 4),
+            shape: BoxShape.circle,
+          ),
         ),
       ),
     );
@@ -285,30 +350,33 @@ class RouteStopPin extends StatelessWidget {
     final color = isStart
         ? Colors.green
         : (isEnd ? scheme.error : scheme.primary);
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 3),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
-              blurRadius: 4,
-            ),
-          ],
-        ),
-        child: Center(
-          child: SizedBox(
-            width: size * 0.23,
-            height: size * 0.23,
-            child: const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
+    return ZoomScaled.square(
+      baseSize: size,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 3),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 4,
+              ),
+            ],
+          ),
+          child: Center(
+            child: SizedBox(
+              width: size * 0.23,
+              height: size * 0.23,
+              child: const DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
               ),
             ),
           ),

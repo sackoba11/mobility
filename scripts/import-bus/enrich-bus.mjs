@@ -67,12 +67,17 @@ for (const docId of docIds) {
     console.log(`x variante ${docId}: aucun doc \`bus\` avec cet id`);
     continue;
   }
+  // Sens de la variante (aller/retour) recopié sur chaque arrêt.
+  const direction = (snap.data().direction ?? '').toString();
+  for (const entry of roadMap) {
+    entry.direction = direction;
+  }
   await ref.update({
     roadMap,
     stopIds,
     routeGeometry: admin.firestore.FieldValue.delete(),
     routedAt: admin.firestore.FieldValue.delete(),
   });
-  console.log(`+ variante ${docId}: ${roadMap.length} arrêts`);
+  console.log(`+ variante ${docId}: ${roadMap.length} arrêts (${direction || 'sans sens'})`);
 }
 console.log('Terminé. Relancez scripts/backfill-route-geometry pour les tracés.');

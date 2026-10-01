@@ -147,40 +147,43 @@ class _DriverBusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
+      margin: EdgeInsets.zero,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10),
           child: Row(
             children: [
               Container(
-                width: 56,
-                height: 56,
+                width: 44,
+                height: 44,
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   bus.displayNumber,
                   style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 15,
                       fontWeight: FontWeight.w800),
                 ),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(bus.source,
-                        style: theme.textTheme.titleMedium,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w700),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis),
                     Text("↔ ${bus.destination}",
-                        style: theme.textTheme.bodyMedium?.copyWith(
+                        style: theme.textTheme.bodySmall?.copyWith(
                             color: theme
                                 .colorScheme.onSurfaceVariant),
                         maxLines: 1,
@@ -188,6 +191,7 @@ class _DriverBusCard extends StatelessWidget {
                     if (bus.variantLabel.isNotEmpty)
                       Text(bus.variantLabel,
                           style: theme.textTheme.bodySmall?.copyWith(
+                              fontSize: 10,
                               color: theme
                                   .colorScheme.onSurfaceVariant),
                           maxLines: 1,

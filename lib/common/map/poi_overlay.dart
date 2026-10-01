@@ -5,6 +5,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobility/services/places/poi_controller.dart';
 import 'package:mobility/services/places/poi_service.dart';
 
+import 'fm_widgets.dart';
+
 /// Marqueurs des lieux (épingle catégorie + dialogue au tap).
 List<Marker> poiMarkers(List<PoiPlace> places, BuildContext context) {
   final scheme = Theme.of(context).colorScheme;
@@ -24,14 +26,17 @@ List<Marker> poiMarkers(List<PoiPlace> places, BuildContext context) {
             buttonColor: scheme.primary,
             onConfirm: () => Get.back(),
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: scheme.secondaryContainer,
-              shape: BoxShape.circle,
-              border: Border.all(color: scheme.primary, width: 2),
+          child: ZoomScaled.square(
+            baseSize: 40,
+            child: Container(
+              decoration: BoxDecoration(
+                color: scheme.secondaryContainer,
+                shape: BoxShape.circle,
+                border: Border.all(color: scheme.primary, width: 2),
+              ),
+              child: Icon(p.category.icon,
+                  size: 22, color: scheme.onSecondaryContainer),
             ),
-            child: Icon(p.category.icon,
-                size: 22, color: scheme.onSecondaryContainer),
           ),
         ),
       ),

@@ -74,11 +74,14 @@ class MapSheet extends StatelessWidget {
 }
 
 /// En-tête de section dans une sheet.
+/// [compact] : textes réduits (ex. détail d'arrêt).
 class SheetTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
+  final bool compact;
 
-  const SheetTitle({super.key, required this.title, this.subtitle});
+  const SheetTitle(
+      {super.key, required this.title, this.subtitle, this.compact = false});
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +89,22 @@ class SheetTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: theme.textTheme.titleLarge),
+        Text(
+            title,
+            style: (compact
+                    ? theme.textTheme.titleMedium
+                    : theme.textTheme.titleLarge)
+                ?.copyWith(
+                    fontWeight:
+                        compact ? FontWeight.w700 : null)),
         if (subtitle != null) ...[
-          const SizedBox(height: 4),
+          SizedBox(height: compact ? 2 : 4),
           Text(subtitle!,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant)),
+              style: (compact
+                      ? theme.textTheme.bodySmall
+                      : theme.textTheme.bodyMedium)
+                  ?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant)),
         ],
       ],
     );

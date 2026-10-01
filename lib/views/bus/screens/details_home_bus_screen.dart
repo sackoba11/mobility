@@ -212,35 +212,41 @@ class _DetailMap extends GetView<BusController> {
                 point: lngLatToLatLng(first, 5.3502292, -3.9881887),
                 width: 40,
                 height: 40,
-                child: GestureDetector(
-                  onTap: () => Get.defaultDialog(
-                    title: 'Départ — ${bus.source}',
-                    middleText: 'Début de la ligne.',
-                    textConfirm: 'OK',
-                    confirmTextColor: Colors.white,
-                    buttonColor: scheme.primary,
-                    onConfirm: () => Get.back(),
+                  child: GestureDetector(
+                    onTap: () => Get.defaultDialog(
+                      title: 'Départ — ${bus.source}',
+                      middleText: 'Début de la ligne.',
+                      textConfirm: 'OK',
+                      confirmTextColor: Colors.white,
+                      buttonColor: scheme.primary,
+                      onConfirm: () => Get.back(),
+                    ),
+                    child: ZoomScaled.square(
+                      baseSize: 32,
+                      child: Icon(Icons.trip_origin,
+                          color: scheme.primary, size: 32),
+                    ),
                   ),
-                  child: Icon(Icons.trip_origin,
-                      color: scheme.primary, size: 32),
-                ),
               ),
               Marker(
                 point: lngLatToLatLng(last, 5.3502292, -3.9881887),
                 width: 40,
                 height: 40,
-                child: GestureDetector(
-                  onTap: () => Get.defaultDialog(
-                    title: 'Arrivée — ${bus.destination}',
-                    middleText: 'Fin de la ligne.',
-                    textConfirm: 'OK',
-                    confirmTextColor: Colors.white,
-                    buttonColor: scheme.primary,
-                    onConfirm: () => Get.back(),
+                  child: GestureDetector(
+                    onTap: () => Get.defaultDialog(
+                      title: 'Arrivée — ${bus.destination}',
+                      middleText: 'Fin de la ligne.',
+                      textConfirm: 'OK',
+                      confirmTextColor: Colors.white,
+                      buttonColor: scheme.primary,
+                      onConfirm: () => Get.back(),
+                    ),
+                    child: ZoomScaled.square(
+                      baseSize: 36,
+                      child: Icon(Icons.location_on,
+                          color: scheme.error, size: 36),
+                    ),
                   ),
-                  child: Icon(Icons.location_on,
-                      color: scheme.error, size: 36),
-                ),
               ),
               for (var i = 0; i < bus.roadMap.length; i++)
                 Marker(

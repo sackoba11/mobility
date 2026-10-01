@@ -338,43 +338,48 @@ class _NearbyStopTile extends StatelessWidget {
       _ => Icons.directions_bus_outlined,
     };
     return Card(
+      margin: EdgeInsets.zero,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(10),
           child: Row(
             children: [
               Container(
-                width: 44,
-                height: 44,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: scheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(icon, color: scheme.onPrimaryContainer),
+                child: Icon(icon,
+                    color: scheme.onPrimaryContainer, size: 22),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       stop.name,
-                      style: theme.textTheme.titleMedium,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       '${stop.kindLabel}${distance == null ? '' : ' • ${StopsController.formatDistance(distance!)}'}',
-                      style: theme.textTheme.bodyMedium?.copyWith(
+                      style: theme.textTheme.bodySmall?.copyWith(
                         color: scheme.onSurfaceVariant,
                       ),
                     ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
+              Icon(Icons.chevron_right,
+                  size: 20, color: scheme.onSurfaceVariant),
             ],
           ),
         ),

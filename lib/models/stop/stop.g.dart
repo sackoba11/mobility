@@ -11,6 +11,7 @@ _Stop _$StopFromJson(Map<String, dynamic> json) => _Stop(
   long: (_readLong(json, 'long') as num).toDouble(),
   label: json['label'] as String?,
   osmId: json['osmId'] as String?,
+  direction: json['direction'] as String? ?? '',
 );
 
 Map<String, dynamic> _$StopToJson(_Stop instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$StopToJson(_Stop instance) => <String, dynamic>{
   'long': instance.long,
   'label': instance.label,
   'osmId': instance.osmId,
+  'direction': instance.direction,
 };
