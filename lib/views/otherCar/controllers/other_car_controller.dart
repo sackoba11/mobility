@@ -135,6 +135,39 @@ class OtherCarController extends GetxController {
   void resetFits() {
     _lastFitSecond = null;
     _lastFitDetail = null;
+    _lastTrajetKey = null;
+  }
+
+  /// Tracé gare -> gare pour l'écran trajet (OSRM, sinon ligne droite).
+  /// Positions inconnues -> pas de tracé.
+  final RxList trajetRoute = [].obs;
+  String? _lastTrajetKey;
+
+  Future<void> loadTrajetRoute() async {
+    final src = itinerary.value.source.location;
+    final dst = itinerary.value.destination.location;
+    if (src == null || dst == null) {
+      trajetRoute.clear();
+      return;
+    }
+    final key = '${src.lat},${src.long}-${dst.lat},${dst.long}';
+    if (_lastTrajetKey == key) return;
+    _lastTrajetKey = key;
+    trajetRoute.clear();
+    try {
+      final osrm = await RouteProvider.osrmRoute([
+        [src.long, src.lat],
+        [dst.long, dst.lat],
+      ]);
+      if (osrm.length >= 2) {
+        trajetRoute.assignAll(osrm);
+        return;
+      }
+    } catch (_) {}
+    trajetRoute.assignAll([
+      [src.long, src.lat],
+      [dst.long, dst.lat],
+    ]);
   }
 
   LatLng get userLatLng => LatLng(

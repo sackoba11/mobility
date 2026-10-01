@@ -38,6 +38,14 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
                 .toList();
             // Départ + arrivée (quand connus) + utilisateur visibles.
             controller.fitSecondOnPoints(known);
+            // Tracé entre les deux gares (chargé une fois par trajet).
+            controller.loadTrajetRoute();
+            final routePoints = controller.trajetRoute
+                .where((element) =>
+                    element is List && element.length >= 2)
+                .map((element) =>
+                    lngLatToLatLng(element, 5.3502292, -3.9881887))
+                .toList();
             return FlutterMap(
               mapController: controller.secondMapController,
               options: MapOptions(
@@ -50,6 +58,16 @@ class SecondHomeOtherCarScreen extends GetView<OtherCarController> {
               ),
               children: [
                 const AppTileLayer(),
+                if (routePoints.length >= 2)
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(
+                        points: routePoints,
+                        color: Theme.of(context).colorScheme.primary,
+                        strokeWidth: 6,
+                      ),
+                    ],
+                  ),
                 MarkerLayer(
                   markers: [
                     if (sourcePos != null)
