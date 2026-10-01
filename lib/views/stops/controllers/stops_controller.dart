@@ -22,10 +22,6 @@ class StopsController extends GetxController {
   RxList<TransitStop> visible = <TransitStop>[].obs;
   final Rxn<TransitStop> selected = Rxn<TransitStop>();
 
-  /// Clé du dernier arrêt déjà cadré sur la carte détail : évite de
-  /// rejouer un fit à chaque rebuild (qui casserait le zoom manuel).
-  String? lastFittedStopKey;
-
   static const double _matchRadiusMeters = 100;
 
   @override

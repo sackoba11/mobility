@@ -36,23 +36,24 @@ class StopDetailScreen extends GetView<StopsController> {
       );
     }
     final stopPos = LatLng(stop.lat, stop.lng);
-    // Zoom serré sur l'arrêt (bien visible d'emblée). Le bouton
-    // "voir les deux" élargit à ma position si besoin.
-    final fitKey = '${stop.lat},${stop.lng}';
-    if (controller.lastFittedStopKey != fitKey) {
-      controller.lastFittedStopKey = fitKey;
-      fitWhenReady(mapController, [stopPos], closeZoom: 16);
-    }
     return Scaffold(
       body: Stack(
         children: [
           FlutterMap(
             mapController: mapController,
             options: MapOptions(
+              // Vue d'attente niveau rue, puis zoom serré sur l'arrêt
+              // dès que la carte est prête (vrai événement caméra :
+              // force le chargement des tuiles, jamais de fond gris).
               initialCenter: stopPos,
-              initialZoom: 18,
+              initialZoom: 14,
+              onMapReady: () => fitMapToPoints(
+                mapController,
+                [stopPos],
+                closeZoom: 16,
+              ),
               minZoom: 3,
-              maxZoom: 19,
+              maxZoom: 18,
             ),
             children: [
               const AppTileLayer(),

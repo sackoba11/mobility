@@ -106,17 +106,26 @@ class FitPointsButton extends StatelessWidget {
     );
   }
 }
+/// Clé Mapbox (même token que le backfill, `.env` > MAPBOX_PUBLIC_TOKEN).
+/// Absente = repli OSM (jamais d'écran blanc).
+String get _mapboxToken => dotenv.isInitialized
+    ? (dotenv.maybeGet('MAPBOX_PUBLIC_TOKEN') ?? '')
+    : '';
+
+bool get _hasMapboxToken => _mapboxToken.isNotEmpty;
+
 /// Clé Stadia (gratuite, sans CB : stadiamaps.com > propriété > clé API).
-/// Absente = fond Esri sans clé (volontairement minimaliste).
+/// Utilisée seulement si Mapbox est absent.
 String get _stadiaKey =>
     dotenv.isInitialized ? (dotenv.maybeGet('STADIA_API_KEY') ?? '') : '';
 
 bool get _hasStadiaKey => _stadiaKey.isNotEmpty;
 
-/// Fond de carte :
-/// - avec clé Stadia gratuite : style Google (Alidade Smooth) ;
-/// - sans clé : OSM standard détaillé (nos POI et nos arrêts par-dessus).
-/// Secours automatique : Esri Grey si le primaire ne répond pas.
+/// Fond de carte (ordre de préférence) :
+/// 1. Mapbox Streets (détaillé, style soigné) ;
+/// 2. Stadia Alidade Smooth si clé présente ;
+/// 3. OSM standard détaillé (nos POI et nos arrêts par-dessus).
+/// Secours automatique : OSM puis Esri Grey si le primaire ne répond pas.
 class AppTileLayer extends StatelessWidget {
   const AppTileLayer({super.key});
 
@@ -127,6 +136,20 @@ class AppTileLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark =
+        Theme.of(context).brightness == Brightness.dark;
+    if (_hasMapboxToken) {
+      // Streets jour / navigation nuit (lisible en mode sombre).
+      final style = dark ? 'navigation-night-v1' : 'streets-v12';
+      return TileLayer(
+        urlTemplate:
+            'https://api.mapbox.com/styles/v1/mapbox/$style/tiles/256/{z}/{x}/{y}@2x?access_token=$_mapboxToken',
+        userAgentPackageName: 'com.example.mobility',
+        maxZoom: 20,
+        maxNativeZoom: 22,
+        fallbackUrl: _osmFallback,
+      );
+    }
     if (_hasStadiaKey) {
       return TileLayer(
         urlTemplate:
@@ -155,12 +178,16 @@ class MapCredits extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichAttributionWidget(
       attributions: [
-        if (_hasStadiaKey) ...[
+        if (_hasMapboxToken) ...[
+          const TextSourceAttribution('© Mapbox'),
+          const TextSourceAttribution('© OpenStreetMap contributors'),
+        ] else if (_hasStadiaKey) ...[
           const TextSourceAttribution('© Stadia Maps'),
           const TextSourceAttribution('© OpenMapTiles'),
         ] else
           const TextSourceAttribution('© Esri'),
-        const TextSourceAttribution('© OpenStreetMap contributors'),
+        if (!_hasMapboxToken && !_hasStadiaKey)
+          const TextSourceAttribution('© OpenStreetMap contributors'),
       ],
     );
   }
