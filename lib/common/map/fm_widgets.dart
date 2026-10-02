@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobility/models/stop/stop.dart';
+import 'package:mobility/utils/constants/app colors/app_colors.dart';
 
 /// Bouton "ma position" à poser dans le Stack d'une carte (haut-droite).
 /// Centre la caméra sur le GPS (heroTag unique obligatoire : plusieurs
@@ -375,7 +376,7 @@ class RouteStopPin extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final color = isStart
-        ? Colors.green
+        ? context.live
         : (isEnd ? scheme.error : scheme.primary);
     return ZoomScaled.square(
       baseSize: size,

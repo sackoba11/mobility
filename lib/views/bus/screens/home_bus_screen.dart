@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
 import '../../../models/transit_stop/transit_stop.dart';
+import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../routes/app_pages.dart';
 import '../../stops/controllers/stops_controller.dart';
 import '../controllers/home_bus_controller.dart';
@@ -54,7 +55,7 @@ class HomeBusScreen extends GetView<BusController> {
                           icon: Icons.directions_bus_filled,
                           value: '${controller.activeCount}',
                           label: 'En service',
-                          color: Colors.green,
+                          color: context.live,
                           onTap: () => Get.toNamed(Paths.activeBuses),
                         ),
                       ),

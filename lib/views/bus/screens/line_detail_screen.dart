@@ -10,6 +10,7 @@ import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/map_sheet.dart';
 import '../../../common/widgets/state_views.dart';
 import '../../../common/widgets/transport_cards.dart';
+import '../../../utils/constants/app colors/app_colors.dart';
 import '../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../models/stop/stop.dart';
 import '../../../routes/app_pages.dart';
@@ -355,13 +356,13 @@ class _DirectionTab extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.12),
+                  color: context.live.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.near_me_outlined,
-                        size: 18, color: Colors.green),
+                     Icon(Icons.near_me_outlined,
+                        size: 18, color: context.live),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -487,13 +488,13 @@ class _StopsTimeline extends StatelessWidget {
                     height: 14,
                     decoration: BoxDecoration(
                       color: nearby
-                          ? Colors.green
+                          ? context.live
                           : (index == 0
                               ? scheme.primary
                               : scheme.surface),
                       border: Border.all(
                           color: nearby
-                              ? Colors.green
+                              ? context.live
                               : scheme.primary,
                           width: 2.5),
                       shape: BoxShape.circle,
@@ -504,7 +505,7 @@ class _StopsTimeline extends StatelessWidget {
                       child: Container(
                           width: 2.5,
                           color: nearby
-                              ? Colors.green.withValues(alpha: 0.4)
+                              ? context.live.withValues(alpha: 0.4)
                               : scheme.primaryContainer),
                     ),
                 ],
@@ -528,16 +529,16 @@ class _StopsTimeline extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.green
+                            color: context.live
                                 .withValues(alpha: 0.14),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             'Proche • ${_formatDistance(dist)}',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
-                                color: Colors.green),
+                                color: context.live),
                           ),
                         ),
                       ],
@@ -756,17 +757,17 @@ class _ItineraryMapScreenState extends State<_ItineraryMapScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.green
+                          color: context.live
                               .withValues(alpha: 0.14),
                           borderRadius:
                               BorderRadius.circular(12),
                         ),
                         child: Text(
                           '${live.length} en service',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w700,
-                              color: Colors.green),
+                              color: context.live),
                         ),
                       ),
                     ],

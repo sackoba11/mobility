@@ -88,10 +88,10 @@ class HelpFunctions {
               onPressed: (() {
                 exit(0);
               }),
-              child: const Text(
+              child: Text(
                 "Oui",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
@@ -101,10 +101,10 @@ class HelpFunctions {
               onPressed: (() {
                 Navigator.of(context).pop();
               }),
-              child: const Text(
+              child: Text(
                 "Non",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
@@ -117,10 +117,11 @@ class HelpFunctions {
   }
 
   static Future<dynamic> popupLogout() {
+    final scheme = Get.theme.colorScheme;
     return Get.defaultDialog(
       confirmTextColor: Colors.white,
-      cancelTextColor: Colors.black,
-      backgroundColor: AppColor.background,
+      cancelTextColor: scheme.onSurface,
+      backgroundColor: scheme.surface,
       buttonColor: AppColor.error,
       title: AppString.areyousure,
       textConfirm: AppString.yes,

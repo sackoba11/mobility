@@ -10,6 +10,7 @@ import '../../../home/controllers/home_user_controller.dart';
 import '../../../otherCar/controllers/other_car_controller.dart';
 import '../../../stops/controllers/stops_controller.dart';
 import '../../controllers/shell_controller.dart';
+import '../../../../utils/constants/app colors/app_colors.dart';
 
 /// Accueil passager : dashboard général (compteurs, autour de moi,
 /// accès directs aux transports).
@@ -109,7 +110,7 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
                         icon: Icons.alt_route_outlined,
                         value: '$trajets',
                         label: 'Trajets',
-                        color: Colors.green,
+                        color: context.live,
                         onTap: () => Get.toNamed(Paths.trajets),
                       ),
                     ],
@@ -397,12 +398,12 @@ class _AroundMeCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.15),
+                  color: context.live.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.directions_bus_filled,
-                  color: Colors.green,
+                  color: context.live,
                 ),
               ),
               title: Text(
