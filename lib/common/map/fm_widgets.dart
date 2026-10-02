@@ -143,12 +143,20 @@ class AppTileLayer extends StatelessWidget {
       // Streets jour / navigation nuit (lisible en mode sombre).
       final style = dark ? 'navigation-night-v1' : 'streets-v12';
       return TileLayer(
+        // Tuiles 256 standard (pas de @2x retina) : 4x plus légères,
+        // la rafale initiale se charge même sur connexion lente
+        // (le @2x laissait des zones grises en attendant).
         urlTemplate:
-            'https://api.mapbox.com/styles/v1/mapbox/$style/tiles/256/{z}/{x}/{y}@2x?access_token=$_mapboxToken',
+            'https://api.mapbox.com/styles/v1/mapbox/$style/tiles/256/{z}/{x}/{y}?access_token=$_mapboxToken',
         userAgentPackageName: 'com.example.mobility',
         maxZoom: 20,
         maxNativeZoom: 22,
+        // Anneau préchargé plus large : moins de gris au scroll.
+        panBuffer: 2,
         fallbackUrl: _osmFallback,
+        errorTileCallback: (tile, error, stackTrace) {
+          debugPrint('Tuile ${tile.coordinates} : $error');
+        },
       );
     }
     if (_hasStadiaKey) {

@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import '../../../../models/bus/bus_from_realTime/bus_from_db.dart';
 import '../../../../models/transit_stop/transit_stop.dart';
 import '../../../../routes/app_pages.dart';
+import '../../../../utils/constants/app colors/app_colors.dart';
 import '../../../bus/controllers/home_bus_controller.dart';
 import '../../../home/controllers/home_user_controller.dart';
 import '../../../otherCar/controllers/other_car_controller.dart';
 import '../../../stops/controllers/stops_controller.dart';
 import '../../controllers/shell_controller.dart';
-import '../../../../utils/constants/app colors/app_colors.dart';
 
 /// Accueil passager : dashboard général (compteurs, autour de moi,
 /// accès directs aux transports).
@@ -96,11 +96,11 @@ class PassengerDashboardScreen extends GetView<HomeUserController> {
                         icon: Icons.directions_bus_outlined,
                         value: '$stopsCount',
                         label: 'Arrêts',
-                        color: scheme.tertiary,
+                        color: scheme.secondary,
                         onTap: () => Get.toNamed(Paths.stops),
                       ),
                       _StatCard(
-                        icon: Icons.location_on_outlined,
+                        icon: Icons.local_taxi_outlined,
                         value: '$gares',
                         label: 'Gares',
                         color: scheme.secondary,
@@ -401,10 +401,7 @@ class _AroundMeCard extends StatelessWidget {
                   color: context.live.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  Icons.directions_bus_filled,
-                  color: context.live,
-                ),
+                child: Icon(Icons.directions_bus_filled, color: context.live),
               ),
               title: Text(
                 busLabel!,
